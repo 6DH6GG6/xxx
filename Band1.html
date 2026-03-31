@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>القانون رقم 1</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    text-align: center;
+    background: url('bg.gif') center/cover no-repeat fixed;
+}
+
+/* العنوان */
+.title {
+    margin-top: 40px;
+    font-size: 28px;
+    color: white;
+    text-shadow: 
+        -2px -2px 0 black,
+         2px -2px 0 black,
+        -2px  2px 0 black,
+         2px  2px 0 black,
+         0 0 20px orange;
+    animation: glow 3s infinite alternate;
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 5px orange, 0 0 10px orange; opacity: 0.6; }
+    100% { text-shadow: 0 0 25px orange, 0 0 50px orange; opacity: 1; }
+}
+
+/* الشبكة */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    padding: 20px;
+}
+
+.box {
+    width: 100%;
+    padding-top: 100%;
+    background: rgba(255,255,255,0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.box img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">العابث الأخير في هاذا القرن</div>
+
+<div class="grid">
+
+    <div class="box"><img src="https://i.pinimg.com/736x/1.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/2.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/3.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/4.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/5.jpg"></div>
+
+    <div class="box"><img src="https://i.pinimg.com/736x/6.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/7.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/8.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/9.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/10.jpg"></div>
+
+    <div class="box"><img src="https://i.pinimg.com/736x/11.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/12.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/13.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/14.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/15.jpg"></div>
+
+    <div class="box"><img src="https://i.pinimg.com/736x/16.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/17.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/18.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/19.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/20.jpg"></div>
+
+    <div class="box"><img src="https://i.pinimg.com/736x/21.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/22.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/23.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/24.jpg"></div>
+    <div class="box"><img src="https://i.pinimg.com/736x/25.jpg"></div>
+
+</div>
+
+</body>
+</html>
