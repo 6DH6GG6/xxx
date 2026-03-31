@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kingdom Shadows</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(to bottom, #000, red, purple);
+    text-align: center;
+}
+
+/* الغلاف */
+.cover {
+    width: 100%;
+    height: 220px;
+    background: url('hhh.png') center/cover no-repeat;
+    position: relative;
+}
+
+/* الاسم */
+.title {
+    color: white;
+    font-size: 28px;
+    margin-top: 10px;
+    text-shadow: 0 0 10px red, 0 0 20px purple;
+}
+
+/* المربعات */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    padding: 20px;
+}
+
+.box {
+    width: 100%;
+    padding-top: 100%;
+    background: white;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+}
+
+.box img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* الصورة الدائرية */
+.profile {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid purple;
+    box-shadow: 0 0 15px red;
+    cursor: pointer;
+}
+
+.profile img {
+    width: 100%;
+    height: 100%;
+}
+
+/* القائمة */
+.menu {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    width: 250px;
+    background: rgba(0,0,0,0.9);
+    border-radius: 15px;
+    padding: 15px;
+    display: none;
+    box-shadow: 0 0 20px purple;
+}
+
+/* الأزرار */
+.menu-btn {
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
+}
+
+.menu-btn img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    box-shadow: 0 0 10px red;
+}
+
+.menu-btn p {
+    color: white;
+    font-size: 12px;
+    margin: 5px 0 0;
+}
+</style>
+</head>
+
+<body>
+
+<!-- الغلاف -->
+<div class="cover"></div>
+
+<!-- الاسم -->
+<div class="title">KingDom Shadows ✦ مملكة الظلال</div>
+
+<!-- المربعات -->
+<div class="grid">
+    <div class="box"><img src="1.png"></div>
+    <div class="box"><img src="2.png"></div>
+    <div class="box"><img src="3.png"></div>
+    <div class="box"><img src="4.png"></div>
+    <div class="box"><img src="5.png"></div>
+    <div class="box"><img src="6.png"></div>
+</div>
+
+<!-- الصورة الدائرية -->
+<div class="profile" onclick="toggleMenu()">
+    <img src="hggg.png">
+</div>
+
+<!-- القائمة -->
+<div class="menu" id="menu">
+    
+    <a href="page1.html" class="menu-btn">
+        <img src="hggg.png">
+        <p>زر 1</p>
+    </a>
+
+    <a href="page2.html" class="menu-btn">
+        <img src="hggg.png">
+        <p>زر 2</p>
+    </a>
+
+    <a href="page3.html" class="menu-btn">
+        <img src="hggg.png">
+        <p>زر 3</p>
+    </a>
+
+</div>
+
+<script>
+function toggleMenu() {
+    let menu = document.getElementById("menu");
+    menu.style.display = (menu.style.display === "block") ? "none" : "block";
+}
+</script>
+
+</body>
+  </html>
