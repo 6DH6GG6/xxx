@@ -9,16 +9,16 @@
 body {
     margin: 0;
     font-family: Arial;
-    background: linear-gradient(to bottom, #000, red, purple);
+    background: radial-gradient(circle at top, #1a0000, #000000 40%, #2b0033);
     text-align: center;
+    overflow-x: hidden;
 }
 
 /* الغلاف */
 .cover {
     width: 100%;
-    height: 220px;
+    height: 230px;
     background: url('hhh.png') center/cover no-repeat;
-    position: relative;
 }
 
 /* الاسم */
@@ -26,13 +26,13 @@ body {
     color: white;
     font-size: 28px;
     margin-top: 10px;
-    text-shadow: 0 0 10px red, 0 0 20px purple;
+    text-shadow: 0 0 10px red, 0 0 25px purple, 0 0 40px red;
 }
 
 /* المربعات */
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
     gap: 15px;
     padding: 20px;
 }
@@ -44,6 +44,7 @@ body {
     border-radius: 15px;
     overflow: hidden;
     position: relative;
+    cursor: pointer;
 }
 
 .box img {
@@ -51,6 +52,26 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+}
+
+/* عرض الصورة */
+.viewer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.viewer img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
 }
 
 /* الصورة الدائرية */
@@ -109,30 +130,27 @@ body {
 
 <body>
 
-<!-- الغلاف -->
 <div class="cover"></div>
-
-<!-- الاسم -->
 <div class="title">KingDom Shadows ✦ مملكة الظلال</div>
 
-<!-- المربعات -->
 <div class="grid">
-    <div class="box"><img src="1.png"></div>
-    <div class="box"><img src="2.png"></div>
-    <div class="box"><img src="3.png"></div>
-    <div class="box"><img src="4.png"></div>
-    <div class="box"><img src="5.png"></div>
-    <div class="box"><img src="6.png"></div>
+    <div class="box" onclick="openImg('1.png')"><img src="1.png"></div>
+    <div class="box" onclick="openImg('2.png')"><img src="2.png"></div>
+    <div class="box" onclick="openImg('3.png')"><img src="3.png"></div>
+    <div class="box" onclick="openImg('4.png')"><img src="4.png"></div>
+    <div class="box" onclick="openImg('5.png')"><img src="5.png"></div>
+    <div class="box" onclick="openImg('6.png')"><img src="6.png"></div>
 </div>
 
-<!-- الصورة الدائرية -->
+<div class="viewer" id="viewer" onclick="closeImg()">
+    <img id="viewerImg">
+</div>
+
 <div class="profile" onclick="toggleMenu()">
     <img src="hggg.png">
 </div>
 
-<!-- القائمة -->
 <div class="menu" id="menu">
-    
     <a href="page1.html" class="menu-btn">
         <img src="hggg.png">
         <p>زر 1</p>
@@ -147,7 +165,6 @@ body {
         <img src="hggg.png">
         <p>زر 3</p>
     </a>
-
 </div>
 
 <script>
@@ -155,7 +172,16 @@ function toggleMenu() {
     let menu = document.getElementById("menu");
     menu.style.display = (menu.style.display === "block") ? "none" : "block";
 }
+
+function openImg(src) {
+    document.getElementById("viewer").style.display = "flex";
+    document.getElementById("viewerImg").src = src;
+}
+
+function closeImg() {
+    document.getElementById("viewer").style.display = "none";
+}
 </script>
 
 </body>
-  </html>
+</html>
