@@ -7,7 +7,6 @@
 
 <style>
 
-/* الخلفية العامة + توسيط التصميم */
 body {
     margin: 0;
     background: #000;
@@ -15,7 +14,6 @@ body {
     justify-content: center;
 }
 
-/* الإطار الثابت (تصميم الهاتف) */
 .app-container {
     width: 420px;
     min-height: 100vh;
@@ -26,7 +24,6 @@ body {
     position: relative;
 }
 
-/* الجوانب المظللة */
 body::before,
 body::after {
     content: "";
@@ -37,31 +34,21 @@ body::after {
     z-index: -1;
 }
 
-body::before {
-    left: 0;
-    background: linear-gradient(to right, black, transparent);
-}
+body::before { left: 0; background: linear-gradient(to right, black, transparent); }
+body::after { right: 0; background: linear-gradient(to left, black, transparent); }
 
-body::after {
-    right: 0;
-    background: linear-gradient(to left, black, transparent);
-}
-
-/* حركة الخلفية */
 @keyframes gradientMove {
     0% {background-position: 0% 50%;}
     50% {background-position: 100% 50%;}
     100% {background-position: 0% 50%;}
 }
 
-/* الغلاف */
 .cover {
     width: 100%;
     height: 230px;
     background: url('20260328_013942.jpg') center/cover no-repeat;
 }
 
-/* العنوان */
 .title {
     color: white;
     font-size: 26px;
@@ -70,7 +57,6 @@ body::after {
     text-shadow: 0 0 10px red, 0 0 25px purple;
 }
 
-/* الشبكة */
 .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -78,7 +64,6 @@ body::after {
     padding: 15px;
 }
 
-/* المربعات */
 .box {
     aspect-ratio: 1/1;
     background: white;
@@ -87,14 +72,13 @@ body::after {
     cursor: pointer;
 }
 
-/* الصور */
 .box img {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* عرض الصورة */
+/* عارض الصور */
 .viewer {
     position: fixed;
     top: 0;
@@ -114,11 +98,26 @@ body::after {
     border-radius: 10px;
 }
 
-/* صورة البروفايل */
+/* زر اغلاق عريض */
+.close-btn {
+    position: absolute;
+    top: 20px;
+    width: 90%;
+    left: 5%;
+    padding: 15px;
+    font-size: 18px;
+    background: linear-gradient(45deg, red, purple);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 0 15px red;
+}
+
+/* زر دائري مشترك */
 .profile {
     position: fixed;
     bottom: 20px;
-    left: 20px;
     width: 70px;
     height: 70px;
     border-radius: 50%;
@@ -128,42 +127,68 @@ body::after {
     cursor: pointer;
 }
 
+/* زر يسار */
+.left-btn { left: 20px; }
+
+/* زر يمين */
+.right-btn { right: 20px; }
+
+/* صورة الزر */
 .profile img {
     width: 100%;
     height: 100%;
+}
+
+/* تأثير gif */
+.profile::after {
+    content: "";
+    position: absolute;
+    inset: -5px;
+    background: url('effect.gif') center/cover no-repeat;
+    border-radius: 50%;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
 /* القائمة */
 .menu {
     position: fixed;
     bottom: 100px;
-    left: 20px;
     width: 250px;
     background: rgba(0,0,0,0.9);
     border-radius: 15px;
     padding: 15px;
     display: none;
-    box-shadow: 0 0 20px purple;
 }
 
-/* أزرار القائمة */
-.menu-btn {
-    display: inline-block;
-    margin: 10px;
-    text-align: center;
-}
+/* يسار */
+.left-menu { left: 20px; }
 
-.menu-btn img {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    box-shadow: 0 0 10px red;
-}
+/* يمين */
+.right-menu { right: 20px; }
 
-.menu-btn p {
+/* عنوان */
+.menu-title {
     color: white;
-    font-size: 12px;
-    margin: 5px 0 0;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* مربعات */
+.menu-box {
+    display: block;
+    margin: 10px 0;
+    padding: 12px;
+    text-align: center;
+    background: red;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.menu-box:hover {
+    background: purple;
 }
 
 </style>
@@ -174,66 +199,54 @@ body::after {
 <div class="app-container">
 
     <div class="cover"></div>
-
     <div class="title">KingDom Shadows ✦ مملكة الظلال</div>
 
     <div class="grid">
         <div class="box" onclick="openImg(this)">
-            <img src="8db181a18a8685cfcb518a644f63ee27.jpg" data-full="8db181a18a8685cfcb518a644f63ee27.jpg">
+            <img src="1.png" data-full="1.png">
         </div>
         <div class="box" onclick="openImg(this)">
-            <img src="8d5f12901b3d3fe00fdec8f329332676.jpg" data-full="8d5f12901b3d3fe00fdec8f329332676.jpg">
+            <img src="2.png" data-full="2.png">
         </div>
         <div class="box" onclick="openImg(this)">
-            <img src="8142f94dbbd40f1a28b0236f5658383d.jpg" data-full="8142f94dbbd40f1a28b0236f5658383d.jpg">
-        </div>
-        <div class="box" onclick="openImg(this)">
-            <img src="6c7435b8f897d29f3a18145521aa6f0e.jpg" data-full="6c7435b8f897d29f3a18145521aa6f0e.jpg">
-        </div>
-        <div class="box" onclick="openImg(this)">
-            <img src="b1eb8fc1121db8efdfff1c15caa07b69.jpg" data-full="b1eb8fc1121db8efdfff1c15caa07b69.jpg">
-        </div>
-        <div class="box" onclick="openImg(this)">
-            <img src="ee773cdec68ce5874209c61dd3e2eefd.jpg" data-full="ee773cdec68ce5874209c61dd3e2eefd.jpg">
+            <img src="3.png" data-full="3.png">
         </div>
     </div>
 
 </div>
 
 <!-- عارض الصور -->
-<div class="viewer" id="viewer" onclick="closeImg(event)">
+<div class="viewer" id="viewer">
+    <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
     <img id="viewerImg">
 </div>
 
-<!-- البروفايل -->
-<div class="profile" onclick="toggleMenu()">
-    <img src="20260329_085456.jpg">
+<!-- زر يسار -->
+<div class="profile left-btn" onclick="toggleMenu1()">
+    <img src="left.png">
 </div>
 
-<!-- القائمة -->
-<div class="menu" id="menu">
-    <a href="Band1.html" class="menu-btn">
-        <img src="20260331_141448.jpg">
-        <p>القانون رقم 1</p>
-    </a>
+<!-- زر يمين -->
+<div class="profile right-btn" onclick="toggleMenu2()">
+    <img src="right.png">
+</div>
 
-    <a href="page2.html" class="menu-btn">
-        <img src="hggg.png">
-        <p>القانون رقم 2</p>
-    </a>
+<!-- قائمة يسار -->
+<div class="menu left-menu" id="menu1">
+    <a href="Band1.html" class="menu-box">القانون 1</a>
+    <a href="page2.html" class="menu-box">القانون 2</a>
+</div>
 
-    <a href="page3.html" class="menu-btn">
-        <img src="القانون رقم 2.jpg">
-        <p>القانون رقم 3</p>
-    </a>
+<!-- قائمة يمين -->
+<div class="menu right-menu" id="menu2">
+    <h2 class="menu-title">عابث الأخير</h2>
+
+    <a href="link1.html" class="menu-box">اسم 1</a>
+    <a href="link2.html" class="menu-box">اسم 2</a>
+    <a href="link3.html" class="menu-box">اسم 3</a>
 </div>
 
 <script>
-
-function toggleMenu() {
-    let menu = document.getElementById("menu");
-    menu.style.display = (menu.style.display === "block") ? "none" : "block";
-}
 
 function openImg(el) {
     const img = el.querySelector("img");
@@ -241,10 +254,18 @@ function openImg(el) {
     document.getElementById("viewerImg").src = img.dataset.full;
 }
 
-function closeImg(e) {
-    if (e.target.id === "viewer") {
-        document.getElementById("viewer").style.display = "none";
-    }
+function closeImg() {
+    document.getElementById("viewer").style.display = "none";
+}
+
+function toggleMenu1() {
+    let m = document.getElementById("menu1");
+    m.style.display = (m.style.display === "block") ? "none" : "block";
+}
+
+function toggleMenu2() {
+    let m = document.getElementById("menu2");
+    m.style.display = (m.style.display === "block") ? "none" : "block";
 }
 
 </script>
