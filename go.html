@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>جاري الدخول...</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body {
+    margin: 0;
+    background: black;
+    color: red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    font-family: Arial;
+    flex-direction: column;
+}
+
+/* نص */
+.loading {
+    font-size: 22px;
+    text-shadow: 0 0 10px red;
+}
+
+/* تأثير دوران */
+.loader {
+    margin-top: 20px;
+    width: 50px;
+    height: 50px;
+    border: 5px solid transparent;
+    border-top: 5px solid red;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    100% { transform: rotate(360deg); }
+}
+</style>
+
+</head>
+
+<body>
+
+<div class="loading">جاري الدخول إلى مملكة الظلال...</div>
+<div class="loader"></div>
+
+<script>
+
+// 🔗 رابط GitHub الحقيقي
+const BASE_URL = "https://github.com/6DH6GG6/xxx";
+
+// 📥 جلب التشفير من الرابط (إن وجد)
+const params = new URLSearchParams(window.location.search);
+const user = params.get("u");
+
+// 🔁 بناء الرابط النهائي
+let finalURL = BASE_URL;
+
+if (user) {
+    finalURL += "?u=" + user;
+}
+
+// ⏳ تأخير بسيط (لإخفاء التحويل)
+setTimeout(() => {
+    window.location.replace(finalURL);
+}, 1200);
+
+</script>
+
+</body>
+</html>
