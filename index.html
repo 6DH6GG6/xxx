@@ -78,7 +78,6 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     object-fit: cover;
 }
 
-/* عارض الصور */
 .viewer {
     position: fixed;
     top: 0;
@@ -98,7 +97,6 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     border-radius: 10px;
 }
 
-/* زر اغلاق عريض */
 .close-btn {
     position: absolute;
     top: 20px;
@@ -114,7 +112,6 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     box-shadow: 0 0 15px red;
 }
 
-/* زر دائري مشترك */
 .profile {
     position: fixed;
     bottom: 20px;
@@ -127,19 +124,14 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     cursor: pointer;
 }
 
-/* زر يسار */
 .left-btn { left: 20px; }
-
-/* زر يمين */
 .right-btn { right: 20px; }
 
-/* صورة الزر */
 .profile img {
     width: 100%;
     height: 100%;
 }
 
-/* تأثير gif */
 .profile::after {
     content: "";
     position: absolute;
@@ -150,7 +142,6 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     pointer-events: none;
 }
 
-/* القائمة */
 .menu {
     position: fixed;
     bottom: 100px;
@@ -161,20 +152,15 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
     display: none;
 }
 
-/* يسار */
 .left-menu { left: 20px; }
-
-/* يمين */
 .right-menu { right: 20px; }
 
-/* عنوان */
 .menu-title {
     color: white;
     text-align: center;
     margin-bottom: 15px;
 }
 
-/* مربعات */
 .menu-box {
     display: block;
     margin: 10px 0;
@@ -203,7 +189,7 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
 
     <div class="grid">
         <div class="box" onclick="openImg(this)">
-            <img src="ee773cdec68ce5874209c61dd3e2eefd.jpg" data-full="ee773cdec68ce5874209c61dd3e2eefd.jpg">
+            <img src="1.png" data-full="1.png">
         </div>
         <div class="box" onclick="openImg(this)">
             <img src="2.png" data-full="2.png">
@@ -215,29 +201,24 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
 
 </div>
 
-<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
     <img id="viewerImg">
 </div>
 
-<!-- زر يسار -->
 <div class="profile left-btn" onclick="toggleMenu1()">
     <img src="left.png">
 </div>
 
-<!-- زر يمين -->
 <div class="profile right-btn" onclick="toggleMenu2()">
     <img src="right.png">
 </div>
 
-<!-- قائمة يسار -->
 <div class="menu left-menu" id="menu1">
     <a href="Band1.html" class="menu-box">القانون 1</a>
     <a href="page2.html" class="menu-box">القانون 2</a>
 </div>
 
-<!-- قائمة يمين -->
 <div class="menu right-menu" id="menu2">
     <h2 class="menu-title">عابث الأخير</h2>
 
@@ -247,6 +228,29 @@ body::after { right: 0; background: linear-gradient(to left, black, transparent)
 </div>
 
 <script>
+
+// ================= 🔐 الإعدادات =================
+const USERNAME = "shadow"; // غيره
+
+function encodeUser(name) {
+    return btoa(name);
+}
+
+// 🔥 تحويل كل الروابط عبر go.html
+function secureLinks() {
+    const encoded = encodeUser(USERNAME);
+
+    document.querySelectorAll("a.menu-box").forEach(link => {
+        let target = link.getAttribute("href");
+
+        link.setAttribute(
+            "href",
+            "go.html?u=" + encoded + "&target=" + encodeURIComponent(target)
+        );
+    });
+}
+
+// ================= كود الموقع =================
 
 function openImg(el) {
     const img = el.querySelector("img");
@@ -267,6 +271,9 @@ function toggleMenu2() {
     let m = document.getElementById("menu2");
     m.style.display = (m.style.display === "block") ? "none" : "block";
 }
+
+// تشغيل النظام
+secureLinks();
 
 </script>
 
