@@ -39,24 +39,41 @@ body {
 .box {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* مربع */
+    padding-top: 100%;
     border-radius: 10px;
-    overflow: hidden;
+    overflow: visible; /* مهم عشان التأثير يطلع خارج المربع */
     cursor: pointer;
     background: #222;
     box-sizing: border-box;
 }
 
-/* إطار GIF شفاف حول المربع */
-.box::before {
+/* 🔥 تأثير دخان/نار يخرج من المربع */
+.box::after {
     content: "";
     position: absolute;
-    top: -5px; left: -5px; right: -5px; bottom: -5px;
-    border-radius: 12px;
-    background: url('fire-effect.gif') center/cover no-repeat;
-    opacity: 0.4; /* شفاف */
+    inset: -20px; /* يخلي التأثير يخرج برا */
+    background: url('smoke.gif') center/cover no-repeat; /* غيرها باسم تأثيرك */
+    opacity: 0.8;
     pointer-events: none;
     z-index: 2;
+
+    animation: smokeMove 3s infinite linear;
+}
+
+/* حركة الدخان */
+@keyframes smokeMove {
+    0% {
+        transform: translateY(10px) scale(1);
+        opacity: 0.4;
+    }
+    50% {
+        transform: translateY(-10px) scale(1.1);
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-20px) scale(1.2);
+        opacity: 0;
+    }
 }
 
 /* الصور داخل المربعات */
@@ -68,6 +85,7 @@ body {
     height: 100%;
     object-fit: cover;
     z-index: 1;
+    border-radius: 10px;
 }
 
 /* عارض الصور */
@@ -85,7 +103,7 @@ body {
     flex-direction: column;
 }
 
-/* الصورة المكبرة مع تأثير GIF مستمر */
+/* الصورة المكبرة */
 .viewer img {
     max-width: 90%;
     max-height: 80%;
@@ -95,15 +113,13 @@ body {
     z-index: 1;
 }
 
-/* تأثير GIF على الصورة المكبرة */
+/* تأثير على الصورة المكبرة */
 .viewer::after {
     content: "";
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: url('fire-effect.gif') center/cover no-repeat;
-    border-radius: 10px;
-    opacity: 0.7;
+    inset: 0;
+    background: url('smoke.gif') center/cover no-repeat;
+    opacity: 0.5;
     pointer-events: none;
     z-index: 2;
 }
@@ -126,7 +142,6 @@ body {
 <div class="title">ديناميت الذي يجعل الصمت يصبح انفجارًا</div>
 
 <div class="grid">
-    <!-- 10 مربعات PNG أصلية -->
     <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
     <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
     <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
@@ -140,7 +155,6 @@ body {
     <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
 </div>
 
-<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
     <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
