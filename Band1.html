@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Band 1 -ديناميت الذي يجعل الصمت يصبح انفجارًا</title>
+<title>Band 1 - ديناميت الذي يجعل الصمت يصبح انفجارًا</title>
 
 <style>
 body {
@@ -44,28 +44,18 @@ body {
     overflow: hidden;
     cursor: pointer;
     background: #222;
-    transition: transform 0.3s;
     box-sizing: border-box;
 }
 
-/* تأثير GIF كامل المربع عند المرور */
+/* تأثير GIF دائم على كامل المربع */
 .box::after {
     content: "";
     position: absolute;
     inset: 0;
     border-radius: 10px;
-    background: url('giphy.gif') center/cover no-repeat; /* ضع هنا مسار GIF التأثير */
-    opacity: 0;
+    background: url('fire-effect.gif') center/cover no-repeat; /* ضع هنا مسار GIF للنار */
+    opacity: 0.7; /* دائم */
     pointer-events: none;
-    transition: opacity 0.3s;
-}
-
-.box:hover::after {
-    opacity: 0.7;
-}
-
-.box:hover {
-    transform: scale(1.05);
 }
 
 /* الصورة داخل المربع */
@@ -118,17 +108,17 @@ body {
 
 <div class="grid">
     <!-- 25 مربع PNG -->
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
+    <div class="box"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
+    <div class="box"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
+    <div class="box"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
+    <div class="box"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
+    <div class="box"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
     
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png"></div>
+    <div class="box"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
+    <div class="box"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
+    <div class="box"><img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png"></div>
+    <div class="box"><img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png"></div>
+    <div class="box"><img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png"></div>
 </div>
 
 <!-- عارض الصور -->
