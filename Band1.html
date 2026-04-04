@@ -14,14 +14,25 @@ body {
     overflow-x: hidden;
 }
 
-/* تشغيل الموسيقى تلقائي */
-audio {
-    display: none;
+/* زر تشغيل الموسيقى */
+.music-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background: linear-gradient(45deg, orange, red);
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    z-index: 1000;
+    box-shadow: 0 0 10px orange;
 }
 
 /* العنوان */
 .title {
-    margin-top: 20px;
+    margin-top: 60px;
     font-size: 28px;
     color: white;
     text-shadow: 
@@ -50,7 +61,7 @@ audio {
 .box {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* نسبه مربعة */
+    padding-top: 100%; /* نسبة مربعة */
     cursor: pointer;
     border-radius: 10px;
     overflow: hidden;
@@ -116,14 +127,16 @@ audio {
     transform: scale(1.1);
     transition: transform 0.3s;
 }
-
 </style>
 </head>
 <body>
 
+<!-- زر تشغيل الموسيقى -->
+<button class="music-btn" onclick="toggleMusic()">تشغيل الموسيقى</button>
+
 <!-- تشغيل الموسيقى -->
-<audio autoplay loop>
-    <source src="💜 ♪ 𝑺 𝒊 𝒏 𝒈 ♪ 💜.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+    <source src="background.mp3" type="audio/mpeg">
 </audio>
 
 <div class="title">العابث الأخير - صور</div>
@@ -179,6 +192,21 @@ audio {
 </div>
 
 <script>
+let musicPlaying = false;
+const music = document.getElementById('bgMusic');
+const musicBtn = document.querySelector('.music-btn');
+
+function toggleMusic() {
+    if(musicPlaying) {
+        music.pause();
+        musicBtn.innerText = "تشغيل الموسيقى";
+    } else {
+        music.play();
+        musicBtn.innerText = "ايقاف الموسيقى";
+    }
+    musicPlaying = !musicPlaying;
+}
+
 function openImg(el) {
     const img = el.querySelector(".png-img");
     const viewer = document.getElementById("viewer");
