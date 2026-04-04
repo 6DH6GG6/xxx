@@ -3,89 +3,76 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>القانون رقم 1</title>
+<title>Band 1 - العابث الأخير</title>
 
 <style>
 body {
     margin: 0;
     font-family: Arial, sans-serif;
-    background: #000;
-    text-align: center;
-    overflow-x: hidden;
-}
-
-/* زر تشغيل الموسيقى */
-.music-btn {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    padding: 10px 20px;
-    background: linear-gradient(45deg, orange, red);
+    height: 100vh;
+    background: url('background.gif') center/cover no-repeat fixed;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     color: white;
-    font-size: 16px;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    z-index: 1000;
-    box-shadow: 0 0 10px orange;
 }
 
-/* العنوان */
+/* عنوان */
 .title {
-    margin-top: 60px;
+    margin: 20px 0;
     font-size: 28px;
-    color: white;
-    text-shadow: 
-        -2px -2px 0 black,
-         2px -2px 0 black,
-        -2px  2px 0 black,
-         2px  2px 0 black,
-         0 0 20px orange;
-    animation: glow 3s infinite alternate;
+    text-shadow: 0 0 10px black;
 }
 
-@keyframes glow {
-    0% { text-shadow: 0 0 5px orange, 0 0 10px orange; opacity: 0.6; }
-    100% { text-shadow: 0 0 25px orange, 0 0 50px orange; opacity: 1; }
-}
-
-/* شبكة الصور */
+/* الشبكة */
 .grid {
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     gap: 10px;
-    padding: 20px;
+    padding: 10px;
+    width: 100%;
+    max-width: 1200px;
 }
 
 /* المربعات */
 .box {
     position: relative;
     width: 100%;
-    padding-top: 100%; /* نسبة مربعة */
-    cursor: pointer;
+    padding-top: 100%; /* مربع */
     border-radius: 10px;
     overflow: hidden;
+    cursor: pointer;
+    background: #222;
+    transition: transform 0.3s;
 }
 
-/* صورة PNG */
-.box img.png-img {
+.box:hover {
+    transform: scale(1.1);
+}
+
+/* الصورة داخل المربع */
+.box img {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    top: 0;
-    left: 0;
 }
 
-/* تأثير GIF */
-.box img.gif-effect {
+/* تأثير GIF عند مرور الماوس */
+.box::after {
+    content: "";
     position: absolute;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    top: 0;
-    left: 0;
-    pointer-events: none;
+    inset: 0;
+    background: url('effect.gif') center/cover no-repeat;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.box:hover::after {
+    opacity: 0.5;
 }
 
 /* عارض الصور */
@@ -110,79 +97,46 @@ body {
     margin-bottom: 20px;
 }
 
-/* زر اغلاق */
 .close-btn {
-    padding: 15px 30px;
+    padding: 12px 25px;
     font-size: 18px;
     background: linear-gradient(45deg, red, purple);
     color: white;
     border: none;
-    border-radius: 12px;
+    border-radius: 10px;
     cursor: pointer;
     box-shadow: 0 0 15px red;
 }
 
-/* تأثير تكبير عند المرور */
-.box:hover img.png-img {
-    transform: scale(1.1);
-    transition: transform 0.3s;
-}
 </style>
 </head>
 <body>
 
-<!-- زر تشغيل الموسيقى -->
-<button class="music-btn" onclick="toggleMusic()">تشغيل الموسيقى</button>
-
-<!-- تشغيل الموسيقى -->
-<audio id="bgMusic" loop>
-    <source src="💜 ♪ 𝑺 𝒊 𝒏 𝒈 ♪ 💜.mp3" type="audio/mpeg">
-</audio>
-
-<div class="title">العابث الأخير - صور</div>
+<div class="title">العابث الأخير - شبكة الصور</div>
 
 <div class="grid">
-    <!-- مثال أول 10 مربعات -->
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="1.png">
-        <img class="gif-effect" src="effect1.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="2.png">
-        <img class="gif-effect" src="effect2.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="3.png">
-        <img class="gif-effect" src="effect3.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="4.png">
-        <img class="gif-effect" src="effect4.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="5.png">
-        <img class="gif-effect" src="effect5.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="6.png">
-        <img class="gif-effect" src="effect6.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="7.png">
-        <img class="gif-effect" src="effect7.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="8.png">
-        <img class="gif-effect" src="effect8.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="9.png">
-        <img class="gif-effect" src="effect9.gif">
-    </div>
-    <div class="box" onclick="openImg(this)">
-        <img class="png-img" src="10.png">
-        <img class="gif-effect" src="effect10.gif">
-    </div>
+    <!-- مثال على 20 مربع -->
+    <div class="box" onclick="openImg(this)"><img src="1.png" data-full="1.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="2.png" data-full="2.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="3.png" data-full="3.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="4.png" data-full="4.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="5.png" data-full="5.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="6.png" data-full="6.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="7.png" data-full="7.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="8.png" data-full="8.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="9.png" data-full="9.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="10.png" data-full="10.png"></div>
+    
+    <div class="box" onclick="openImg(this)"><img src="11.png" data-full="11.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="12.png" data-full="12.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="13.png" data-full="13.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="14.png" data-full="14.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="15.png" data-full="15.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="16.png" data-full="16.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="17.png" data-full="17.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="18.png" data-full="18.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="19.png" data-full="19.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="20.png" data-full="20.png"></div>
 </div>
 
 <!-- عارض الصور -->
@@ -192,27 +146,10 @@ body {
 </div>
 
 <script>
-let musicPlaying = false;
-const music = document.getElementById('bgMusic');
-const musicBtn = document.querySelector('.music-btn');
-
-function toggleMusic() {
-    if(musicPlaying) {
-        music.pause();
-        musicBtn.innerText = "تشغيل الموسيقى";
-    } else {
-        music.play();
-        musicBtn.innerText = "ايقاف الموسيقى";
-    }
-    musicPlaying = !musicPlaying;
-}
-
 function openImg(el) {
-    const img = el.querySelector(".png-img");
-    const viewer = document.getElementById("viewer");
-    const viewerImg = document.getElementById("viewerImg");
-    viewerImg.src = img.src;
-    viewer.style.display = "flex";
+    const img = el.querySelector("img");
+    document.getElementById("viewer").style.display = "flex";
+    document.getElementById("viewerImg").src = img.dataset.full;
 }
 
 function closeImg() {
