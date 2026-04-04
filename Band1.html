@@ -3,26 +3,21 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Band 1 - ديناميت الذي يجعل الصمت يصبح انفجارًا</title>
+<title>Band 1</title>
 
 <style>
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
-    height: 100vh;
-    background: url('20260404_185559.jpg') center/cover no-repeat fixed;
+    background: black;
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    color: white;
+    justify-content: center;
 }
 
-/* عنوان */
-.title {
-    margin: 20px 0;
-    font-size: 28px;
-    text-shadow: 0 0 10px black;
+/* الحاوية */
+.container {
+    width: 420px;
+    min-height: 100vh;
+    background: url('20260404_185559.jpg') center/cover no-repeat fixed;
 }
 
 /* الشبكة */
@@ -31,148 +26,205 @@ body {
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     padding: 10px;
-    width: 100%;
-    max-width: 900px;
 }
 
 /* المربعات */
 .box {
     position: relative;
-    width: 100%;
-    padding-top: 100%;
+    aspect-ratio: 1/1;
     border-radius: 10px;
-    overflow: visible; /* مهم عشان التأثير يطلع خارج المربع */
+    overflow: hidden;
     cursor: pointer;
-    background: #222;
-    box-sizing: border-box;
 }
 
-/* 🔥 تأثير دخان/نار يخرج من المربع */
-.box::after {
-    content: "";
-    position: absolute;
-    inset: -20px; /* يخلي التأثير يخرج برا */
-    background: url('smoke.gif') center/cover no-repeat; /* غيرها باسم تأثيرك */
-    opacity: 0.8;
-    pointer-events: none;
-    z-index: 2;
-
-    animation: smokeMove 3s infinite linear;
-}
-
-/* حركة الدخان */
-@keyframes smokeMove {
-    0% {
-        transform: translateY(10px) scale(1);
-        opacity: 0.4;
-    }
-    50% {
-        transform: translateY(-10px) scale(1.1);
-        opacity: 0.8;
-    }
-    100% {
-        transform: translateY(-20px) scale(1.2);
-        opacity: 0;
-    }
-}
-
-/* الصور داخل المربعات */
 .box img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: 1;
-    border-radius: 10px;
 }
 
 /* عارض الصور */
 .viewer {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
     background: rgba(0,0,0,0.95);
     display: none;
     justify-content: center;
     align-items: center;
-    z-index: 999;
     flex-direction: column;
+    z-index: 999;
 }
 
-/* الصورة المكبرة */
-.viewer img {
+.viewer img,
+.viewer video {
     max-width: 90%;
     max-height: 80%;
-    border-radius: 10px;
-    margin-bottom: 20px;
-    position: relative;
-    z-index: 1;
 }
 
-/* تأثير على الصورة المكبرة */
-.viewer::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url('giphy.gif') center/cover no-repeat;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 2;
-}
-
-/* زر الإغلاق */
+/* زر اغلاق */
 .close-btn {
-    padding: 12px 25px;
-    font-size: 18px;
-    background: linear-gradient(45deg, red, purple);
+    margin-top: 10px;
+    padding: 10px;
+    background: red;
     color: white;
     border: none;
+}
+
+/* زر دائري */
+.menu-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 20px red;
+}
+
+.menu-btn img {
+    width: 100%;
+    height: 100%;
+}
+
+/* القائمة */
+.menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    display: none;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.menu-title {
+    color: white;
+    text-align: center;
+    font-size: 24px;
+}
+
+.menu-box {
+    background: black;
+    margin: 10px;
+    padding: 15px;
+    color: white;
+    text-align: center;
     border-radius: 10px;
+    background-image: url('effect.gif');
+    background-size: cover;
     cursor: pointer;
-    box-shadow: 0 0 15px red;
 }
 </style>
+
 </head>
+
 <body>
 
-<div class="title">ديناميت الذي يجعل الصمت يصبح انفجارًا</div>
+<div class="container">
 
 <div class="grid">
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
-    
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png"></div>
-    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
+
+<!-- صورك كما هي بدون حذف -->
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png">
 </div>
 
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png">
+</div>
+
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png">
+</div>
+
+</div>
+
+</div>
+
+<!-- العارض -->
 <div class="viewer" id="viewer">
-    <img id="viewerImg">
-    <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
+    <div id="content"></div>
+    <button class="close-btn" onclick="closeViewer()">اغلاق ✕</button>
+</div>
+
+<!-- زر دائري -->
+<div class="menu-btn" onclick="openMenu()">
+<img src="menu.png">
+</div>
+
+<!-- القائمة -->
+<div class="menu" id="menu">
+
+<button onclick="closeMenu()">اغلاق ✕</button>
+
+<div class="menu-title">ملفات انمي</div>
+
+<div class="menu-box" onclick="downloadFile('naruto.zip')">انمي ناروتو</div>
+<div class="menu-box" onclick="downloadFile('video.mp4')">فيديو</div>
+
 </div>
 
 <script>
+
+/* فتح صورة */
 function openImg(el) {
-    const img = el.querySelector("img");
-    const viewer = document.getElementById("viewer");
-    const viewerImg = document.getElementById("viewerImg");
-    
-    viewerImg.src = img.dataset.full;
-    viewer.style.display = "flex";
+    let img = el.querySelector("img");
+
+    document.getElementById("content").innerHTML =
+        `<img src="${img.dataset.full}">`;
+
+    document.getElementById("viewer").style.display = "flex";
 }
 
-function closeImg() {
+/* اغلاق */
+function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
+
+/* القائمة */
+function openMenu(){
+    document.getElementById("menu").style.display = "block";
+}
+function closeMenu(){
+    document.getElementById("menu").style.display = "none";
+}
+
+/* تحميل */
+function downloadFile(file){
+    let a = document.createElement("a");
+    a.href = file;
+    a.download = file;
+    a.click();
+}
+
 </script>
 
 </body>
