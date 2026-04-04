@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title> ديناميت الذي يجعل الصمت يصبح انفجارًا</title>
+<title>Band 1 - ديناميت الذي يجعل الصمت يصبح انفجارًا</title>
 
 <style>
 body {
@@ -18,12 +18,14 @@ body {
     color: white;
 }
 
+/* عنوان */
 .title {
     margin: 20px 0;
     font-size: 28px;
     text-shadow: 0 0 10px black;
 }
 
+/* الشبكة */
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -33,10 +35,11 @@ body {
     max-width: 900px;
 }
 
+/* المربعات */
 .box {
     position: relative;
     width: 100%;
-    padding-top: 100%;
+    padding-top: 100%; /* مربع */
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
@@ -44,18 +47,19 @@ body {
     box-sizing: border-box;
 }
 
-/* GIF يظهر عند الضغط فقط */
-.box.active::before {
+/* إطار GIF شفاف حول المربع */
+.box::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: 10px;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    border-radius: 12px;
     background: url('fire-effect.gif') center/cover no-repeat;
-    opacity: 0.8;
+    opacity: 0.4; /* شفاف */
     pointer-events: none;
     z-index: 2;
 }
 
+/* الصور داخل المربعات */
 .box img {
     position: absolute;
     top: 0;
@@ -81,13 +85,30 @@ body {
     flex-direction: column;
 }
 
+/* الصورة المكبرة مع تأثير GIF مستمر */
 .viewer img {
     max-width: 90%;
     max-height: 80%;
     border-radius: 10px;
     margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
 }
 
+/* تأثير GIF على الصورة المكبرة */
+.viewer::after {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: url('fire-effect.gif') center/cover no-repeat;
+    border-radius: 10px;
+    opacity: 0.7;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* زر الإغلاق */
 .close-btn {
     padding: 12px 25px;
     font-size: 18px;
@@ -105,35 +126,35 @@ body {
 <div class="title">ديناميت الذي يجعل الصمت يصبح انفجارًا</div>
 
 <div class="grid">
-    <div class="box"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
-    <div class="box"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
-    <div class="box"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
-    <div class="box"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
-    <div class="box"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
+    <!-- 10 مربعات PNG أصلية -->
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
+    
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
 </div>
 
+<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
     <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
 </div>
 
 <script>
-const boxes = document.querySelectorAll('.box');
-
-boxes.forEach(box => {
-    box.addEventListener('click', () => {
-        // أضف class لعرض GIF
-        box.classList.add('active');
-
-        // بعد ثانيتين، إزالة class وفتح الصورة
-        setTimeout(() => {
-            box.classList.remove('active');
-            const img = box.querySelector("img");
-            document.getElementById("viewer").style.display = "flex";
-            document.getElementById("viewerImg").src = img.dataset.full;
-        }, 2000);
-    });
-});
+function openImg(el) {
+    const img = el.querySelector("img");
+    const viewer = document.getElementById("viewer");
+    const viewerImg = document.getElementById("viewerImg");
+    
+    viewerImg.src = img.dataset.full;
+    viewer.style.display = "flex";
+}
 
 function closeImg() {
     document.getElementById("viewer").style.display = "none";
