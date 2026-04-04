@@ -47,15 +47,16 @@ body {
     box-sizing: border-box;
 }
 
-/* تأثير GIF دائم على كامل المربع */
-.box::after {
+/* إطار النار حول المربع */
+.box::before {
     content: "";
     position: absolute;
-    inset: 0;
-    border-radius: 10px;
-    background: url('fire-effect.gif') center/cover no-repeat; /* ضع هنا مسار GIF للنار */
-    opacity: 0.7; /* دائم */
+    top: -5px; left: -5px; right: -5px; bottom: -5px; /* اطار أكبر قليلا من المربع */
+    border-radius: 12px;
+    background: url('fire-effect.gif') center/cover no-repeat;
+    opacity: 0.6; /* شفاف */
     pointer-events: none;
+    z-index: 2;
 }
 
 /* الصورة داخل المربع */
@@ -66,6 +67,7 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    z-index: 1; /* فوق الخلفية */
 }
 
 /* عارض الصور */
