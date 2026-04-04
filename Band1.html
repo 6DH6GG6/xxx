@@ -45,14 +45,27 @@ body {
     cursor: pointer;
     background: #222;
     transition: transform 0.3s;
-    border: 4px solid transparent;
     box-sizing: border-box;
+}
+
+/* تأثير GIF كامل المربع عند المرور */
+.box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: 10px;
+    background: url('giphy.gif') center/cover no-repeat; /* ضع هنا مسار GIF التأثير */
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+}
+
+.box:hover::after {
+    opacity: 0.7;
 }
 
 .box:hover {
     transform: scale(1.05);
-    border-image: url('giphy.gif') 30 round; /* تأثير GIF على الإطار */
-    border-style: solid;
 }
 
 /* الصورة داخل المربع */
