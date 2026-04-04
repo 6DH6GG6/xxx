@@ -28,11 +28,11 @@ body {
 /* الشبكة */
 .grid {
     display: grid;
-    grid-template-columns: repeat(10, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     padding: 10px;
     width: 100%;
-    max-width: 1200px;
+    max-width: 900px;
 }
 
 /* المربعات */
@@ -45,10 +45,14 @@ body {
     cursor: pointer;
     background: #222;
     transition: transform 0.3s;
+    border: 4px solid transparent;
+    box-sizing: border-box;
 }
 
 .box:hover {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    border-image: url('effect.gif') 30 round; /* تأثير GIF على الإطار */
+    border-style: solid;
 }
 
 /* الصورة داخل المربع */
@@ -59,20 +63,6 @@ body {
     width: 100%;
     height: 100%;
     object-fit: cover;
-}
-
-/* تأثير GIF عند مرور الماوس */
-.box::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: url('effect.gif') center/cover no-repeat;
-    opacity: 0;
-    transition: opacity 0.3s;
-}
-
-.box:hover::after {
-    opacity: 0.5;
 }
 
 /* عارض الصور */
@@ -107,7 +97,6 @@ body {
     cursor: pointer;
     box-shadow: 0 0 15px red;
 }
-
 </style>
 </head>
 <body>
@@ -115,12 +104,13 @@ body {
 <div class="title">العابث الأخير - شبكة الصور</div>
 
 <div class="grid">
-    <!-- مثال على 20 مربع -->
+    <!-- 25 مربع PNG -->
     <div class="box" onclick="openImg(this)"><img src="1.png" data-full="1.png"></div>
     <div class="box" onclick="openImg(this)"><img src="2.png" data-full="2.png"></div>
     <div class="box" onclick="openImg(this)"><img src="3.png" data-full="3.png"></div>
     <div class="box" onclick="openImg(this)"><img src="4.png" data-full="4.png"></div>
     <div class="box" onclick="openImg(this)"><img src="5.png" data-full="5.png"></div>
+    
     <div class="box" onclick="openImg(this)"><img src="6.png" data-full="6.png"></div>
     <div class="box" onclick="openImg(this)"><img src="7.png" data-full="7.png"></div>
     <div class="box" onclick="openImg(this)"><img src="8.png" data-full="8.png"></div>
@@ -132,11 +122,18 @@ body {
     <div class="box" onclick="openImg(this)"><img src="13.png" data-full="13.png"></div>
     <div class="box" onclick="openImg(this)"><img src="14.png" data-full="14.png"></div>
     <div class="box" onclick="openImg(this)"><img src="15.png" data-full="15.png"></div>
+    
     <div class="box" onclick="openImg(this)"><img src="16.png" data-full="16.png"></div>
     <div class="box" onclick="openImg(this)"><img src="17.png" data-full="17.png"></div>
     <div class="box" onclick="openImg(this)"><img src="18.png" data-full="18.png"></div>
     <div class="box" onclick="openImg(this)"><img src="19.png" data-full="19.png"></div>
     <div class="box" onclick="openImg(this)"><img src="20.png" data-full="20.png"></div>
+    
+    <div class="box" onclick="openImg(this)"><img src="21.png" data-full="21.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="22.png" data-full="22.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="23.png" data-full="23.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="24.png" data-full="24.png"></div>
+    <div class="box" onclick="openImg(this)"><img src="25.png" data-full="25.png"></div>
 </div>
 
 <!-- عارض الصور -->
