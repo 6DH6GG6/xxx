@@ -11,6 +11,7 @@ body {
     background: black;
     display: flex;
     justify-content: center;
+    font-family: Arial, sans-serif;
 }
 
 /* الحاوية */
@@ -86,17 +87,59 @@ body {
 .viewer img {
     max-width: 90%;
     border-radius: 10px;
+    position: relative;
 }
 
 /* زر اغلاق داخل العارض */
 .viewer .close-btn {
-    margin-top: 10px;
-    padding: 10px;
+    position: absolute;
+    bottom: 20px;
+    padding: 10px 20px;
     background: red;
     border: none;
     color: white;
+    border-radius: 8px;
     cursor: pointer;
+    z-index: 1001;
 }
+
+/* نافذة تأكيد الخروج */
+#exitConfirm {
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.85);
+    z-index:2000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    color:white;
+}
+
+#exitConfirm div {
+    background:#111;
+    padding:30px;
+    border-radius:12px;
+    text-align:center;
+}
+
+#exitConfirm p {
+    font-size:18px;
+    margin-bottom:20px;
+}
+
+#exitConfirm button {
+    margin:5px;
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    color:white;
+}
+
+#exitConfirm button.yes { background:red; }
+#exitConfirm button.no { background:gray; }
 </style>
 </head>
 
@@ -169,6 +212,15 @@ body {
 <!-- زر أسفل الموقع -->
 <button class="bottom-btn" id="bottomBtn" onclick="openVideoPage('video.html')">فتح الفيديو كامل</button>
 
+<!-- نافذة تأكيد الخروج -->
+<div id="exitConfirm">
+    <div>
+        <p>هل أنت متأكد من أنك تريد الخروج من الموقع؟</p>
+        <button class="yes" onclick="exitSite()">نعم</button>
+        <button class="no" onclick="closeExitConfirm()">لا</button>
+    </div>
+</div>
+
 <script>
 let vimeoPlaying = false;
 
@@ -190,12 +242,10 @@ function toggleVideo(box) {
     let btn = document.getElementById("bottomBtn");
 
     if (!vimeoPlaying) {
-        // تشغيل الفيديو
-        iframe.src += "&autoplay=1";
+        iframe.src = "https://player.vimeo.com/video/1180429598?autoplay=1";
         btn.style.display = "block";
         vimeoPlaying = true;
     } else {
-        // إيقاف الفيديو
         iframe.src = "https://player.vimeo.com/video/1180429598?background=1";
         btn.style.display = "none";
         vimeoPlaying = false;
@@ -205,6 +255,25 @@ function toggleVideo(box) {
 /* فتح صفحة الفيديو كامل */
 function openVideoPage(link) {
     window.location.href = link;
+}
+
+/* زر الرجوع */
+window.addEventListener("popstate", function(event) {
+    showExitConfirm();
+});
+history.pushState({}, "");
+
+function showExitConfirm(){
+    document.getElementById("exitConfirm").style.display = "flex";
+}
+
+function closeExitConfirm(){
+    document.getElementById("exitConfirm").style.display = "none";
+    history.pushState({}, "");
+}
+
+function exitSite(){
+    window.location.href = "about:blank";
 }
 </script>
 
