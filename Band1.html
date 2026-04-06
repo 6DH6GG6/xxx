@@ -257,23 +257,29 @@ function openVideoPage(link) {
     window.location.href = link;
 }
 
-/* زر الرجوع */
+/* زر الرجوع - يظهر نافذة التأكيد */
 window.addEventListener("popstate", function(event) {
     showExitConfirm();
 });
-history.pushState({}, "");
 
+// إضافة سجل وهمي حتى يمكن التقاط زر الرجوع
+history.pushState({page: 1}, "");
+
+// عرض نافذة تأكيد الخروج
 function showExitConfirm(){
     document.getElementById("exitConfirm").style.display = "flex";
 }
 
+// إخفاء نافذة التأكيد
 function closeExitConfirm(){
     document.getElementById("exitConfirm").style.display = "none";
-    history.pushState({}, "");
+    history.pushState({page: 1}, ""); // إعادة السجل الوهمي
 }
 
+// عند الضغط على نعم، الرجوع للخلف
 function exitSite(){
-    window.location.href = "about:blank";
+    document.getElementById("exitConfirm").style.display = "none";
+    history.back();
 }
 </script>
 
