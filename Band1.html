@@ -17,7 +17,7 @@ body {
 .container {
     width: 420px;
     min-height: 100vh;
-    background: black; /* ✅ خلفية سوداء */
+    background: black;
     text-align: center;
     color: white;
 }
@@ -58,22 +58,26 @@ body {
     object-fit: cover;
 }
 
-/* زر فتح الفيديو */
-.open-btn {
+/* زر حر */
+.floating-btn {
     position: absolute;
-    bottom: 5px;
-    left: 5px;
-    right: 5px;
+    bottom: 6px;
+    right: 6px;
+    padding: 5px 8px;
+    font-size: 12px;
     background: rgba(0,0,0,0.7);
     color: white;
-    font-size: 12px;
     border: none;
     border-radius: 6px;
-    padding: 5px;
     display: none;
 }
 
-/* العارض */
+/* يظهر عند تشغيل الفيديو */
+.video-box.active .floating-btn {
+    display: block;
+}
+
+/* عارض الصور */
 .viewer {
     position: fixed;
     inset: 0;
@@ -88,9 +92,9 @@ body {
     max-width: 90%;
 }
 
-/* أزرار */
-.btns button {
-    margin: 5px;
+/* زر اغلاق */
+.close-btn {
+    margin-top: 10px;
     padding: 10px;
     background: red;
     border: none;
@@ -120,8 +124,8 @@ body {
 
 <video src="video.mp4"></video>
 
-<button class="open-btn" onclick="openVideoPage(event, 'video.html')">
-فتح الفيديو
+<button class="floating-btn" onclick="openVideoPage(event, 'video.html')">
+فتح
 </button>
 
 </div>
@@ -170,23 +174,16 @@ body {
 <!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
-
-    <div class="btns">
-        <button onclick="shareImg()">مشاركة</button>
-        <button onclick="closeViewer()">اغلاق ✕</button>
-    </div>
+    <button class="close-btn" onclick="closeViewer()">اغلاق ✕</button>
 </div>
 
 <script>
 
-let currentImg = "";
-
 /* فتح صورة */
 function openImg(el) {
     let img = el.querySelector("img");
-    currentImg = img.dataset.full;
 
-    document.getElementById("viewerImg").src = currentImg;
+    document.getElementById("viewerImg").src = img.dataset.full;
     document.getElementById("viewer").style.display = "flex";
 }
 
@@ -195,29 +192,17 @@ function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* مشاركة */
-function shareImg() {
-    let url = window.location.origin + "/" + currentImg;
-
-    if (navigator.share) {
-        navigator.share({ url });
-    } else {
-        window.open("https://www.facebook.com/sharer/sharer.php?u=" + url);
-    }
-}
-
-/* تشغيل الفيديو */
+/* تشغيل فيديو */
 function toggleVideo(box) {
     let video = box.querySelector("video");
-    let btn = box.querySelector(".open-btn");
 
     if (video.paused) {
         video.muted = false;
         video.play();
-        btn.style.display = "block";
+        box.classList.add("active");
     } else {
         video.pause();
-        btn.style.display = "none";
+        box.classList.remove("active");
     }
 }
 
@@ -226,15 +211,6 @@ function openVideoPage(e, link) {
     e.stopPropagation();
     window.location.href = link;
 }
-
-/* اخفاء زر الفيديو */
-document.addEventListener("click", function(e) {
-    document.querySelectorAll(".open-btn").forEach(btn=>{
-        if(!btn.parentElement.contains(e.target)){
-            btn.style.display = "none";
-        }
-    });
-});
 
 </script>
 
