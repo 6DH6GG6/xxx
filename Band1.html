@@ -58,23 +58,21 @@ body {
     object-fit: cover;
 }
 
-/* زر حر */
-.floating-btn {
-    position: absolute;
-    bottom: 6px;
-    right: 6px;
-    padding: 5px 8px;
-    font-size: 12px;
-    background: rgba(0,0,0,0.7);
+/* زر أسفل الموقع يظهر عند تشغيل الفيديو */
+.bottom-btn {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 25px;
+    font-size: 16px;
+    background: red;
     color: white;
     border: none;
-    border-radius: 6px;
+    border-radius: 10px;
     display: none;
-}
-
-/* يظهر عند تشغيل الفيديو */
-.video-box.active .floating-btn {
-    display: block;
+    z-index: 999;
+    cursor: pointer;
 }
 
 /* عارض الصور */
@@ -101,7 +99,6 @@ body {
     color: white;
 }
 </style>
-
 </head>
 
 <body>
@@ -121,16 +118,10 @@ body {
 
 <!-- فيديو -->
 <div class="box video-box" onclick="toggleVideo(this)">
-
 <video src="video.mp4"></video>
-
-<button class="floating-btn" onclick="openVideoPage(event, 'video.html')">
-فتح
-</button>
-
 </div>
 
-<!-- صور -->
+<!-- صور أخرى -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
 </div>
@@ -171,18 +162,21 @@ body {
 
 </div>
 
-<!-- عارض الصور -->
+<!-- العارض -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
     <button class="close-btn" onclick="closeViewer()">اغلاق ✕</button>
 </div>
 
+<!-- زر أسفل الموقع -->
+<button class="bottom-btn" id="bottomBtn" onclick="openVideoPage('video.html')">فتح الفيديو كامل</button>
+
 <script>
+let currentVideoBox = null;
 
 /* فتح صورة */
 function openImg(el) {
     let img = el.querySelector("img");
-
     document.getElementById("viewerImg").src = img.dataset.full;
     document.getElementById("viewer").style.display = "flex";
 }
@@ -192,26 +186,26 @@ function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* تشغيل فيديو */
+/* تشغيل الفيديو */
 function toggleVideo(box) {
     let video = box.querySelector("video");
+    let btn = document.getElementById("bottomBtn");
 
     if (video.paused) {
-        video.muted = false;
         video.play();
-        box.classList.add("active");
+        btn.style.display = "block";
+        currentVideoBox = box;
     } else {
         video.pause();
-        box.classList.remove("active");
+        btn.style.display = "none";
+        currentVideoBox = null;
     }
 }
 
-/* فتح صفحة */
-function openVideoPage(e, link) {
-    e.stopPropagation();
+/* فتح صفحة الفيديو كامل */
+function openVideoPage(link) {
     window.location.href = link;
 }
-
 </script>
 
 </body>
