@@ -13,14 +13,31 @@ body {
     justify-content: center;
 }
 
-/* الحاوية */
 .container {
     width: 420px;
     min-height: 100vh;
     background: url('20260404_185559.jpg') center/cover no-repeat fixed;
+    text-align: center;
+    color: white;
 }
 
-/* الشبكة */
+.name {
+    font-size: 28px;
+    margin-top: 15px;
+    color: red;
+    text-shadow: 0 0 10px red;
+}
+
+.desc {
+    margin: 10px;
+    color: #ccc;
+}
+
+.title {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
@@ -28,22 +45,36 @@ body {
     padding: 10px;
 }
 
-/* المربعات */
 .box {
     position: relative;
     aspect-ratio: 1/1;
     border-radius: 10px;
     overflow: hidden;
     cursor: pointer;
+    box-shadow: 0 0 10px red;
 }
 
-.box img {
+.box img, .box video {
     width: 100%;
     height: 100%;
     object-fit: cover;
 }
 
-/* عارض الصور */
+/* زر فتح الفيديو */
+.open-btn {
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    right: 5px;
+    padding: 5px;
+    background: rgba(0,0,0,0.7);
+    color: white;
+    font-size: 12px;
+    border: none;
+    border-radius: 6px;
+}
+
+/* العارض */
 .viewer {
     position: fixed;
     inset: 0;
@@ -52,67 +83,19 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 999;
 }
 
-.viewer img,
-.viewer video {
+.viewer img {
     max-width: 90%;
-    max-height: 80%;
 }
 
-/* زر اغلاق */
-.close-btn {
-    margin-top: 10px;
+/* أزرار */
+.btns button {
+    margin: 5px;
     padding: 10px;
     background: red;
-    color: white;
     border: none;
-}
-
-/* زر دائري */
-.menu-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 20px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 0 20px red;
-}
-
-.menu-btn img {
-    width: 100%;
-    height: 100%;
-}
-
-/* القائمة */
-.menu {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    z-index: 1000;
-    padding: 20px;
-}
-
-.menu-title {
     color: white;
-    text-align: center;
-    font-size: 24px;
-}
-
-.menu-box {
-    background: black;
-    margin: 10px;
-    padding: 15px;
-    color: white;
-    text-align: center;
-    border-radius: 10px;
-    background-image: url('effect.gif');
-    background-size: cover;
-    cursor: pointer;
 }
 </style>
 
@@ -122,47 +105,35 @@ body {
 
 <div class="container">
 
+<div class="name">اسم الموقع</div>
+<div class="desc">هذا وصف الموقع</div>
+<div class="title">عنوان الصفحة</div>
+
 <div class="grid">
 
-<!-- صورك كما هي بدون حذف -->
+<!-- صورة -->
 <div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png">
+<img src="Screenshot_20260329-103054.png" data-type="img" data-full="Screenshot_20260329-103054.png">
+</div>
+
+<!-- فيديو -->
+<div class="box">
+
+<video src="video1.mp4" muted loop autoplay></video>
+
+<button class="open-btn" onclick="openVideoPage(event, 'video.html')">
+فتح الفيديو
+</button>
+
+</div>
+
+<!-- باقي صورك -->
+<div class="box" onclick="openImg(this)">
+<img src="Screenshot_20260329-181836.png" data-type="img" data-full="Screenshot_20260329-181836.png">
 </div>
 
 <div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png">
+<img src="Screenshot_20260401-093641.png" data-type="img" data-full="Screenshot_20260401-093641.png">
 </div>
 
 </div>
@@ -171,36 +142,25 @@ body {
 
 <!-- العارض -->
 <div class="viewer" id="viewer">
-    <div id="content"></div>
-    <button class="close-btn" onclick="closeViewer()">اغلاق ✕</button>
-</div>
+    <img id="viewerImg">
 
-<!-- زر دائري -->
-<div class="menu-btn" onclick="openMenu()">
-<img src="menu.png">
-</div>
-
-<!-- القائمة -->
-<div class="menu" id="menu">
-
-<button onclick="closeMenu()">اغلاق ✕</button>
-
-<div class="menu-title">ملفات انمي</div>
-
-<div class="menu-box" onclick="downloadFile('naruto.zip')">انمي ناروتو</div>
-<div class="menu-box" onclick="downloadFile('video.mp4')">فيديو</div>
-
+    <div class="btns">
+        <button onclick="shareImg()">مشاركة</button>
+        <button onclick="closeViewer()">اغلاق ✕</button>
+    </div>
 </div>
 
 <script>
+
+let currentImg = "";
 
 /* فتح صورة */
 function openImg(el) {
     let img = el.querySelector("img");
 
-    document.getElementById("content").innerHTML =
-        `<img src="${img.dataset.full}">`;
+    currentImg = img.dataset.full;
 
+    document.getElementById("viewerImg").src = currentImg;
     document.getElementById("viewer").style.display = "flex";
 }
 
@@ -209,20 +169,21 @@ function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* القائمة */
-function openMenu(){
-    document.getElementById("menu").style.display = "block";
-}
-function closeMenu(){
-    document.getElementById("menu").style.display = "none";
+/* مشاركة */
+function shareImg() {
+    let url = window.location.origin + "/" + currentImg;
+
+    if (navigator.share) {
+        navigator.share({ url });
+    } else {
+        window.open("https://www.facebook.com/sharer/sharer.php?u=" + url);
+    }
 }
 
-/* تحميل */
-function downloadFile(file){
-    let a = document.createElement("a");
-    a.href = file;
-    a.download = file;
-    a.click();
+/* فتح صفحة فيديو */
+function openVideoPage(e, link) {
+    e.stopPropagation(); // يمنع فتح الصورة
+    window.location.href = link;
 }
 
 </script>
