@@ -141,7 +141,10 @@ body {
 
 <!-- فيديو ثابت -->
 <div class="box video-box" id="videoBox">
-    <iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1&muted=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="display:none;"></iframe>
+    <iframe id="vimeoVideo" 
+        src="https://player.vimeo.com/video/1180429598?autoplay=0&muted=0" 
+        frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="display:none;">
+    </iframe>
     <div id="videoOverlay">فيديو</div>
 </div>
 
@@ -182,7 +185,7 @@ let videoBox = document.getElementById("videoBox");
 let overlay = document.getElementById("videoOverlay");
 let controls = document.getElementById("videoControls");
 
-/* فتح صورة */
+/* فتح الصور */
 function openImg(el) {
     document.getElementById("viewerImg").src = el.querySelector("img").dataset.full;
     document.getElementById("viewer").style.display = "flex";
@@ -193,13 +196,13 @@ function closeViewer() { document.getElementById("viewer").style.display = "none
 videoBox.addEventListener("click", function() {
     overlay.style.display = "none";       // اختفاء كلمة فيديو
     iframe.style.display = "block";       // اظهار الفيديو
-    player.play();                         // تشغيل الفيديو مع الصوت
+    player.play();                         // تشغيل الفيديو
     controls.style.display = "flex";       // اظهار الأزرار
 });
 
 /* زر إيقاف/تشغيل الفيديو */
 document.getElementById("btnPlayPause").onclick = function(e) {
-    e.stopPropagation(); // لمنع الضغط من تفعيل الفيديوBox مجددًا
+    e.stopPropagation(); 
     player.getPaused().then(paused => {
         if(paused) player.play();
         else player.pause();
