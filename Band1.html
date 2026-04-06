@@ -172,7 +172,7 @@ body {
 <button class="bottom-btn" id="bottomBtn" onclick="openVideoPage('video.html')">فتح الفيديو كامل</button>
 
 <script>
-let currentVideoBox = null;
+let currentVideo = null;
 
 /* فتح صورة */
 function openImg(el) {
@@ -181,24 +181,28 @@ function openImg(el) {
     document.getElementById("viewer").style.display = "flex";
 }
 
-/* اغلاق */
+/* اغلاق الصور */
 function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* تشغيل الفيديو */
+/* تشغيل/إيقاف الفيديو في المربع */
 function toggleVideo(box) {
     let video = box.querySelector("video");
     let btn = document.getElementById("bottomBtn");
 
+    if (currentVideo && currentVideo !== video) {
+        currentVideo.pause(); // توقف أي فيديو آخر
+    }
+
     if (video.paused) {
         video.play();
         btn.style.display = "block";
-        currentVideoBox = box;
+        currentVideo = video;
     } else {
         video.pause();
         btn.style.display = "none";
-        currentVideoBox = null;
+        currentVideo = null;
     }
 }
 
