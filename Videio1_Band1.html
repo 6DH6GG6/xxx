@@ -87,9 +87,9 @@ iframe {
     <!-- دائرة تحميل -->
     <div class="loader" id="loader"></div>
 
-    <!-- فيديو -->
+    <!-- الفيديو -->
     <iframe id="videoFrame"
-        src="https://player.vimeo.com/video/1180429598"
+        src="https://player.vimeo.com/video/1180429598?title=0&byline=0&portrait=0&badge=0"
         allow="autoplay; fullscreen; picture-in-picture"
         allowfullscreen>
     </iframe>
@@ -109,16 +109,17 @@ let iframe = document.getElementById("videoFrame");
 let player = new Vimeo.Player(iframe);
 let loader = document.getElementById("loader");
 
-/* تحميل */
+/* بداية التحميل */
 player.on('loadstart', function() {
     loader.style.display = "block";
 });
 
+/* عند التشغيل */
 player.on('playing', function() {
     loader.style.display = "none";
 });
 
-/* إذا توقف الانترنت */
+/* عند التوقف المؤقت (ضعف الانترنت) */
 player.on('waiting', function() {
     loader.style.display = "block";
 });
