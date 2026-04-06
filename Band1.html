@@ -36,6 +36,11 @@ body {
     overflow: hidden;
     cursor: pointer;
     box-shadow: 0 0 10px red;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 24px;
+    color: white;
 }
 .box img,
 .box iframe {
@@ -43,6 +48,27 @@ body {
     height: 100%;
     object-fit: cover;
     display: block;
+}
+#videoOverlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+#videoControls {
+    display:none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 999;
+}
+#videoControls button {
+    width:50px; height:50px; border-radius:50%; margin:5px; background:red; border:none; cursor:pointer; color:white; font-size:18px;
 }
 .viewer {
     position: fixed;
@@ -66,6 +92,20 @@ body {
     cursor: pointer;
     z-index: 1001;
 }
+#backToPage {
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 25px;
+    font-size:16px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    z-index:999;
+}
 #exitConfirm {
     display:none;
     position:fixed;
@@ -82,31 +122,6 @@ body {
 #exitConfirm button { margin:5px; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; color:white; }
 #exitConfirm button.yes { background:red; }
 #exitConfirm button.no { background:gray; }
-#videoControls {
-    display:none;
-    position:fixed;
-    bottom:20px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:999;
-}
-#videoControls button {
-    width:50px; height:50px; border-radius:50%; margin:5px; background:red; border:none; cursor:pointer; color:white; font-size:18px;
-}
-#backToPage {
-    position:fixed;
-    bottom:90px;
-    left:50%;
-    transform:translateX(-50%);
-    padding:12px 25px;
-    font-size:16px;
-    background:red;
-    color:white;
-    border:none;
-    border-radius:10px;
-    cursor:pointer;
-    z-index:999;
-}
 </style>
 </head>
 <body>
@@ -124,9 +139,10 @@ body {
 <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
 <div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
 
-<!-- فيديو Vimeo -->
-<div class="box video-box" onclick="startVideo()">
-<iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1&muted=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<!-- فيديو ثابت -->
+<div class="box video-box" id="videoBox">
+    <iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1&muted=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen style="display:none;"></iframe>
+    <div id="videoOverlay">فيديو</div>
 </div>
 
 <div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
@@ -144,9 +160,8 @@ body {
 </div>
 
 <div id="videoControls">
-    <button id="btnLeft">⏯️</button>
-    <button id="btnCenter">🔗</button>
-    <button id="btnRight">🔇</button>
+    <button id="btnPlayPause">⏯️</button>
+    <button id="btnOpenPage">🔗</button>
 </div>
 
 <button id="backToPage">الرجوع</button>
@@ -163,9 +178,9 @@ body {
 <script>
 let iframe = document.getElementById("vimeoVideo");
 let player = new Vimeo.Player(iframe);
-let videoControls = document.getElementById("videoControls");
-let vimeoPlaying = false;
-let videoMuted = false;
+let videoBox = document.getElementById("videoBox");
+let overlay = document.getElementById("videoOverlay");
+let controls = document.getElementById("videoControls");
 
 /* فتح صورة */
 function openImg(el) {
@@ -174,32 +189,27 @@ function openImg(el) {
 }
 function closeViewer() { document.getElementById("viewer").style.display = "none"; }
 
-/* تشغيل الفيديو وعرض الأزرار */
-function startVideo() {
-    player.play().then(() => {
-        videoControls.style.display = "flex";
-        vimeoPlaying = true;
-    }).catch(() => { console.log("خطأ في تشغيل الفيديو"); });
-}
+/* عند الضغط على مربع الفيديو */
+videoBox.addEventListener("click", function() {
+    overlay.style.display = "none";       // اختفاء كلمة فيديو
+    iframe.style.display = "block";       // اظهار الفيديو
+    player.play();                         // تشغيل الفيديو مع الصوت
+    controls.style.display = "flex";       // اظهار الأزرار
+});
 
-/* زر يسار ⏯️ */
-document.getElementById("btnLeft").onclick = function() {
+/* زر إيقاف/تشغيل الفيديو */
+document.getElementById("btnPlayPause").onclick = function(e) {
+    e.stopPropagation(); // لمنع الضغط من تفعيل الفيديوBox مجددًا
     player.getPaused().then(paused => {
         if(paused) player.play();
         else player.pause();
     });
 };
 
-/* زر يمين 🔇 */
-document.getElementById("btnRight").onclick = function() {
-    videoMuted = !videoMuted;
-    if(videoMuted) player.setVolume(0);
-    else player.setVolume(1);
-};
-
-/* زر وسط 🔗 */
-document.getElementById("btnCenter").onclick = function() {
-    window.location.href = "مسار.html";
+/* زر فتح صفحة فيديو.html */
+document.getElementById("btnOpenPage").onclick = function(e) {
+    e.stopPropagation();
+    window.location.href = "فيديو.html";
 };
 
 /* زر الرجوع المستطيل */
