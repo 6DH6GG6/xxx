@@ -54,23 +54,6 @@ body {
     display: block;
 }
 
-/* زر أسفل الموقع يظهر عند تشغيل الفيديو */
-.bottom-btn {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 12px 25px;
-    font-size: 16px;
-    background: red;
-    color: white;
-    border: none;
-    border-radius: 10px;
-    display: none;
-    z-index: 999;
-    cursor: pointer;
-}
-
 /* عارض الصور */
 .viewer {
     position: fixed;
@@ -139,6 +122,43 @@ body {
 
 #exitConfirm button.yes { background:red; }
 #exitConfirm button.no { background:gray; }
+
+/* أزرار الفيديو الدائرية */
+#videoControls {
+    display:none;
+    position:fixed;
+    bottom:20px;
+    left:50%;
+    transform:translateX(-50%);
+    z-index:999;
+}
+#videoControls button {
+    width:50px;
+    height:50px;
+    border-radius:50%;
+    margin:5px;
+    background:red;
+    border:none;
+    cursor:pointer;
+    color:white;
+    font-size:18px;
+}
+
+/* زر الرجوع المستطيل */
+#backToPage {
+    position:fixed;
+    bottom:90px;
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 25px;
+    font-size:16px;
+    background:red;
+    color:white;
+    border:none;
+    border-radius:10px;
+    cursor:pointer;
+    z-index:999;
+}
 </style>
 </head>
 
@@ -208,20 +228,30 @@ body {
     <button class="close-btn" onclick="closeViewer()">اغلاق الصورة ✕</button>
 </div>
 
-<!-- زر أسفل الموقع -->
-<button class="bottom-btn" id="bottomBtn" onclick="openVideoPage('video.html')">فتح الفيديو كامل</button>
+<!-- أزرار الفيديو الدائرية -->
+<div id="videoControls">
+    <button id="btnLeft">⏯️</button>
+    <button id="btnCenter">🔗</button>
+    <button id="btnRight">🔇</button>
+</div>
+
+<!-- زر الرجوع المستطيل -->
+<button id="backToPage">الرجوع</button>
 
 <!-- نافذة تأكيد الخروج -->
 <div id="exitConfirm">
     <div>
         <p>هل أنت متأكد من أنك تريد الخروج من الموقع؟</p>
-        <button class="yes" onclick="window.location.href='exit.html'">نعم</button>
-        <button class="no" onclick="closeExitConfirm()">لا</button>
+        <button class="yes">نعم</button>
+        <button class="no">لا</button>
     </div>
 </div>
 
 <script>
 let vimeoPlaying = false;
+let videoMuted = false;
+let iframe = document.getElementById("vimeoVideo");
+let videoControls = document.getElementById("videoControls");
 
 /* فتح صورة */
 function openImg(el) {
@@ -235,54 +265,62 @@ function closeViewer() {
     document.getElementById("viewer").style.display = "none";
 }
 
-/* تشغيل/إيقاف الفيديو في المربع */
+/* تشغيل/إيقاف الفيديو */
 function toggleVideo(box) {
-    let iframe = box.querySelector("iframe");
-    let btn = document.getElementById("bottomBtn");
-
     if (!vimeoPlaying) {
         iframe.src = "https://player.vimeo.com/video/1180429598?autoplay=1";
-        btn.style.display = "block";
+        videoControls.style.display = "flex";
         vimeoPlaying = true;
     } else {
         iframe.src = "https://player.vimeo.com/video/1180429598?background=1";
-        btn.style.display = "none";
+        videoControls.style.display = "none";
         vimeoPlaying = false;
     }
 }
 
-/* فتح صفحة الفيديو كامل */
-function openVideoPage(link) {
-    window.location.href = link;
+/* زر يمين - كتم/تشغيل الصوت */
+document.getElementById("btnRight").onclick = function() {
+    videoMuted = !videoMuted;
+    iframe.src = iframe.src.split("?")[0] + "?autoplay=1" + (videoMuted ? "&muted=1" : "");
 }
 
-/* زر الرجوع - يظهر نافذة التأكيد فقط عند الضغط عليه */
-let backPressed = false;
+/* زر وسط - فتح رابط */
+document.getElementById("btnCenter").onclick = function() {
+    window.location.href = "مسار.html";
+}
 
-// إضافة سجل وهمي للتقاط زر الرجوع
-history.pushState({page:1},"");
+/* زر يسار - إيقاف/تشغيل الفيديو */
+document.getElementById("btnLeft").onclick = function() {
+    toggleVideo({});
+}
 
-window.addEventListener('popstate', function(event){
-    if(!backPressed){
-        showExitConfirm();
-        history.pushState({page:1},""); // إعادة السجل الوهمي
-        backPressed = true;
-    } else {
-        // السماح بالرجوع الطبيعي
-        history.back();
-    }
-});
-
-// عرض نافذة تأكيد الخروج
-function showExitConfirm(){
+/* زر الرجوع المستطيل */
+document.getElementById("backToPage").onclick = function() {
     document.getElementById("exitConfirm").style.display = "flex";
 }
 
-// إخفاء نافذة التأكيد
-function closeExitConfirm(){
-    document.getElementById("exitConfirm").style.display = "none";
-    backPressed = false;
+/* زر نعم في نافذة التأكيد */
+document.querySelector("#exitConfirm .yes").onclick = function() {
+    window.location.href = "مسار.html";
 }
+
+/* زر لا لإلغاء الرجوع */
+document.querySelector("#exitConfirm .no").onclick = function() {
+    document.getElementById("exitConfirm").style.display = "none";
+}
+
+/* زر الرجوع الافتراضي - يظهر نافذة التأكيد فقط عند الضغط على الرجوع */
+let backPressed = false;
+history.pushState({page:1},"");
+window.addEventListener('popstate', function(event){
+    if(!backPressed){
+        document.getElementById("exitConfirm").style.display = "flex";
+        history.pushState({page:1},"");
+        backPressed = true;
+    } else {
+        history.back();
+    }
+});
 </script>
 
 </body>
