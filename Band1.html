@@ -269,7 +269,7 @@ function closeViewer() {
 function toggleVideo(box) {
     if (!vimeoPlaying) {
         iframe.src = "https://player.vimeo.com/video/1180429598?autoplay=1";
-        videoControls.style.display = "flex";
+        videoControls.style.display = "flex"; // تظهر الأزرار فقط عند تشغيل الفيديو
         vimeoPlaying = true;
     } else {
         iframe.src = "https://player.vimeo.com/video/1180429598?background=1";
@@ -289,7 +289,7 @@ document.getElementById("btnCenter").onclick = function() {
     window.location.href = "مسار.html";
 }
 
-/* زر يسار - إيقاف/تشغيل الفيديو */
+/* زر يسار - استئناف/إيقاف الفيديو */
 document.getElementById("btnLeft").onclick = function() {
     toggleVideo({});
 }
