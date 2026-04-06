@@ -17,7 +17,7 @@ body {
 .container {
     width: 420px;
     min-height: 100vh;
-    background: url('20260404_185559.jpg') center/cover no-repeat fixed;
+    background: black; /* ✅ خلفية سوداء */
     text-align: center;
     color: white;
 }
@@ -30,15 +30,8 @@ body {
     text-shadow: 0 0 10px red;
 }
 
-.desc {
-    margin: 10px;
-    color: #ccc;
-}
-
-.title {
-    font-size: 18px;
-    margin-bottom: 10px;
-}
+.desc { margin: 10px; color: #ccc; }
+.title { font-size: 18px; margin-bottom: 10px; }
 
 /* الشبكة */
 .grid {
@@ -59,7 +52,7 @@ body {
 }
 
 .box img,
-.box iframe {
+.box video {
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -77,6 +70,7 @@ body {
     border: none;
     border-radius: 6px;
     padding: 5px;
+    display: none;
 }
 
 /* العارض */
@@ -88,7 +82,6 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    z-index: 999;
 }
 
 .viewer img {
@@ -117,11 +110,23 @@ body {
 
 <div class="grid">
 
-<!-- صورك -->
+<!-- صورة -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png">
 </div>
 
+<!-- فيديو -->
+<div class="box video-box" onclick="toggleVideo(this)">
+
+<video src="video.mp4"></video>
+
+<button class="open-btn" onclick="openVideoPage(event, 'video.html')">
+فتح الفيديو
+</button>
+
+</div>
+
+<!-- صور -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
 </div>
@@ -136,21 +141,6 @@ body {
 
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png">
-</div>
-
-<!-- فيديو Vimeo -->
-<div class="box">
-
-<iframe 
-src="https://player.vimeo.com/video/1180429598" 
-frameborder="0" 
-allow="autoplay; fullscreen">
-</iframe>
-
-<button class="open-btn" onclick="openVideoPage(event, 'video.html')">
-فتح الفيديو
-</button>
-
 </div>
 
 <div class="box" onclick="openImg(this)">
@@ -177,7 +167,7 @@ allow="autoplay; fullscreen">
 
 </div>
 
-<!-- العارض -->
+<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
 
@@ -194,7 +184,6 @@ let currentImg = "";
 /* فتح صورة */
 function openImg(el) {
     let img = el.querySelector("img");
-
     currentImg = img.dataset.full;
 
     document.getElementById("viewerImg").src = currentImg;
@@ -217,11 +206,35 @@ function shareImg() {
     }
 }
 
-/* فتح صفحة فيديو */
+/* تشغيل الفيديو */
+function toggleVideo(box) {
+    let video = box.querySelector("video");
+    let btn = box.querySelector(".open-btn");
+
+    if (video.paused) {
+        video.muted = false;
+        video.play();
+        btn.style.display = "block";
+    } else {
+        video.pause();
+        btn.style.display = "none";
+    }
+}
+
+/* فتح صفحة */
 function openVideoPage(e, link) {
     e.stopPropagation();
     window.location.href = link;
 }
+
+/* اخفاء زر الفيديو */
+document.addEventListener("click", function(e) {
+    document.querySelectorAll(".open-btn").forEach(btn=>{
+        if(!btn.parentElement.contains(e.target)){
+            btn.style.display = "none";
+        }
+    });
+});
 
 </script>
 
