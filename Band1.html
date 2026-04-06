@@ -23,13 +23,7 @@ body {
 }
 
 /* العناوين */
-.name {
-    font-size: 28px;
-    margin-top: 15px;
-    color: red;
-    text-shadow: 0 0 10px red;
-}
-
+.name { font-size: 28px; margin-top: 15px; color: red; text-shadow: 0 0 10px red; }
 .desc { margin: 10px; color: #ccc; }
 .title { font-size: 18px; margin-bottom: 10px; }
 
@@ -52,10 +46,11 @@ body {
 }
 
 .box img,
-.box video {
+.box iframe {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
 }
 
 /* زر أسفل الموقع يظهر عند تشغيل الفيديو */
@@ -87,11 +82,13 @@ body {
     z-index: 1000;
 }
 
+/* صورة العارض */
 .viewer img {
     max-width: 90%;
+    border-radius: 10px;
 }
 
-/* زر اغلاق الصور */
+/* زر اغلاق داخل العارض */
 .viewer .close-btn {
     margin-top: 10px;
     padding: 10px;
@@ -113,17 +110,11 @@ body {
 
 <div class="grid">
 
-<!-- صورة -->
+<!-- صور -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png">
 </div>
 
-<!-- فيديو -->
-<div class="box video-box" onclick="toggleVideo(this)">
-<video src="video.mp4"></video>
-</div>
-
-<!-- صور أخرى -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
 </div>
@@ -140,6 +131,12 @@ body {
 <img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png">
 </div>
 
+<!-- فيديو Vimeo -->
+<div class="box video-box" onclick="toggleVideo(this)">
+<iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
+
+<!-- باقي الصور -->
 <div class="box" onclick="openImg(this)">
 <img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png">
 </div>
@@ -163,7 +160,7 @@ body {
 </div>
 </div>
 
-<!-- العارض -->
+<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
     <button class="close-btn" onclick="closeViewer()">اغلاق الصورة ✕</button>
@@ -173,7 +170,7 @@ body {
 <button class="bottom-btn" id="bottomBtn" onclick="openVideoPage('video.html')">فتح الفيديو كامل</button>
 
 <script>
-let currentVideo = null;
+let vimeoPlaying = false;
 
 /* فتح صورة */
 function openImg(el) {
@@ -189,23 +186,19 @@ function closeViewer() {
 
 /* تشغيل/إيقاف الفيديو في المربع */
 function toggleVideo(box) {
-    let video = box.querySelector("video");
+    let iframe = box.querySelector("iframe");
     let btn = document.getElementById("bottomBtn");
 
-    // إيقاف أي فيديو آخر
-    if (currentVideo && currentVideo !== video) {
-        currentVideo.pause();
-    }
-
-    // تشغيل أو إيقاف الفيديو الحالي
-    if (video.paused) {
-        video.play();
+    if (!vimeoPlaying) {
+        // تشغيل الفيديو
+        iframe.src += "&autoplay=1";
         btn.style.display = "block";
-        currentVideo = video;
+        vimeoPlaying = true;
     } else {
-        video.pause();
+        // إيقاف الفيديو
+        iframe.src = "https://player.vimeo.com/video/1180429598?background=1";
         btn.style.display = "none";
-        currentVideo = null;
+        vimeoPlaying = false;
     }
 }
 
