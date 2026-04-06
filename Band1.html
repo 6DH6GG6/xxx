@@ -110,7 +110,6 @@ body {
     inset:0;
     background:rgba(0,0,0,0.85);
     z-index:2000;
-    display:flex;
     justify-content:center;
     align-items:center;
     flex-direction:column;
@@ -216,7 +215,7 @@ body {
 <div id="exitConfirm">
     <div>
         <p>هل أنت متأكد من أنك تريد الخروج من الموقع؟</p>
-        <button class="yes" onclick="exitSite()">نعم</button>
+        <button class="yes" onclick="window.location.href='exit.html'">نعم</button>
         <button class="no" onclick="closeExitConfirm()">لا</button>
     </div>
 </div>
@@ -257,13 +256,22 @@ function openVideoPage(link) {
     window.location.href = link;
 }
 
-/* زر الرجوع - يظهر نافذة التأكيد */
-window.addEventListener("popstate", function(event) {
-    showExitConfirm();
-});
+/* زر الرجوع - يظهر نافذة التأكيد فقط عند الضغط عليه */
+let backPressed = false;
 
-// إضافة سجل وهمي حتى يمكن التقاط زر الرجوع
-history.pushState({page: 1}, "");
+// إضافة سجل وهمي للتقاط زر الرجوع
+history.pushState({page:1},"");
+
+window.addEventListener('popstate', function(event){
+    if(!backPressed){
+        showExitConfirm();
+        history.pushState({page:1},""); // إعادة السجل الوهمي
+        backPressed = true;
+    } else {
+        // السماح بالرجوع الطبيعي
+        history.back();
+    }
+});
 
 // عرض نافذة تأكيد الخروج
 function showExitConfirm(){
@@ -273,13 +281,7 @@ function showExitConfirm(){
 // إخفاء نافذة التأكيد
 function closeExitConfirm(){
     document.getElementById("exitConfirm").style.display = "none";
-    history.pushState({page: 1}, ""); // إعادة السجل الوهمي
-}
-
-// عند الضغط على نعم، الرجوع للخلف
-function exitSite(){
-    document.getElementById("exitConfirm").style.display = "none";
-    history.back();
+    backPressed = false;
 }
 </script>
 
