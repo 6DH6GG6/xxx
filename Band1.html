@@ -84,19 +84,21 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    z-index: 1000;
 }
 
 .viewer img {
     max-width: 90%;
 }
 
-/* زر اغلاق */
-.close-btn {
+/* زر اغلاق الصور */
+.viewer .close-btn {
     margin-top: 10px;
     padding: 10px;
     background: red;
     border: none;
     color: white;
+    cursor: pointer;
 }
 </style>
 </head>
@@ -159,13 +161,12 @@ body {
 </div>
 
 </div>
-
 </div>
 
 <!-- العارض -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
-    <button class="close-btn" onclick="closeViewer()">اغلاق ✕</button>
+    <button class="close-btn" onclick="closeViewer()">اغلاق الصورة ✕</button>
 </div>
 
 <!-- زر أسفل الموقع -->
@@ -191,10 +192,12 @@ function toggleVideo(box) {
     let video = box.querySelector("video");
     let btn = document.getElementById("bottomBtn");
 
+    // إيقاف أي فيديو آخر
     if (currentVideo && currentVideo !== video) {
-        currentVideo.pause(); // توقف أي فيديو آخر
+        currentVideo.pause();
     }
 
+    // تشغيل أو إيقاف الفيديو الحالي
     if (video.paused) {
         video.play();
         btn.style.display = "block";
