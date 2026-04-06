@@ -13,8 +13,6 @@ body {
     justify-content: center;
     font-family: Arial, sans-serif;
 }
-
-/* الحاوية */
 .container {
     width: 420px;
     min-height: 100vh;
@@ -22,21 +20,15 @@ body {
     text-align: center;
     color: white;
 }
-
-/* العناوين */
 .name { font-size: 28px; margin-top: 15px; color: red; text-shadow: 0 0 10px red; }
 .desc { margin: 10px; color: #ccc; }
 .title { font-size: 18px; margin-bottom: 10px; }
-
-/* الشبكة */
 .grid {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 10px;
     padding: 10px;
 }
-
-/* المربعات */
 .box {
     position: relative;
     aspect-ratio: 1/1;
@@ -45,7 +37,6 @@ body {
     cursor: pointer;
     box-shadow: 0 0 10px red;
 }
-
 .box img,
 .box iframe {
     width: 100%;
@@ -53,8 +44,6 @@ body {
     object-fit: cover;
     display: block;
 }
-
-/* عارض الصور */
 .viewer {
     position: fixed;
     inset: 0;
@@ -65,15 +54,7 @@ body {
     flex-direction: column;
     z-index: 1000;
 }
-
-/* صورة العارض */
-.viewer img {
-    max-width: 90%;
-    border-radius: 10px;
-    position: relative;
-}
-
-/* زر اغلاق داخل العارض */
+.viewer img { max-width: 90%; border-radius: 10px; position: relative; }
 .viewer .close-btn {
     position: absolute;
     bottom: 20px;
@@ -85,8 +66,6 @@ body {
     cursor: pointer;
     z-index: 1001;
 }
-
-/* نافذة تأكيد الخروج */
 #exitConfirm {
     display:none;
     position:fixed;
@@ -98,32 +77,11 @@ body {
     flex-direction:column;
     color:white;
 }
-
-#exitConfirm div {
-    background:#111;
-    padding:30px;
-    border-radius:12px;
-    text-align:center;
-}
-
-#exitConfirm p {
-    font-size:18px;
-    margin-bottom:20px;
-}
-
-#exitConfirm button {
-    margin:5px;
-    padding:10px 20px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-    color:white;
-}
-
+#exitConfirm div { background:#111; padding:30px; border-radius:12px; text-align:center; }
+#exitConfirm p { font-size:18px; margin-bottom:20px; }
+#exitConfirm button { margin:5px; padding:10px 20px; border:none; border-radius:8px; cursor:pointer; color:white; }
 #exitConfirm button.yes { background:red; }
 #exitConfirm button.no { background:gray; }
-
-/* أزرار الفيديو الدائرية */
 #videoControls {
     display:none;
     position:fixed;
@@ -133,18 +91,8 @@ body {
     z-index:999;
 }
 #videoControls button {
-    width:50px;
-    height:50px;
-    border-radius:50%;
-    margin:5px;
-    background:red;
-    border:none;
-    cursor:pointer;
-    color:white;
-    font-size:18px;
+    width:50px; height:50px; border-radius:50%; margin:5px; background:red; border:none; cursor:pointer; color:white; font-size:18px;
 }
-
-/* زر الرجوع المستطيل */
 #backToPage {
     position:fixed;
     bottom:90px;
@@ -161,7 +109,6 @@ body {
 }
 </style>
 </head>
-
 <body>
 
 <div class="container">
@@ -171,74 +118,39 @@ body {
 <div class="title">عنوان الصفحة</div>
 
 <div class="grid">
-
-<!-- صور -->
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png">
-</div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-103054.png" data-full="Screenshot_20260329-103054.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181836.png" data-full="Screenshot_20260329-181836.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093641.png" data-full="Screenshot_20260401-093641.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203417.png" data-full="Screenshot_20260401-203417.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758.png" data-full="Screenshot_20260401-093758.png"></div>
 
 <!-- فيديو Vimeo -->
-<div class="box video-box" onclick="toggleVideo(this)">
-<iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<div class="box video-box" onclick="startVideo()">
+<iframe id="vimeoVideo" src="https://player.vimeo.com/video/1180429598?background=1&muted=0" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
 </div>
 
-<!-- باقي الصور -->
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png">
-</div>
-
-<div class="box" onclick="openImg(this)">
-<img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png">
-</div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-183322.png" data-full="Screenshot_20260329-183322.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-093758~2.png" data-full="Screenshot_20260401-093758~2.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260401-203547.png" data-full="Screenshot_20260401-203547.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-210804.png" data-full="Screenshot_20260329-210804.png"></div>
+<div class="box" onclick="openImg(this)"><img src="Screenshot_20260329-181240.png" data-full="Screenshot_20260329-181240.png"></div>
 
 </div>
 </div>
 
-<!-- عارض الصور -->
 <div class="viewer" id="viewer">
     <img id="viewerImg">
     <button class="close-btn" onclick="closeViewer()">اغلاق الصورة ✕</button>
 </div>
 
-<!-- أزرار الفيديو الدائرية -->
 <div id="videoControls">
     <button id="btnLeft">⏯️</button>
     <button id="btnCenter">🔗</button>
     <button id="btnRight">🔇</button>
 </div>
 
-<!-- زر الرجوع المستطيل -->
 <button id="backToPage">الرجوع</button>
 
-<!-- نافذة تأكيد الخروج -->
 <div id="exitConfirm">
     <div>
         <p>هل أنت متأكد من أنك تريد الخروج من الموقع؟</p>
@@ -247,69 +159,57 @@ body {
     </div>
 </div>
 
+<script src="https://player.vimeo.com/api/player.js"></script>
 <script>
+let iframe = document.getElementById("vimeoVideo");
+let player = new Vimeo.Player(iframe);
+let videoControls = document.getElementById("videoControls");
 let vimeoPlaying = false;
 let videoMuted = false;
-let iframe = document.getElementById("vimeoVideo");
-let videoControls = document.getElementById("videoControls");
 
 /* فتح صورة */
 function openImg(el) {
-    let img = el.querySelector("img");
-    document.getElementById("viewerImg").src = img.dataset.full;
+    document.getElementById("viewerImg").src = el.querySelector("img").dataset.full;
     document.getElementById("viewer").style.display = "flex";
 }
+function closeViewer() { document.getElementById("viewer").style.display = "none"; }
 
-/* اغلاق الصور */
-function closeViewer() {
-    document.getElementById("viewer").style.display = "none";
-}
-
-/* تشغيل/إيقاف الفيديو */
-function toggleVideo(box) {
-    if (!vimeoPlaying) {
-        iframe.src = "https://player.vimeo.com/video/1180429598?autoplay=1";
-        videoControls.style.display = "flex"; // تظهر الأزرار فقط عند تشغيل الفيديو
+/* تشغيل الفيديو وعرض الأزرار */
+function startVideo() {
+    player.play().then(() => {
+        videoControls.style.display = "flex";
         vimeoPlaying = true;
-    } else {
-        iframe.src = "https://player.vimeo.com/video/1180429598?background=1";
-        videoControls.style.display = "none";
-        vimeoPlaying = false;
-    }
+    }).catch(() => { console.log("خطأ في تشغيل الفيديو"); });
 }
 
-/* زر يمين - كتم/تشغيل الصوت */
+/* زر يسار ⏯️ */
+document.getElementById("btnLeft").onclick = function() {
+    player.getPaused().then(paused => {
+        if(paused) player.play();
+        else player.pause();
+    });
+};
+
+/* زر يمين 🔇 */
 document.getElementById("btnRight").onclick = function() {
     videoMuted = !videoMuted;
-    iframe.src = iframe.src.split("?")[0] + "?autoplay=1" + (videoMuted ? "&muted=1" : "");
-}
+    if(videoMuted) player.setVolume(0);
+    else player.setVolume(1);
+};
 
-/* زر وسط - فتح رابط */
+/* زر وسط 🔗 */
 document.getElementById("btnCenter").onclick = function() {
     window.location.href = "مسار.html";
-}
-
-/* زر يسار - استئناف/إيقاف الفيديو */
-document.getElementById("btnLeft").onclick = function() {
-    toggleVideo({});
-}
+};
 
 /* زر الرجوع المستطيل */
 document.getElementById("backToPage").onclick = function() {
     document.getElementById("exitConfirm").style.display = "flex";
-}
+};
+document.querySelector("#exitConfirm .yes").onclick = function() { window.location.href="مسار.html"; };
+document.querySelector("#exitConfirm .no").onclick = function() { document.getElementById("exitConfirm").style.display="none"; };
 
-/* زر نعم في نافذة التأكيد */
-document.querySelector("#exitConfirm .yes").onclick = function() {
-    window.location.href = "مسار.html";
-}
-
-/* زر لا لإلغاء الرجوع */
-document.querySelector("#exitConfirm .no").onclick = function() {
-    document.getElementById("exitConfirm").style.display = "none";
-}
-
-/* زر الرجوع الافتراضي - يظهر نافذة التأكيد فقط عند الضغط على الرجوع */
+/* زر الرجوع الافتراضي */
 let backPressed = false;
 history.pushState({page:1},"");
 window.addEventListener('popstate', function(event){
@@ -317,9 +217,7 @@ window.addEventListener('popstate', function(event){
         document.getElementById("exitConfirm").style.display = "flex";
         history.pushState({page:1},"");
         backPressed = true;
-    } else {
-        history.back();
-    }
+    } else { history.back(); }
 });
 </script>
 
