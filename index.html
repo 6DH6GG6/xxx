@@ -15,175 +15,96 @@ font-family:Tahoma;
 
 body{
 min-height:100vh;
-background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
-background-size:cover;
-color:white;
-padding:20px;
 display:flex;
 justify-content:center;
 align-items:center;
-}
-
-.container{
-width:100%;
-max-width:1250px;
-background:rgba(0,0,0,.55);
-border:2px solid rgba(255,0,0,.35);
-border-radius:22px;
-padding:25px;
-box-shadow:0 0 25px rgba(255,0,0,.35);
+flex-direction:column;
+color:white;
 text-align:center;
+
+/* خلفية الكمبيوتر */
+background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
+background-size:cover;
+padding:20px;
 }
 
-/* الشعار */
+/* شعار */
 .logo{
-width:230px;
+width:180px;
 max-width:90%;
-display:block;
-margin:auto;
+margin-bottom:10px;
 }
 
 h1{
-margin-top:10px;
-font-size:56px;
-color:#c40000;
-text-shadow:0 0 18px red;
-letter-spacing:3px;
+font-size:50px;
+color:#d80000;
+text-shadow:0 0 15px red;
 }
 
 h2{
-font-size:28px;
+font-size:24px;
+margin-bottom:30px;
 color:#ddd;
-margin-bottom:35px;
 }
 
-/* شبكة المثلثات مثل الصورة تماما */
+/* شبكة الأزرار */
 .menu{
 display:grid;
-grid-template-columns:repeat(3, 240px);
-justify-content:center;
+grid-template-columns:repeat(3, 220px);
 gap:0;
-row-gap:12px;
+row-gap:14px;
+justify-content:center;
 }
 
-/* زر مثلث */
-.tri{
-width:240px;
-height:205px;
-background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center;
+/* الزر */
+.item{
+display:flex;
+flex-direction:column;
+align-items:center;
+margin-top:0;
+}
+
+/* المثلث */
+.btn{
+width:220px;
+height:190px;
+background:url('btn.png') no-repeat center center;
 background-size:100% 100%;
 clip-path:polygon(50% 0%,100% 100%,0% 100%);
-display:flex;
-align-items:flex-end;
-justify-content:center;
-padding:22px;
-text-decoration:none;
 cursor:pointer;
 transition:.3s;
-filter:drop-shadow(0 0 8px rgba(255,0,0,.45));
 }
 
-.tri:hover{
-transform:scale(1.03);
-filter:drop-shadow(0 0 16px red);
-}
-
-.tri span{
-font-size:21px;
-font-weight:bold;
-text-shadow:0 0 10px red;
-line-height:1.4;
+.btn:hover{
+transform:scale(1.05);
+filter:drop-shadow(0 0 15px red);
 }
 
 /* الصف الثاني مقلوب */
-.down{
+.down .btn{
 clip-path:polygon(0 0,100% 0,50% 100%);
 }
 
-/* يرفع الصف الثاني مثل الصورة */
-.row2{
-margin-top:-52px;
+/* رفع الصف الثاني */
+.down{
+margin-top:-45px;
 }
 
-/* النوافذ */
-.popup{
-display:none;
-position:fixed;
-inset:0;
-background:rgba(0,0,0,.82);
-z-index:999;
-justify-content:center;
-align-items:center;
-padding:15px;
+/* الاسم تحت الزر */
+.name{
+margin-top:8px;
+font-size:20px;
+font-weight:bold;
+text-shadow:0 0 10px red;
 }
 
-.box{
-width:100%;
-max-width:430px;
-background:#0a0000;
-border:2px solid red;
-border-radius:18px;
-padding:20px;
-box-shadow:0 0 25px red;
-}
-
-.box h3{
-margin-bottom:15px;
-color:red;
-font-size:24px;
-}
-
-.box a{
-display:block;
-padding:12px;
-margin:10px 0;
-background:#180000;
-border:1px solid red;
-border-radius:12px;
-color:#fff;
-text-decoration:none;
-}
-
-.box a:hover{
-background:red;
-}
-
-.close{
-margin-top:10px;
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-background:#333;
-color:#fff;
-cursor:pointer;
-}
-
-/* تابلت */
-@media(max-width:1000px){
-.menu{
-grid-template-columns:repeat(3,190px);
-}
-.tri{
-width:190px;
-height:165px;
-}
-.tri span{
-font-size:16px;
-}
-}
-
-/* هاتف مطابق للصورة */
+/* الهاتف */
 @media(max-width:768px){
 
 body{
-background:url('phone-bg.png') no-repeat center center fixed;
+/* خلفية الهاتف */
+background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center fixed;
 background-size:cover;
-padding:10px;
-}
-
-.container{
-padding:12px;
 }
 
 .logo{
@@ -192,38 +113,39 @@ width:130px;
 
 h1{
 font-size:32px;
-letter-spacing:1px;
 }
 
 h2{
-font-size:17px;
-margin-bottom:18px;
+font-size:18px;
+margin-bottom:20px;
 }
 
 .menu{
-grid-template-columns:repeat(3,105px);
+grid-template-columns:repeat(3, 105px);
 row-gap:8px;
 }
 
-.tri{
+.item{
+margin-top:0;
+}
+
+.btn{
 width:105px;
 height:92px;
-padding:10px;
 }
 
-.tri span{
+.down{
+margin-top:-18px;
+}
+
+.name{
 font-size:11px;
-}
-
-.row2{
-margin-top:-22px;
+margin-top:5px;
 }
 }
 </style>
 </head>
 <body>
-
-<div class="container">
 
 <img src="logo.png" class="logo">
 
@@ -232,65 +154,37 @@ margin-top:-22px;
 
 <div class="menu">
 
-<a href="index2.html" class="tri"><span>قاعدة بيانات</span></a>
-
-<a href="index2.html" class="tri"><span>تحميل ملفات</span></a>
-
-<div class="tri" onclick="openMembers()">
-<span>جميع أسماء الأعضاء</span>
+<div class="item">
+<div class="btn"></div>
+<div class="name">قاعدة بيانات</div>
 </div>
 
-<div class="tri down row2" onclick="openJoin()">
-<span>تسجيل الإنضمام</span>
+<div class="item">
+<div class="btn"></div>
+<div class="name">تحميل ملفات</div>
 </div>
 
-<a href="index2.html" class="tri down row2">
-<span>فضائح عصابات</span>
-</a>
-
-<a href="index2.html" class="tri down row2">
-<span>قوانين الدعس</span>
-</a>
-
-</div>
+<div class="item">
+<div class="btn"></div>
+<div class="name">جميع أسماء الأعضاء</div>
 </div>
 
-<!-- أعضاء -->
-<div class="popup" id="membersBox">
-<div class="box">
-<h3>أعضاء الطائفة</h3>
-<a href="#">العضو 01</a>
-<a href="#">العضو 02</a>
-<a href="#">العضو 03</a>
-<button class="close" onclick="closeAll()">إغلاق</button>
-</div>
+<div class="item down">
+<div class="btn"></div>
+<div class="name">تسجيل الإنضمام</div>
 </div>
 
-<!-- تسجيل -->
-<div class="popup" id="joinBox">
-<div class="box">
-<h3>تسجيل الإنضمام</h3>
-<a href="#">تقديم طلب</a>
-<a href="#">شروط القبول</a>
-<a href="#">متابعة الطلب</a>
-<button class="close" onclick="closeAll()">إغلاق</button>
-</div>
+<div class="item down">
+<div class="btn"></div>
+<div class="name">فضائح عصابات</div>
 </div>
 
-<script>
-function openMembers(){
-document.getElementById("membersBox").style.display="flex";
-}
+<div class="item down">
+<div class="btn"></div>
+<div class="name">قوانين الدعس</div>
+</div>
 
-function openJoin(){
-document.getElementById("joinBox").style.display="flex";
-}
-
-function closeAll(){
-document.getElementById("membersBox").style.display="none";
-document.getElementById("joinBox").style.display="none";
-}
-</script>
+</div>
 
 </body>
 </html>
