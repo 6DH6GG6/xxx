@@ -21,14 +21,12 @@ align-items:center;
 flex-direction:column;
 color:white;
 text-align:center;
-
-/* 🔥 الخلفية الجديدة */
 background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
 background-size:cover;
 position:relative;
+overflow:hidden;
 }
 
-/* 🔴 طبقة سواد + دمج */
 body::before{
 content:"";
 position:absolute;
@@ -39,7 +37,6 @@ backdrop-filter:blur(3px);
 z-index:0;
 }
 
-/* كل شيء فوق الطبقة */
 body *{
 position:relative;
 z-index:1;
@@ -48,7 +45,6 @@ z-index:1;
 /* شعار */
 .logo{
 width:180px;
-max-width:90%;
 margin-bottom:10px;
 filter:drop-shadow(0 0 10px red);
 }
@@ -57,7 +53,6 @@ h1{
 font-size:50px;
 color:#ff0000;
 text-shadow:0 0 20px red, 0 0 40px #ff0000;
-letter-spacing:2px;
 }
 
 h2{
@@ -81,40 +76,34 @@ flex-direction:column;
 align-items:center;
 }
 
-/* 🔺 الزر */
+/* الزر */
 .btn{
 width:220px;
 height:190px;
 background:linear-gradient(145deg,#0a0a0a,#1a0000);
 clip-path:polygon(50% 0%,100% 100%,0% 100%);
 cursor:pointer;
-transition:.3s;
+transition:.4s;
 position:relative;
 overflow:hidden;
-
-/* 🔥 إطار أحمر */
 box-shadow:0 0 10px red inset, 0 0 10px red;
+display:flex;
+justify-content:center;
+align-items:flex-end;
+padding-bottom:15px;
 }
 
-/* توهج داخلي */
-.btn::before{
-content:"";
-position:absolute;
-width:100%;
-height:100%;
-background:radial-gradient(circle, rgba(255,0,0,0.4), transparent 70%);
-opacity:0;
-transition:.3s;
+/* نص داخل الزر */
+.btn span{
+font-size:18px;
+font-weight:bold;
+text-shadow:0 0 10px red,0 0 20px red;
 }
 
-/* Hover */
-.btn:hover{
-transform:scale(1.07);
-box-shadow:0 0 25px red, 0 0 40px red;
-}
-
-.btn:hover::before{
-opacity:1;
+/* تأثير الضغط */
+.btn:active{
+transform:scale(1.2);
+box-shadow:0 0 40px red,0 0 60px red;
 }
 
 /* الصف الثاني */
@@ -126,96 +115,106 @@ clip-path:polygon(0 0,100% 0,50% 100%);
 margin-top:-45px;
 }
 
-/* النص */
-.name{
-margin-top:8px;
-font-size:20px;
-font-weight:bold;
-text-shadow:0 0 10px red, 0 0 20px red;
+/* القائمة */
+.overlay{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.9);
+display:none;
+justify-content:center;
+align-items:center;
+flex-direction:column;
 }
 
-/* 📱 الهاتف */
-@media(max-width:768px){
-
-body{
-background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center fixed;
-background-size:cover;
+/* زر مسدسي */
+.hex{
+width:180px;
+height:100px;
+background:red;
+clip-path:polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+display:flex;
+justify-content:center;
+align-items:center;
+cursor:pointer;
+box-shadow:0 0 20px red;
+transition:.3s;
 }
 
-.logo{
-width:130px;
-}
-
-h1{
-font-size:32px;
-}
-
-h2{
-font-size:18px;
-margin-bottom:20px;
-}
-
-.menu{
-grid-template-columns:repeat(3, 105px);
-row-gap:8px;
-}
-
-.btn{
-width:105px;
-height:92px;
-}
-
-.down{
-margin-top:-18px;
-}
-
-.name{
-font-size:11px;
-margin-top:5px;
-}
+.hex:hover{
+transform:scale(1.1);
+box-shadow:0 0 40px red;
 }
 </style>
 </head>
+
 <body>
 
 <img src="logo.png" class="logo">
-
 <h1>KAGE NO TEIO</h1>
 <h2>(SHADOW)</h2>
 
 <div class="menu">
 
 <div class="item">
-<div class="btn"></div>
-<div class="name">قاعدة بيانات</div>
+<div class="btn" onclick="go('db.html')"><span>قاعدة بيانات</span></div>
 </div>
 
 <div class="item">
-<div class="btn"></div>
-<div class="name">تحميل ملفات</div>
+<div class="btn" onclick="go('files.html')"><span>تحميل ملفات</span></div>
 </div>
 
 <div class="item">
-<div class="btn"></div>
-<div class="name">جميع أسماء الأعضاء</div>
+<div class="btn" onclick="openMembers()"><span>أسماء الأعضاء</span></div>
 </div>
 
 <div class="item down">
-<div class="btn"></div>
-<div class="name">تسجيل الإنضمام</div>
+<div class="btn" onclick="openJoin()"><span>تسجيل الإنضمام</span></div>
 </div>
 
 <div class="item down">
-<div class="btn"></div>
-<div class="name">فضائح عصابات</div>
+<div class="btn" onclick="go('leaks.html')"><span>فضائح عصابات</span></div>
 </div>
 
 <div class="item down">
-<div class="btn"></div>
-<div class="name">قوانين الدعس</div>
+<div class="btn" onclick="go('rules.html')"><span>قوانين الدعس</span></div>
 </div>
 
 </div>
+
+<!-- قائمة الأعضاء -->
+<div class="overlay" id="members">
+<h2>أعضاء الطائفة</h2>
+</div>
+
+<!-- قائمة التسجيل -->
+<div class="overlay" id="join">
+<h2>انضمام لطائفة الظلام</h2>
+<div class="hex" onclick="start()">START</div>
+</div>
+
+<script>
+function go(link){
+event.target.closest('.btn').style.transform="scale(1.3)";
+setTimeout(()=>{window.location=link},1000);
+}
+
+function openMembers(){
+document.getElementById("members").style.display="flex";
+}
+
+function openJoin(){
+document.getElementById("join").style.display="flex";
+}
+
+function start(){
+fetch('/api/send',{
+method:'POST'
+});
+}
+</script>
 
 </body>
 </html>
