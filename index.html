@@ -93,7 +93,7 @@ width:100%;
 /* ===== BUTTON ===== */
 .btn{
 position:relative;
-aspect-ratio: 4/3; /* يخلي الحجم ثابت */
+aspect-ratio: 4/3;
 background-size:cover;
 background-position:center;
 cursor:pointer;
@@ -110,15 +110,24 @@ inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-/* text */
+/* ===== TEXT FIX 🔥 ===== */
 .btn span{
 position:absolute;
 bottom:15px;
 left:50%;
 transform:translateX(-50%);
-font-size:clamp(12px, 2vw, 18px);
+
+width:90%;
+text-align:center;
+
+font-size:clamp(11px, 1.6vw, 16px);
 font-weight:bold;
+line-height:1.2;
+
 text-shadow:0 0 10px #00eaff;
+
+/* يمنع الخروج */
+overflow:hidden;
 }
 
 /* hover */
@@ -127,26 +136,18 @@ transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
 }
 
-/* ===== SMALL SCREENS ===== */
+/* ===== MOBILE ===== */
 @media(max-width:600px){
-
 .menu{
 gap:12px;
 }
-
-.btn span{
-font-size:12px;
-}
-
 }
 
 /* ===== VERY SMALL ===== */
 @media(max-width:350px){
-
 .menu{
 grid-template-columns:repeat(2, 1fr);
 }
-
 }
 
 </style>
@@ -154,7 +155,7 @@ grid-template-columns:repeat(2, 1fr);
 
 <body>
 
-<!-- SOCIAL -->
+<!-- FACEBOOK -->
 <div class="social">
 <a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">F</a>
 </div>
@@ -167,17 +168,29 @@ grid-template-columns:repeat(2, 1fr);
 <!-- MENU -->
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
+<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
+<span>أنمي</span>
+</div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
+<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
+<span>فضائح<br>عصابات</span>
+</div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
+<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
+<span>قوانين<br>الدعس</span>
+</div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
+<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
+<span>ترسيم<br>أعضاء</span>
+</div>
 
-<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
+<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')">
+<span>أسماء<br>الظلال</span>
+</div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
+<span>تحميل<br>ملفات</span>
+</div>
 
 </div>
 
