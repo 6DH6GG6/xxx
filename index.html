@@ -11,7 +11,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Tahome;
+font-family:Tahoma;
 }
 
 body{
@@ -20,17 +20,17 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:url('bg.jpg') center/cover no-repeat;
+background:url('Background/bg.jpg') center/cover no-repeat;
 color:white;
 overflow:hidden;
+position:relative;
 }
 
 /* طبقة غامقة */
 body::before{
 content:"";
 position:absolute;
-width:100%;
-height:100%;
+inset:0;
 background:rgba(0,0,0,0.5);
 z-index:0;
 }
@@ -40,37 +40,25 @@ position:relative;
 z-index:1;
 }
 
-/* ===== الشعار (PNG) ===== */
+/* الشعار */
 .logo{
-width:320px;
-margin-bottom:30px;
+width:300px;
+margin-bottom:25px;
 filter:drop-shadow(0 0 20px #00eaff);
 }
 
-/* ===== الشبكة ===== */
+/* الشبكة */
 .menu{
-display:flex;
-flex-direction:column;
-align-items:center;
-gap:30px;
+display:grid;
+grid-template-columns:repeat(3, 260px);
+gap:25px;
+justify-content:center;
 }
 
-/* الصف */
-.row{
-display:flex;
-gap:20px;
-}
-
-/* الصف السفلي */
-.row.bottom{
-margin-top:-90px;
-}
-
-/* ===== زر سداسي مائل ===== */
+/* زر سداسي */
 .hex{
 width:260px;
 height:220px;
-
 clip-path:polygon(
 25% 0%,
 75% 0%,
@@ -80,31 +68,26 @@ clip-path:polygon(
 0% 50%
 );
 
-position:relative;
 cursor:pointer;
 overflow:hidden;
 transition:.3s;
-
-/* إطار أزرق */
 border:4px solid rgba(0,200,255,0.8);
-box-shadow:
-0 0 15px #00eaff,
-0 0 40px rgba(0,200,255,0.6);
+box-shadow:0 0 15px #00eaff;
+position:relative;
 }
 
-/* الصورة داخل الزر */
+/* الصورة */
 .hex img{
 width:100%;
 height:100%;
 object-fit:cover;
 }
 
-/* طبقة إضاءة */
+/* overlay */
 .hex::after{
 content:"";
 position:absolute;
-width:100%;
-height:100%;
+inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
@@ -122,20 +105,14 @@ text-shadow:0 0 10px #000;
 
 /* hover */
 .hex:hover{
-transform:scale(1.08);
-filter:brightness(1.2);
-box-shadow:
-0 0 30px #00eaff,
-0 0 80px #00eaff;
+transform:scale(1.05);
+box-shadow:0 0 30px #00eaff;
 }
 
-/* ===== overlay ===== */
+/* overlay */
 .overlay{
 position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
+inset:0;
 background:#000;
 display:none;
 justify-content:center;
@@ -143,85 +120,54 @@ align-items:center;
 flex-direction:column;
 }
 
-/* زر START */
+/* زر */
 .start{
 padding:15px 40px;
 background:#00eaff;
 border:none;
 cursor:pointer;
 font-weight:bold;
+margin-top:15px;
 }
 
-/* 📱 موبايل */
-@media(max-width:768px){
-
-.row{
-flex-direction:column;
-}
-
-.row.bottom{
-margin-top:0;
+/* موبايل */
+@media(max-width:900px){
+.menu{
+grid-template-columns:1fr;
 }
 
 .hex{
-width:85%;
-height:180px;
+width:80%;
+margin:auto;
 }
 
 .logo{
 width:200px;
 }
-
 }
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 الشعار PNG -->
-<img src="file_0000000066f471f7a9d478b981699827.png" class="logo">
-<!-- حط هنا صورة Kage No Teio (shadow) شفافة -->
+<!-- 🔥 الشعار (Developer) -->
+<img src="Developer/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <div class="menu">
 
-<!-- الصف العلوي -->
-<div class="row">
-
-<div class="hex" onclick="go('index.html')">
-<img src="team.jpg">
-<span>TEAM</span>
+<div class="hex" onclick="go('background.html')">
+<img src="Pictures/team.jpg">
+<span>Background</span>
 </div>
 
-<div class="hex" onclick="go('index.html')">
-<img src="story.jpg">
-<span>STORY</span>
+<div class="hex" onclick="go('developers.html')">
+<img src="Pictures/story.jpg">
+<span>Developers</span>
 </div>
 
 <div class="hex" onclick="openMembers()">
-<img src="challenge.jpg">
-<span>CHALLENGE</span>
-</div>
-
-</div>
-
-<!-- الصف السفلي -->
-<div class="row bottom">
-
-<div class="hex" onclick="openJoin()">
-<img src="arena.jpg">
-<span>ARENA</span>
-</div>
-
-<div class="hex" onclick="go('index.html')">
-<img src="fairplay.jpg">
-<span>Fair Play</span>
-</div>
-
-<div class="hex" onclick="go('index.html')">
-<img src="training.jpg">
-<span>TRAINING</span>
-</div>
-
+<img src="Pictures/challenge.jpg">
+<span>Pictures</span>
 </div>
 
 </div>
@@ -239,23 +185,14 @@ width:200px;
 
 <script>
 function go(page){
-window.location=page;
+window.location = page;
 }
 
 function openMembers(){
 document.getElementById("members").style.display="flex";
 }
 
-function openJoin(){
-document.getElementById("join").style.display="flex";
-}
-
 function start(){
-fetch('/api/send', {
-method:'POST',
-headers:{'Content-Type':'application/json'},
-body:JSON.stringify({status:"join_request"})
-});
 alert("تم الإرسال");
 }
 </script>
