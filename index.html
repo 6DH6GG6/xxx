@@ -48,6 +48,33 @@ max-width:1200px;
 padding:20px;
 }
 
+/* ===== SOCIAL ===== */
+.social{
+position:fixed;
+right:15px;
+top:15px;
+z-index:999;
+}
+
+.social a{
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#1877f2;
+color:white;
+font-weight:bold;
+text-decoration:none;
+transition:0.3s;
+}
+
+.social a:hover{
+transform:scale(1.2);
+box-shadow:0 0 20px #1877f2;
+}
+
 /* ===== LOGO ===== */
 .logo{
 width:clamp(200px,40vw,340px);
@@ -72,9 +99,27 @@ background-position:center;
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
-transition:0.2s;
+transition:0.25s;
 }
 
+/* overlay */
+.btn::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+}
+
+/* glow */
+.btn::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg, transparent, rgba(0,234,255,0.3), transparent);
+opacity:0;
+}
+
+/* TEXT */
 .btn span{
 position:absolute;
 bottom:15px;
@@ -82,21 +127,68 @@ left:50%;
 transform:translateX(-50%);
 width:90%;
 text-align:center;
-font-size:14px;
+font-size:clamp(11px,1.6vw,16px);
 font-weight:bold;
+line-height:1.2;
 text-shadow:0 0 10px #00eaff;
 }
 
+/* hover */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
+}
+
+.btn:hover::after{
+opacity:1;
+animation:glowMove 1s linear;
+}
+
+@keyframes glowMove{
+0%{transform:translateX(-100%);}
+100%{transform:translateX(100%);}
+}
+
+/* ضغط */
+.btn:active{
+transform:scale(0.92);
+box-shadow:0 0 15px #00eaff inset;
+}
+
+/* ===== FADE ===== */
+.fade{
+position:fixed;
+inset:0;
+background:black;
+opacity:0;
+display:flex;
+justify-content:center;
+align-items:center;
+transition:0.5s;
+z-index:9999;
+}
+
+.fade.active{
+opacity:1;
+}
+
+.loading{
+color:#00eaff;
+font-size:20px;
+letter-spacing:3px;
+animation:blink 1s infinite;
+}
+
+@keyframes blink{
+0%,100%{opacity:1;}
+50%{opacity:0.3;}
 }
 
 /* ===== POPUP ===== */
 .popup{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.8);
+background:rgba(0,0,0,0.85);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -119,58 +211,50 @@ max-width:400px;
 border-radius:15px;
 text-align:center;
 box-shadow:0 0 40px #00eaff;
-
-transform:scale(0.7) translateY(40px);
-opacity:0;
-transition:0.4s;
+transform:scale(0.7);
+transition:0.3s;
 }
 
 .popup.active .popup-box{
-transform:scale(1) translateY(0);
-opacity:1;
+transform:scale(1);
 }
 
-/* زر إغلاق */
 .close{
 position:absolute;
 top:15px;
 right:20px;
 cursor:pointer;
-font-size:20px;
 color:#00eaff;
 }
 
-/* وصف */
-.desc{
-margin-bottom:15px;
-color:#aaa;
-font-size:13px;
-}
-
-/* قائمة الأسماء */
+/* أسماء */
 .names{
 max-height:200px;
 overflow-y:auto;
-padding:10px;
-border-top:1px solid rgba(255,255,255,0.1);
+margin-top:10px;
 }
 
-/* اسم */
 .name{
 padding:8px;
 margin:5px 0;
-background:rgba(0,0,0,0.5);
-border-radius:8px;
-
-/* glow */
-text-shadow:0 0 8px #00eaff;
+background:#111;
+border-radius:6px;
+text-shadow:0 0 10px #00eaff;
 animation:glow 2s infinite alternate;
 }
 
-/* أنيميشن توهج */
 @keyframes glow{
-from{ text-shadow:0 0 5px #00eaff; }
-to{ text-shadow:0 0 20px #00eaff; }
+from{ text-shadow:0 0 5px #00eaff;}
+to{ text-shadow:0 0 20px #00eaff;}
+}
+
+/* ===== RESPONSIVE ===== */
+@media(max-width:600px){
+.menu{gap:12px;}
+}
+
+@media(max-width:350px){
+.menu{grid-template-columns:repeat(2,1fr);}
 }
 
 </style>
@@ -178,23 +262,46 @@ to{ text-shadow:0 0 20px #00eaff; }
 
 <body>
 
+<audio id="clickSound" src="click.mp3"></audio>
+
+<div id="fade" class="fade">
+<div class="loading">LOADING...</div>
+</div>
+
+<div class="social">
+<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">F</a>
+</div>
+
 <div class="container">
 
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <div class="menu">
 
-<div class="btn"><span>أنمي</span></div>
-<div class="btn"><span>فضائح عصابات</span></div>
-<div class="btn"><span>قوانين الدعس</span></div>
-<div class="btn"><span>ترسيم أعضاء</span></div>
-
-<!-- 🔥 زر الظلال -->
-<div class="btn" onclick="openShadows()">
-<span>أسماء الظلال</span>
+<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
+<span>أنمي</span>
 </div>
 
-<div class="btn"><span>تحميل ملفات</span></div>
+<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
+<span>فضائح<br>عصابات</span>
+</div>
+
+<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
+<span>قوانين<br>الدعس</span>
+</div>
+
+<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
+<span>ترسيم<br>أعضاء</span>
+</div>
+
+<!-- 👇 هذا هو الزر المعدل -->
+<div class="btn" onclick="openPopup()" style="background-image:url('Pictures/20260426_160850.png')">
+<span>أسماء<br>الظلال</span>
+</div>
+
+<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
+<span>تحميل<br>ملفات</span>
+</div>
 
 </div>
 
@@ -207,14 +314,13 @@ to{ text-shadow:0 0 20px #00eaff; }
 
 <span class="close" onclick="closePopup()">✕</span>
 
-<h2>أسماء الظلال</h2>
+<h3>أسماء الظلال</h3>
 
-<p class="desc">
+<p style="font-size:13px;color:#aaa;">
 اعضاء السابقين و الحاضرين في طائفة الظلام
 </p>
 
 <div class="names">
-
 <div class="name">Shadow</div>
 <div class="name">Alpha</div>
 <div class="name">Beta</div>
@@ -224,9 +330,6 @@ to{ text-shadow:0 0 20px #00eaff; }
 <div class="name">Zeta</div>
 <div class="name">Eta</div>
 <div class="name">Theta</div>
-<div class="name">Lambda</div>
-<div class="name">Omega</div>
-
 </div>
 
 </div>
@@ -235,12 +338,25 @@ to{ text-shadow:0 0 20px #00eaff; }
 
 <script>
 
-/* فتح */
-function openShadows(){
+function go(page){
+let sound = document.getElementById("clickSound");
+let fade = document.getElementById("fade");
+
+if(sound){
+sound.play();
+}
+
+fade.classList.add("active");
+
+setTimeout(()=>{
+window.location.href = page;
+},2000);
+}
+
+function openPopup(){
 document.getElementById("popup").classList.add("active");
 }
 
-/* إغلاق */
 function closePopup(){
 document.getElementById("popup").classList.remove("active");
 }
