@@ -21,16 +21,17 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:url('Background/bg.png') center/cover no-repeat;
+background:url('Background/bg.jpg') center/cover no-repeat;
 overflow:hidden;
+color:white;
 }
 
-/* طبقة الظلام */
+/* طبقة تغميق */
 body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.7);
+background:rgba(0,0,0,0.65);
 z-index:0;
 }
 
@@ -73,7 +74,7 @@ background-color:transparent;
 filter:drop-shadow(0 10px 25px rgba(0,0,0,0.7));
 }
 
-/* تأثير hover */
+/* hover */
 .btn:hover{
 transform:scale(1.1);
 filter:drop-shadow(0 0 30px #00eaff);
@@ -86,32 +87,20 @@ filter:drop-shadow(0 0 30px #00eaff);
 margin-top:50px;
 }
 
-/* ===== الاستجابة بدون تخريب ===== */
+/* ===== استجابة بدون تخريب ===== */
 @media (max-width: 900px){
-.menu{
-transform:scale(0.8);
-}
-.logo{
-transform:scale(0.8);
-}
+.menu{ transform:scale(0.8); }
+.logo{ transform:scale(0.8); }
 }
 
 @media (max-width: 600px){
-.menu{
-transform:scale(0.65);
-}
-.logo{
-transform:scale(0.65);
-}
+.menu{ transform:scale(0.65); }
+.logo{ transform:scale(0.65); }
 }
 
 @media (max-width: 400px){
-.menu{
-transform:scale(0.5);
-}
-.logo{
-transform:scale(0.5);
-}
+.menu{ transform:scale(0.5); }
+.logo{ transform:scale(0.5); }
 }
 
 </style>
@@ -119,23 +108,23 @@ transform:scale(0.5);
 
 <body>
 
-<!-- 🔥 اللوقو من مجلد Developer -->
-<img src="Developer/logo.png" class="logo">
+<!-- 🔥 اللوقو (من مجلد Developer) -->
+<img src="Developer/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <!-- 🔥 القائمة -->
 <div class="menu">
 
-<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/team.png')"></div>
+<div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_133305.png')"></div>
 
-<div class="btn" onclick="go('story.html')" style="background-image:url('Pictures/story.png')"></div>
+<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
 
-<div class="btn" onclick="go('challenge.html')" style="background-image:url('Pictures/challenge.png')"></div>
+<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
 
-<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/arena.png')"></div>
+<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
 
-<div class="btn" onclick="go('fairplay.html')" style="background-image:url('Pictures/fairplay.png')"></div>
+<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
 
-<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/training.png')"></div>
+<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
 
 </div>
 
