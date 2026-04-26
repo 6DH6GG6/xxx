@@ -6,6 +6,9 @@
 
 <title>Kage No Teio</title>
 
+<!-- 🔥 مكتبة 3D -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
 <style>
 
 /* ===== RESET ===== */
@@ -77,6 +80,8 @@ justify-content:center;
 border-radius:50%;
 background:#111;
 transition:0.3s;
+color:white;
+font-weight:bold;
 }
 
 .social a.fb{ background:#1877f2; }
@@ -89,8 +94,16 @@ box-shadow:0 0 20px currentColor;
 /* ===== LOGO ===== */
 .logo{
 width:340px;
-margin-bottom:20px;
+margin-bottom:10px;
 filter:drop-shadow(0 0 35px #00eaff);
+}
+
+/* ===== 3D CHARACTER ===== */
+.character{
+width:300px;
+height:380px;
+margin-bottom:20px;
+filter:drop-shadow(0 0 30px #00eaff);
 }
 
 /* ===== MENU ===== */
@@ -114,7 +127,6 @@ clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 transform-style:preserve-3d;
 }
 
-/* overlay */
 .btn::before{
 content:"";
 position:absolute;
@@ -122,7 +134,6 @@ inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-/* text */
 .btn span{
 position:absolute;
 bottom:20px;
@@ -133,20 +144,21 @@ font-weight:bold;
 text-shadow:0 0 10px #00eaff;
 }
 
-/* hover glow */
 .btn:hover{
 box-shadow:0 0 30px #00eaff;
 }
 
-/* ===== MOBILE SCALE ===== */
+/* ===== MOBILE ===== */
 @media(max-width:900px){
 .menu{transform:scale(0.8);}
 .logo{transform:scale(0.8);}
+.character{transform:scale(0.8);}
 }
 
 @media(max-width:600px){
 .menu{transform:scale(0.65);}
 .logo{transform:scale(0.65);}
+.character{transform:scale(0.65);}
 }
 
 </style>
@@ -168,6 +180,17 @@ box-shadow:0 0 30px #00eaff;
 <!-- LOGO -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
+<!-- 🔥 الشخصية 3D -->
+<model-viewer 
+class="character"
+src="3D/CT_1001_01_body_Color1.glb"
+auto-rotate
+camera-controls
+disable-zoom
+exposure="1"
+shadow-intensity="1">
+</model-viewer>
+
 <!-- MENU -->
 <div class="menu">
 
@@ -182,23 +205,22 @@ box-shadow:0 0 30px #00eaff;
 
 <script>
 
-/* ===== LOADING ===== */
+/* LOADING */
 window.onload = () => {
 document.getElementById("loader").style.display = "none";
 document.body.classList.add("show");
 };
 
-/* ===== SOUND + NAV ===== */
+/* SOUND */
 function go(page){
 document.getElementById("clickSound").play();
 document.body.style.opacity = "0";
-
 setTimeout(()=>{
 window.location.href = page;
 },400);
 }
 
-/* ===== 3D EFFECT ===== */
+/* 3D BUTTON EFFECT */
 document.querySelectorAll('.btn').forEach(btn=>{
 btn.addEventListener('mousemove', e=>{
 const rect = btn.getBoundingClientRect();
