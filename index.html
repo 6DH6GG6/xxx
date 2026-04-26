@@ -26,12 +26,13 @@ overflow:hidden;
 color:white;
 }
 
-/* طبقة تغميق */
+/* 🔥 طبقة احترافية (Blur + Glow) */
 body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.65);
+background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
+backdrop-filter:blur(4px);
 z-index:0;
 }
 
@@ -42,52 +43,93 @@ z-index:1;
 
 /* ===== اللوقو ===== */
 .logo{
-width:420px;
-margin-bottom:40px;
-filter:drop-shadow(0 0 25px #00eaff);
+width:380px;
+margin-bottom:30px;
+filter:drop-shadow(0 0 35px #00eaff);
+animation:fadeDown 1s ease;
 }
 
 /* ===== الشبكة ===== */
 .menu{
 display:grid;
-grid-template-columns:repeat(3, 260px);
-grid-template-rows:repeat(2, 210px);
-gap:35px;
+grid-template-columns:repeat(3, 240px);
+grid-template-rows:repeat(2, 200px);
+gap:30px;
 justify-content:center;
 }
 
 /* ===== الأزرار ===== */
 .btn{
-width:260px;
-height:210px;
+width:240px;
+height:200px;
 
 background-size:contain;
 background-repeat:no-repeat;
 background-position:center;
 
 cursor:pointer;
-transition:0.3s;
+transition:0.35s;
 
 border:none;
 background-color:transparent;
 
 filter:drop-shadow(0 10px 25px rgba(0,0,0,0.7));
+
+/* دخول */
+animation:fadeUp 1s ease;
 }
 
-/* hover */
+/* 🔥 تأثير احترافي */
 .btn:hover{
-transform:scale(1.1);
-filter:drop-shadow(0 0 30px #00eaff);
+transform:scale(1.12);
+filter:drop-shadow(0 0 35px #00eaff);
+}
+
+/* 🔥 glow إضافي */
+.btn::after{
+content:"";
+position:absolute;
+inset:0;
+border-radius:10px;
+box-shadow:0 0 0px transparent;
+transition:0.3s;
+}
+
+.btn:hover::after{
+box-shadow:0 0 25px #00eaff;
 }
 
 /* نزول الصف الثاني */
 .menu .btn:nth-child(4),
 .menu .btn:nth-child(5),
 .menu .btn:nth-child(6){
-margin-top:50px;
+margin-top:40px;
 }
 
-/* ===== استجابة بدون تخريب ===== */
+/* ===== أنيميشن ===== */
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeUp{
+from{
+opacity:0;
+transform:translateY(40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+/* ===== استجابة ===== */
 @media (max-width: 900px){
 .menu{ transform:scale(0.8); }
 .logo{ transform:scale(0.8); }
@@ -108,10 +150,10 @@ margin-top:50px;
 
 <body>
 
-<!-- 🔥 اللوقو (من مجلد Developer) -->
+<!-- اللوقو -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<!-- 🔥 القائمة -->
+<!-- القائمة -->
 <div class="menu">
 
 <div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_155749.png')"></div>
