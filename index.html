@@ -80,6 +80,7 @@ box-shadow:0 0 20px #1877f2;
 width:clamp(200px,40vw,340px);
 margin-bottom:25px;
 filter:drop-shadow(0 0 25px #00eaff);
+animation:fadeDown 1s ease;
 }
 
 /* ===== MENU ===== */
@@ -100,7 +101,20 @@ cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 transition:0.25s;
+
+/* ✨ دخول */
+opacity:0;
+transform:translateY(40px);
+animation:fadeUp 0.8s ease forwards;
 }
+
+/* ترتيب الأنيميشن */
+.btn:nth-child(1){animation-delay:0.2s;}
+.btn:nth-child(2){animation-delay:0.4s;}
+.btn:nth-child(3){animation-delay:0.6s;}
+.btn:nth-child(4){animation-delay:0.8s;}
+.btn:nth-child(5){animation-delay:1s;}
+.btn:nth-child(6){animation-delay:1.2s;}
 
 /* overlay */
 .btn::before{
@@ -153,6 +167,25 @@ animation:glowMove 1s linear;
 .btn:active{
 transform:scale(0.92);
 box-shadow:0 0 15px #00eaff inset;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 /* ===== FADE ===== */
@@ -278,30 +311,20 @@ to{ text-shadow:0 0 20px #00eaff;}
 
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
-<span>أنمي</span>
-</div>
+<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
-<span>فضائح<br>عصابات</span>
-</div>
+<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح<br>عصابات</span></div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
-<span>قوانين<br>الدعس</span>
-</div>
+<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين<br>الدعس</span></div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
-<span>ترسيم<br>أعضاء</span>
-</div>
+<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم<br>أعضاء</span></div>
 
-<!-- 👇 هذا هو الزر المعدل -->
+<!-- 👇 الظلال (Popup فقط) -->
 <div class="btn" onclick="openPopup()" style="background-image:url('Pictures/20260426_160850.png')">
 <span>أسماء<br>الظلال</span>
 </div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
-<span>تحميل<br>ملفات</span>
-</div>
+<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل<br>ملفات</span></div>
 
 </div>
 
@@ -329,7 +352,6 @@ to{ text-shadow:0 0 20px #00eaff;}
 <div class="name">Epsilon</div>
 <div class="name">Zeta</div>
 <div class="name">Eta</div>
-<div class="name">Theta</div>
 </div>
 
 </div>
@@ -343,6 +365,7 @@ let sound = document.getElementById("clickSound");
 let fade = document.getElementById("fade");
 
 if(sound){
+sound.currentTime = 0;
 sound.play();
 }
 
