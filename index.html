@@ -27,6 +27,7 @@ color:white;
 overflow:hidden;
 }
 
+/* طبقة */
 body::before{
 content:"";
 position:absolute;
@@ -80,7 +81,7 @@ box-shadow:0 0 20px #1877f2;
 width:clamp(200px,40vw,340px);
 margin-bottom:25px;
 filter:drop-shadow(0 0 25px #00eaff);
-animation:fadeDown 1s ease;
+animation:fadeDown 1s ease forwards;
 }
 
 /* ===== MENU ===== */
@@ -102,13 +103,13 @@ clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 transition:0.25s;
 
-/* ✨ دخول */
+/* 🔥 أنيميشن */
 opacity:0;
 transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
 }
 
-/* ترتيب الأنيميشن */
+/* ترتيب ظهور */
 .btn:nth-child(1){animation-delay:0.2s;}
 .btn:nth-child(2){animation-delay:0.4s;}
 .btn:nth-child(3){animation-delay:0.6s;}
@@ -186,35 +187,6 @@ to{
 opacity:1;
 transform:translateY(0);
 }
-}
-
-/* ===== FADE ===== */
-.fade{
-position:fixed;
-inset:0;
-background:black;
-opacity:0;
-display:flex;
-justify-content:center;
-align-items:center;
-transition:0.5s;
-z-index:9999;
-}
-
-.fade.active{
-opacity:1;
-}
-
-.loading{
-color:#00eaff;
-font-size:20px;
-letter-spacing:3px;
-animation:blink 1s infinite;
-}
-
-@keyframes blink{
-0%,100%{opacity:1;}
-50%{opacity:0.3;}
 }
 
 /* ===== POPUP ===== */
@@ -297,10 +269,6 @@ to{ text-shadow:0 0 20px #00eaff;}
 
 <audio id="clickSound" src="click.mp3"></audio>
 
-<div id="fade" class="fade">
-<div class="loading">LOADING...</div>
-</div>
-
 <div class="social">
 <a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">F</a>
 </div>
@@ -319,7 +287,6 @@ to{ text-shadow:0 0 20px #00eaff;}
 
 <div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم<br>أعضاء</span></div>
 
-<!-- 👇 الظلال (Popup فقط) -->
 <div class="btn" onclick="openPopup()" style="background-image:url('Pictures/20260426_160850.png')">
 <span>أسماء<br>الظلال</span>
 </div>
@@ -330,7 +297,7 @@ to{ text-shadow:0 0 20px #00eaff;}
 
 </div>
 
-<!-- 💀 POPUP -->
+<!-- POPUP -->
 <div id="popup" class="popup">
 
 <div class="popup-box">
@@ -362,15 +329,13 @@ to{ text-shadow:0 0 20px #00eaff;}
 
 function go(page){
 let sound = document.getElementById("clickSound");
-let fade = document.getElementById("fade");
 
 if(sound){
 sound.currentTime = 0;
 sound.play();
 }
 
-fade.classList.add("active");
-
+/* تأخير */
 setTimeout(()=>{
 window.location.href = page;
 },2000);
