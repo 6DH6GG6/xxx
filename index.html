@@ -7,174 +7,200 @@
 
 <style>
 *{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Tahoma;
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma;
 }
 
 body{
-    min-height:100vh;
-    color:white;
-    text-align:center;
-    background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed; /* خلفية الكمبيوتر */
-    background-size:cover;
-    padding:20px;
+min-height:100vh;
+color:white;
+text-align:center;
+background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
+background-size:cover;
+padding:20px;
 }
 
 .container{
-    width:100%;
-    max-width:1200px;
-    margin:auto;
-    background:rgba(0,0,0,0.55);
-    border:2px solid rgba(255,0,0,0.4);
-    border-radius:20px;
-    padding:20px;
-    box-shadow:0 0 25px rgba(255,0,0,0.4);
+max-width:1200px;
+margin:auto;
+background:rgba(0,0,0,0.55);
+border:2px solid rgba(255,0,0,0.4);
+border-radius:20px;
+padding:20px;
+box-shadow:0 0 25px rgba(255,0,0,0.4);
 }
 
 .logo{
-    width:180px;
-    max-width:90%;
-    margin:auto;
-    display:block;
+width:180px;
+max-width:90%;
+display:block;
+margin:auto;
 }
 
 h1{
-    color:#ff0000;
-    font-size:48px;
-    margin-top:15px;
-    text-shadow:0 0 15px red;
+color:#ff0000;
+font-size:48px;
+margin-top:15px;
+text-shadow:0 0 15px red;
 }
 
 h2{
-    color:#ddd;
-    margin-bottom:25px;
-    font-size:24px;
+color:#ddd;
+margin-bottom:30px;
+font-size:24px;
 }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:15px;
+/* شبكة سداسية */
+.hex-grid{
+display:grid;
+grid-template-columns:repeat(3, 220px);
+justify-content:center;
+gap:18px;
 }
 
-.btn{
-    height:170px;
-    background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center;
-    background-size:100% 100%;
-    cursor:pointer;
-    transition:0.3s;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:15px;
-    text-decoration:none;
+.hex{
+width:220px;
+height:190px;
+clip-path:polygon(25% 6%,75% 6%,100% 50%,75% 94%,25% 94%,0 50%);
+background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') center/cover no-repeat;
+border:2px solid rgba(255,0,0,0.5);
+display:flex;
+align-items:flex-end;
+justify-content:center;
+padding:18px;
+text-decoration:none;
+cursor:pointer;
+transition:.3s;
+box-shadow:0 0 15px rgba(255,0,0,.35);
 }
 
-.btn:hover{
-    transform:scale(1.05);
-    filter:drop-shadow(0 0 15px red);
+.hex:hover{
+transform:scale(1.05);
+box-shadow:0 0 22px red;
 }
 
-.btn span{
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    text-shadow:0 0 10px red;
+.hex span{
+font-size:18px;
+font-weight:bold;
+color:#fff;
+text-shadow:0 0 12px red;
+line-height:1.4;
 }
 
-/* النافذة */
+/* الصف الثاني يطلع للأعلى */
+.hex.down{
+margin-top:-55px;
+}
+
+/* النوافذ */
 .popup{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.8);
-    z-index:999;
-    justify-content:center;
-    align-items:center;
+display:none;
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.85);
+z-index:999;
+justify-content:center;
+align-items:center;
+padding:15px;
 }
 
 .popup-box{
-    width:90%;
-    max-width:420px;
-    background:#0a0000;
-    border:2px solid red;
-    border-radius:18px;
-    padding:20px;
-    box-shadow:0 0 30px red;
-    animation:show 0.3s ease;
+width:100%;
+max-width:430px;
+background:#0a0000;
+border:2px solid red;
+border-radius:18px;
+padding:20px;
+box-shadow:0 0 30px red;
+animation:show .3s ease;
 }
 
 @keyframes show{
-    from{transform:scale(0.7);opacity:0;}
-    to{transform:scale(1);opacity:1;}
+from{transform:scale(.7);opacity:0;}
+to{transform:scale(1);opacity:1;}
 }
 
 .popup-box h3{
-    color:red;
-    margin-bottom:15px;
-    font-size:24px;
+color:red;
+margin-bottom:15px;
+font-size:24px;
 }
 
 .popup-box a{
-    display:block;
-    margin:10px 0;
-    padding:12px;
-    background:#140000;
-    color:white;
-    text-decoration:none;
-    border:1px solid red;
-    border-radius:12px;
+display:block;
+margin:10px 0;
+padding:12px;
+background:#140000;
+color:#fff;
+text-decoration:none;
+border:1px solid red;
+border-radius:12px;
 }
 
 .popup-box a:hover{
-    background:red;
+background:red;
 }
 
 .close{
-    margin-top:15px;
-    padding:10px;
-    width:100%;
-    border:none;
-    border-radius:10px;
-    background:#333;
-    color:white;
-    cursor:pointer;
+margin-top:15px;
+padding:12px;
+width:100%;
+border:none;
+background:#333;
+color:#fff;
+border-radius:10px;
+cursor:pointer;
 }
 
-@media(max-width:1000px){
-    .grid{
-        grid-template-columns:repeat(3,1fr);
-    }
+/* تابلت */
+@media(max-width:900px){
+.hex-grid{
+grid-template-columns:repeat(2, 200px);
+}
+.hex{
+width:200px;
+height:175px;
+}
+.hex.down{
+margin-top:0;
+}
 }
 
+/* هاتف */
 @media(max-width:768px){
 
-    body{
-        background:url('phone-bg.png') no-repeat center center fixed; /* خلفية الهاتف */
-        background-size:cover;
-    }
+body{
+background:url('phone-bg.png') no-repeat center center fixed;
+background-size:cover;
+}
 
-    h1{font-size:34px;}
-    h2{font-size:18px;}
+h1{font-size:34px;}
+h2{font-size:18px;}
 
-    .grid{
-        grid-template-columns:repeat(2,1fr);
-        gap:12px;
-    }
+.logo{
+width:130px;
+}
 
-    .btn{
-        height:145px;
-    }
+.hex-grid{
+grid-template-columns:repeat(2, 150px);
+gap:10px;
+}
 
-    .btn span{
-        font-size:15px;
-    }
+.hex{
+width:150px;
+height:135px;
+padding:12px;
+}
 
-    .logo{
-        width:130px;
-    }
+.hex span{
+font-size:14px;
+}
+
+.hex.down{
+margin-top:0;
+}
 }
 </style>
 </head>
@@ -184,52 +210,49 @@ h2{
 
 <img src="logo.png" class="logo">
 
-<h1>KAGE NO TEIO</h1>
-<h2>(SHADOW)</h2>
+<h1>Kage No Teio</h1>
+<h2>(Shadow)</h2>
 
-<div class="grid">
+<div class="hex-grid">
 
-<a href="index2.html" class="btn"><span>قاعدة بيانات</span></a>
+<a href="index2.html" class="hex"><span>قاعدة بيانات</span></a>
 
-<a href="index2.html" class="btn"><span>تحميل ملفات</span></a>
+<a href="index2.html" class="hex"><span>تحميل ملفات</span></a>
 
-<div class="btn" onclick="openMembers()">
+<div class="hex" onclick="openMembers()">
 <span>جميع أسماء الأعضاء</span>
 </div>
 
-<div class="btn" onclick="openJoin()">
+<div class="hex down" onclick="openJoin()">
 <span>تسجيل الإنضمام</span>
 </div>
 
-<a href="index2.html" class="btn"><span>فضائح عصابات</span></a>
+<a href="index2.html" class="hex down"><span>فضائح عصابات</span></a>
 
-<a href="index2.html" class="btn"><span>قوانين الدعس</span></a>
+<a href="index2.html" class="hex down"><span>قوانين الدعس</span></a>
 
 </div>
+
 </div>
 
-<!-- قائمة الأعضاء -->
+<!-- نافذة الأعضاء -->
 <div class="popup" id="membersBox">
 <div class="popup-box">
 <h3>أعضاء الطائفة</h3>
-
 <a href="#">العضو 01</a>
 <a href="#">العضو 02</a>
 <a href="#">العضو 03</a>
-
 <button class="close" onclick="closeAll()">إغلاق</button>
 </div>
 </div>
 
-<!-- قائمة التسجيل -->
+<!-- نافذة الانضمام -->
 <div class="popup" id="joinBox">
 <div class="popup-box">
 <h3>تسجيل الإنضمام</h3>
-
 <a href="#">تقديم طلب</a>
 <a href="#">شروط القبول</a>
 <a href="#">متابعة الطلب</a>
-
 <button class="close" onclick="closeAll()">إغلاق</button>
 </div>
 </div>
