@@ -41,46 +41,47 @@ position:relative;
 z-index:1;
 }
 
-/* 🔥 زر فيسبوك */
-.fb-btn{
+/* ===== Social Menu ===== */
+.social{
 position:fixed;
-top:20px;
 right:20px;
-
-width:45px;
-height:45px;
-
-background:#1877f2;
-color:white;
-
+top:20px;
 display:flex;
-justify-content:center;
-align-items:center;
-
-font-weight:bold;
-font-size:22px;
-text-decoration:none;
-
-border-radius:50%;
-
-box-shadow:0 0 15px #1877f2;
-transition:0.3s;
+flex-direction:column;
+gap:10px;
 z-index:999;
 }
 
-.fb-btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 25px #1877f2;
+.social a{
+width:45px;
+height:45px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#111;
+transition:0.3s;
+box-shadow:0 0 10px rgba(0,0,0,0.5);
 }
 
-/* اللوقو */
+/* ألوان */
+.social a.fb{ background:#1877f2; }
+.social a.dc{ background:#5865F2; }
+.social a.tg{ background:#0088cc; }
+
+.social a:hover{
+transform:scale(1.15);
+box-shadow:0 0 20px currentColor;
+}
+
+/* ===== اللوقو ===== */
 .logo{
 width:360px;
 margin-bottom:25px;
 filter:drop-shadow(0 0 35px #00eaff);
 }
 
-/* الشبكة */
+/* ===== الشبكة ===== */
 .menu{
 display:grid;
 grid-template-columns:repeat(3, 280px);
@@ -89,7 +90,7 @@ gap:35px;
 justify-content:center;
 }
 
-/* الزر */
+/* ===== الأزرار ===== */
 .btn{
 position:relative;
 width:280px;
@@ -105,11 +106,9 @@ border:none;
 overflow:hidden;
 
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-
 filter:drop-shadow(0 10px 25px rgba(0,0,0,0.7));
 }
 
-/* تغميق داخل الزر */
 .btn::before{
 content:"";
 position:absolute;
@@ -117,7 +116,6 @@ inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-/* النص */
 .btn span{
 position:absolute;
 bottom:20px;
@@ -129,13 +127,12 @@ letter-spacing:2px;
 text-shadow:0 0 10px #00eaff;
 }
 
-/* hover */
 .btn:hover{
 transform:scale(1.1);
 filter:drop-shadow(0 0 30px #00eaff);
 }
 
-/* الصف الثاني */
+/* نزول الصف الثاني */
 .menu .btn:nth-child(4),
 .menu .btn:nth-child(5),
 .menu .btn:nth-child(6){
@@ -163,8 +160,31 @@ margin-top:40px;
 
 <body>
 
-<!-- 🔥 زر فيسبوك -->
-<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank" class="fb-btn">F</a>
+<!-- 🔥 Social Menu -->
+<div class="social">
+
+<!-- فيسبوك -->
+<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank" class="fb">
+<svg width="22" height="22" fill="white" viewBox="0 0 24 24">
+<path d="M22 12a10 10 0 10-11.5 9.9v-7H8v-3h2.5V9.5c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.2c-1.2 0-1.5.7-1.5 1.5V12H17l-.5 3h-2.7v7A10 10 0 0022 12z"/>
+</svg>
+</a>
+
+<!-- ديسكورد (تعدل الرابط لاحقاً) -->
+<a href="#" class="dc">
+<svg width="22" height="22" fill="white" viewBox="0 0 24 24">
+<path d="M20 4a16 16 0 00-4-1l-.2.4a15 15 0 00-7.6 0L8 3a16 16 0 00-4 1C1 9 1.5 13.5 1.5 13.5a16 16 0 004.8 2.4l.4-.6a10 10 0 01-1.5-.7l.3-.2a11 11 0 0010 0l.3.2a10 10 0 01-1.5.7l.4.6a16 16 0 004.8-2.4S23 9 20 4z"/>
+</svg>
+</a>
+
+<!-- تليجرام -->
+<a href="#" class="tg">
+<svg width="22" height="22" fill="white" viewBox="0 0 24 24">
+<path d="M9.5 15.5l-.4 4c.6 0 .9-.3 1.2-.6l2.8-2.7 5.8 4.2c1.1.6 1.8.3 2.1-1l3.8-17.6h0c.4-1.8-.7-2.5-1.7-2.1L1.3 9.2c-1.8.7-1.8 1.7-.3 2.2l5.5 1.7L19 5.6c.6-.4 1.2-.2.8.2"/>
+</svg>
+</a>
+
+</div>
 
 <!-- اللوقو -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
