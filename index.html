@@ -21,17 +21,17 @@ flex-direction:column;
 justify-content:center;
 align-items:center;
 background:url('Background/bg.jpg') center/cover no-repeat;
-color:white;
-overflow:hidden;
 position:relative;
+overflow:hidden;
+color:white;
 }
 
-/* طبقة غامقة */
+/* طبقة ظلام */
 body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.5);
+background:rgba(0,0,0,0.55);
 z-index:0;
 }
 
@@ -42,158 +42,103 @@ z-index:1;
 
 /* الشعار */
 .logo{
-width:300px;
+width:280px;
 margin-bottom:25px;
 filter:drop-shadow(0 0 20px #00eaff);
 }
 
-/* الشبكة */
-.menu{
-display:grid;
-grid-template-columns:repeat(3, 260px);
-gap:25px;
-justify-content:center;
-}
-
-/* زر سداسي */
-.hex{
-width:260px;
-height:220px;
-clip-path:polygon(
-25% 0%,
-75% 0%,
-100% 50%,
-75% 100%,
-25% 100%,
-0% 50%
-);
-
-cursor:pointer;
-overflow:hidden;
-transition:.3s;
-border:4px solid rgba(0,200,255,0.8);
-box-shadow:0 0 15px #00eaff;
-position:relative;
-}
-
-/* الصورة */
-.hex img{
-width:100%;
-height:100%;
-object-fit:cover;
-}
-
-/* overlay */
-.hex::after{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
-}
-
-/* النص */
-.hex span{
-position:absolute;
-bottom:12px;
-width:100%;
-text-align:center;
-font-size:18px;
-font-weight:bold;
-color:#00eaff;
-text-shadow:0 0 10px #000;
-}
-
-/* hover */
-.hex:hover{
-transform:scale(1.05);
-box-shadow:0 0 30px #00eaff;
-}
-
-/* overlay */
-.overlay{
-position:fixed;
-inset:0;
-background:#000;
-display:none;
-justify-content:center;
-align-items:center;
+/* ===== الهرم الرئيسي ===== */
+.pyramid{
+display:flex;
 flex-direction:column;
+align-items:center;
+gap:25px;
 }
 
-/* زر */
-.start{
-padding:15px 40px;
-background:#00eaff;
-border:none;
+/* الصف */
+.row{
+display:flex;
+justify-content:center;
+gap:40px;
+}
+
+/* زر الصورة (احترافي) */
+.btn{
+width:200px;
+height:180px;
+
+background-size:cover;
+background-position:center;
+background-repeat:no-repeat;
+
 cursor:pointer;
-font-weight:bold;
-margin-top:15px;
+transition:0.3s;
+
+border-radius:18px;
+
+/* عمق وظل */
+box-shadow:
+0 10px 25px rgba(0,0,0,0.6),
+0 0 15px rgba(0,200,255,0.4);
+
+/* ميل خفيف يعطي إحساس هرمي */
+transform: perspective(600px) rotateX(8deg);
+}
+
+/* عند المرور */
+.btn:hover{
+transform: perspective(600px) rotateX(0deg) scale(1.08);
+box-shadow:
+0 15px 35px rgba(0,0,0,0.8),
+0 0 25px #00eaff;
 }
 
 /* موبايل */
-@media(max-width:900px){
-.menu{
-grid-template-columns:1fr;
+@media(max-width:768px){
+.row{
+flex-direction:column;
+gap:20px;
 }
 
-.hex{
+.btn{
 width:80%;
-margin:auto;
+height:160px;
+}
 }
 
-.logo{
-width:200px;
-}
-}
 </style>
 </head>
 
 <body>
 
-<!-- 🔥 الشعار -->
 <img src="Developer/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<div class="menu">
+<!-- 🔺 Pyramid Layout (6 buttons) -->
+<div class="pyramid">
 
-<div class="hex" onclick="go('background.html')">
-<img src="Pictures/team.jpg">
-<span>Background</span>
+<!-- الصف 1 -->
+<div class="row">
+<div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/bg_btn.png')"></div>
+<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/dev_btn.png')"></div>
 </div>
 
-<div class="hex" onclick="go('developers.html')">
-<img src="Pictures/story.jpg">
-<span>Developers</span>
+<!-- الصف 2 -->
+<div class="row">
+<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/pic_btn.png')"></div>
+<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/team_btn.png')"></div>
 </div>
 
-<div class="hex" onclick="openMembers()">
-<img src="Pictures/challenge.jpg">
-<span>Pictures</span>
+<!-- الصف 3 -->
+<div class="row">
+<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/arena_btn.png')"></div>
+<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/train_btn.png')"></div>
 </div>
 
-</div>
-
-<!-- الأعضاء -->
-<div class="overlay" id="members">
-<h2>أعضاء الطائفة</h2>
-</div>
-
-<!-- تسجيل -->
-<div class="overlay" id="join">
-<h2>انضمام لطائفة الظلام</h2>
-<button class="start" onclick="start()">START</button>
 </div>
 
 <script>
 function go(page){
 window.location = page;
-}
-
-function openMembers(){
-document.getElementById("members").style.display="flex";
-}
-
-function start(){
-alert("تم الإرسال");
 }
 </script>
 
