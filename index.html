@@ -3,120 +3,251 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kage No Teio (Shadow)</title>
+<title>Kage No Teio</title>
 
 <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Tahoma;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Tahoma;
 }
 
-body {
-    color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    /* خلفية الكمبيوتر */
-    background: url('ggg.png') no-repeat center center fixed;
-    background-size: cover;
+body{
+    min-height:100vh;
+    color:white;
+    text-align:center;
+    background:url('pc-bg.png') no-repeat center center fixed; /* خلفية الكمبيوتر */
+    background-size:cover;
+    padding:20px;
 }
 
-/* العنوان */
-header {
-    margin: 30px 0;
-    text-align: center;
+.container{
+    width:100%;
+    max-width:1200px;
+    margin:auto;
+    background:rgba(0,0,0,0.55);
+    border:2px solid rgba(255,0,0,0.4);
+    border-radius:20px;
+    padding:20px;
+    box-shadow:0 0 25px rgba(255,0,0,0.4);
 }
 
-header h1 {
-    color: gold;
-    font-size: 40px;
+.logo{
+    width:180px;
+    max-width:90%;
+    margin:auto;
+    display:block;
 }
 
-header span {
-    color: #ccc;
-    font-size: 18px;
+h1{
+    color:#ff0000;
+    font-size:48px;
+    margin-top:15px;
+    text-shadow:0 0 15px red;
 }
 
-/* الشبكة */
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 200px);
-    gap: 20px;
-    justify-content: center;
+h2{
+    color:#ddd;
+    margin-bottom:25px;
+    font-size:24px;
 }
 
-/* شكل المثلث */
-.card {
-    width: 200px;
-    height: 180px;
-    background: linear-gradient(135deg, #111, #330000);
-    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    padding-bottom: 15px;
-    cursor: pointer;
-    transition: 0.3s;
-    border: 2px solid rgba(255,0,0,0.3);
+.grid{
+    display:grid;
+    grid-template-columns:repeat(6,1fr);
+    gap:15px;
 }
 
-.card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 20px red;
-    border-color: red;
+.btn{
+    height:170px;
+    background:url('btn.png') no-repeat center center;
+    background-size:100% 100%;
+    cursor:pointer;
+    transition:0.3s;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:15px;
+    text-decoration:none;
 }
 
-.card span {
-    font-size: 14px;
-    text-align: center;
-    color: #00eaff;
+.btn:hover{
+    transform:scale(1.05);
+    filter:drop-shadow(0 0 15px red);
 }
 
-.card.down {
-    clip-path: polygon(0 0, 100% 0, 50% 100%);
+.btn span{
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    text-shadow:0 0 10px red;
 }
 
-/* الهاتف */
-@media(max-width: 768px){
+/* النافذة */
+.popup{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.8);
+    z-index:999;
+    justify-content:center;
+    align-items:center;
+}
+
+.popup-box{
+    width:90%;
+    max-width:420px;
+    background:#0a0000;
+    border:2px solid red;
+    border-radius:18px;
+    padding:20px;
+    box-shadow:0 0 30px red;
+    animation:show 0.3s ease;
+}
+
+@keyframes show{
+    from{transform:scale(0.7);opacity:0;}
+    to{transform:scale(1);opacity:1;}
+}
+
+.popup-box h3{
+    color:red;
+    margin-bottom:15px;
+    font-size:24px;
+}
+
+.popup-box a{
+    display:block;
+    margin:10px 0;
+    padding:12px;
+    background:#140000;
+    color:white;
+    text-decoration:none;
+    border:1px solid red;
+    border-radius:12px;
+}
+
+.popup-box a:hover{
+    background:red;
+}
+
+.close{
+    margin-top:15px;
+    padding:10px;
+    width:100%;
+    border:none;
+    border-radius:10px;
+    background:#333;
+    color:white;
+    cursor:pointer;
+}
+
+@media(max-width:1000px){
+    .grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:768px){
+
     body{
-        /* خلفية الهاتف */
-        background: url('ggg.png') no-repeat center center fixed;
-        background-size: cover;
+        background:url('phone-bg.png') no-repeat center center fixed; /* خلفية الهاتف */
+        background-size:cover;
     }
 
-    .grid {
-        grid-template-columns: repeat(2, 150px);
+    h1{font-size:34px;}
+    h2{font-size:18px;}
+
+    .grid{
+        grid-template-columns:repeat(2,1fr);
+        gap:12px;
     }
 
-    .card {
-        width: 150px;
-        height: 140px;
+    .btn{
+        height:145px;
+    }
+
+    .btn span{
+        font-size:15px;
+    }
+
+    .logo{
+        width:130px;
     }
 }
 </style>
-
 </head>
 <body>
 
-<header>
-    <h1>Kage No Teio</h1>
-    <span>(Shadow)</span>
-</header>
+<div class="container">
+
+<img src="logo.png" class="logo">
+
+<h1>KAGE NO TEIO</h1>
+<h2>(SHADOW)</h2>
 
 <div class="grid">
 
-    <div class="card"><span>قاعدة بيانات</span></div>
-    <div class="card"><span>تحميل ملفات</span></div>
-    <div class="card"><span>جميع أسماء أعضاء الطائفة</span></div>
+<a href="index2.html" class="btn"><span>قاعدة بيانات</span></a>
 
-    <div class="card down"><span>تسجيل الإنضمام</span></div>
-    <div class="card down"><span>فضائح عصابات</span></div>
-    <div class="card down"><span>قوانين الدعس</span></div>
+<a href="index2.html" class="btn"><span>تحميل ملفات</span></a>
+
+<div class="btn" onclick="openMembers()">
+<span>جميع أسماء الأعضاء</span>
+</div>
+
+<div class="btn" onclick="openJoin()">
+<span>تسجيل الإنضمام</span>
+</div>
+
+<a href="index2.html" class="btn"><span>فضائح عصابات</span></a>
+
+<a href="index2.html" class="btn"><span>قوانين الدعس</span></a>
 
 </div>
+</div>
+
+<!-- قائمة الأعضاء -->
+<div class="popup" id="membersBox">
+<div class="popup-box">
+<h3>أعضاء الطائفة</h3>
+
+<a href="#">العضو 01</a>
+<a href="#">العضو 02</a>
+<a href="#">العضو 03</a>
+
+<button class="close" onclick="closeAll()">إغلاق</button>
+</div>
+</div>
+
+<!-- قائمة التسجيل -->
+<div class="popup" id="joinBox">
+<div class="popup-box">
+<h3>تسجيل الإنضمام</h3>
+
+<a href="#">تقديم طلب</a>
+<a href="#">شروط القبول</a>
+<a href="#">متابعة الطلب</a>
+
+<button class="close" onclick="closeAll()">إغلاق</button>
+</div>
+</div>
+
+<script>
+function openMembers(){
+document.getElementById("membersBox").style.display="flex";
+}
+
+function openJoin(){
+document.getElementById("joinBox").style.display="flex";
+}
+
+function closeAll(){
+document.getElementById("membersBox").style.display="none";
+document.getElementById("joinBox").style.display="none";
+}
+</script>
 
 </body>
 </html>
