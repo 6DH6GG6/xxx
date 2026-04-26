@@ -15,83 +15,94 @@ font-family:Tahoma;
 
 body{
 min-height:100vh;
-color:white;
-text-align:center;
 background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
 background-size:cover;
+color:white;
 padding:20px;
+display:flex;
+justify-content:center;
+align-items:center;
 }
 
 .container{
-max-width:1200px;
-margin:auto;
-background:rgba(0,0,0,0.55);
-border:2px solid rgba(255,0,0,0.4);
-border-radius:20px;
-padding:20px;
-box-shadow:0 0 25px rgba(255,0,0,0.4);
+width:100%;
+max-width:1250px;
+background:rgba(0,0,0,.55);
+border:2px solid rgba(255,0,0,.35);
+border-radius:22px;
+padding:25px;
+box-shadow:0 0 25px rgba(255,0,0,.35);
+text-align:center;
 }
 
+/* الشعار */
 .logo{
-width:180px;
+width:230px;
 max-width:90%;
 display:block;
 margin:auto;
 }
 
 h1{
-color:#ff0000;
-font-size:48px;
-margin-top:15px;
-text-shadow:0 0 15px red;
+margin-top:10px;
+font-size:56px;
+color:#c40000;
+text-shadow:0 0 18px red;
+letter-spacing:3px;
 }
 
 h2{
+font-size:28px;
 color:#ddd;
-margin-bottom:30px;
-font-size:24px;
+margin-bottom:35px;
 }
 
-/* شبكة سداسية */
-.hex-grid{
+/* شبكة المثلثات مثل الصورة تماما */
+.menu{
 display:grid;
-grid-template-columns:repeat(3, 220px);
+grid-template-columns:repeat(3, 240px);
 justify-content:center;
-gap:18px;
+gap:0;
+row-gap:12px;
 }
 
-.hex{
-width:220px;
-height:190px;
-clip-path:polygon(25% 6%,75% 6%,100% 50%,75% 94%,25% 94%,0 50%);
-background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') center/cover no-repeat;
-border:2px solid rgba(255,0,0,0.5);
+/* زر مثلث */
+.tri{
+width:240px;
+height:205px;
+background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center;
+background-size:100% 100%;
+clip-path:polygon(50% 0%,100% 100%,0% 100%);
 display:flex;
 align-items:flex-end;
 justify-content:center;
-padding:18px;
+padding:22px;
 text-decoration:none;
 cursor:pointer;
 transition:.3s;
-box-shadow:0 0 15px rgba(255,0,0,.35);
+filter:drop-shadow(0 0 8px rgba(255,0,0,.45));
 }
 
-.hex:hover{
-transform:scale(1.05);
-box-shadow:0 0 22px red;
+.tri:hover{
+transform:scale(1.03);
+filter:drop-shadow(0 0 16px red);
 }
 
-.hex span{
-font-size:18px;
+.tri span{
+font-size:21px;
 font-weight:bold;
-color:#fff;
-text-shadow:0 0 12px red;
+text-shadow:0 0 10px red;
 line-height:1.4;
 }
 
-/* الصف الثاني يطلع للأعلى */
-.hex.down{
-margin-top:-55px;
+/* الصف الثاني مقلوب */
+.down{
+clip-path:polygon(0 0,100% 0,50% 100%);
+}
+
+/* يرفع الصف الثاني مثل الصورة */
+.row2{
+margin-top:-52px;
 }
 
 /* النوافذ */
@@ -99,107 +110,113 @@ margin-top:-55px;
 display:none;
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.85);
+background:rgba(0,0,0,.82);
 z-index:999;
 justify-content:center;
 align-items:center;
 padding:15px;
 }
 
-.popup-box{
+.box{
 width:100%;
 max-width:430px;
 background:#0a0000;
 border:2px solid red;
 border-radius:18px;
 padding:20px;
-box-shadow:0 0 30px red;
-animation:show .3s ease;
+box-shadow:0 0 25px red;
 }
 
-@keyframes show{
-from{transform:scale(.7);opacity:0;}
-to{transform:scale(1);opacity:1;}
-}
-
-.popup-box h3{
-color:red;
+.box h3{
 margin-bottom:15px;
+color:red;
 font-size:24px;
 }
 
-.popup-box a{
+.box a{
 display:block;
-margin:10px 0;
 padding:12px;
-background:#140000;
-color:#fff;
-text-decoration:none;
+margin:10px 0;
+background:#180000;
 border:1px solid red;
 border-radius:12px;
+color:#fff;
+text-decoration:none;
 }
 
-.popup-box a:hover{
+.box a:hover{
 background:red;
 }
 
 .close{
-margin-top:15px;
-padding:12px;
+margin-top:10px;
 width:100%;
+padding:12px;
 border:none;
+border-radius:10px;
 background:#333;
 color:#fff;
-border-radius:10px;
 cursor:pointer;
 }
 
 /* تابلت */
-@media(max-width:900px){
-.hex-grid{
-grid-template-columns:repeat(2, 200px);
+@media(max-width:1000px){
+.menu{
+grid-template-columns:repeat(3,190px);
 }
-.hex{
-width:200px;
-height:175px;
+.tri{
+width:190px;
+height:165px;
 }
-.hex.down{
-margin-top:0;
+.tri span{
+font-size:16px;
 }
 }
 
-/* هاتف */
+/* هاتف مطابق للصورة */
 @media(max-width:768px){
 
 body{
 background:url('phone-bg.png') no-repeat center center fixed;
 background-size:cover;
+padding:10px;
 }
 
-h1{font-size:34px;}
-h2{font-size:18px;}
+.container{
+padding:12px;
+}
 
 .logo{
 width:130px;
 }
 
-.hex-grid{
-grid-template-columns:repeat(2, 150px);
-gap:10px;
+h1{
+font-size:32px;
+letter-spacing:1px;
 }
 
-.hex{
-width:150px;
-height:135px;
-padding:12px;
+h2{
+font-size:17px;
+margin-bottom:18px;
 }
 
-.hex span{
-font-size:14px;
+.menu{
+grid-template-columns:repeat(3,105px);
+row-gap:8px;
 }
 
-.hex.down{
-margin-top:0;
+.tri{
+width:105px;
+height:92px;
+padding:10px;
+}
+
+.tri span{
+font-size:11px;
+}
+
+.row2{
+margin-top:-22px;
 }
 }
 </style>
@@ -210,34 +227,37 @@ margin-top:0;
 
 <img src="logo.png" class="logo">
 
-<h1>Kage No Teio</h1>
-<h2>(Shadow)</h2>
+<h1>KAGE NO TEIO</h1>
+<h2>(SHADOW)</h2>
 
-<div class="hex-grid">
+<div class="menu">
 
-<a href="index2.html" class="hex"><span>قاعدة بيانات</span></a>
+<a href="index2.html" class="tri"><span>قاعدة بيانات</span></a>
 
-<a href="index2.html" class="hex"><span>تحميل ملفات</span></a>
+<a href="index2.html" class="tri"><span>تحميل ملفات</span></a>
 
-<div class="hex" onclick="openMembers()">
+<div class="tri" onclick="openMembers()">
 <span>جميع أسماء الأعضاء</span>
 </div>
 
-<div class="hex down" onclick="openJoin()">
+<div class="tri down row2" onclick="openJoin()">
 <span>تسجيل الإنضمام</span>
 </div>
 
-<a href="index2.html" class="hex down"><span>فضائح عصابات</span></a>
+<a href="index2.html" class="tri down row2">
+<span>فضائح عصابات</span>
+</a>
 
-<a href="index2.html" class="hex down"><span>قوانين الدعس</span></a>
+<a href="index2.html" class="tri down row2">
+<span>قوانين الدعس</span>
+</a>
 
 </div>
-
 </div>
 
-<!-- نافذة الأعضاء -->
+<!-- أعضاء -->
 <div class="popup" id="membersBox">
-<div class="popup-box">
+<div class="box">
 <h3>أعضاء الطائفة</h3>
 <a href="#">العضو 01</a>
 <a href="#">العضو 02</a>
@@ -246,9 +266,9 @@ margin-top:0;
 </div>
 </div>
 
-<!-- نافذة الانضمام -->
+<!-- تسجيل -->
 <div class="popup" id="joinBox">
-<div class="popup-box">
+<div class="box">
 <h3>تسجيل الإنضمام</h3>
 <a href="#">تقديم طلب</a>
 <a href="#">شروط القبول</a>
