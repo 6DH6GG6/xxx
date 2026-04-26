@@ -37,25 +37,6 @@ backdrop-filter:blur(3px);
 z-index:0;
 }
 
-/* ===== INTRO ===== */
-#intro{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-color:#00eaff;
-font-size:28px;
-letter-spacing:4px;
-animation:fadeOut 2s forwards 2s;
-}
-
-@keyframes fadeOut{
-to{opacity:0; visibility:hidden;}
-}
-
 /* ===== CONTAINER ===== */
 .container{
 position:relative;
@@ -100,6 +81,9 @@ box-shadow:0 0 20px #1877f2;
 width:clamp(200px,40vw,340px);
 margin-bottom:25px;
 filter:drop-shadow(0 0 25px #00eaff);
+
+/* دخول */
+animation:fadeDown 1s ease;
 }
 
 /* ===== MENU ===== */
@@ -119,8 +103,21 @@ background-position:center;
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
-transition:0.2s;
+transition:0.25s;
+
+/* ✨ أنيميشن دخول */
+opacity:0;
+transform:translateY(40px);
+animation:fadeUp 0.8s ease forwards;
 }
+
+/* ترتيب ظهور الأزرار */
+.btn:nth-child(1){ animation-delay:0.2s; }
+.btn:nth-child(2){ animation-delay:0.4s; }
+.btn:nth-child(3){ animation-delay:0.6s; }
+.btn:nth-child(4){ animation-delay:0.8s; }
+.btn:nth-child(5){ animation-delay:1s; }
+.btn:nth-child(6){ animation-delay:1.2s; }
 
 /* overlay */
 .btn::before{
@@ -204,6 +201,25 @@ animation:blink 1s infinite;
 50%{opacity:0.3;}
 }
 
+/* ===== ANIMATIONS ===== */
+@keyframes fadeUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
+@keyframes fadeDown{
+from{
+opacity:0;
+transform:translateY(-40px);
+}
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:600px){
 .menu{gap:12px;}
@@ -217,9 +233,6 @@ animation:blink 1s infinite;
 </head>
 
 <body>
-
-<!-- INTRO -->
-<div id="intro">KAGE NO TEIO</div>
 
 <!-- SOUND -->
 <audio id="clickSound" src="click.mp3"></audio>
@@ -236,10 +249,8 @@ animation:blink 1s infinite;
 
 <div class="container">
 
-<!-- اللوقو -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<!-- القائمة -->
 <div class="menu">
 
 <div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
@@ -273,29 +284,23 @@ animation:blink 1s infinite;
 <script>
 
 function go(page){
-
 let sound = document.getElementById("clickSound");
 let fade = document.getElementById("fade");
 
-/* صوت */
 if(sound){
 sound.currentTime = 0;
 sound.play();
 }
 
-/* اهتزاز */
 if(navigator.vibrate){
-navigator.vibrate(100);
+navigator.vibrate(80);
 }
 
-/* fade */
 fade.classList.add("active");
 
-/* تأخير */
 setTimeout(()=>{
 window.location.href = page;
 },2000);
-
 }
 
 </script>
