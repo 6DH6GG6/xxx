@@ -8,7 +8,7 @@
 
 <style>
 
-/* RESET */
+/* ===== RESET ===== */
 *{
 margin:0;
 padding:0;
@@ -16,32 +16,18 @@ box-sizing:border-box;
 font-family:Tahoma;
 }
 
-/* LOADING */
-#loader{
-position:fixed;
-inset:0;
-background:black;
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:9999;
-color:#00eaff;
-font-size:22px;
-letter-spacing:3px;
-}
-
-/* BODY */
+/* ===== BODY ===== */
 body{
 height:100vh;
+background:url('Background/file_000000004fc871f5bf5a65f2f5d3cf7d.png') center/cover no-repeat;
+overflow:hidden;
 display:flex;
 justify-content:center;
 align-items:center;
-background:url('Background/file_000000004fc871f5bf5a65f2f5d3cf7d.png') center/cover no-repeat;
-overflow:hidden;
 color:white;
 }
 
-/* overlay */
+/* طبقة تغميق */
 body::before{
 content:"";
 position:absolute;
@@ -50,40 +36,44 @@ background:linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.9));
 backdrop-filter:blur(4px);
 }
 
-/* 🔥 جوانب مظللة */
-body::after{
-content:"";
-position:fixed;
-inset:0;
-pointer-events:none;
-background:
-linear-gradient(to right, rgba(0,0,0,0.8), transparent 100px),
-linear-gradient(to left, rgba(0,0,0,0.8), transparent 100px);
-}
-
-/* WRAPPER (نقطة التحكم) */
+/* ===== BOX ثابت ===== */
 .wrapper{
+width:900px;
+height:700px;
+
 display:flex;
 flex-direction:column;
 align-items:center;
+justify-content:center;
+
+position:absolute;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%);
+
+background:rgba(0,0,0,0.45);
+backdrop-filter:blur(6px);
+
+border-radius:20px;
+box-shadow:0 0 50px rgba(0,0,0,0.9);
 }
 
-/* LOGO */
+/* ===== اللوقو ===== */
 .logo{
-width:340px;
+width:320px;
 margin-bottom:20px;
-filter:drop-shadow(0 0 35px #00eaff);
+filter:drop-shadow(0 0 30px #00eaff);
 }
 
-/* MENU ثابت */
+/* ===== القائمة ===== */
 .menu{
 display:grid;
 grid-template-columns:repeat(3, 260px);
 grid-template-rows:repeat(2, 220px);
-gap:30px;
+gap:25px;
 }
 
-/* BUTTON */
+/* ===== الزر ===== */
 .btn{
 position:relative;
 width:260px;
@@ -91,10 +81,12 @@ height:220px;
 background-size:cover;
 background-position:center;
 cursor:pointer;
-transition:0.25s;
+transition:0.3s;
+
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 }
 
+/* تغميق داخلي */
 .btn::before{
 content:"";
 position:absolute;
@@ -102,9 +94,10 @@ inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
+/* النص */
 .btn span{
 position:absolute;
-bottom:20px;
+bottom:15px;
 left:50%;
 transform:translateX(-50%);
 font-size:18px;
@@ -112,26 +105,34 @@ font-weight:bold;
 text-shadow:0 0 10px #00eaff;
 }
 
+/* تأثير */
 .btn:hover{
-transform:scale(1.08);
-box-shadow:0 0 30px #00eaff;
+transform:scale(1.07);
+box-shadow:0 0 25px #00eaff;
 }
 
-/* 🔥 تصغير حسب الشاشة */
-@media(max-width:1200px){
-.wrapper{ transform:scale(0.9); }
+/* ===== زر فيسبوك ===== */
+.fb{
+position:fixed;
+top:20px;
+right:20px;
+width:45px;
+height:45px;
+border-radius:50%;
+background:#1877f2;
+display:flex;
+justify-content:center;
+align-items:center;
+color:white;
+font-weight:bold;
+text-decoration:none;
+z-index:999;
+transition:0.3s;
 }
 
-@media(max-width:900px){
-.wrapper{ transform:scale(0.75); }
-}
-
-@media(max-width:600px){
-.wrapper{ transform:scale(0.6); }
-}
-
-@media(max-width:400px){
-.wrapper{ transform:scale(0.5); }
+.fb:hover{
+transform:scale(1.2);
+box-shadow:0 0 20px #1877f2;
 }
 
 </style>
@@ -139,23 +140,39 @@ box-shadow:0 0 30px #00eaff;
 
 <body>
 
+<!-- زر فيسبوك -->
+<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank" class="fb">F</a>
+
+<!-- الصندوق -->
 <div class="wrapper">
 
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
+<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
+<span>أنمي</span>
+</div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
+<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
+<span>فضائح عصابات</span>
+</div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
+<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
+<span>قوانين الدعس</span>
+</div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
+<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
+<span>ترسيم أعضاء</span>
+</div>
 
-<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
+<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')">
+<span>أسماء الظلال</span>
+</div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
+<span>تحميل ملفات</span>
+</div>
 
 </div>
 
