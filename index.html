@@ -93,13 +93,13 @@ width:100%;
 /* ===== BUTTON ===== */
 .btn{
 position:relative;
-aspect-ratio: 4/3;
+aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-transition:0.3s;
 overflow:hidden;
+transition:0.2s;
 }
 
 /* overlay */
@@ -110,50 +110,69 @@ inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-/* ===== TEXT FIX 🔥 ===== */
+/* 🔥 Glow متحرك */
+.btn::after{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(120deg, transparent, rgba(0,234,255,0.4), transparent);
+opacity:0;
+transition:0.3s;
+}
+
+/* النص */
 .btn span{
 position:absolute;
 bottom:15px;
 left:50%;
 transform:translateX(-50%);
-
 width:90%;
 text-align:center;
-
 font-size:clamp(11px, 1.6vw, 16px);
 font-weight:bold;
 line-height:1.2;
-
 text-shadow:0 0 10px #00eaff;
-
-/* يمنع الخروج */
-overflow:hidden;
 }
 
-/* hover */
+/* Hover */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:600px){
-.menu{
-gap:12px;
-}
+.btn:hover::after{
+opacity:1;
+animation:glowMove 1.2s linear;
 }
 
-/* ===== VERY SMALL ===== */
-@media(max-width:350px){
-.menu{
-grid-template-columns:repeat(2, 1fr);
+/* حركة اللمعة */
+@keyframes glowMove{
+0%{ transform:translateX(-100%); }
+100%{ transform:translateX(100%); }
 }
+
+/* ضغط */
+.btn:active{
+transform:scale(0.95);
+box-shadow:0 0 10px #00eaff inset;
+}
+
+/* ===== MOBILE ===== */
+@media(max-width:600px){
+.menu{ gap:12px; }
+}
+
+@media(max-width:350px){
+.menu{ grid-template-columns:repeat(2,1fr); }
 }
 
 </style>
 </head>
 
 <body>
+
+<!-- 🔊 صوت -->
+<audio id="clickSound" src="click.mp3"></audio>
 
 <!-- FACEBOOK -->
 <div class="social">
@@ -162,33 +181,37 @@ grid-template-columns:repeat(2, 1fr);
 
 <div class="container">
 
-<!-- LOGO -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<!-- MENU -->
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
+<div class="btn" onclick="go('anime.html')"
+style="background-image:url('Pictures/20260426_155749.png')">
 <span>أنمي</span>
 </div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
+<div class="btn" onclick="go('gangs.html')"
+style="background-image:url('Pictures/20260426_160952.png')">
 <span>فضائح<br>عصابات</span>
 </div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
+<div class="btn" onclick="go('rules.html')"
+style="background-image:url('Pictures/20260426_155319.png')">
 <span>قوانين<br>الدعس</span>
 </div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
+<div class="btn" onclick="go('members.html')"
+style="background-image:url('Pictures/20260426_160315.png')">
 <span>ترسيم<br>أعضاء</span>
 </div>
 
-<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')">
+<div class="btn" onclick="go('shadows.html')"
+style="background-image:url('Pictures/20260426_160850.png')">
 <span>أسماء<br>الظلال</span>
 </div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
+<div class="btn" onclick="go('download.html')"
+style="background-image:url('Pictures/20260426_154329.png')">
 <span>تحميل<br>ملفات</span>
 </div>
 
@@ -197,9 +220,22 @@ grid-template-columns:repeat(2, 1fr);
 </div>
 
 <script>
+
 function go(page){
-window.location.href = page;
+let sound = document.getElementById("clickSound");
+sound.currentTime = 0;
+sound.play();
+
+/* اهتزاز الهاتف */
+if(navigator.vibrate){
+navigator.vibrate(50);
 }
+
+setTimeout(()=>{
+window.location.href = page;
+},200);
+}
+
 </script>
 
 </body>
