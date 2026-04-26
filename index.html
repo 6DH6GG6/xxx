@@ -7,6 +7,7 @@
 <title>Kage No Teio</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
@@ -15,15 +16,13 @@ font-family:Tahoma;
 }
 
 body{
-min-height:100vh;
+height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:url('Background/bg.jpg') center/cover no-repeat;
-position:relative;
+background:url('Background/bg.png') center/cover no-repeat;
 overflow:hidden;
-color:white;
 }
 
 /* طبقة الظلام */
@@ -31,7 +30,7 @@ body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.6);
+background:rgba(0,0,0,0.7);
 z-index:0;
 }
 
@@ -40,72 +39,80 @@ position:relative;
 z-index:1;
 }
 
-/* الشعار */
+/* ===== اللوجو ===== */
 .logo{
-width:280px;
-margin-bottom:30px;
-filter:drop-shadow(0 0 20px #00eaff);
+width:420px;
+margin-bottom:40px;
+
+filter:drop-shadow(0 0 25px #00eaff);
 }
 
-/* ===== الشبكة الثابتة ===== */
+/* ===== الشبكة ===== */
 .menu{
 display:grid;
-grid-template-columns:repeat(3, 240px);
-grid-template-rows:repeat(2, 200px);
-gap:30px;
+grid-template-columns:repeat(3, 260px);
+grid-template-rows:repeat(2, 210px);
+gap:35px;
 
-/* أهم شيء */
 justify-content:center;
 }
 
-/* الأزرار */
+/* ===== الأزرار ===== */
 .btn{
-width:240px;
-height:200px;
+width:260px;
+height:210px;
 
 background-size:contain;
 background-repeat:no-repeat;
 background-position:center;
 
 cursor:pointer;
-transition:0.25s;
+transition:0.3s;
 
 border:none;
-outline:none;
 background-color:transparent;
 
-filter:drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+filter:drop-shadow(0 10px 25px rgba(0,0,0,0.7));
 }
 
-/* تأثير hover */
+/* Hover فاخر */
 .btn:hover{
-transform:scale(1.08);
-filter:drop-shadow(0 0 25px #00eaff);
+transform:scale(1.1);
+filter:drop-shadow(0 0 30px #00eaff);
 }
 
-/* نزول الصف الثاني مثل الألعاب */
+/* نزول الصف الثاني */
 .menu .btn:nth-child(4),
 .menu .btn:nth-child(5),
 .menu .btn:nth-child(6){
-margin-top:40px;
+margin-top:50px;
 }
 
-/* ===== الاستجابة (تصغير بدل تكسير) ===== */
+/* ===== الاستجابة بدون كسر ===== */
 @media (max-width: 900px){
 .menu{
-transform: scale(0.8);
+transform:scale(0.8);
+}
+.logo{
+transform:scale(0.8);
 }
 }
 
 @media (max-width: 600px){
 .menu{
-transform: scale(0.65);
+transform:scale(0.65);
+}
+.logo{
+transform:scale(0.65);
 }
 }
 
 @media (max-width: 400px){
 .menu{
-transform: scale(0.5);
+transform:scale(0.5);
+}
+.logo{
+transform:scale(0.5);
 }
 }
 
@@ -114,29 +121,29 @@ transform: scale(0.5);
 
 <body>
 
-<!-- الشعار -->
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
+<!-- 🔥 اللوجو (الصورة اللي أرسلتها) -->
+<img src="Logo/logo.png" class="logo">
 
-<!-- القائمة -->
+<!-- 🔥 القائمة -->
 <div class="menu">
 
-<div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_133305.png')"></div>
+<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/team.png')"></div>
 
-<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+<div class="btn" onclick="go('story.html')" style="background-image:url('Pictures/story.png')"></div>
 
-<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+<div class="btn" onclick="go('challenge.html')" style="background-image:url('Pictures/challenge.png')"></div>
 
-<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/arena.png')"></div>
 
-<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+<div class="btn" onclick="go('fairplay.html')" style="background-image:url('Pictures/fairplay.png')"></div>
 
-<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/training.png')"></div>
 
 </div>
 
 <script>
 function go(page){
-window.location = page;
+window.location.href = page;
 }
 </script>
 
