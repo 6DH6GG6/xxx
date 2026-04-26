@@ -31,7 +31,7 @@ body::before{
 content:"";
 position:absolute;
 inset:0;
-background:rgba(0,0,0,0.55);
+background:rgba(0,0,0,0.6);
 z-index:0;
 }
 
@@ -43,66 +43,63 @@ z-index:1;
 /* الشعار */
 .logo{
 width:280px;
-margin-bottom:25px;
+margin-bottom:30px;
 filter:drop-shadow(0 0 20px #00eaff);
 }
 
-/* ===== الهرم الرئيسي ===== */
-.pyramid{
-display:flex;
-flex-direction:column;
+/* ===== الشبكة 3x2 ===== */
+.menu{
+display:grid;
+grid-template-columns:repeat(3, 1fr);
+gap:30px;
+justify-items:center;
 align-items:center;
-gap:25px;
+max-width:900px;
 }
 
-/* الصف */
-.row{
-display:flex;
-justify-content:center;
-gap:40px;
-}
-
-/* زر الصورة (احترافي) */
+/* الزر PNG فقط */
 .btn{
-width:200px;
-height:180px;
+width:240px;
+height:200px;
 
-background-size:cover;
-background-position:center;
+/* الصورة هي الشكل الحقيقي */
+background-size:contain;
 background-repeat:no-repeat;
+background-position:center;
 
 cursor:pointer;
-transition:0.3s;
+transition:0.25s;
 
-border-radius:18px;
+/* بدون أي شكل مستطيل */
+border:none;
+outline:none;
+background-color:transparent;
 
-/* عمق وظل */
-box-shadow:
-0 10px 25px rgba(0,0,0,0.6),
-0 0 15px rgba(0,200,255,0.4);
-
-/* ميل خفيف يعطي إحساس هرمي */
-transform: perspective(600px) rotateX(8deg);
+/* عمق فقط */
+filter:drop-shadow(0 10px 20px rgba(0,0,0,0.6));
 }
 
-/* عند المرور */
+/* hover */
 .btn:hover{
-transform: perspective(600px) rotateX(0deg) scale(1.08);
-box-shadow:
-0 15px 35px rgba(0,0,0,0.8),
-0 0 25px #00eaff;
+transform:scale(1.08);
+filter:drop-shadow(0 0 25px #00eaff);
 }
 
 /* موبايل */
-@media(max-width:768px){
-.row{
-flex-direction:column;
-gap:20px;
+@media(max-width:900px){
+.menu{
+grid-template-columns:repeat(2, 1fr);
 }
 
 .btn{
-width:80%;
-height:160px;
+width:160px;
+height:140px;
+}
+}
+
+@media(max-width:500px){
+.menu{
+grid-template-columns:1fr;
 }
 }
 
@@ -111,28 +108,19 @@ height:160px;
 
 <body>
 
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
+<!-- الشعار -->
+<img src="Developer/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<!-- 🔺 Pyramid Layout (6 buttons) -->
-<div class="pyramid">
+<!-- 🔥 6 أزرار 3×2 -->
+<div class="menu">
 
-<!-- الصف 1 -->
-<div class="row">
 <div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_131157.png')"></div>
-<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/dev_btn.png')"></div>
-</div>
+<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/btn2.png')"></div>
+<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/btn3.png')"></div>
 
-<!-- الصف 2 -->
-<div class="row">
-<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/pic_btn.png')"></div>
-<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/team_btn.png')"></div>
-</div>
-
-<!-- الصف 3 -->
-<div class="row">
-<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/arena_btn.png')"></div>
-<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/train_btn.png')"></div>
-</div>
+<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/btn4.png')"></div>
+<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/btn5.png')"></div>
+<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/btn6.png')"></div>
 
 </div>
 
