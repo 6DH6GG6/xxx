@@ -3,272 +3,160 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kingdom Shadows</title>
+<title>LUXORA</title>
 
 <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Tahoma", sans-serif;
+}
 
 body {
-    margin: 0;
-    background: #000;
+    background: linear-gradient(135deg, #000000, #1a0000, #330000);
+    color: white;
+}
+
+/* النافبار */
+nav {
     display: flex;
-    justify-content: center;
-}
-
-.app-container {
-    width: 420px;
-    min-height: 100vh;
-    background: linear-gradient(-45deg, #000000, #2b0000, #ff0000, #6a00ff, #000000);
-    background-size: 400% 400%;
-    animation: gradientMove 10s ease infinite;
-    overflow: hidden;
-    position: relative;
-}
-
-body::before,
-body::after {
-    content: "";
-    position: fixed;
-    top: 0;
-    width: calc((100% - 420px) / 2);
-    height: 100%;
-    z-index: -1;
-}
-
-body::before { left: 0; background: linear-gradient(to right, black, transparent); }
-body::after { right: 0; background: linear-gradient(to left, black, transparent); }
-
-@keyframes gradientMove {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-}
-
-.cover {
-    width: 100%;
-    height: 230px;
-    background: url('20260328_013942.jpg') center/cover no-repeat;
-}
-
-.title {
-    color: white;
-    font-size: 26px;
-    margin: 10px;
-    text-align: center;
-    text-shadow: 0 0 10px red, 0 0 25px purple;
-}
-
-.grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    padding: 15px;
-}
-
-.box {
-    aspect-ratio: 1/1;
-    background: white;
-    border-radius: 15px;
-    overflow: hidden;
-    cursor: pointer;
-}
-
-.box img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-/* عارض الصور */
-.viewer {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.95);
-    display: none;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    z-index: 999;
+    padding: 20px 50px;
 }
 
-.viewer img {
-    max-width: 90%;
-    max-height: 90%;
-    border-radius: 10px;
+.logo {
+    font-size: 24px;
+    color: gold;
+    font-weight: bold;
 }
 
-/* زر اغلاق عريض */
-.close-btn {
-    position: absolute;
-    top: 20px;
-    width: 90%;
-    left: 5%;
-    padding: 15px;
-    font-size: 18px;
-    background: linear-gradient(45deg, red, purple);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    box-shadow: 0 0 15px red;
-}
-
-/* زر دائري مشترك */
-.profile {
-    position: fixed;
-    bottom: 20px;
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 3px solid purple;
-    box-shadow: 0 0 15px red;
-    cursor: pointer;
-}
-
-/* زر يسار */
-.left-btn { left: 20px; }
-
-/* زر يمين */
-.right-btn { right: 20px; }
-
-/* صورة الزر */
-.profile img {
-    width: 100%;
-    height: 100%;
-}
-
-/* تأثير gif */
-.profile::after {
-    content: "";
-    position: absolute;
-    inset: -5px;
-    background: url('effect.gif') center/cover no-repeat;
-    border-radius: 50%;
-    opacity: 0.6;
-    pointer-events: none;
-}
-
-/* القائمة */
 .menu {
-    position: fixed;
-    bottom: 100px;
-    width: 250px;
-    background: rgba(0,0,0,0.9);
-    border-radius: 15px;
-    padding: 15px;
-    display: none;
+    display: flex;
+    gap: 25px;
 }
 
-/* يسار */
-.left-menu { left: 20px; }
-
-/* يمين */
-.right-menu { right: 20px; }
-
-/* عنوان */
-.menu-title {
-    color: white;
-    text-align: center;
-    margin-bottom: 15px;
-}
-
-/* مربعات */
-.menu-box {
-    display: block;
-    margin: 10px 0;
-    padding: 12px;
-    text-align: center;
-    background: red;
-    color: white;
-    border-radius: 10px;
+.menu a {
+    color: #ccc;
     text-decoration: none;
     transition: 0.3s;
 }
 
-.menu-box:hover {
-    background: purple;
+.menu a:hover {
+    color: gold;
 }
 
-</style>
-</head>
+.login-btn {
+    padding: 10px 20px;
+    background: #8b0000;
+    border-radius: 8px;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
 
+/* القسم الرئيسي */
+.hero {
+    height: 90vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+}
+
+.hero-content {
+    max-width: 600px;
+}
+
+.hero h1 {
+    font-size: 50px;
+    color: gold;
+}
+
+.hero p {
+    margin: 20px 0;
+    color: #ccc;
+}
+
+/* الأزرار */
+.buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 25px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 16px;
+}
+
+.primary {
+    background: #b30000;
+    color: white;
+}
+
+.secondary {
+    background: transparent;
+    border: 1px solid gold;
+    color: gold;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+}
+
+/* تصميم الهاتف */
+@media(max-width: 768px) {
+    nav {
+        padding: 15px;
+    }
+
+    .menu {
+        display: none;
+    }
+
+    .hero h1 {
+        font-size: 35px;
+    }
+}
+</style>
+
+</head>
 <body>
 
-<div class="app-container">
+<nav>
+    <div class="logo">LUXORA</div>
 
-    <div class="cover"></div>
-    <div class="title">KingDom Shadows ✦ مملكة الظلال</div>
-
-    <div class="grid">
-        <div class="box" onclick="openImg(this)">
-            <img src="1.png" data-full="1.png">
-        </div>
-        <div class="box" onclick="openImg(this)">
-            <img src="2.png" data-full="2.png">
-        </div>
-        <div class="box" onclick="openImg(this)">
-            <img src="3.png" data-full="3.png">
-        </div>
+    <div class="menu">
+        <a href="#">الرئيسية</a>
+        <a href="#">خدماتنا</a>
+        <a href="#">المتجر</a>
+        <a href="#">من نحن</a>
+        <a href="#">تواصل</a>
     </div>
 
-</div>
+    <button class="login-btn">تسجيل الدخول</button>
+</nav>
 
-<!-- عارض الصور -->
-<div class="viewer" id="viewer">
-    <button class="close-btn" onclick="closeImg()">اغلاق ✕</button>
-    <img id="viewerImg">
-</div>
+<section class="hero">
+    <div class="hero-content">
+        <h1>مرحباً بك في LUXORA</h1>
+        <p>أسلوب حياة فاخر وتجربة استثنائية</p>
 
-<!-- زر يسار -->
-<div class="profile left-btn" onclick="toggleMenu1()">
-    <img src="20260401_133855.png">
-</div>
-
-<!-- زر يمين -->
-<div class="profile right-btn" onclick="toggleMenu2()">
-    <img src="20260401_134107.jpg">
-</div>
-
-<!-- قائمة يسار -->
-<div class="menu left-menu" id="menu1">
-    <a href="Band1.html" class="menu-box">القانون 1</a>
-    <a href="page2.html" class="menu-box">القانون 2</a>
-</div>
-
-<!-- قائمة يمين -->
-<div class="menu right-menu" id="menu2">
-    <h2 class="menu-title">عابث الأخير</h2>
-
-    <a href="link1.html" class="menu-box">اسم 1</a>
-    <a href="link2.html" class="menu-box">اسم 2</a>
-    <a href="link3.html" class="menu-box">اسم 3</a>
-</div>
-
-<script>
-
-function openImg(el) {
-    const img = el.querySelector("img");
-    document.getElementById("viewer").style.display = "flex";
-    document.getElementById("viewerImg").src = img.dataset.full;
-}
-
-function closeImg() {
-    document.getElementById("viewer").style.display = "none";
-}
-
-function toggleMenu1() {
-    let m = document.getElementById("menu1");
-    m.style.display = (m.style.display === "block") ? "none" : "block";
-}
-
-function toggleMenu2() {
-    let m = document.getElementById("menu2");
-    m.style.display = (m.style.display === "block") ? "none" : "block";
-}
-
-</script>
+        <div class="buttons">
+            <button class="btn primary">استكشف الآن</button>
+            <button class="btn secondary">إنشاء حساب</button>
+            <button class="btn secondary">تسجيل الدخول</button>
+        </div>
+    </div>
+</section>
 
 </body>
 </html>
