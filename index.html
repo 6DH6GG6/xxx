@@ -3,127 +3,90 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LUXORA</title>
+<title>Kage No Teio (Shadow)</title>
 
 <style>
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Tahoma", sans-serif;
+    font-family: Tahoma;
 }
 
 body {
-    background: linear-gradient(135deg, #000000, #1a0000, #330000);
+    background: radial-gradient(circle, #000 40%, #1a0000 100%);
     color: white;
-}
-
-/* النافبار */
-nav {
     display: flex;
-    justify-content: space-between;
+    flex-direction: column;
     align-items: center;
-    padding: 20px 50px;
 }
 
-.logo {
-    font-size: 24px;
-    color: gold;
-    font-weight: bold;
-}
-
-.menu {
-    display: flex;
-    gap: 25px;
-}
-
-.menu a {
-    color: #ccc;
-    text-decoration: none;
-    transition: 0.3s;
-}
-
-.menu a:hover {
-    color: gold;
-}
-
-.login-btn {
-    padding: 10px 20px;
-    background: #8b0000;
-    border-radius: 8px;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-/* القسم الرئيسي */
-.hero {
-    height: 90vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+/* العنوان */
+header {
+    margin: 30px 0;
     text-align: center;
-    padding: 20px;
 }
 
-.hero-content {
-    max-width: 600px;
-}
-
-.hero h1 {
-    font-size: 50px;
+header h1 {
     color: gold;
+    font-size: 40px;
 }
 
-.hero p {
-    margin: 20px 0;
+header span {
     color: #ccc;
+    font-size: 18px;
 }
 
-/* الأزرار */
-.buttons {
-    display: flex;
-    gap: 15px;
+/* الشبكة */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(3, 200px);
+    gap: 20px;
     justify-content: center;
-    flex-wrap: wrap;
 }
 
-.btn {
-    padding: 12px 25px;
-    border-radius: 10px;
-    border: none;
+/* شكل المثلث */
+.card {
+    width: 200px;
+    height: 180px;
+    background: linear-gradient(135deg, #111, #330000);
+    clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    padding-bottom: 15px;
     cursor: pointer;
     transition: 0.3s;
-    font-size: 16px;
+    border: 2px solid rgba(255,0,0,0.3);
 }
 
-.primary {
-    background: #b30000;
-    color: white;
+.card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 20px red;
+    border-color: red;
 }
 
-.secondary {
-    background: transparent;
-    border: 1px solid gold;
-    color: gold;
+/* النص داخل الزر */
+.card span {
+    font-size: 14px;
+    text-align: center;
+    color: #00eaff;
 }
 
-.btn:hover {
-    transform: scale(1.05);
+/* صف ثاني مقلوب */
+.card.down {
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
-/* تصميم الهاتف */
-@media(max-width: 768px) {
-    nav {
-        padding: 15px;
+/* ريسبونسف */
+@media(max-width: 768px){
+    .grid {
+        grid-template-columns: repeat(2, 150px);
     }
 
-    .menu {
-        display: none;
-    }
-
-    .hero h1 {
-        font-size: 35px;
+    .card {
+        width: 150px;
+        height: 140px;
     }
 }
 </style>
@@ -131,32 +94,22 @@ nav {
 </head>
 <body>
 
-<nav>
-    <div class="logo">LUXORA</div>
+<header>
+    <h1>Kage No Teio</h1>
+    <span>(Shadow)</span>
+</header>
 
-    <div class="menu">
-        <a href="#">الرئيسية</a>
-        <a href="#">خدماتنا</a>
-        <a href="#">المتجر</a>
-        <a href="#">من نحن</a>
-        <a href="#">تواصل</a>
-    </div>
+<div class="grid">
 
-    <button class="login-btn">تسجيل الدخول</button>
-</nav>
+    <div class="card"><span>قاعدة بيانات</span></div>
+    <div class="card"><span>تحميل ملفات</span></div>
+    <div class="card"><span>جميع أسماء أعضاء الطائفة</span></div>
 
-<section class="hero">
-    <div class="hero-content">
-        <h1>مرحباً بك في LUXORA</h1>
-        <p>أسلوب حياة فاخر وتجربة استثنائية</p>
+    <div class="card down"><span>تسجيل الإنضمام</span></div>
+    <div class="card down"><span>فضائح عصابات</span></div>
+    <div class="card down"><span>قوانين الدعس</span></div>
 
-        <div class="buttons">
-            <button class="btn primary">استكشف الآن</button>
-            <button class="btn secondary">إنشاء حساب</button>
-            <button class="btn secondary">تسجيل الدخول</button>
-        </div>
-    </div>
-</section>
+</div>
 
 </body>
 </html>
