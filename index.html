@@ -26,7 +26,7 @@ overflow:hidden;
 color:white;
 }
 
-/* 🔥 طبقة احترافية (Blur + Glow) */
+/* طبقة احترافية */
 body::before{
 content:"";
 position:absolute;
@@ -41,62 +41,67 @@ position:relative;
 z-index:1;
 }
 
-/* ===== اللوقو ===== */
+/* اللوقو */
 .logo{
-width:380px;
-margin-bottom:30px;
+width:360px;
+margin-bottom:25px;
 filter:drop-shadow(0 0 35px #00eaff);
-animation:fadeDown 1s ease;
 }
 
-/* ===== الشبكة ===== */
+/* الشبكة */
 .menu{
 display:grid;
-grid-template-columns:repeat(3, 240px);
-grid-template-rows:repeat(2, 200px);
-gap:30px;
+grid-template-columns:repeat(3, 280px);
+grid-template-rows:repeat(2, 240px);
+gap:35px;
 justify-content:center;
 }
 
-/* ===== الأزرار ===== */
+/* الزر */
 .btn{
-width:240px;
-height:200px;
+position:relative;
+width:280px;
+height:240px;
 
-background-size:contain;
-background-repeat:no-repeat;
+background-size:cover;
 background-position:center;
 
 cursor:pointer;
 transition:0.35s;
 
 border:none;
-background-color:transparent;
+overflow:hidden;
+
+/* شكل مائل */
+clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 
 filter:drop-shadow(0 10px 25px rgba(0,0,0,0.7));
-
-/* دخول */
-animation:fadeUp 1s ease;
 }
 
-/* 🔥 تأثير احترافي */
-.btn:hover{
-transform:scale(1.12);
-filter:drop-shadow(0 0 35px #00eaff);
-}
-
-/* 🔥 glow إضافي */
-.btn::after{
+/* طبقة تغميق داخل الزر */
+.btn::before{
 content:"";
 position:absolute;
 inset:0;
-border-radius:10px;
-box-shadow:0 0 0px transparent;
-transition:0.3s;
+background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-.btn:hover::after{
-box-shadow:0 0 25px #00eaff;
+/* النص داخل الزر */
+.btn span{
+position:absolute;
+bottom:20px;
+left:50%;
+transform:translateX(-50%);
+font-size:20px;
+font-weight:bold;
+letter-spacing:2px;
+text-shadow:0 0 10px #00eaff;
+}
+
+/* Hover */
+.btn:hover{
+transform:scale(1.1);
+filter:drop-shadow(0 0 30px #00eaff);
 }
 
 /* نزول الصف الثاني */
@@ -106,30 +111,7 @@ box-shadow:0 0 25px #00eaff;
 margin-top:40px;
 }
 
-/* ===== أنيميشن ===== */
-@keyframes fadeDown{
-from{
-opacity:0;
-transform:translateY(-40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-@keyframes fadeUp{
-from{
-opacity:0;
-transform:translateY(40px);
-}
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* ===== استجابة ===== */
+/* استجابة */
 @media (max-width: 900px){
 .menu{ transform:scale(0.8); }
 .logo{ transform:scale(0.8); }
@@ -150,23 +132,33 @@ transform:translateY(0);
 
 <body>
 
-<!-- اللوقو -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
-<!-- القائمة -->
 <div class="menu">
 
-<div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_155749.png')"></div>
+<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
+<span>أنمي</span>
+</div>
 
-<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/20260426_160952.png')"></div>
+<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')">
+<span>فضائح عصابات</span>
+</div>
 
-<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/20260426_155319.png')"></div>
+<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')">
+<span>قوانين الدعس</span>
+</div>
 
-<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/20260426_160315.png')"></div>
+<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')">
+<span>ترسيم أعضاء</span>
+</div>
 
-<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/20260426_160850.png')"></div>
+<div class="btn" onclick="go('shadows.html')" style="background-image:url('Pictures/20260426_160850.png')">
+<span>أسماء الظلال</span>
+</div>
 
-<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/20260426_154329.png')"></div>
+<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')">
+<span>تحميل ملفات</span>
+</div>
 
 </div>
 
