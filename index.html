@@ -22,10 +22,27 @@ flex-direction:column;
 color:white;
 text-align:center;
 
-/* خلفية الكمبيوتر */
-background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
+/* 🔥 الخلفية الجديدة */
+background:url('bg.png') no-repeat center center fixed;
 background-size:cover;
-padding:20px;
+position:relative;
+}
+
+/* 🔴 طبقة سواد + دمج */
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.65);
+backdrop-filter:blur(3px);
+z-index:0;
+}
+
+/* كل شيء فوق الطبقة */
+body *{
+position:relative;
+z-index:1;
 }
 
 /* شعار */
@@ -33,77 +50,95 @@ padding:20px;
 width:180px;
 max-width:90%;
 margin-bottom:10px;
+filter:drop-shadow(0 0 10px red);
 }
 
 h1{
 font-size:50px;
-color:#d80000;
-text-shadow:0 0 15px red;
+color:#ff0000;
+text-shadow:0 0 20px red, 0 0 40px #ff0000;
+letter-spacing:2px;
 }
 
 h2{
 font-size:24px;
 margin-bottom:30px;
-color:#ddd;
+color:#ccc;
 }
 
-/* شبكة الأزرار */
+/* الشبكة */
 .menu{
 display:grid;
 grid-template-columns:repeat(3, 220px);
-gap:0;
 row-gap:14px;
 justify-content:center;
 }
 
-/* الزر */
+/* العنصر */
 .item{
 display:flex;
 flex-direction:column;
 align-items:center;
-margin-top:0;
 }
 
-/* المثلث */
+/* 🔺 الزر */
 .btn{
 width:220px;
 height:190px;
-background:url('btn.png') no-repeat center center;
-background-size:100% 100%;
+background:linear-gradient(145deg,#0a0a0a,#1a0000);
 clip-path:polygon(50% 0%,100% 100%,0% 100%);
 cursor:pointer;
 transition:.3s;
+position:relative;
+overflow:hidden;
+
+/* 🔥 إطار أحمر */
+box-shadow:0 0 10px red inset, 0 0 10px red;
 }
 
+/* توهج داخلي */
+.btn::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:radial-gradient(circle, rgba(255,0,0,0.4), transparent 70%);
+opacity:0;
+transition:.3s;
+}
+
+/* Hover */
 .btn:hover{
-transform:scale(1.05);
-filter:drop-shadow(0 0 15px red);
+transform:scale(1.07);
+box-shadow:0 0 25px red, 0 0 40px red;
 }
 
-/* الصف الثاني مقلوب */
+.btn:hover::before{
+opacity:1;
+}
+
+/* الصف الثاني */
 .down .btn{
 clip-path:polygon(0 0,100% 0,50% 100%);
 }
 
-/* رفع الصف الثاني */
 .down{
 margin-top:-45px;
 }
 
-/* الاسم تحت الزر */
+/* النص */
 .name{
 margin-top:8px;
 font-size:20px;
 font-weight:bold;
-text-shadow:0 0 10px red;
+text-shadow:0 0 10px red, 0 0 20px red;
 }
 
-/* الهاتف */
+/* 📱 الهاتف */
 @media(max-width:768px){
 
 body{
-/* خلفية الهاتف */
-background:url('file_00000000bb7c71fda234bb3f16d6a03f.png') no-repeat center center fixed;
+background:url('bg-mobile.png') no-repeat center center fixed;
 background-size:cover;
 }
 
@@ -123,10 +158,6 @@ margin-bottom:20px;
 .menu{
 grid-template-columns:repeat(3, 105px);
 row-gap:8px;
-}
-
-.item{
-margin-top:0;
 }
 
 .btn{
