@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Kage No Teio</title>
 
 <style>
@@ -23,8 +24,7 @@ color:white;
 text-align:center;
 background:url('file_0000000089e071f8b71e687d9cf82965.png') no-repeat center center fixed;
 background-size:cover;
-position:relative;
-overflow-x:hidden;
+overflow:hidden;
 }
 
 /* طبقة الظلام */
@@ -33,8 +33,8 @@ content:"";
 position:absolute;
 width:100%;
 height:100%;
-background:rgba(0,0,0,0.65);
-backdrop-filter:blur(3px);
+background:rgba(0,0,0,0.7);
+backdrop-filter:blur(4px);
 z-index:0;
 }
 
@@ -43,79 +43,87 @@ position:relative;
 z-index:1;
 }
 
-/* شعار */
+/* ===== العنوان ===== */
 .logo{
-width:180px;
+width:160px;
 margin-bottom:10px;
-filter:drop-shadow(0 0 10px red);
+filter:drop-shadow(0 0 15px red);
 }
 
 h1{
-font-size:50px;
+font-size:55px;
 color:#ff0000;
-text-shadow:0 0 20px red, 0 0 40px #ff0000;
+letter-spacing:3px;
+text-shadow:
+0 0 10px red,
+0 0 30px red,
+0 0 60px #ff0000;
+}
+
+/* زخرفة */
+h1::after{
+content:"✦ KAGE NO TEIO ✦";
+display:block;
+font-size:14px;
+color:#aaa;
+margin-top:5px;
+letter-spacing:4px;
 }
 
 h2{
-font-size:24px;
-margin-bottom:30px;
+font-size:22px;
 color:#ccc;
+margin-bottom:40px;
 }
 
-/* الشبكة */
+/* ===== القائمة ===== */
 .menu{
-display:grid;
-grid-template-columns:repeat(3, 220px);
-gap:14px;
-justify-content:center;
-}
-
-/* العنصر */
-.item{
 display:flex;
 flex-direction:column;
 align-items:center;
+gap:20px;
 }
 
-/* زر */
+/* الصفوف */
+.row{
+display:flex;
+gap:25px;
+}
+
+/* الصف السفلي ينزاح */
+.row.bottom{
+margin-top:-70px;
+}
+
+/* ===== الزر ===== */
 .btn{
-width:220px;
-height:190px;
+width:260px;
+height:220px;
 background:linear-gradient(145deg,#0a0a0a,#1a0000);
 clip-path:polygon(50% 0%,100% 100%,0% 100%);
 cursor:pointer;
-transition:.35s;
-position:relative;
-overflow:hidden;
-box-shadow:0 0 10px red inset, 0 0 10px red;
+transition:.3s;
+box-shadow:0 0 15px red inset, 0 0 20px red;
 
 display:flex;
 align-items:flex-end;
 justify-content:center;
-padding-bottom:15px;
+padding-bottom:20px;
 }
 
-/* نص الزر */
 .btn span{
-font-size:18px;
+font-size:20px;
 font-weight:bold;
 text-shadow:0 0 10px red,0 0 20px red;
 }
 
-/* hover */
 .btn:hover{
-transform:scale(1.08);
-box-shadow:0 0 30px red, 0 0 50px red;
+transform:scale(1.1);
+box-shadow:0 0 40px red, 0 0 80px red;
 }
 
-/* click */
 .btn:active{
 transform:scale(1.2);
-}
-
-/* الصف الثاني */
-.down{
-margin-top:-45px;
 }
 
 /* overlay */
@@ -130,7 +138,6 @@ display:none;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-text-align:center;
 }
 
 /* زر ستارت */
@@ -153,80 +160,56 @@ transform:scale(1.1);
 box-shadow:0 0 40px red;
 }
 
-/* ========== الهاتف ========== */
+/* 📱 موبايل */
 @media(max-width:768px){
 
-.menu{
-grid-template-columns:repeat(2,1fr);
-gap:10px;
-padding:10px;
+.row{
+flex-direction:column;
 }
 
-.btn{
-width:100%;
-height:120px;
-clip-path:polygon(50% 0%,100% 100%,0% 100%);
-}
-
-.down{
+.row.bottom{
 margin-top:0;
 }
 
-.btn span{
-font-size:14px;
+.btn{
+width:90%;
+height:140px;
 }
 
 h1{
 font-size:30px;
 }
 
-h2{
-font-size:16px;
 }
-
-.logo{
-width:120px;
-}
-}
-
 </style>
 </head>
 
 <body>
 
 <img src="logo.png" class="logo">
+
 <h1>KAGE NO TEIO</h1>
-<h2>(SHADOW)</h2>
+<h2>( Shadow )</h2>
 
 <div class="menu">
 
-<div class="item">
+<!-- الصف العلوي -->
+<div class="row">
 <div class="btn" onclick="go('index.html')"><span>قاعدة بيانات</span></div>
-</div>
-
-<div class="item">
 <div class="btn" onclick="go('index.html')"><span>تحميل ملفات</span></div>
-</div>
-
-<div class="item">
 <div class="btn" onclick="openMembers()"><span>أسماء الأعضاء</span></div>
 </div>
 
-<div class="item down">
+<!-- الصف السفلي -->
+<div class="row bottom">
 <div class="btn" onclick="openJoin()"><span>تسجيل الإنضمام</span></div>
-</div>
-
-<div class="item down">
 <div class="btn" onclick="go('index.html')"><span>فضائح عصابات</span></div>
-</div>
-
-<div class="item down">
 <div class="btn" onclick="go('index.html')"><span>قوانين الدعس</span></div>
 </div>
 
 </div>
 
-<!-- قائمة الأعضاء -->
+<!-- الأعضاء -->
 <div class="overlay" id="members">
 <h2>أعضاء الطائفة</h2>
 </div>
@@ -238,7 +221,6 @@ width:120px;
 </div>
 
 <script>
-
 function go(page){
 event.target.closest('.btn').style.transform="scale(1.2)";
 setTimeout(()=>{window.location=page},1000);
@@ -252,7 +234,6 @@ function openJoin(){
 document.getElementById("join").style.display="flex";
 }
 
-/* إرسال (placeholder فقط) */
 function start(){
 fetch('/api/send', {
 method:'POST',
@@ -261,7 +242,6 @@ body:JSON.stringify({status:"join_request"})
 });
 alert("تم الإرسال");
 }
-
 </script>
 
 </body>
