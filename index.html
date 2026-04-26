@@ -27,7 +27,7 @@ color:white;
 overflow:hidden;
 }
 
-/* ===== OVERLAY ===== */
+/* طبقة */
 body::before{
 content:"";
 position:absolute;
@@ -53,10 +53,7 @@ animation:fadeOut 2s forwards 2s;
 }
 
 @keyframes fadeOut{
-to{
-opacity:0;
-visibility:hidden;
-}
+to{opacity:0; visibility:hidden;}
 }
 
 /* ===== CONTAINER ===== */
@@ -69,13 +66,6 @@ align-items:center;
 width:100%;
 max-width:1200px;
 padding:20px;
-}
-
-/* ===== LOGO ===== */
-.logo{
-width:clamp(200px, 40vw, 340px);
-margin-bottom:25px;
-filter:drop-shadow(0 0 25px #00eaff);
 }
 
 /* ===== SOCIAL ===== */
@@ -105,6 +95,13 @@ transform:scale(1.2);
 box-shadow:0 0 20px #1877f2;
 }
 
+/* ===== LOGO ===== */
+.logo{
+width:clamp(200px,40vw,340px);
+margin-bottom:25px;
+filter:drop-shadow(0 0 25px #00eaff);
+}
+
 /* ===== MENU ===== */
 .menu{
 display:grid;
@@ -122,7 +119,7 @@ background-position:center;
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
-transition:0.25s;
+transition:0.2s;
 }
 
 /* overlay */
@@ -142,7 +139,7 @@ background:linear-gradient(120deg, transparent, rgba(0,234,255,0.3), transparent
 opacity:0;
 }
 
-/* TEXT */
+/* النص */
 .btn span{
 position:absolute;
 bottom:15px;
@@ -172,9 +169,10 @@ animation:glowMove 1s linear;
 100%{transform:translateX(100%);}
 }
 
-/* click */
+/* ضغط */
 .btn:active{
-transform:scale(0.95);
+transform:scale(0.92);
+box-shadow:0 0 15px #00eaff inset;
 }
 
 /* ===== FADE ===== */
@@ -238,8 +236,10 @@ animation:blink 1s infinite;
 
 <div class="container">
 
+<!-- اللوقو -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
+<!-- القائمة -->
 <div class="menu">
 
 <div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')">
@@ -273,6 +273,7 @@ animation:blink 1s infinite;
 <script>
 
 function go(page){
+
 let sound = document.getElementById("clickSound");
 let fade = document.getElementById("fade");
 
@@ -284,16 +285,17 @@ sound.play();
 
 /* اهتزاز */
 if(navigator.vibrate){
-navigator.vibrate(80);
+navigator.vibrate(100);
 }
 
-/* Fade */
+/* fade */
 fade.classList.add("active");
 
 /* تأخير */
 setTimeout(()=>{
 window.location.href = page;
 },2000);
+
 }
 
 </script>
