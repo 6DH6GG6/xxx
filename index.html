@@ -3,104 +3,115 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Kage No Teio</title>
+<title>Fancy Game UI</title>
 
 <style>
+
+/* RESET */
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Tahoma;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family: 'Segoe UI', sans-serif;
 }
 
 body{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-background:url('Background/bg.jpg') center/cover no-repeat;
-position:relative;
-overflow:hidden;
-color:white;
+  background:#000;
+  display:flex;
+  justify-content:center;
 }
 
-/* طبقة ظلام */
-body::before{
-content:"";
-position:absolute;
-inset:0;
-background:rgba(0,0,0,0.6);
-z-index:0;
+/* الحاوية */
+.container{
+  width:100%;
+  max-width:1200px;
+  padding:40px 20px;
 }
 
-body *{
-position:relative;
-z-index:1;
+/* الشبكة */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:30px;
 }
 
-/* الشعار */
-.logo{
-width:280px;
-margin-bottom:30px;
-filter:drop-shadow(0 0 20px #00eaff);
+/* الكرت */
+.card{
+  position:relative;
+  height:230px;
+  color:#fff;
+  overflow:hidden;
+  cursor:pointer;
+
+  clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+  border:2px solid rgba(0,255,255,0.2);
+  transition:0.4s;
 }
 
-/* ===== الشبكة 3x2 ===== */
-.menu{
-display:grid;
-grid-template-columns:repeat(3, 1fr);
-gap:30px;
-justify-items:center;
-align-items:center;
-max-width:900px;
+/* الصورة */
+.card img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  filter:brightness(0.7);
+  transition:0.4s;
 }
 
-/* الزر PNG فقط */
-.btn{
-width:240px;
-height:200px;
-
-/* الصورة هي الشكل الحقيقي */
-background-size:contain;
-background-repeat:no-repeat;
-background-position:center;
-
-cursor:pointer;
-transition:0.25s;
-
-/* بدون أي شكل مستطيل */
-border:none;
-outline:none;
-background-color:transparent;
-
-/* عمق فقط */
-filter:drop-shadow(0 10px 20px rgba(0,0,0,0.6));
+/* الطبقة الداكنة */
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
-/* hover */
-.btn:hover{
-transform:scale(1.08);
-filter:drop-shadow(0 0 25px #00eaff);
+/* النص */
+.card span{
+  position:absolute;
+  bottom:15px;
+  left:50%;
+  transform:translateX(-50%);
+  font-weight:bold;
+  letter-spacing:2px;
 }
 
-/* موبايل */
+/* hover فاخر */
+.card:hover{
+  transform:scale(1.05);
+  box-shadow:0 0 25px #00f0ff;
+}
+
+.card:hover img{
+  transform:scale(1.1);
+  filter:brightness(1);
+}
+
+/* تأثير نيون خفيف */
+.card::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  border:1px solid transparent;
+  transition:0.3s;
+}
+
+.card:hover::after{
+  border-color:#00f0ff;
+  box-shadow:0 0 15px #00f0ff inset;
+}
+
+/* الاستجابة */
 @media(max-width:900px){
-.menu{
-grid-template-columns:repeat(2, 1fr);
-}
-
-.btn{
-width:160px;
-height:140px;
-}
+  .grid{
+    grid-template-columns:repeat(2,1fr);
+  }
 }
 
 @media(max-width:500px){
-.menu{
-grid-template-columns:1fr;
-}
+  .grid{
+    grid-template-columns:1fr;
+  }
 }
 
 </style>
@@ -108,27 +119,41 @@ grid-template-columns:1fr;
 
 <body>
 
-<!-- الشعار -->
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
+<div class="container">
+  <div class="grid">
 
-<!-- 🔥 6 أزرار 3×2 -->
-<div class="menu">
+    <div class="card">
+      <img src="https://picsum.photos/400/300?1">
+      <span>TEAM</span>
+    </div>
 
-<div class="btn" onclick="go('background.html')" style="background-image:url('Pictures/20260426_133305.png')"></div>
-<div class="btn" onclick="go('developers.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
-<div class="btn" onclick="go('pictures.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+    <div class="card">
+      <img src="https://picsum.photos/400/300?2">
+      <span>STORY</span>
+    </div>
 
-<div class="btn" onclick="go('team.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
-<div class="btn" onclick="go('arena.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
-<div class="btn" onclick="go('training.html')" style="background-image:url('Pictures/20260426_134027.png')"></div>
+    <div class="card">
+      <img src="https://picsum.photos/400/300?3">
+      <span>CHALLENGE</span>
+    </div>
 
+    <div class="card">
+      <img src="https://picsum.photos/400/300?4">
+      <span>ARENA</span>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400/300?5">
+      <span>FAIR PLAY</span>
+    </div>
+
+    <div class="card">
+      <img src="https://picsum.photos/400/300?6">
+      <span>TRAINING</span>
+    </div>
+
+  </div>
 </div>
-
-<script>
-function go(page){
-window.location = page;
-}
-</script>
 
 </body>
 </html>
