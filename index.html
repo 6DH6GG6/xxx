@@ -11,7 +11,7 @@
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Tahoma;
+font-family:Tahome;
 }
 
 body{
@@ -20,55 +20,31 @@ display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:#0b0f1a;
+background:url('bg.jpg') center/cover no-repeat;
 color:white;
 overflow:hidden;
 }
 
-/* ===== العنوان الفخم ===== */
-.title{
-font-size:60px;
-font-weight:bold;
-letter-spacing:4px;
-
-background:linear-gradient(
-to bottom,
-#ffffff 0%,
-#d6d6d6 30%,
-#999 50%,
-#ffffff 70%,
-#aaa 100%
-);
-
--webkit-background-clip:text;
--webkit-text-fill-color:transparent;
--webkit-text-stroke:2px #000;
-
-text-shadow:
-0 2px 0 #000,
-0 4px 10px rgba(0,0,0,0.8),
-0 0 20px #00eaff;
-
-animation:shine 3s infinite linear;
+/* طبقة غامقة */
+body::before{
+content:"";
+position:absolute;
+width:100%;
+height:100%;
+background:rgba(0,0,0,0.5);
+z-index:0;
 }
 
-@keyframes shine{
-0%{filter:brightness(1);}
-50%{filter:brightness(1.4);}
-100%{filter:brightness(1);}
+body *{
+position:relative;
+z-index:1;
 }
 
-/* SHADOW */
-.subtitle{
-font-size:28px;
-letter-spacing:6px;
-margin-bottom:40px;
-color:#00eaff;
-
-text-shadow:
-0 0 10px #00eaff,
-0 0 20px #00eaff,
-0 0 40px #00eaff;
+/* ===== الشعار (PNG) ===== */
+.logo{
+width:320px;
+margin-bottom:30px;
+filter:drop-shadow(0 0 20px #00eaff);
 }
 
 /* ===== الشبكة ===== */
@@ -79,27 +55,29 @@ align-items:center;
 gap:30px;
 }
 
+/* الصف */
 .row{
 display:flex;
-gap:25px;
+gap:20px;
 }
 
+/* الصف السفلي */
 .row.bottom{
-margin-top:-60px;
+margin-top:-90px;
 }
 
-/* ===== الزر السداسي ===== */
-.hex-btn{
-width:230px;
-height:260px;
+/* ===== زر سداسي مائل ===== */
+.hex{
+width:260px;
+height:220px;
 
 clip-path:polygon(
-50% 0%,
-100% 25%,
-100% 75%,
-50% 100%,
-0% 75%,
-0% 25%
+25% 0%,
+75% 0%,
+100% 50%,
+75% 100%,
+25% 100%,
+0% 50%
 );
 
 position:relative;
@@ -107,19 +85,22 @@ cursor:pointer;
 overflow:hidden;
 transition:.3s;
 
-/* إطار */
-box-shadow:0 0 15px #00eaff;
+/* إطار أزرق */
+border:4px solid rgba(0,200,255,0.8);
+box-shadow:
+0 0 15px #00eaff,
+0 0 40px rgba(0,200,255,0.6);
 }
 
-/* صورة */
-.hex-btn img{
+/* الصورة داخل الزر */
+.hex img{
 width:100%;
 height:100%;
 object-fit:cover;
 }
 
-/* طبقة تدرج */
-.hex-btn::after{
+/* طبقة إضاءة */
+.hex::after{
 content:"";
 position:absolute;
 width:100%;
@@ -128,21 +109,24 @@ background:linear-gradient(to top, rgba(0,0,0,0.8), transparent);
 }
 
 /* النص */
-.hex-btn span{
+.hex span{
 position:absolute;
-bottom:15px;
+bottom:12px;
 width:100%;
 text-align:center;
-font-weight:bold;
 font-size:18px;
-text-shadow:0 0 10px black;
+font-weight:bold;
+color:#00eaff;
+text-shadow:0 0 10px #000;
 }
 
 /* hover */
-.hex-btn:hover{
+.hex:hover{
 transform:scale(1.08);
 filter:brightness(1.2);
-box-shadow:0 0 40px #00eaff;
+box-shadow:
+0 0 30px #00eaff,
+0 0 80px #00eaff;
 }
 
 /* ===== overlay ===== */
@@ -179,68 +163,70 @@ flex-direction:column;
 margin-top:0;
 }
 
-.hex-btn{
-width:80%;
-height:200px;
+.hex{
+width:85%;
+height:180px;
 }
 
-.title{
-font-size:30px;
+.logo{
+width:200px;
 }
 
-.subtitle{
-font-size:18px;
-}
 }
 </style>
 </head>
 
 <body>
 
-<h1 class="title">KAGE NO TEIO</h1>
-<h2 class="subtitle">( SHADOW )</h2>
+<!-- 🔥 الشعار PNG -->
+<img src="logo.png" class="logo">
+<!-- حط هنا صورة Kage No Teio (shadow) شفافة -->
 
 <div class="menu">
 
 <!-- الصف العلوي -->
 <div class="row">
-<div class="hex-btn" onclick="go('index.html')">
+
+<div class="hex" onclick="go('index.html')">
 <img src="team.jpg">
-<span>قاعدة بيانات</span>
+<span>TEAM</span>
 </div>
 
-<div class="hex-btn" onclick="go('index.html')">
+<div class="hex" onclick="go('index.html')">
 <img src="story.jpg">
-<span>تحميل ملفات</span>
+<span>STORY</span>
 </div>
 
-<div class="hex-btn" onclick="openMembers()">
+<div class="hex" onclick="openMembers()">
 <img src="challenge.jpg">
-<span>أسماء الأعضاء</span>
+<span>CHALLENGE</span>
 </div>
+
 </div>
 
 <!-- الصف السفلي -->
 <div class="row bottom">
-<div class="hex-btn" onclick="openJoin()">
+
+<div class="hex" onclick="openJoin()">
 <img src="arena.jpg">
-<span>تسجيل الإنضمام</span>
+<span>ARENA</span>
 </div>
 
-<div class="hex-btn" onclick="go('index.html')">
+<div class="hex" onclick="go('index.html')">
 <img src="fairplay.jpg">
-<span>فضائح عصابات</span>
+<span>Fair Play</span>
 </div>
 
-<div class="hex-btn" onclick="go('index.html')">
+<div class="hex" onclick="go('index.html')">
 <img src="training.jpg">
-<span>قوانين الدعس</span>
+<span>TRAINING</span>
 </div>
+
 </div>
 
 </div>
 
-<!-- قائمة الأعضاء -->
+<!-- الأعضاء -->
 <div class="overlay" id="members">
 <h2>أعضاء الطائفة</h2>
 </div>
