@@ -14,11 +14,14 @@
 }
 
 body {
-    background: radial-gradient(circle, #000 40%, #1a0000 100%);
     color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    /* خلفية الكمبيوتر */
+    background: url('ggg.png') no-repeat center center fixed;
+    background-size: cover;
 }
 
 /* العنوان */
@@ -66,20 +69,24 @@ header span {
     border-color: red;
 }
 
-/* النص داخل الزر */
 .card span {
     font-size: 14px;
     text-align: center;
     color: #00eaff;
 }
 
-/* صف ثاني مقلوب */
 .card.down {
     clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
-/* ريسبونسف */
+/* الهاتف */
 @media(max-width: 768px){
+    body{
+        /* خلفية الهاتف */
+        background: url('ggg.png') no-repeat center center fixed;
+        background-size: cover;
+    }
+
     .grid {
         grid-template-columns: repeat(2, 150px);
     }
