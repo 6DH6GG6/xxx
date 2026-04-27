@@ -22,20 +22,10 @@ min-height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-background:url('صور_متحركة/866f30792413dcb70ce06c91c1ad3f4e.gif') center/cover no-repeat;
+background:black;
 color:white;
 overflow:hidden;
 cursor:none;
-}
-
-/* طبقة */
-body::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95));
-backdrop-filter:blur(3px);
-z-index:0;
 }
 
 /* ===== CURSOR ===== */
@@ -65,53 +55,8 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-/* ===== HUD ===== */
-.hud{
-position:fixed;
-top:10px;
-left:15px;
-font-size:12px;
-color:#00eaff;
-line-height:1.6;
-text-shadow:0 0 10px #00eaff;
-z-index:2;
-}
-
-/* ===== SOCIAL ===== */
-.social{
-position:fixed;
-right:15px;
-top:15px;
-z-index:2;
-}
-
-.social a{
-width:50px;
-height:50px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-overflow:hidden;
-box-shadow:0 0 15px #1877f2;
-transition:0.3s;
-}
-
-.social a img{
-width:100%;
-height:100%;
-object-fit:cover;
-border-radius:50%;
-}
-
-.social a:hover{
-transform:scale(1.2) rotate(5deg);
-box-shadow:0 0 25px #00eaff;
-}
-
 /* ===== CONTAINER ===== */
 .container{
-position:relative;
 z-index:2;
 display:flex;
 flex-direction:column;
@@ -123,28 +68,9 @@ padding:20px;
 
 /* ===== LOGO ===== */
 .logo{
-width:clamp(200px,40vw,340px);
-margin-bottom:10px;
-filter:drop-shadow(0 0 25px #00eaff);
-}
-
-/* ===== TYPE TEXT ===== */
-.type{
-margin-bottom:15px;
-color:#00eaff;
-letter-spacing:2px;
-font-size:14px;
-}
-
-/* ===== QUOTES ===== */
-.quote{
-position:fixed;
-bottom:80px;
-font-size:14px;
-color:#aaa;
-opacity:0;
-transition:1s;
-z-index:2;
+width:250px;
+margin-bottom:20px;
+filter:drop-shadow(0 0 20px #00eaff);
 }
 
 /* ===== MENU ===== */
@@ -159,71 +85,35 @@ width:100%;
 .btn{
 position:relative;
 aspect-ratio:4/3;
-
-/* نجوم + تكبير */
-background-size:300%;
+background-size:cover;
 background-position:center;
-
-/* حركة بطيئة */
-animation:bgMove 20s linear infinite;
-
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 
 opacity:0;
 transform:translateY(40px);
-animation:fadeUp 0.8s ease forwards, bgMove 20s linear infinite;
-
-z-index:1;
+animation:fadeUp 0.8s ease forwards;
 }
 
-.btn:nth-child(1){animation-delay:0.2s;}
-.btn:nth-child(2){animation-delay:0.4s;}
-.btn:nth-child(3){animation-delay:0.6s;}
-.btn:nth-child(4){animation-delay:0.8s;}
-.btn:nth-child(5){animation-delay:1s;}
-.btn:nth-child(6){animation-delay:1.2s;}
-
-/* طبقة الظل */
-.btn::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);
-z-index:0;
-}
-
-/* ===== TEXT داخل الأزرار ===== */
-.btn span{
-position:absolute;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-width:90%;
-text-align:center;
-font-size:clamp(12px,1.6vw,17px);
-font-weight:bold;
-color:#00f7ff;
-
-z-index:2; /* أهم إصلاح */
-
-text-shadow:
-0 0 5px #00f7ff,
-0 0 10px #00eaff,
-0 0 20px #00eaff,
-0 0 35px rgba(0,234,255,0.7);
-
-animation:glowText 2s infinite alternate;
-}
-
-/* ===== HOVER ===== */
+/* Glow فاخر */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
 }
 
-/* ===== ANIMATIONS ===== */
+/* نص */
+.btn span{
+position:absolute;
+bottom:15px;
+left:50%;
+transform:translateX(-50%);
+color:#00eaff;
+font-weight:bold;
+text-shadow:0 0 10px #00eaff;
+}
+
+/* دخول */
 @keyframes fadeUp{
 to{
 opacity:1;
@@ -231,145 +121,53 @@ transform:translateY(0);
 }
 }
 
-@keyframes bgMove{
-from{background-position:0% 0%;}
-to{background-position:100% 100%;}
-}
-
-@keyframes glowText{
-from{opacity:0.8;}
-to{opacity:1;}
-}
-
-/* ===== FOOTER ===== */
-.footer{
-position:fixed;
-bottom:10px;
-left:50%;
-transform:translateX(-50%);
-font-size:12px;
-color:#555;
-z-index:2;
-}
-
-/* ===== MOBILE ===== */
-@media(max-width:350px){
-.menu{
-grid-template-columns:repeat(2,1fr);
-}
-}
-
-/* ===== SHADOW MENU ===== */
-.shadow-menu{
+/* ===== POPUP ===== */
+.popup{
 position:fixed;
 inset:0;
-
-/* النجوم */
-background:
-linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95)),
-url('stars.jpg') center/cover no-repeat;
-
-/* تكبير الصورة */
-background-size:400%;
-background-position:center;
-
-/* تحريك خفيف (اختياري) */
-animation:moveStars 80s linear infinite;
-
+background:rgba(0,0,0,0.95);
 display:flex;
 justify-content:center;
 align-items:center;
-
 opacity:0;
 pointer-events:none;
 transition:0.5s;
 z-index:999;
-backdrop-filter:blur(6px);
 }
 
-.shadow-menu.active{
+.popup.active{
 opacity:1;
 pointer-events:auto;
 }
 
 /* BOX */
-.shadow-box{
-background:rgba(10,10,10,0.95);
+.popup-box{
+background:#111;
 padding:40px;
 border-radius:20px;
 text-align:center;
-box-shadow:0 0 40px #00eaff;
-transform:scale(0.7);
-opacity:0;
-transition:0.5s;
-}
-
-/* عند الفتح */
-.shadow-menu.active .shadow-box{
-transform:scale(1);
-opacity:1;
+box-shadow:0 0 30px #00eaff;
 }
 
 /* TITLE */
-.shadow-box h2{
-margin-bottom:20px;
+.popup-box h2{
 color:#00eaff;
-text-shadow:0 0 15px #00eaff;
+margin-bottom:15px;
 }
 
-/* LIST */
-.shadow-box ul{
-list-style:none;
+/* TEXT */
+.popup-box p{
+color:#aaa;
 margin-bottom:20px;
 }
-
-.shadow-box ul li{
-margin:10px 0;
-font-size:18px;
-color:#aaa;
-opacity:0;
-transform:translateY(20px);
-}
-
-.shadow-menu.active .shadow-box ul li{
-animation:fadeItem 0.5s forwards;
-}
-
-.shadow-menu:not(.active) .shadow-box ul li{
-animation:none !important;
-}
-
-/* delay لكل عنصر */
-.shadow-box ul li:nth-child(1){animation-delay:0.2s;}
-.shadow-box ul li:nth-child(2){animation-delay:0.4s;}
-.shadow-box ul li:nth-child(3){animation-delay:0.6s;}
-.shadow-box ul li:nth-child(4){animation-delay:0.8s;}
-.shadow-box ul li:nth-child(5){animation-delay:1s;}
-.shadow-box ul li:nth-child(6){animation-delay:1.2s;}
 
 /* BUTTON */
-.shadow-box button{
-padding:10px 25px;
+.popup-box button{
+padding:10px 20px;
 border:none;
 background:#00eaff;
-color:black;
-font-weight:bold;
-border-radius:10px;
 cursor:pointer;
-transition:0.3s;
-}
-
-.shadow-box button:hover{
-transform:scale(1.1);
-box-shadow:0 0 20px #00eaff;
-}
-
-/* ANIMATION */
-@keyframes fadeItem{
-to{
-opacity:1;
-transform:translateY(0);
-}
+border-radius:10px;
 }
 
 </style>
@@ -377,76 +175,40 @@ transform:translateY(0);
 
 <body>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
-
-<!-- STARS -->
 <div class="stars"></div>
-
-<!-- HUD -->
-<div class="hud">
-STATUS: ONLINE<br>
-RANK: SHADOW ELITE<br>
-POWER: 98%
-</div>
-
-<!-- SOUND -->
-<audio id="clickSound" src="click.mp3"></audio>
-
-<!-- MUSIC -->
-<audio autoplay loop>
-<source src="music.mp3">
-</audio>
-
-<!-- SOCIAL -->
-<div class="social">
-<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">
-<img src="Facebook/20260427_084709.png" alt="fb">
-</a>
-</div>
 
 <div class="container">
 
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
-
-<div class="type" id="typeText"></div>
+<img src="https://via.placeholder.com/300x100" class="logo">
 
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
+<div class="btn" onclick="openMenu('أنمي')" style="background-image:url('https://picsum.photos/300?1')"><span>أنمي</span></div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
+<div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('https://picsum.photos/300?2')"><span>فضائح عصابات</span></div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
+<div class="btn" onclick="openMenu('قوانين')" style="background-image:url('https://picsum.photos/300?3')"><span>قوانين</span></div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
+<div class="btn" onclick="openMenu('أعضاء')" style="background-image:url('https://picsum.photos/300?4')"><span>أعضاء</span></div>
 
-<div class="btn" onclick="openShadows('shadows')" style="background-image:url('Pictures/20260426_160850.png')">
-<span>أسماء الظلال</span>
-</div>
+<div class="btn" onclick="openMenu('الظلال')" style="background-image:url('https://picsum.photos/300?5')"><span>أسماء الظلال</span></div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn" onclick="openMenu('تحميل')" style="background-image:url('https://picsum.photos/300?6')"><span>تحميل</span></div>
 
 </div>
 </div>
 
-<div class="quote" id="quote"></div>
-
-<div class="footer">© Kage No Teio - Shadow System</div>
+<!-- POPUP -->
+<div class="popup" id="popup">
+<div class="popup-box">
+<h2 id="popupTitle"></h2>
+<p>الظلال تتربص في ظلال</p>
+<button onclick="closeMenu()">إغلاق</button>
+</div>
+</div>
 
 <script>
-
-/* ===== NAV ===== */
-function go(page){
-let s=document.getElementById("clickSound");
-if(s){
-s.currentTime=0;
-s.play();
-}
-setTimeout(()=>{
-window.location.href=page;
-},2000);
-}
 
 /* ===== CURSOR ===== */
 let cursor=document.getElementById("cursor");
@@ -455,86 +217,18 @@ cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
 
-/* ===== TYPE ===== */
-let text="WELCOME TO SHADOW SYSTEM";
-let i=0;
-
-function type(){
-if(i<text.length){
-document.getElementById("typeText").innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,50);
-}
-}
-type();
-
-/* ===== QUOTES ===== */
-let quotes=[
-"We are the shadows...",
-"Power hides in darkness",
-"Observe. Adapt. Dominate."
-];
-
-setInterval(()=>{
-let q=document.getElementById("quote");
-q.innerText=quotes[Math.floor(Math.random()*quotes.length)];
-q.style.opacity=1;
-
-setTimeout(()=>{
-q.style.opacity=0;
-},4000);
-
-},6000);
-
-function openShadows(type){
-
-let menu = document.getElementById("shadowMenu");
-let list = document.querySelector("#shadowMenu ul");
-
-if(type === "shadows"){
-list.innerHTML = `
-<li>Shadow Alpha</li>
-<li>Night Reaper</li>
-<li>Phantom Zero</li>
-<li>Dark Raven</li>
-<li>Silent Ghost</li>
-<li>Void King</li>
-`;
+/* ===== OPEN MENU ===== */
+function openMenu(title){
+document.getElementById("popupTitle").innerText = title;
+document.getElementById("popup").classList.add("active");
 }
 
-menu.classList.add("active");
-}
-
-function closeShadows(){
-let menu = document.getElementById("shadowMenu");
-let items = document.querySelectorAll(".shadow-box ul li");
-
-menu.classList.remove("active");
+/* ===== CLOSE ===== */
+function closeMenu(){
+document.getElementById("popup").classList.remove("active");
 }
 
 </script>
-
-<!-- SHADOW MENU -->
-<div class="shadow-menu" id="shadowMenu">
-
-<div class="shadow-box">
-
-<h2>أسماء الظلال</h2>
-
-<ul>
-<li>Shadow Alpha</li>
-<li>Night Reaper</li>
-<li>Phantom Zero</li>
-<li>Dark Raven</li>
-<li>Silent Ghost</li>
-<li>Void King</li>
-</ul>
-
-<button onclick="closeShadows()">إغلاق</button>
-
-</div>
-
-</div>
 
 </body>
 </html>
