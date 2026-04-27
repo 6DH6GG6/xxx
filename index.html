@@ -242,10 +242,58 @@ grid-template-columns:repeat(2,1fr);
 }
 }
 
+/* ===== THEME BUTTON ===== */
+.theme-btn{
+position:fixed;
+left:15px;
+top:15px;
+width:50px;
+height:50px;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:50%;
+background:#111;
+color:#00eaff;
+font-size:22px;
+cursor:pointer;
+z-index:999;
+box-shadow:0 0 15px #00eaff;
+transition:0.3s;
+}
+
+.theme-btn:hover{
+transform:scale(1.2) rotate(10deg);
+}
+
+body.light{
+background:url('Background/day.jpg') center/cover no-repeat;
+color:black;
+}
+
+body.light::before{
+background:linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.7));
+}
+
+body.light .stars{
+opacity:0;
+}
+
+body.light .hud,
+body.light .type{
+color:#222;
+text-shadow:none;
+}
+
+body.light .btn span{
+color:#000;
+text-shadow:none;
+}
+
 </style>
 </head>
-
 <body>
+<div class="theme-btn" onclick="toggleTheme()">🌙</div>
 
 <!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
@@ -353,6 +401,18 @@ q.style.opacity=0;
 },4000);
 
 },6000);
+
+function toggleTheme(){
+document.body.classList.toggle("light");
+
+let btn = document.querySelector(".theme-btn");
+
+if(document.body.classList.contains("light")){
+btn.innerHTML = "☀️";
+}else{
+btn.innerHTML = "🌙";
+}
+}
 
 </script>
 </body>
