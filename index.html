@@ -31,12 +31,12 @@ cursor:none;
 /* ===== CURSOR ===== */
 .cursor{
 position:fixed;
-width:12px;
-height:12px;
+width:10px;
+height:10px;
 background:#00eaff;
 border-radius:50%;
 pointer-events:none;
-box-shadow:0 0 15px #00eaff;
+box-shadow:0 0 10px #00eaff;
 z-index:9999;
 }
 
@@ -57,9 +57,9 @@ to{background-position:1000px 1000px;}
 
 /* ===== LOGO ===== */
 .logo{
-width:clamp(220px,50vw,420px);
-margin-top:20px;
-margin-bottom:20px;
+width:clamp(180px,45vw,420px);
+margin-top:15px;
+margin-bottom:15px;
 filter:drop-shadow(0 0 25px #00eaff);
 z-index:2;
 }
@@ -75,8 +75,8 @@ padding:10px;
 /* ===== MENU ===== */
 .menu{
 display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:15px;
+grid-template-columns:repeat(3,1fr); /* ثابت */
+gap:10px;
 }
 
 /* ===== BUTTON ===== */
@@ -94,6 +94,7 @@ transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
 }
 
+/* أنيميشن دخول */
 .btn:nth-child(1){animation-delay:0.2s;}
 .btn:nth-child(2){animation-delay:0.4s;}
 .btn:nth-child(3){animation-delay:0.6s;}
@@ -101,10 +102,10 @@ animation:fadeUp 0.8s ease forwards;
 .btn:nth-child(5){animation-delay:1s;}
 .btn:nth-child(6){animation-delay:1.2s;}
 
-/* تأثير توهج */
+/* توهج */
 .btn:hover{
 transform:scale(1.05);
-box-shadow:0 0 25px #00eaff;
+box-shadow:0 0 20px #00eaff;
 }
 
 /* دخول */
@@ -137,7 +138,7 @@ pointer-events:auto;
 /* BOX */
 .popup-box{
 background:rgba(10,10,10,0.95);
-padding:40px;
+padding:30px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 40px #00eaff;
@@ -171,12 +172,8 @@ border-radius:10px;
 cursor:pointer;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:500px){
-.menu{
-grid-template-columns:repeat(2,1fr);
-}
-}
+/* ❌ حذف تغيير الهاتف */
+/* لا يوجد media query هنا */
 
 </style>
 </head>
