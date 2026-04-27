@@ -2,16 +2,14 @@
 <head>  
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>  
-  
-/* ===== RESET ===== */  
+
 *{  
 margin:0;  
 padding:0;  
 box-sizing:border-box;  
 font-family:Tahoma;  
 }  
-  
-/* ===== BODY ===== */  
+
 body{  
 min-height:100vh;  
 display:flex;  
@@ -22,8 +20,7 @@ color:white;
 overflow-x:hidden;  
 cursor:none;  
 }  
-  
-/* ===== CURSOR ===== */  
+
 .cursor{  
 position:fixed;  
 width:10px;  
@@ -34,8 +31,7 @@ pointer-events:none;
 box-shadow:0 0 10px #00eaff;  
 z-index:9999;  
 }  
-  
-/* ===== STARS ===== */  
+
 .stars{  
 position:fixed;  
 inset:0;  
@@ -49,8 +45,7 @@ z-index:0;
 from{background-position:0 0;}  
 to{background-position:1000px 1000px;}  
 }  
-  
-/* ===== LOGO ===== */  
+
 .logo{  
 width:clamp(180px,45vw,420px);  
 margin-top:15px;  
@@ -58,23 +53,20 @@ margin-bottom:15px;
 filter:drop-shadow(0 0 25px #00eaff);  
 z-index:2;  
 }  
-  
-/* ===== CONTAINER ===== */  
+
 .container{  
 z-index:2;  
 width:100%;  
 max-width:1100px;  
 padding:10px;  
 }  
-  
-/* ===== MENU ===== */  
+
 .menu{  
 display:grid;  
-grid-template-columns:repeat(3,1fr); /* ثابت */  
+grid-template-columns:repeat(3,1fr);
 gap:10px;  
 }  
-  
-/* ===== BUTTON ===== */  
+
 .btn{  
 position:relative;  
 aspect-ratio:4/3;  
@@ -88,30 +80,26 @@ opacity:0;
 transform:translateY(40px);  
 animation:fadeUp 0.8s ease forwards;  
 }  
-  
-/* أنيميشن دخول */  
+
 .btn:nth-child(1){animation-delay:0.2s;}  
 .btn:nth-child(2){animation-delay:0.4s;}  
 .btn:nth-child(3){animation-delay:0.6s;}  
 .btn:nth-child(4){animation-delay:0.8s;}  
 .btn:nth-child(5){animation-delay:1s;}  
 .btn:nth-child(6){animation-delay:1.2s;}  
-  
-/* توهج */  
+
 .btn:hover{  
 transform:scale(1.05);  
 box-shadow:0 0 20px #00eaff;  
 }  
-  
-/* دخول */  
+
 @keyframes fadeUp{  
 to{  
 opacity:1;  
 transform:translateY(0);  
 }  
 }  
-  
-/* ===== POPUP ===== */  
+
 .popup{  
 position:fixed;  
 inset:0;  
@@ -124,13 +112,12 @@ pointer-events:none;
 transition:0.4s;  
 z-index:999;  
 }  
-  
+
 .popup.active{  
 opacity:1;  
 pointer-events:auto;  
 }  
-  
-/* BOX */  
+
 .popup-box{  
 background:rgba(10,10,10,0.95);  
 padding:30px;  
@@ -166,11 +153,7 @@ color:black;
 border-radius:10px;  
 cursor:pointer;  
 }  
-  
-/* ❌ حذف تغيير الهاتف */  
-/* لا يوجد media query هنا */  
-  
-/* ===== FRAME ===== */  
+
 .frame-box{  
 width:100%;  
 max-width:1000px;  
@@ -229,8 +212,7 @@ glitch 1s infinite;
 from{ right:-100%; }  
 to{ right:100%; }  
 }  
-  
-/* ===== LIGHT EFFECT ===== */  
+
 .frame-box::after{  
 content:"";  
 position:absolute;  
@@ -272,14 +254,13 @@ to{ left:120%; }
 </div>  
 </div>  <script>  
   
-/* CURSOR */  
+  
 let cursor=document.getElementById("cursor");  
 document.addEventListener("mousemove",e=>{  
 cursor.style.top=e.clientY+"px";  
 cursor.style.left=e.clientX+"px";  
 });  
   
-/* OPEN */  
 function openMenu(title){  
 document.getElementById("popupTitle").innerText = title;  
 document.getElementById("popup").classList.add("active");  
@@ -289,8 +270,7 @@ document.getElementById("popup").classList.add("active");
 function closeMenu(){  
 document.getElementById("popup").classList.remove("active");  
 }  
-  
-/* ===== FRAME TEXT ROTATION ===== */  
+
 let frameTexts = [  
 "☠ الظلال تتربص في الظلام ☠",  
 "⚡ القوة تولد من العدم ⚡",  
