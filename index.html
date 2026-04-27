@@ -19,6 +19,9 @@ font-family:Tahoma;
 /* ===== BODY ===== */
 body{
 min-height:100vh;
+display:flex;
+flex-direction:column;
+align-items:center;
 background:url('صور_متحركة/866f30792413dcb70ce06c91c1ad3f4e.gif') center/cover no-repeat;
 color:white;
 overflow-x:hidden;
@@ -54,22 +57,18 @@ to{background-position:1000px 1000px;}
 
 /* ===== LOGO ===== */
 .logo{
-display:block;
-margin:20px auto;
-width:clamp(200px,60vw,450px);
-
-filter:
-drop-shadow(0 0 20px #00eaff)
-drop-shadow(0 0 50px rgba(0,234,255,0.7));
+width:clamp(220px,50vw,420px);
+margin-top:20px;
+margin-bottom:20px;
+filter:drop-shadow(0 0 25px #00eaff);
+z-index:2;
 }
 
 /* ===== CONTAINER ===== */
 .container{
-position:relative;
 z-index:2;
 width:100%;
-max-width:1200px;
-margin:auto;
+max-width:1100px;
 padding:10px;
 }
 
@@ -83,38 +82,44 @@ gap:15px;
 /* ===== BUTTON ===== */
 .btn{
 position:relative;
-width:100%;
 aspect-ratio:4/3;
-
 background-size:cover;
 background-position:center;
-
+cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 
-cursor:pointer;
-transition:0.3s;
+opacity:0;
+transform:translateY(40px);
+animation:fadeUp 0.8s ease forwards;
 }
 
-/* شفافية خفيفة */
-.btn::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top, rgba(0,0,0,0.3), transparent);
-}
+.btn:nth-child(1){animation-delay:0.2s;}
+.btn:nth-child(2){animation-delay:0.4s;}
+.btn:nth-child(3){animation-delay:0.6s;}
+.btn:nth-child(4){animation-delay:0.8s;}
+.btn:nth-child(5){animation-delay:1s;}
+.btn:nth-child(6){animation-delay:1.2s;}
 
-/* Hover */
+/* تأثير توهج */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
+}
+
+/* دخول */
+@keyframes fadeUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
 /* ===== POPUP ===== */
 .popup{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.9);
+background:rgba(0,0,0,0.85);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -129,9 +134,10 @@ opacity:1;
 pointer-events:auto;
 }
 
+/* BOX */
 .popup-box{
 background:rgba(10,10,10,0.95);
-padding:30px;
+padding:40px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 40px #00eaff;
@@ -153,11 +159,11 @@ margin-bottom:10px;
 
 .popup-box p{
 color:#aaa;
-margin-bottom:15px;
+margin-bottom:20px;
 }
 
 .popup-box button{
-padding:10px 20px;
+padding:10px 25px;
 border:none;
 background:#00eaff;
 color:black;
@@ -165,22 +171,10 @@ border-radius:10px;
 cursor:pointer;
 }
 
-/* ===== RESPONSIVE ===== */
-
-/* تابلت */
-@media(max-width:900px){
-.menu{
-grid-template-columns:repeat(2,1fr);
-}
-}
-
-/* هاتف */
+/* ===== MOBILE ===== */
 @media(max-width:500px){
 .menu{
-grid-template-columns:1fr;
-}
-.logo{
-width:80%;
+grid-template-columns:repeat(2,1fr);
 }
 }
 
@@ -192,6 +186,7 @@ width:80%;
 <div class="cursor" id="cursor"></div>
 <div class="stars"></div>
 
+<!-- LOGO -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <div class="container">
