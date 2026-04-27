@@ -28,15 +28,6 @@ overflow:hidden;
 cursor:none;
 }
 
-/* طبقة */
-body::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.85));
-z-index:0;
-}
-
 /* ===== CURSOR ===== */
 .cursor{
 position:fixed;
@@ -108,25 +99,6 @@ transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
 }
 
-/* تخفيف التعتيم */
-.btn::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(to top, rgba(0,0,0,0.35), rgba(0,0,0,0.1));
-}
-
-/* النص */
-.btn span{
-position:absolute;
-bottom:15px;
-left:50%;
-transform:translateX(-50%);
-color:#00eaff;
-font-weight:bold;
-text-shadow:0 0 10px #00eaff;
-}
-
 /* hover */
 .btn:hover{
 transform:scale(1.05);
@@ -146,7 +118,7 @@ transform:translateY(0);
 .popup{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.95);
+background:rgba(0,0,0,0.9);
 display:flex;
 justify-content:center;
 align-items:center;
@@ -163,13 +135,12 @@ pointer-events:auto;
 
 /* BOX */
 .popup-box{
-background:rgba(10,10,10,0.95);
+background:rgba(20,20,20,0.95);
 padding:40px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 40px #00eaff;
 
-/* Animation */
 transform:scale(0.7) translateY(50px);
 opacity:0;
 transition:0.4s;
@@ -214,7 +185,10 @@ grid-template-columns:repeat(2,1fr);
 
 <body>
 
+<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
+
+<!-- STARS -->
 <div class="stars"></div>
 
 <div class="container">
@@ -223,17 +197,17 @@ grid-template-columns:repeat(2,1fr);
 
 <div class="menu">
 
-<div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
+<div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>
 
-<div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
+<div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>
 
-<div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
+<div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>
 
-<div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
+<div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>
 
-<div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
+<div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>
 
-<div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>
 
 </div>
 </div>
