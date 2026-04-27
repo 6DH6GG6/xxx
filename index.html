@@ -3,6 +3,48 @@
 <meta charset="UTF-8">  
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>  
 
+/* ===== ANIME LAYERS ===== */
+.anime-box{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:100%;
+pointer-events:none;
+z-index:0;
+opacity:0.7;
+
+display:flex;
+justify-content:space-between;
+align-items:flex-end;
+padding:20px;
+}
+
+.anime-layer{
+width:180px;
+height:260px;
+overflow:hidden;
+opacity:0.85;
+filter:drop-shadow(0 0 20px #00eaff);
+animation:float 4s ease-in-out infinite;
+}
+
+.anime-layer img{
+width:100%;
+height:100%;
+object-fit:cover;
+}
+
+.anime-glow{
+transform:scale(1.1);
+filter:drop-shadow(0 0 35px #00eaff);
+}
+
+@keyframes float{
+0%,100%{ transform:translateY(0); }
+50%{ transform:translateY(-15px); }
+}
+
 *{  
 margin:0;  
 padding:0;  
@@ -235,8 +277,28 @@ animation:lightMove 4s linear infinite;
 from{ left:-50%; }  
 to{ left:120%; }  
 }  
-  
-</style>  </head>  <body>  <div class="cursor" id="cursor"></div>  
+
+</style>
+</head>
+<body>
+
+<div class="anime-box">
+
+  <div class="anime-layer">
+    <img src="GIF/anime1.gif">
+  </div>
+
+  <div class="anime-layer anime-glow">
+    <img src="GIF/anime2.gif">
+  </div>
+
+  <div class="anime-layer">
+    <img src="GIF/anime3.gif">
+  </div>
+
+</div>
+
+<div class="cursor" id="cursor"></div>  
 <div class="stars"></div>  <!-- LOGO -->  <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">  <!-- FRAME -->  <div class="frame-box">  <!-- GIF تأثير -->  
 <img src="GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif">  
 
@@ -288,5 +350,6 @@ frameIndex = 0;
 frameSpan.innerText = frameTexts[frameIndex];  
 },4000);  
   
-</script>  </body>  
+</script>
+</body>  
 </html>
