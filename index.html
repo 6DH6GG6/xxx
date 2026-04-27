@@ -166,9 +166,28 @@ left:50%;
 transform:translateX(-50%);
 width:90%;
 text-align:center;
-font-size:14px;
+
+font-size:clamp(12px,1.6vw,17px);
 font-weight:bold;
-text-shadow:0 0 10px #00eaff;
+
+/* 🔥 لون احترافي */
+color:#00f7ff;
+
+/* ✨ توهج قوي */
+text-shadow:
+0 0 5px #00f7ff,
+0 0 10px #00eaff,
+0 0 20px #00eaff,
+0 0 35px rgba(0,234,255,0.6);
+
+/* ✨ خلفية خفيفة لزيادة الوضوح */
+background:rgba(0,0,0,0.35);
+padding:6px 10px;
+border-radius:10px;
+backdrop-filter:blur(4px);
+
+/* ✨ انيميشن توهج */
+animation:glowText 2s infinite alternate;
 }
 
 .btn:hover{
