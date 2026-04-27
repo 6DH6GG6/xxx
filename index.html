@@ -175,6 +175,90 @@ cursor:pointer;
 /* ❌ حذف تغيير الهاتف */
 /* لا يوجد media query هنا */
 
+/* ===== FRAME ===== */
+.frame-box{
+width:100%;
+max-width:1000px;
+height:80px;
+
+margin:10px 0 20px 0;
+
+position:relative;
+overflow:hidden;
+
+background:rgba(0,0,0,0.2);
+
+border:1px solid rgba(0,234,255,0.3);
+border-radius:12px;
+
+box-shadow:0 0 15px rgba(0,234,255,0.2);
+
+z-index:2;
+}
+
+.frame-gif{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0.25;
+}
+
+.frame-text{
+position:absolute;
+width:100%;
+height:100%;
+display:flex;
+align-items:center;
+overflow:hidden;
+}
+
+.frame-text span{
+position:absolute;
+color:#00eaff;
+font-weight:bold;
+font-size:18px;
+white-space:nowrap;
+
+text-shadow:
+0 0 5px #00eaff,
+0 0 10px #00eaff,
+0 0 20px #00eaff;
+
+animation:
+scrollText 10s linear infinite,
+glitch 1s infinite;
+}
+
+@keyframes scrollText{
+from{ right:-100%; }
+to{ right:100%; }
+}
+
+/* ===== LIGHT EFFECT ===== */
+.frame-box::after{
+content:"";
+position:absolute;
+top:0;
+left:-50%;
+width:50%;
+height:100%;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(0,234,255,0.5),
+transparent
+);
+
+animation:lightMove 4s linear infinite;
+}
+
+@keyframes lightMove{
+from{ left:-50%; }
+to{ left:120%; }
+}
+
 </style>
 </head>
 
@@ -185,6 +269,19 @@ cursor:pointer;
 
 <!-- LOGO -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
+
+<!-- FRAME -->
+<div class="frame-box">
+
+    <!-- GIF تأثير -->
+    <img src="effects/glow.gif" class="frame-gif">
+
+    <!-- النص المتحرك -->
+    <div class="frame-text">
+        <span>☠ الظلال تتربص في الظلام ☠</span>
+    </div>
+
+</div>
 
 <div class="container">
 
@@ -233,6 +330,25 @@ document.getElementById("popup").classList.add("active");
 function closeMenu(){
 document.getElementById("popup").classList.remove("active");
 }
+
+/* ===== FRAME TEXT ROTATION ===== */
+let frameTexts = [
+"☠ الظلال تتربص في الظلام ☠",
+"⚡ القوة تولد من العدم ⚡",
+"👁️ نحن نراقب كل شيء 👁️",
+"🔥 النظام بدأ بالفعل 🔥"
+];
+
+let frameIndex = 0;
+let frameSpan = document.querySelector(".frame-text span");
+
+setInterval(()=>{
+frameIndex++;
+if(frameIndex >= frameTexts.length){
+frameIndex = 0;
+}
+frameSpan.innerText = frameTexts[frameIndex];
+},4000);
 
 </script>
 
