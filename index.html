@@ -151,7 +151,7 @@ z-index:2;
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:20px;
+gap:0;
 width:100%;
 }
 
@@ -162,16 +162,33 @@ aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
 cursor:pointer;
-clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 
 opacity:0;
 transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
 
-z-index:1; /* إصلاح مهم */
+/* 🔥 التداخل */
+margin-top:-70px;
+
+z-index:1;
 }
 
+/* الصف الأول بدون سحب */
+.btn:nth-child(-n+3){
+margin-top:0;
+}
+
+/* ترتيب الطبقات */
+.b1{ z-index:3; }
+.b2{ z-index:4; }
+.b3{ z-index:3; }
+
+.b4{ z-index:2; }
+.b5{ z-index:3; }
+.b6{ z-index:2; }
+
+/* تأخير الحركة */
 .btn:nth-child(1){animation-delay:0.2s;}
 .btn:nth-child(2){animation-delay:0.4s;}
 .btn:nth-child(3){animation-delay:0.6s;}
@@ -188,7 +205,7 @@ background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);
 z-index:0;
 }
 
-/* ===== TEXT داخل الأزرار ===== */
+/* النص */
 .btn span{
 position:absolute;
 bottom:15px;
@@ -199,8 +216,7 @@ text-align:center;
 font-size:clamp(12px,1.6vw,17px);
 font-weight:bold;
 color:#00f7ff;
-
-z-index:2; /* أهم إصلاح */
+z-index:2;
 
 text-shadow:
 0 0 5px #00f7ff,
@@ -211,13 +227,13 @@ text-shadow:
 animation:glowText 2s infinite alternate;
 }
 
-/* ===== HOVER ===== */
+/* Hover */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
 }
 
-/* ===== ANIMATIONS ===== */
+/* Animations */
 @keyframes fadeUp{
 to{
 opacity:1;
@@ -230,7 +246,16 @@ from{opacity:0.8;}
 to{opacity:1;}
 }
 
-/* ===== FOOTER ===== */
+/* ===== زوايا الأزرار ===== */
+.b1{clip-path: polygon(55% 0%, 100% 0%, 45% 100%, 0% 100%);}
+.b2{clip-path: polygon(50% 0%, 100% 0%, 50% 100%, 0% 100%);}
+.b3{clip-path: polygon(45% 0%, 100% 0%, 55% 100%, 0% 100%);}
+
+.b4{clip-path: polygon(60% 0%, 100% 0%, 40% 100%, 0% 100%);}
+.b5{clip-path: polygon(50% 0%, 100% 0%, 50% 100%, 0% 100%);}
+.b6{clip-path: polygon(40% 0%, 100% 0%, 60% 100%, 0% 100%);}
+
+/* Footer */
 .footer{
 position:fixed;
 bottom:10px;
@@ -241,43 +266,29 @@ color:#555;
 z-index:2;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:350px){
-.menu{
-grid-template-columns:repeat(2,1fr);
-}
-}
-
 </style>
 </head>
 
 <body>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
-
-<!-- STARS -->
 <div class="stars"></div>
 
-<!-- HUD -->
 <div class="hud">
 STATUS: ONLINE<br>
 RANK: SHADOW ELITE<br>
 POWER: 98%
 </div>
 
-<!-- SOUND -->
 <audio id="clickSound" src="click.mp3"></audio>
 
-<!-- MUSIC -->
 <audio autoplay loop>
 <source src="music.mp3">
 </audio>
 
-<!-- SOCIAL -->
 <div class="social">
 <a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">
-<img src="Facebook/20260427_084709.png" alt="fb">
+<img src="Facebook/20260427_084709.png">
 </a>
 </div>
 
@@ -289,50 +300,43 @@ POWER: 98%
 
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
+<div class="btn b1" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
 
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
+<div class="btn b2" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
 
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
+<div class="btn b3" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
 
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
+<div class="btn b4" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
 
-<div class="btn" onclick="alert('اعضاء الظلال 😈')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
+<div class="btn b5" onclick="alert('اعضاء الظلال 😈')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
 
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn b6" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
 
 </div>
 </div>
 
 <div class="quote" id="quote"></div>
-
 <div class="footer">© Kage No Teio - Shadow System</div>
 
 <script>
 
-/* ===== NAV ===== */
 function go(page){
 let s=document.getElementById("clickSound");
 if(s){
 s.currentTime=0;
 s.play();
 }
-setTimeout(()=>{
-window.location.href=page;
-},2000);
+setTimeout(()=>{window.location.href=page;},2000);
 }
 
-/* ===== CURSOR ===== */
 let cursor=document.getElementById("cursor");
 document.addEventListener("mousemove",e=>{
 cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
 
-/* ===== TYPE ===== */
 let text="WELCOME TO SHADOW SYSTEM";
 let i=0;
-
 function type(){
 if(i<text.length){
 document.getElementById("typeText").innerHTML+=text.charAt(i);
@@ -342,7 +346,6 @@ setTimeout(type,50);
 }
 type();
 
-/* ===== QUOTES ===== */
 let quotes=[
 "We are the shadows...",
 "Power hides in darkness",
@@ -353,11 +356,7 @@ setInterval(()=>{
 let q=document.getElementById("quote");
 q.innerText=quotes[Math.floor(Math.random()*quotes.length)];
 q.style.opacity=1;
-
-setTimeout(()=>{
-q.style.opacity=0;
-},4000);
-
+setTimeout(()=>{q.style.opacity=0;},4000);
 },6000);
 
 </script>
