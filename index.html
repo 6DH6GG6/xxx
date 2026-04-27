@@ -1,356 +1,313 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!DOCTYPE html>  <html lang="ar">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>  
+  
+/* ===== RESET ===== */  
+*{  
+margin:0;  
+padding:0;  
+box-sizing:border-box;  
+font-family:Tahoma;  
+}  
+  
+/* ===== BODY ===== */  
+body{  
+min-height:100vh;  
+display:flex;  
+flex-direction:column;  
+align-items:center;  
+background:url('صور_متحركة/866f30792413dcb70ce06c91c1ad3f4e.gif') center/cover no-repeat;  
+color:white;  
+overflow-x:hidden;  
+cursor:none;  
+}  
+  
+/* ===== CURSOR ===== */  
+.cursor{  
+position:fixed;  
+width:10px;  
+height:10px;  
+background:#00eaff;  
+border-radius:50%;  
+pointer-events:none;  
+box-shadow:0 0 10px #00eaff;  
+z-index:9999;  
+}  
+  
+/* ===== STARS ===== */  
+.stars{  
+position:fixed;  
+inset:0;  
+background:url('https://i.imgur.com/7b1eZ.png');  
+opacity:0.2;  
+animation:moveStars 60s linear infinite;  
+z-index:0;  
+}  
+  
+@keyframes moveStars{  
+from{background-position:0 0;}  
+to{background-position:1000px 1000px;}  
+}  
+  
+/* ===== LOGO ===== */  
+.logo{  
+width:clamp(180px,45vw,420px);  
+margin-top:15px;  
+margin-bottom:15px;  
+filter:drop-shadow(0 0 25px #00eaff);  
+z-index:2;  
+}  
+  
+/* ===== CONTAINER ===== */  
+.container{  
+z-index:2;  
+width:100%;  
+max-width:1100px;  
+padding:10px;  
+}  
+  
+/* ===== MENU ===== */  
+.menu{  
+display:grid;  
+grid-template-columns:repeat(3,1fr); /* ثابت */  
+gap:10px;  
+}  
+  
+/* ===== BUTTON ===== */  
+.btn{  
+position:relative;  
+aspect-ratio:4/3;  
+background-size:cover;  
+background-position:center;  
+cursor:pointer;  
+clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);  
+overflow:hidden;  
+  
+opacity:0;  
+transform:translateY(40px);  
+animation:fadeUp 0.8s ease forwards;  
+}  
+  
+/* أنيميشن دخول */  
+.btn:nth-child(1){animation-delay:0.2s;}  
+.btn:nth-child(2){animation-delay:0.4s;}  
+.btn:nth-child(3){animation-delay:0.6s;}  
+.btn:nth-child(4){animation-delay:0.8s;}  
+.btn:nth-child(5){animation-delay:1s;}  
+.btn:nth-child(6){animation-delay:1.2s;}  
+  
+/* توهج */  
+.btn:hover{  
+transform:scale(1.05);  
+box-shadow:0 0 20px #00eaff;  
+}  
+  
+/* دخول */  
+@keyframes fadeUp{  
+to{  
+opacity:1;  
+transform:translateY(0);  
+}  
+}  
+  
+/* ===== POPUP ===== */  
+.popup{  
+position:fixed;  
+inset:0;  
+background:rgba(0,0,0,0.85);  
+display:flex;  
+justify-content:center;  
+align-items:center;  
+opacity:0;  
+pointer-events:none;  
+transition:0.4s;  
+z-index:999;  
+}  
+  
+.popup.active{  
+opacity:1;  
+pointer-events:auto;  
+}  
+  
+/* BOX */  
+.popup-box{  
+background:rgba(10,10,10,0.95);  
+padding:30px;  
+border-radius:20px;  
+text-align:center;  
+box-shadow:0 0 40px #00eaff;  
+  
+transform:scale(0.7);  
+opacity:0;  
+transition:0.4s;  
+}  
+  
+.popup.active .popup-box{  
+transform:scale(1);  
+opacity:1;  
+}  
+  
+.popup-box h2{  
+color:#00eaff;  
+margin-bottom:10px;  
+}  
+  
+.popup-box p{  
+color:#aaa;  
+margin-bottom:20px;  
+}  
+  
+.popup-box button{  
+padding:10px 25px;  
+border:none;  
+background:#00eaff;  
+color:black;  
+border-radius:10px;  
+cursor:pointer;  
+}  
+  
+/* ❌ حذف تغيير الهاتف */  
+/* لا يوجد media query هنا */  
+  
+/* ===== FRAME ===== */  
+.frame-box{  
+width:100%;  
+max-width:1000px;  
+height:80px;  
+  
+margin:10px 0 20px 0;  
+  
+position:relative;  
+overflow:hidden;  
+  
+background:rgba(0,0,0,0.2);  
+  
+border:1px solid rgba(0,234,255,0.3);  
+border-radius:12px;  
+  
+box-shadow:0 0 15px rgba(0,234,255,0.2);  
+  
+z-index:2;  
+}  
+  
+.frame-gif{  
+position:absolute;  
+width:100%;  
+height:100%;  
+object-fit:cover;  
+opacity:0.25;  
+}  
+  
+.frame-text{  
+position:absolute;  
+width:100%;  
+height:100%;  
+display:flex;  
+align-items:center;  
+overflow:hidden;  
+}  
+  
+.frame-text span{  
+position:absolute;  
+color:#00eaff;  
+font-weight:bold;  
+font-size:18px;  
+white-space:nowrap;  
+  
+text-shadow:  
+0 0 5px #00eaff,  
+0 0 10px #00eaff,  
+0 0 20px #00eaff;  
+  
+animation:  
+scrollText 10s linear infinite,  
+glitch 1s infinite;  
+}  
+  
+@keyframes scrollText{  
+from{ right:-100%; }  
+to{ right:100%; }  
+}  
+  
+/* ===== LIGHT EFFECT ===== */  
+.frame-box::after{  
+content:"";  
+position:absolute;  
+top:0;  
+left:-50%;  
+width:50%;  
+height:100%;  
+  
+background:linear-gradient(  
+120deg,  
+transparent,  
+rgba(0,234,255,0.5),  
+transparent  
+);  
+  
+animation:lightMove 4s linear infinite;  
+}  
+  
+@keyframes lightMove{  
+from{ left:-50%; }  
+to{ left:120%; }  
+}  
+  
+</style>  </head>  <body>  <div class="cursor" id="cursor"></div>  
+<div class="stars"></div>  <!-- LOGO -->  <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">  <!-- FRAME -->  <div class="frame-box">  <!-- GIF تأثير -->  
+<img src="effects/glow.gif" class="frame-gif">  
 
-<title>Kage No Teio</title>
-
-<style>
-
-/* ===== RESET ===== */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Tahoma;
-}
-
-/* ===== BODY ===== */
-body{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-background:url('صور_متحركة/866f30792413dcb70ce06c91c1ad3f4e.gif') center/cover no-repeat;
-color:white;
-overflow-x:hidden;
-cursor:none;
-}
-
-/* ===== CURSOR ===== */
-.cursor{
-position:fixed;
-width:10px;
-height:10px;
-background:#00eaff;
-border-radius:50%;
-pointer-events:none;
-box-shadow:0 0 10px #00eaff;
-z-index:9999;
-}
-
-/* ===== STARS ===== */
-.stars{
-position:fixed;
-inset:0;
-background:url('https://i.imgur.com/7b1eZ.png');
-opacity:0.2;
-animation:moveStars 60s linear infinite;
-z-index:0;
-}
-
-@keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:1000px 1000px;}
-}
-
-/* ===== LOGO ===== */
-.logo{
-width:clamp(180px,45vw,420px);
-margin-top:15px;
-margin-bottom:15px;
-filter:drop-shadow(0 0 25px #00eaff);
-z-index:2;
-}
-
-/* ===== CONTAINER ===== */
-.container{
-z-index:2;
-width:100%;
-max-width:1100px;
-padding:10px;
-}
-
-/* ===== MENU ===== */
-.menu{
-display:grid;
-grid-template-columns:repeat(3,1fr); /* ثابت */
-gap:10px;
-}
-
-/* ===== BUTTON ===== */
-.btn{
-position:relative;
-aspect-ratio:4/3;
-background-size:cover;
-background-position:center;
-cursor:pointer;
-clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-overflow:hidden;
-
-opacity:0;
-transform:translateY(40px);
-animation:fadeUp 0.8s ease forwards;
-}
-
-/* أنيميشن دخول */
-.btn:nth-child(1){animation-delay:0.2s;}
-.btn:nth-child(2){animation-delay:0.4s;}
-.btn:nth-child(3){animation-delay:0.6s;}
-.btn:nth-child(4){animation-delay:0.8s;}
-.btn:nth-child(5){animation-delay:1s;}
-.btn:nth-child(6){animation-delay:1.2s;}
-
-/* توهج */
-.btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #00eaff;
-}
-
-/* دخول */
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* ===== POPUP ===== */
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4s;
-z-index:999;
-}
-
-.popup.active{
-opacity:1;
-pointer-events:auto;
-}
-
-/* BOX */
-.popup-box{
-background:rgba(10,10,10,0.95);
-padding:30px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px #00eaff;
-
-transform:scale(0.7);
-opacity:0;
-transition:0.4s;
-}
-
-.popup.active .popup-box{
-transform:scale(1);
-opacity:1;
-}
-
-.popup-box h2{
-color:#00eaff;
-margin-bottom:10px;
-}
-
-.popup-box p{
-color:#aaa;
-margin-bottom:20px;
-}
-
-.popup-box button{
-padding:10px 25px;
-border:none;
-background:#00eaff;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
-
-/* ❌ حذف تغيير الهاتف */
-/* لا يوجد media query هنا */
-
-/* ===== FRAME ===== */
-.frame-box{
-width:100%;
-max-width:1000px;
-height:80px;
-
-margin:10px 0 20px 0;
-
-position:relative;
-overflow:hidden;
-
-background:rgba(0,0,0,0.2);
-
-border:1px solid rgba(0,234,255,0.3);
-border-radius:12px;
-
-box-shadow:0 0 15px rgba(0,234,255,0.2);
-
-z-index:2;
-}
-
-.frame-gif{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0.25;
-}
-
-.frame-text{
-position:absolute;
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-overflow:hidden;
-}
-
-.frame-text span{
-position:absolute;
-color:#00eaff;
-font-weight:bold;
-font-size:18px;
-white-space:nowrap;
-
-text-shadow:
-0 0 5px #00eaff,
-0 0 10px #00eaff,
-0 0 20px #00eaff;
-
-animation:
-scrollText 10s linear infinite,
-glitch 1s infinite;
-}
-
-@keyframes scrollText{
-from{ right:-100%; }
-to{ right:100%; }
-}
-
-/* ===== LIGHT EFFECT ===== */
-.frame-box::after{
-content:"";
-position:absolute;
-top:0;
-left:-50%;
-width:50%;
-height:100%;
-
-background:linear-gradient(
-120deg,
-transparent,
-rgba(0,234,255,0.5),
-transparent
-);
-
-animation:lightMove 4s linear infinite;
-}
-
-@keyframes lightMove{
-from{ left:-50%; }
-to{ left:120%; }
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="cursor" id="cursor"></div>
-<div class="stars"></div>
-
-<!-- LOGO -->
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
-
-<!-- FRAME -->
-<div class="frame-box">
-
-    <!-- GIF تأثير -->
-    <img src="effects/glow.gif" class="frame-gif">
-
-    <!-- النص المتحرك -->
-    <div class="frame-text">
-        <span>☠ الظلال تتربص في الظلام ☠</span>
-    </div>
-
+<!-- النص المتحرك -->  
+<div class="frame-text">  
+    <span>☠ الظلال تتربص في الظلام ☠</span>  
 </div>
 
-<div class="container">
-
-<div class="menu">
-
-<div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>
-
-<div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>
-
-<div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>
-
-<div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>
-
-<div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>
-
-<div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>
-
-</div>
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-<div class="popup-box">
-<h2 id="popupTitle"></h2>
-<p>الظلال تتربص في ظلام</p>
-<button onclick="closeMenu()">إغلاق</button>
-</div>
-</div>
-
-<script>
-
-/* CURSOR */
-let cursor=document.getElementById("cursor");
-document.addEventListener("mousemove",e=>{
-cursor.style.top=e.clientY+"px";
-cursor.style.left=e.clientX+"px";
-});
-
-/* OPEN */
-function openMenu(title){
-document.getElementById("popupTitle").innerText = title;
-document.getElementById("popup").classList.add("active");
-}
-
-/* CLOSE */
-function closeMenu(){
-document.getElementById("popup").classList.remove("active");
-}
-
-/* ===== FRAME TEXT ROTATION ===== */
-let frameTexts = [
-"☠ الظلال تتربص في الظلام ☠",
-"⚡ القوة تولد من العدم ⚡",
-"👁️ نحن نراقب كل شيء 👁️",
-"🔥 النظام بدأ بالفعل 🔥"
-];
-
-let frameIndex = 0;
-let frameSpan = document.querySelector(".frame-text span");
-
-setInterval(()=>{
-frameIndex++;
-if(frameIndex >= frameTexts.length){
-frameIndex = 0;
-}
-frameSpan.innerText = frameTexts[frameIndex];
-},4000);
-
-</script>
-
-</body>
+</div>  <div class="container">  <div class="menu">  <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>  <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>  <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>  <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>  <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>  <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>  </div>  
+</div>  <!-- POPUP -->  <div class="popup" id="popup">  
+<div class="popup-box">  
+<h2 id="popupTitle"></h2>  
+<p>الظلال تتربص في ظلام</p>  
+<button onclick="closeMenu()">إغلاق</button>  
+</div>  
+</div>  <script>  
+  
+/* CURSOR */  
+let cursor=document.getElementById("cursor");  
+document.addEventListener("mousemove",e=>{  
+cursor.style.top=e.clientY+"px";  
+cursor.style.left=e.clientX+"px";  
+});  
+  
+/* OPEN */  
+function openMenu(title){  
+document.getElementById("popupTitle").innerText = title;  
+document.getElementById("popup").classList.add("active");  
+}  
+  
+/* CLOSE */  
+function closeMenu(){  
+document.getElementById("popup").classList.remove("active");  
+}  
+  
+/* ===== FRAME TEXT ROTATION ===== */  
+let frameTexts = [  
+"☠ الظلال تتربص في الظلام ☠",  
+"⚡ القوة تولد من العدم ⚡",  
+"👁️ نحن نراقب كل شيء 👁️",  
+"🔥 النظام بدأ بالفعل 🔥"  
+];  
+  
+let frameIndex = 0;  
+let frameSpan = document.querySelector(".frame-text span");  
+  
+setInterval(()=>{  
+frameIndex++;  
+if(frameIndex >= frameTexts.length){  
+frameIndex = 0;  
+}  
+frameSpan.innerText = frameTexts[frameIndex];  
+},4000);  
+  
+</script>  </body>  
 </html>
