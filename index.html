@@ -248,6 +248,106 @@ grid-template-columns:repeat(2,1fr);
 }
 }
 
+/* ===== SHADOW MENU ===== */
+.shadow-menu{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.9);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
+transition:0.5s;
+z-index:999;
+backdrop-filter:blur(8px);
+}
+
+.shadow-menu.active{
+opacity:1;
+pointer-events:auto;
+}
+
+/* BOX */
+.shadow-box{
+background:rgba(10,10,10,0.95);
+padding:40px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 40px #00eaff;
+transform:scale(0.7);
+opacity:0;
+transition:0.5s;
+}
+
+/* عند الفتح */
+.shadow-menu.active .shadow-box{
+transform:scale(1);
+opacity:1;
+}
+
+/* TITLE */
+.shadow-box h2{
+margin-bottom:20px;
+color:#00eaff;
+text-shadow:0 0 15px #00eaff;
+}
+
+/* LIST */
+.shadow-box ul{
+list-style:none;
+margin-bottom:20px;
+}
+
+.shadow-box ul li{
+margin:10px 0;
+font-size:18px;
+color:#aaa;
+opacity:0;
+transform:translateY(20px);
+}
+
+.shadow-menu.active .shadow-box ul li{
+animation:fadeItem 0.5s forwards;
+}
+
+.shadow-menu:not(.active) .shadow-box ul li{
+animation:none !important;
+}
+
+/* delay لكل عنصر */
+.shadow-box ul li:nth-child(1){animation-delay:0.2s;}
+.shadow-box ul li:nth-child(2){animation-delay:0.4s;}
+.shadow-box ul li:nth-child(3){animation-delay:0.6s;}
+.shadow-box ul li:nth-child(4){animation-delay:0.8s;}
+.shadow-box ul li:nth-child(5){animation-delay:1s;}
+.shadow-box ul li:nth-child(6){animation-delay:1.2s;}
+
+/* BUTTON */
+.shadow-box button{
+padding:10px 25px;
+border:none;
+background:#00eaff;
+color:black;
+font-weight:bold;
+border-radius:10px;
+cursor:pointer;
+transition:0.3s;
+}
+
+.shadow-box button:hover{
+transform:scale(1.1);
+box-shadow:0 0 20px #00eaff;
+}
+
+/* ANIMATION */
+@keyframes fadeItem{
+to{
+opacity:1;
+transform:translateY(0);
+}
+}
+
 </style>
 </head>
 
@@ -297,7 +397,9 @@ POWER: 98%
 
 <div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
 
-<div class="btn" onclick="alert('اعضاء الظلال 😈')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
+<div class="btn" onclick="openShadows()" style="background-image:url('Pictures/20260426_160850.png')">
+<span>أسماء الظلال</span>
+</div>
 
 <div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
 
@@ -360,7 +462,44 @@ q.style.opacity=0;
 
 },6000);
 
+function openShadows(){
+let menu = document.getElementById("shadowMenu");
+let items = document.querySelectorAll(".shadow-box ul li");
+
+/* فتح القائمة */
+menu.classList.add("active");
+}
+
+function closeShadows(){
+let menu = document.getElementById("shadowMenu");
+let items = document.querySelectorAll(".shadow-box ul li");
+
+menu.classList.remove("active");
+}
+
 </script>
+
+<!-- SHADOW MENU -->
+<div class="shadow-menu" id="shadowMenu">
+
+<div class="shadow-box">
+
+<h2>أسماء الظلال</h2>
+
+<ul>
+<li>Shadow Alpha</li>
+<li>Night Reaper</li>
+<li>Phantom Zero</li>
+<li>Dark Raven</li>
+<li>Silent Ghost</li>
+<li>Void King</li>
+</ul>
+
+<button onclick="closeShadows()">إغلاق</button>
+
+</div>
+
+</div>
 
 </body>
 </html>
