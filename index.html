@@ -159,17 +159,23 @@ width:100%;
 .btn{
 position:relative;
 aspect-ratio:4/3;
-background-size:cover;
+
+/* نجوم + تكبير */
+background-size:300%;
 background-position:center;
+
+/* حركة بطيئة */
+animation:bgMove 20s linear infinite;
+
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
 overflow:hidden;
 
 opacity:0;
 transform:translateY(40px);
-animation:fadeUp 0.8s ease forwards;
+animation:fadeUp 0.8s ease forwards, bgMove 20s linear infinite;
 
-z-index:1; /* إصلاح مهم */
+z-index:1;
 }
 
 .btn:nth-child(1){animation-delay:0.2s;}
@@ -225,6 +231,11 @@ transform:translateY(0);
 }
 }
 
+@keyframes bgMove{
+from{background-position:0% 0%;}
+to{background-position:100% 100%;}
+}
+
 @keyframes glowText{
 from{opacity:0.8;}
 to{opacity:1;}
@@ -252,15 +263,28 @@ grid-template-columns:repeat(2,1fr);
 .shadow-menu{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.9);
+
+/* النجوم */
+background:
+linear-gradient(rgba(0,0,0,0.9), rgba(0,0,0,0.95)),
+url('stars.jpg') center/cover no-repeat;
+
+/* تكبير الصورة */
+background-size:400%;
+background-position:center;
+
+/* تحريك خفيف (اختياري) */
+animation:moveStars 80s linear infinite;
+
 display:flex;
 justify-content:center;
 align-items:center;
+
 opacity:0;
 pointer-events:none;
 transition:0.5s;
 z-index:999;
-backdrop-filter:blur(8px);
+backdrop-filter:blur(6px);
 }
 
 .shadow-menu.active{
@@ -397,7 +421,7 @@ POWER: 98%
 
 <div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
 
-<div class="btn" onclick="openShadows()" style="background-image:url('Pictures/20260426_160850.png')">
+<div class="btn" onclick="openShadows('shadows')" style="background-image:url('Pictures/20260426_160850.png')">
 <span>أسماء الظلال</span>
 </div>
 
@@ -462,11 +486,22 @@ q.style.opacity=0;
 
 },6000);
 
-function openShadows(){
-let menu = document.getElementById("shadowMenu");
-let items = document.querySelectorAll(".shadow-box ul li");
+function openShadows(type){
 
-/* فتح القائمة */
+let menu = document.getElementById("shadowMenu");
+let list = document.querySelector("#shadowMenu ul");
+
+if(type === "shadows"){
+list.innerHTML = `
+<li>Shadow Alpha</li>
+<li>Night Reaper</li>
+<li>Phantom Zero</li>
+<li>Dark Raven</li>
+<li>Silent Ghost</li>
+<li>Void King</li>
+`;
+}
+
 menu.classList.add("active");
 }
 
