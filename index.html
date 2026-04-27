@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Kage No Teio</title>
 
 <style>
@@ -136,17 +135,6 @@ letter-spacing:2px;
 font-size:14px;
 }
 
-/* ===== QUOTES ===== */
-.quote{
-position:fixed;
-bottom:80px;
-font-size:14px;
-color:#aaa;
-opacity:0;
-transition:1s;
-z-index:2;
-}
-
 /* ===== MENU ===== */
 .menu{
 display:grid;
@@ -168,8 +156,10 @@ overflow:hidden;
 opacity:0;
 transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
+z-index:1;
 }
 
+/* ترتيب الأنيميشن */
 .btn:nth-child(1){animation-delay:0.2s;}
 .btn:nth-child(2){animation-delay:0.4s;}
 .btn:nth-child(3){animation-delay:0.6s;}
@@ -177,14 +167,16 @@ animation:fadeUp 0.8s ease forwards;
 .btn:nth-child(5){animation-delay:1s;}
 .btn:nth-child(6){animation-delay:1.2s;}
 
+/* طبقة الظل */
 .btn::before{
 content:"";
 position:absolute;
 inset:0;
 background:linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+z-index:0;
 }
 
-/* ===== TEXT داخل الأزرار ===== */
+/* النص */
 .btn span{
 position:absolute;
 bottom:15px;
@@ -195,6 +187,7 @@ text-align:center;
 font-size:clamp(12px,1.6vw,17px);
 font-weight:bold;
 color:#00f7ff;
+z-index:2;
 
 text-shadow:
 0 0 5px #00f7ff,
@@ -205,13 +198,13 @@ text-shadow:
 animation:glowText 2s infinite alternate;
 }
 
-/* ===== HOVER ===== */
+/* Hover */
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 25px #00eaff;
 }
 
-/* ===== ANIMATIONS ===== */
+/* Animations */
 @keyframes fadeUp{
 to{
 opacity:1;
@@ -224,7 +217,7 @@ from{opacity:0.8;}
 to{opacity:1;}
 }
 
-/* ===== FOOTER ===== */
+/* Footer */
 .footer{
 position:fixed;
 bottom:10px;
@@ -235,185 +228,33 @@ color:#555;
 z-index:2;
 }
 
-/* ===== MOBILE ===== */
-@media(max-width:350px){
-.menu{
-grid-template-columns:repeat(2,1fr);
-}
-}
-
-/* ===== THEME BUTTON ===== */
-.theme-btn{
-position:fixed;
-left:15px;
-top:15px;
-width:50px;
-height:50px;
-display:flex;
-align-items:center;
-justify-content:center;
-border-radius:50%;
-background:#111;
-color:#00eaff;
-font-size:22px;
-cursor:pointer;
-z-index:999;
-box-shadow:0 0 15px #00eaff;
-transition:0.3s;
-}
-
-.theme-btn:hover{
-transform:scale(1.2) rotate(10deg);
-}
-
-body.light{
-background:url('Background/day.jpg') center/cover no-repeat;
-color:black;
-}
-
-body.light::before{
-background:linear-gradient(rgba(255,255,255,0.4), rgba(255,255,255,0.7));
-}
-
-body.light .stars{
-opacity:0;
-}
-
-body.light .hud,
-body.light .type{
-color:#222;
-text-shadow:none;
-}
-
-body.light .btn span{
-color:#000;
-text-shadow:none;
-}
-
 </style>
 </head>
+
 <body>
-<div class="theme-btn" onclick="toggleTheme()">🌙</div>
 
-<!-- CURSOR -->
 <div class="cursor" id="cursor"></div>
-
-<!-- STARS -->
 <div class="stars"></div>
-
-<!-- HUD -->
-<div class="hud">
-STATUS: ONLINE<br>
-RANK: SHADOW ELITE<br>
-POWER: 98%
-</div>
-
-<!-- SOUND -->
-<audio id="clickSound" src="click.mp3"></audio>
-
-<!-- MUSIC -->
-<audio autoplay loop>
-<source src="music.mp3">
-</audio>
-
-<!-- SOCIAL -->
-<div class="social">
-<a href="https://www.facebook.com/Kage.No.Teio2" target="_blank">
-<img src="Facebook/20260427_084709.png" alt="fb">
-</a>
-</div>
 
 <div class="container">
 
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
-
-<div class="type" id="typeText"></div>
-
 <div class="menu">
 
-<div class="btn" onclick="go('anime.html')" style="background-image:url('Pictures/20260426_155749.png')"><span>أنمي</span></div>
-
-<div class="btn" onclick="go('gangs.html')" style="background-image:url('Pictures/20260426_160952.png')"><span>فضائح عصابات</span></div>
-
-<div class="btn" onclick="go('rules.html')" style="background-image:url('Pictures/20260426_155319.png')"><span>قوانين الدعس</span></div>
-
-<div class="btn" onclick="go('members.html')" style="background-image:url('Pictures/20260426_160315.png')"><span>ترسيم أعضاء</span></div>
-
-<div class="btn" onclick="alert('اعضاء الظلال 😈')" style="background-image:url('Pictures/20260426_160850.png')"><span>أسماء الظلال</span></div>
-
-<div class="btn" onclick="go('download.html')" style="background-image:url('Pictures/20260426_154329.png')"><span>تحميل ملفات</span></div>
+<div class="btn" style="background-image:url('Pictures/1.png')"><span>أنمي</span></div>
+<div class="btn" style="background-image:url('Pictures/2.png')"><span>عصابات</span></div>
+<div class="btn" style="background-image:url('Pictures/3.png')"><span>قوانين</span></div>
 
 </div>
+
 </div>
-
-<div class="quote" id="quote"></div>
-
-<div class="footer">© Kage No Teio - Shadow System</div>
 
 <script>
-
-/* ===== NAV ===== */
-function go(page){
-let s=document.getElementById("clickSound");
-if(s){
-s.currentTime=0;
-s.play();
-}
-setTimeout(()=>{
-window.location.href=page;
-},2000);
-}
-
-/* ===== CURSOR ===== */
 let cursor=document.getElementById("cursor");
 document.addEventListener("mousemove",e=>{
 cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
-
-/* ===== TYPE ===== */
-let text="WELCOME TO SHADOW SYSTEM";
-let i=0;
-
-function type(){
-if(i<text.length){
-document.getElementById("typeText").innerHTML+=text.charAt(i);
-i++;
-setTimeout(type,50);
-}
-}
-type();
-
-/* ===== QUOTES ===== */
-let quotes=[
-"We are the shadows...",
-"Power hides in darkness",
-"Observe. Adapt. Dominate."
-];
-
-setInterval(()=>{
-let q=document.getElementById("quote");
-q.innerText=quotes[Math.floor(Math.random()*quotes.length)];
-q.style.opacity=1;
-
-setTimeout(()=>{
-q.style.opacity=0;
-},4000);
-
-},6000);
-
-function toggleTheme(){
-document.body.classList.toggle("light");
-
-let btn = document.querySelector(".theme-btn");
-
-if(document.body.classList.contains("light")){
-btn.innerHTML = "☀️";
-}else{
-btn.innerHTML = "🌙";
-}
-}
-
 </script>
+
 </body>
 </html>
