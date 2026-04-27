@@ -63,14 +63,29 @@ flex-direction:column;
 align-items:center;
 width:100%;
 max-width:1200px;
-padding:20px;
+padding-top:140px;
 }
 
 /* ===== LOGO ===== */
 .logo{
-width:clamp(200px,40vw,340px);
-margin-bottom:10px;
-filter:drop-shadow(0 0 25px #00eaff);
+position:absolute;
+top:20px;
+left:50%;
+transform:translateX(-50%);
+width:clamp(220px,50vw,500px);
+
+filter:
+drop-shadow(0 0 20px #00eaff)
+drop-shadow(0 0 40px rgba(0,234,255,0.7));
+
+animation:logoFloat 4s ease-in-out infinite;
+z-index:2;
+}
+
+@keyframes logoFloat{
+0%{transform:translateX(-50%) translateY(0);}
+50%{transform:translateX(-50%) translateY(10px);}
+100%{transform:translateX(-50%) translateY(0);}
 }
 
 /* ===== MENU ===== */
@@ -79,6 +94,7 @@ display:grid;
 grid-template-columns:repeat(3,1fr);
 gap:20px;
 width:100%;
+padding:10px;
 }
 
 /* ===== BUTTON ===== */
@@ -88,7 +104,6 @@ aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
 background-repeat:no-repeat;
-filter:brightness(1.1) contrast(1.1);
 
 cursor:pointer;
 clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
@@ -97,6 +112,14 @@ overflow:hidden;
 opacity:0;
 transform:translateY(40px);
 animation:fadeUp 0.8s ease forwards;
+}
+
+/* شفافية خفيفة */
+.btn::before{
+content:"";
+position:absolute;
+inset:0;
+background:linear-gradient(to top, rgba(0,0,0,0.3), transparent);
 }
 
 /* hover */
@@ -135,35 +158,32 @@ pointer-events:auto;
 
 /* BOX */
 .popup-box{
-background:rgba(20,20,20,0.95);
+background:rgba(10,10,10,0.95);
 padding:40px;
 border-radius:20px;
 text-align:center;
 box-shadow:0 0 40px #00eaff;
 
-transform:scale(0.7) translateY(50px);
+transform:scale(0.7);
 opacity:0;
 transition:0.4s;
 }
 
 .popup.active .popup-box{
-transform:scale(1) translateY(0);
+transform:scale(1);
 opacity:1;
 }
 
-/* TITLE */
 .popup-box h2{
 color:#00eaff;
 margin-bottom:15px;
 }
 
-/* TEXT */
 .popup-box p{
 color:#aaa;
 margin-bottom:20px;
 }
 
-/* BUTTON */
 .popup-box button{
 padding:10px 25px;
 border:none;
@@ -174,7 +194,7 @@ cursor:pointer;
 }
 
 /* ===== MOBILE ===== */
-@media(max-width:350px){
+@media(max-width:600px){
 .menu{
 grid-template-columns:repeat(2,1fr);
 }
@@ -191,9 +211,10 @@ grid-template-columns:repeat(2,1fr);
 <!-- STARS -->
 <div class="stars"></div>
 
-<div class="container">
-
+<!-- LOGO -->
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
+
+<div class="container">
 
 <div class="menu">
 
@@ -230,13 +251,13 @@ cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
 
-/* OPEN */
+/* OPEN MENU */
 function openMenu(title){
 document.getElementById("popupTitle").innerText = title;
 document.getElementById("popup").classList.add("active");
 }
 
-/* CLOSE */
+/* CLOSE MENU */
 function closeMenu(){
 document.getElementById("popup").classList.remove("active");
 }
