@@ -7,7 +7,63 @@
 
 <style>
 
-/* ===== RESET ===== */
+/* ================= RIPPLE ================= */
+.ripple{
+position:fixed;
+border-radius:50%;
+background:rgba(0,234,255,0.3);
+transform:translate(-50%,-50%);
+pointer-events:none;
+animation:rippleAnim 0.8s ease-out;
+z-index:9998;
+}
+
+@keyframes rippleAnim{
+0%{width:0;height:0;opacity:0.6;}
+100%{width:200px;height:200px;opacity:0;}
+}
+
+/* ================= START SCREEN ================= */
+.start-screen{
+position:fixed;
+inset:0;
+backdrop-filter:blur(15px);
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.start-box{
+text-align:center;
+color:white;
+animation:fadeIn 1s ease;
+}
+
+.start-box button{
+margin-top:20px;
+padding:14px 40px;
+font-size:20px;
+border:none;
+border-radius:20px;
+background:#00eaff;
+cursor:pointer;
+box-shadow:0 0 25px #00eaff;
+transition:0.3s;
+}
+
+.start-box button:hover{
+transform:scale(1.1);
+box-shadow:0 0 50px #00eaff;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.8);}
+to{opacity:1; transform:scale(1);}
+}
+
+/* ================= BODY ================= */
 *{
 margin:0;
 padding:0;
@@ -15,7 +71,6 @@ box-sizing:border-box;
 font-family:Tahoma;
 }
 
-/* ===== BODY ===== */
 body{
 min-height:100vh;
 display:flex;
@@ -27,7 +82,7 @@ overflow-x:hidden;
 cursor:none;
 }
 
-/* ===== CURSOR ===== */
+/* ================= CURSOR ================= */
 .cursor{
 position:fixed;
 width:10px;
@@ -39,14 +94,13 @@ box-shadow:0 0 10px #00eaff;
 z-index:9999;
 }
 
-/* ===== STARS ===== */
+/* ================= STARS ================= */
 .stars{
 position:fixed;
 inset:0;
 background:url('GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
 opacity:0.2;
 animation:moveStars 60s linear infinite;
-z-index:0;
 }
 
 @keyframes moveStars{
@@ -54,34 +108,49 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-/* ===== LOGO ===== */
+/* ================= LOGO ================= */
 .logo{
 width:clamp(180px,45vw,420px);
-margin:20px 0;
+margin:15px;
 filter:drop-shadow(0 0 25px #00eaff);
 z-index:2;
 }
 
-/* ===== FRAME ===== */
-.frame-box{
-width:90%;
-max-width:1000px;
-height:80px;
-margin-bottom:20px;
-position:relative;
-overflow:hidden;
-background:rgba(0,0,0,0.2);
-border-radius:12px;
-box-shadow:0 0 15px rgba(0,234,255,0.2);
+/* ================= MENU ================= */
+.menu{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:12px;
+width:100%;
+max-width:1100px;
 z-index:2;
 }
 
-.frame-gif{
-position:absolute;
+/* أزرار هرمية */
+.btn{
+aspect-ratio:4/3;
+background-size:cover;
+background-position:center;
+clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+cursor:pointer;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+box-shadow:0 0 25px #00eaff;
+}
+
+/* ================= TEXT FRAME ================= */
+.frame-box{
 width:100%;
-height:100%;
-object-fit:cover;
-opacity:0.25;
+max-width:1000px;
+height:80px;
+margin:10px;
+position:relative;
+overflow:hidden;
+border-radius:12px;
+border:1px solid rgba(0,234,255,0.3);
 }
 
 .frame-text{
@@ -93,60 +162,22 @@ align-items:center;
 overflow:hidden;
 }
 
+/* النص يمشي من يسار لليمين ببطء */
 .frame-text span{
 position:absolute;
-left:-100%;
+left:100%;
 white-space:nowrap;
-color:#00eaff;
-font-weight:bold;
 font-size:18px;
-animation:scrollText 6s linear;
+color:#00eaff;
+animation:scrollText 25s linear infinite;
 }
 
 @keyframes scrollText{
-from{ left:-100%; }
-to{ left:100%; }
+0%{left:100%;}
+100%{left:-100%;}
 }
 
-/* ===== MENU ===== */
-.container{
-width:100%;
-max-width:1100px;
-padding:10px;
-z-index:2;
-}
-
-.menu{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:10px;
-}
-
-.btn{
-aspect-ratio:4/3;
-background-size:cover;
-background-position:center;
-cursor:pointer;
-clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-transition:0.3s;
-opacity:0;
-transform:translateY(40px);
-animation:fadeUp 0.8s forwards;
-}
-
-.btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #00eaff;
-}
-
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-/* ===== POPUP ===== */
+/* ================= POPUP ================= */
 .popup{
 position:fixed;
 inset:0;
@@ -168,39 +199,18 @@ pointer-events:auto;
 background:#111;
 padding:30px;
 border-radius:20px;
-text-align:center;
 box-shadow:0 0 40px #00eaff;
+text-align:center;
 }
 
-.popup-box h2{
-color:#00eaff;
-margin-bottom:10px;
-}
-
-.popup-box button{
-margin-top:15px;
-padding:10px 25px;
-border:none;
-background:#00eaff;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
-
-/* ===== RIPPLE ===== */
-.ripple{
+/* ================= 3D ================= */
+#char3d{
 position:fixed;
-border-radius:50%;
-background:rgba(0,234,255,0.3);
-transform:translate(-50%,-50%);
-pointer-events:none;
-animation:rippleAnim 0.8s ease-out;
-z-index:9998;
-}
-
-@keyframes rippleAnim{
-0%{width:0;height:0;opacity:0.6;}
-100%{width:200px;height:200px;opacity:0;}
+bottom:10px;
+left:0;
+width:200px;
+height:200px;
+z-index:5;
 }
 
 </style>
@@ -208,37 +218,53 @@ z-index:9998;
 
 <body>
 
+<!-- START -->
+<div id="startScreen" class="start-screen">
+<div class="start-box">
+<h2>هل تريد دخول المملكة العظيمة؟</h2>
+<button onclick="startSite()">Start</button>
+</div>
+</div>
+
+<audio id="bgMusic" src="music.mp3" loop></audio>
+<audio id="charSound" src="sound.mp3"></audio>
+
 <div class="cursor" id="cursor"></div>
 <div class="stars"></div>
 
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
 <div class="frame-box">
-<img src="GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif">
 <div class="frame-text">
-<span></span>
+<span id="scrollText"></span>
 </div>
 </div>
 
-<div class="container">
 <div class="menu">
-
 <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>
 <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>
 <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>
 <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>
 <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>
 <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>
-
-</div>
 </div>
 
+<!-- POPUP -->
 <div class="popup" id="popup">
 <div class="popup-box">
 <h2 id="popupTitle"></h2>
 <button onclick="closeMenu()">إغلاق</button>
 </div>
 </div>
+
+<!-- 3D -->
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<model-viewer id="char3d"
+src="character.glb"
+auto-rotate
+camera-controls>
+</model-viewer>
 
 <script>
 
@@ -249,7 +275,13 @@ cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
 
-/* POPUP */
+/* START */
+function startSite(){
+document.getElementById("startScreen").style.display="none";
+document.getElementById("bgMusic").play();
+}
+
+/* MENU */
 function openMenu(title){
 document.getElementById("popupTitle").innerText=title;
 document.getElementById("popup").classList.add("active");
@@ -260,16 +292,16 @@ document.getElementById("popup").classList.remove("active");
 }
 
 /* RIPPLE */
-document.addEventListener("click",function(e){
-let ripple=document.createElement("div");
-ripple.className="ripple";
-ripple.style.left=e.clientX+"px";
-ripple.style.top=e.clientY+"px";
-document.body.appendChild(ripple);
-setTimeout(()=>ripple.remove(),800);
+document.addEventListener("click",e=>{
+let r=document.createElement("div");
+r.className="ripple";
+r.style.left=e.clientX+"px";
+r.style.top=e.clientY+"px";
+document.body.appendChild(r);
+setTimeout(()=>r.remove(),800);
 });
 
-/* TEXT */
+/* TEXT LOOP (بدون تقطيع) */
 let texts=[
 "☠ الظلال تتربص في الظلام ☠",
 "♦𖤐طائفة الظلام منذ 2019𖤐♦",
@@ -277,21 +309,48 @@ let texts=[
 "👑نرحب بالزوار الكرام👑"
 ];
 
-let i=0;
-let span=document.querySelector(".frame-text span");
+let index=0;
+let el=document.getElementById("scrollText");
 
-function runText(){
-span.innerText=texts[i];
-span.style.animation="none";
-span.style.left="-100%";
-void span.offsetWidth;
-span.style.animation="scrollText 6s linear";
-
-i=(i+1)%texts.length;
+function loopText(){
+el.innerText=texts[index];
+index=(index+1)%texts.length;
 }
 
-runText();
-setInterval(runText,6000);
+setInterval(loopText,25000);
+loopText();
+
+/* 3D حركة */
+let char=document.getElementById("char3d");
+let pos=0,dir=1;
+
+setInterval(()=>{
+pos+=dir*2;
+if(pos>window.innerWidth-200||pos<0){
+dir*=-1;
+
+/* قفز */
+char.animate([
+{transform:"translateY(0)"},
+{transform:"translateY(-40px)"},
+{transform:"translateY(0)"}
+],{duration:600});
+}
+
+char.style.left=pos+"px";
+},30);
+
+/* لمس */
+char.addEventListener("click",()=>{
+document.getElementById("charSound").play();
+
+char.animate([
+{transform:"rotate(0deg)"},
+{transform:"rotate(20deg)"},
+{transform:"rotate(-20deg)"},
+{transform:"rotate(0deg)"}
+],{duration:500});
+});
 
 </script>
 
