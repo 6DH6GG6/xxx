@@ -316,7 +316,17 @@ to{ left:120%; }
 
 <div class="stars"></div>  <!-- LOGO -->  <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">  <!-- FRAME -->  <div class="frame-box">  <!-- GIF تأثير -->    
 <img src="GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif">    <!-- النص المتحرك -->    <div class="frame-text">    
-    <span>☠ الظلال تتربص في الظلام ☠</span>    
+    <span>
+☠ الظلال تتربص في الظلام ☠ &nbsp;&nbsp;&nbsp;
+♦𖤐طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019𖤐♦ &nbsp;&nbsp;&nbsp;
+♠👁لدينا أعين في كل مكان نحن الظلال نتربص في ظلام👁♠ &nbsp;&nbsp;&nbsp;
+👑نخب الزوار الكرام 🥂 حتى لو كانوا من الخصوم نشارك النخب تواضعًا👑 &nbsp;&nbsp;&nbsp;
+
+☠ الظلال تتربص في الظلام ☠ &nbsp;&nbsp;&nbsp;
+♦𖤐طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019𖤐♦ &nbsp;&nbsp;&nbsp;
+♠👁لدينا أعين في كل مكان نحن الظلال نتربص في ظلام👁♠ &nbsp;&nbsp;&nbsp;
+👑نخب الزوار الكرام 🥂 حتى لو كانوا من الخصوم نشارك النخب تواضعًا👑
+</span>    
 </div>  </div>  <div class="container">  <div class="menu">  <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>  <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>  <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>  <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>  <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>  <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>  </div>    
 </div>  <!-- POPUP -->  <div class="popup" id="popup">    
 <div class="popup-box">    
@@ -348,20 +358,6 @@ let frameTexts = [
 
 let frameIndex = 0;
 let frameSpan = document.querySelector(".frame-text span");
-
-setInterval(()=>{
-  frameIndex++;
-  if(frameIndex >= frameTexts.length){
-    frameIndex = 0;
-  }
-
-  frameSpan.style.animation = "none";
-  frameSpan.offsetHeight; // إعادة تشغيل الأنيميشن
-  frameSpan.style.animation = "scrollText 10s linear infinite";
-
-  frameSpan.innerText = frameTexts[frameIndex];
-
-},9000);
 
 document.addEventListener("click", function(e){
   let ripple = document.createElement("div");
