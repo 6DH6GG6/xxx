@@ -7,63 +7,7 @@
 
 <style>
 
-/* ================= RIPPLE ================= */
-.ripple{
-position:fixed;
-border-radius:50%;
-background:rgba(0,234,255,0.3);
-transform:translate(-50%,-50%);
-pointer-events:none;
-animation:rippleAnim 0.8s ease-out;
-z-index:9998;
-}
-
-@keyframes rippleAnim{
-0%{width:0;height:0;opacity:0.6;}
-100%{width:200px;height:200px;opacity:0;}
-}
-
-/* ================= START SCREEN ================= */
-.start-screen{
-position:fixed;
-inset:0;
-backdrop-filter:blur(15px);
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
-
-.start-box{
-text-align:center;
-color:white;
-animation:fadeIn 1s ease;
-}
-
-.start-box button{
-margin-top:20px;
-padding:14px 40px;
-font-size:20px;
-border:none;
-border-radius:20px;
-background:#00eaff;
-cursor:pointer;
-box-shadow:0 0 25px #00eaff;
-transition:0.3s;
-}
-
-.start-box button:hover{
-transform:scale(1.1);
-box-shadow:0 0 50px #00eaff;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:scale(0.8);}
-to{opacity:1; transform:scale(1);}
-}
-
-/* ================= BODY ================= */
+/* ===== RESET ===== */
 *{
 margin:0;
 padding:0;
@@ -82,7 +26,40 @@ overflow-x:hidden;
 cursor:none;
 }
 
-/* ================= CURSOR ================= */
+/* ===== START SCREEN ===== */
+.start-screen{
+position:fixed;
+inset:0;
+backdrop-filter:blur(15px);
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:99999;
+}
+
+.start-box{
+text-align:center;
+animation:fadeIn 1s ease;
+}
+
+.start-box button{
+margin-top:20px;
+padding:14px 40px;
+font-size:20px;
+border:none;
+border-radius:20px;
+background:#00eaff;
+cursor:pointer;
+box-shadow:0 0 25px #00eaff;
+}
+
+@keyframes fadeIn{
+from{opacity:0; transform:scale(0.8);}
+to{opacity:1; transform:scale(1);}
+}
+
+/* ===== CURSOR ===== */
 .cursor{
 position:fixed;
 width:10px;
@@ -94,7 +71,7 @@ box-shadow:0 0 10px #00eaff;
 z-index:9999;
 }
 
-/* ================= STARS ================= */
+/* ===== STARS ===== */
 .stars{
 position:fixed;
 inset:0;
@@ -108,7 +85,7 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-/* ================= LOGO ================= */
+/* ===== LOGO ===== */
 .logo{
 width:clamp(180px,45vw,420px);
 margin:15px;
@@ -116,32 +93,37 @@ filter:drop-shadow(0 0 25px #00eaff);
 z-index:2;
 }
 
-/* ================= MENU ================= */
+/* ===== MENU ===== */
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:12px;
+gap:10px;
 width:100%;
 max-width:1100px;
 z-index:2;
 }
 
-/* أزرار هرمية */
+/* 🔥 مربعات شفافة */
 .btn{
 aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
-clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
 cursor:pointer;
+border-radius:12px;
+
+/* الشفافية */
+background-color:rgba(0,0,0,0.2);
+backdrop-filter:blur(2px);
+
 transition:0.3s;
 }
 
 .btn:hover{
-transform:scale(1.1);
-box-shadow:0 0 25px #00eaff;
+transform:scale(1.05);
+box-shadow:0 0 20px #00eaff;
 }
 
-/* ================= TEXT FRAME ================= */
+/* ===== TEXT FRAME ===== */
 .frame-box{
 width:100%;
 max-width:1000px;
@@ -162,10 +144,10 @@ align-items:center;
 overflow:hidden;
 }
 
-/* النص يمشي من يسار لليمين ببطء */
+/* 🔥 نص من اليسار لليمين 👉 */
 .frame-text span{
 position:absolute;
-left:100%;
+left:-100%;
 white-space:nowrap;
 font-size:18px;
 color:#00eaff;
@@ -173,11 +155,11 @@ animation:scrollText 25s linear infinite;
 }
 
 @keyframes scrollText{
-0%{left:100%;}
-100%{left:-100%;}
+0%{left:-100%;}
+100%{left:100%;}
 }
 
-/* ================= POPUP ================= */
+/* ===== POPUP ===== */
 .popup{
 position:fixed;
 inset:0;
@@ -200,10 +182,10 @@ background:#111;
 padding:30px;
 border-radius:20px;
 box-shadow:0 0 40px #00eaff;
-text-align:center;
+min-width:250px;
 }
 
-/* ================= 3D ================= */
+/* ===== 3D ===== */
 #char3d{
 position:fixed;
 bottom:10px;
@@ -234,12 +216,14 @@ z-index:5;
 
 <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
 
+<!-- TEXT -->
 <div class="frame-box">
 <div class="frame-text">
 <span id="scrollText"></span>
 </div>
 </div>
 
+<!-- MENU -->
 <div class="menu">
 <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>
 <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>
@@ -251,9 +235,8 @@ z-index:5;
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-<div class="popup-box">
+<div class="popup-box" id="popupBox">
 <h2 id="popupTitle"></h2>
-<button onclick="closeMenu()">إغلاق</button>
 </div>
 </div>
 
@@ -291,6 +274,11 @@ function closeMenu(){
 document.getElementById("popup").classList.remove("active");
 }
 
+/* اغلاق عند الضغط خارج */
+document.getElementById("popup").addEventListener("click",function(e){
+if(e.target===this){closeMenu();}
+});
+
 /* RIPPLE */
 document.addEventListener("click",e=>{
 let r=document.createElement("div");
@@ -301,7 +289,7 @@ document.body.appendChild(r);
 setTimeout(()=>r.remove(),800);
 });
 
-/* TEXT LOOP (بدون تقطيع) */
+/* TEXT LOOP */
 let texts=[
 "☠ الظلال تتربص في الظلام ☠",
 "♦𖤐طائفة الظلام منذ 2019𖤐♦",
@@ -309,12 +297,12 @@ let texts=[
 "👑نرحب بالزوار الكرام👑"
 ];
 
-let index=0;
+let i=0;
 let el=document.getElementById("scrollText");
 
 function loopText(){
-el.innerText=texts[index];
-index=(index+1)%texts.length;
+el.innerText=texts[i];
+i=(i+1)%texts.length;
 }
 
 setInterval(loopText,25000);
@@ -326,6 +314,7 @@ let pos=0,dir=1;
 
 setInterval(()=>{
 pos+=dir*2;
+
 if(pos>window.innerWidth-200||pos<0){
 dir*=-1;
 
