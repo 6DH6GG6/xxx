@@ -15,6 +15,7 @@ box-sizing:border-box;
 font-family:Tahoma;
 }
 
+/* ===== BODY ===== */
 body{
 min-height:100vh;
 display:flex;
@@ -26,7 +27,7 @@ overflow-x:hidden;
 cursor:none;
 }
 
-/* ===== START SCREEN ===== */
+/* ===== START ===== */
 .start-screen{
 position:fixed;
 inset:0;
@@ -97,10 +98,12 @@ z-index:2;
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap: 5px 2px;
+gap:5px 2px;
+width:100%;
+max-width:1100px;
 }
 
-/* 🔥 مربعات شفافة */
+/* ===== BUTTONS ===== */
 .btn{
 aspect-ratio:4/3;
 background-size:cover;
@@ -108,9 +111,9 @@ background-position:center;
 cursor:pointer;
 border-radius:12px;
 
-background-color:rgba(0,0,0,0);
+background-color:rgba(0,0,0,0); /* شفافة */
 
-margin: 5px 2px;
+margin:5px 2px;
 
 transition:0.3s;
 }
@@ -120,14 +123,14 @@ transform:scale(1.05);
 box-shadow:0 0 20px #00eaff;
 }
 
-/* ازاحة الصف الثاني */
+/* 🔥 ازاحة الصف الثاني */
 .btn:nth-child(4),
 .btn:nth-child(5),
 .btn:nth-child(6){
-transform: translateX(30%);
+margin-left:20%;
 }
 
-/* ===== TEXT FRAME ===== */
+/* ===== TEXT ===== */
 .frame-box{
 width:100%;
 max-width:1000px;
@@ -148,7 +151,7 @@ align-items:center;
 overflow:hidden;
 }
 
-/* 🔥 نص من اليسار لليمين 👉 */
+/* 👉 من اليسار لليمين */
 .frame-text span{
 position:absolute;
 left:-100%;
@@ -239,7 +242,7 @@ z-index:5;
 
 <!-- POPUP -->
 <div class="popup" id="popup">
-<div class="popup-box" id="popupBox">
+<div class="popup-box">
 <h2 id="popupTitle"></h2>
 </div>
 </div>
@@ -293,7 +296,7 @@ document.body.appendChild(r);
 setTimeout(()=>r.remove(),800);
 });
 
-/* TEXT LOOP */
+/* TEXT */
 let texts=[
 "☠ الظلال تتربص في الظلام ☠",
 "♦𖤐طائفة الظلام منذ 2019𖤐♦",
@@ -322,7 +325,6 @@ pos+=dir*2;
 if(pos>window.innerWidth-200||pos<0){
 dir*=-1;
 
-/* قفز */
 char.animate([
 {transform:"translateY(0)"},
 {transform:"translateY(-40px)"},
