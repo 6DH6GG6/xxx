@@ -340,10 +340,10 @@ document.getElementById("popup").classList.remove("active");
 }
 
 let frameTexts = [
-"☠ الظلال تتربص في الظلام ☠",
-"⚡ القوة تولد من العدم ⚡",
-"👁️ نحن نراقب كل شيء 👁️",
-"🔥 النظام بدأ بالفعل 🔥"
+"♦𖤐طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019𖤐♦",
+"",
+"♠👁لدينا أعين في كل مكان نحن الظلال نتربص في ظلام👁♠",
+"👑نخب الزوار الكرام 🥂 حتا لو كانو من لخصوم نشارك النخب تواضعًا👑"
 ];
 
 let frameIndex = 0;
@@ -371,34 +371,33 @@ document.addEventListener("click", function(e){
   },800);
 });
 
-function confirmExit(){
-  window.location.href = "about:blank";
-}
-
-function closeExit(){
-  document.getElementById("exitPopup").classList.remove("active");
-}
-
 document.getElementById("popup").addEventListener("click", function(e){
   if(e.target === this){
     closeMenu();
   }
 });
 
-document.getElementById("exitPopup").addEventListener("click", function(e){
-  if(e.target === this){
-    closeExit();
-  }
+document.addEventListener("DOMContentLoaded", function () {
+  history.pushState({page:1}, "", location.href);
 });
 
-history.pushState(null, "", location.href);
-
-window.addEventListener("popstate", function(){
+function showExitPopup(){
   document.getElementById("exitPopup").classList.add("active");
+  history.pushState({page:1}, "", location.href);
+}
 
-  // نعيد إضافة state حتى ما يخرج
-  history.pushState(null, "", location.href);
+window.addEventListener("popstate", function () {
+  showExitPopup();
 });
+
+function closeExit(){
+  document.getElementById("exitPopup").classList.remove("active");
+  history.pushState({page:1}, "", location.href);
+}
+
+function confirmExit(){
+  history.back();
+}
 
 </script>  
 </body>    
