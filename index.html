@@ -97,10 +97,7 @@ z-index:2;
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:0;
-width:100%;
-max-width:1100px;
-z-index:2;
+gap: 5px 2px;
 }
 
 /* 🔥 مربعات شفافة */
@@ -111,8 +108,9 @@ background-position:center;
 cursor:pointer;
 border-radius:12px;
 
-/* الشفافية */
-background-color:rgba(0,0,0,0.0);
+background-color:rgba(0,0,0,0);
+
+margin: 5px 2px;
 
 transition:0.3s;
 }
@@ -120,6 +118,13 @@ transition:0.3s;
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 20px #00eaff;
+}
+
+/* ازاحة الصف الثاني */
+.btn:nth-child(4),
+.btn:nth-child(5),
+.btn:nth-child(6){
+transform: translateX(30%);
 }
 
 /* ===== TEXT FRAME ===== */
