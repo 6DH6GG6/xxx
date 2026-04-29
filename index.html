@@ -1,13 +1,70 @@
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kage No Teio</title>
+<!DOCTYPE html>  <html lang="ar">    <head>    
+<meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>    .ripple{
+position:fixed;
+border-radius:50%;
+background:rgba(0,234,255,0.3);
+transform:translate(-50%,-50%);
+pointer-events:none;
+animation:rippleAnim 0.8s ease-out;
+z-index:9998;
+}
 
-<style>
+.exit-popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
+transition:0.4s;
+z-index:1000;
+}
 
-/* ===== RESET ===== */
+.exit-popup.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.exit-box{
+background:url('Background/abp45jcll7d51.gif') center/cover no-repeat;
+padding:40px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 40px #00eaff;
+}
+
+.exit-buttons{
+margin-top:20px;
+display:flex;
+gap:15px;
+justify-content:center;
+}
+
+.exit-buttons button{
+padding:10px 25px;
+border:none;
+background:#00eaff;
+color:black;
+border-radius:10px;
+cursor:pointer;
+}
+
+@keyframes rippleAnim{
+0%{
+width:0;
+height:0;
+opacity:0.6;
+}
+100%{
+width:200px;
+height:200px;
+opacity:0;
+}
+}
+
 *{
 margin:0;
 padding:0;
@@ -15,7 +72,6 @@ box-sizing:border-box;
 font-family:Tahoma;
 }
 
-/* ===== BODY ===== */
 body{
 min-height:100vh;
 display:flex;
@@ -27,40 +83,6 @@ overflow-x:hidden;
 cursor:none;
 }
 
-/* ===== START ===== */
-.start-screen{
-position:fixed;
-inset:0;
-backdrop-filter:blur(15px);
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-z-index:99999;
-}
-
-.start-box{
-text-align:center;
-animation:fadeIn 1s ease;
-}
-
-.start-box button{
-margin-top:20px;
-padding:14px 40px;
-font-size:20px;
-border:none;
-border-radius:20px;
-background:#00eaff;
-cursor:pointer;
-box-shadow:0 0 25px #00eaff;
-}
-
-@keyframes fadeIn{
-from{opacity:0; transform:scale(0.8);}
-to{opacity:1; transform:scale(1);}
-}
-
-/* ===== CURSOR ===== */
 .cursor{
 position:fixed;
 width:10px;
@@ -72,13 +94,13 @@ box-shadow:0 0 10px #00eaff;
 z-index:9999;
 }
 
-/* ===== STARS ===== */
 .stars{
 position:fixed;
 inset:0;
 background:url('GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
 opacity:0.2;
 animation:moveStars 60s linear infinite;
+z-index:0;
 }
 
 @keyframes moveStars{
@@ -86,60 +108,140 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-/* ===== LOGO ===== */
 .logo{
 width:clamp(180px,45vw,420px);
-margin:15px;
+margin-top:15px;
+margin-bottom:15px;
 filter:drop-shadow(0 0 25px #00eaff);
 z-index:2;
 }
 
-/* ===== MENU ===== */
+.container{
+z-index:2;
+width:100%;
+max-width:1100px;
+padding:10px;
+}
+
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:5px 2px;
-width:100%;
-max-width:1100px;
+gap:10px;
 }
 
-/* ===== BUTTONS ===== */
 .btn{
+position:relative;
 aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
 cursor:pointer;
-border-radius:12px;
+clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+overflow:hidden;
 
-background-color:rgba(0,0,0,0); /* شفافة */
-
-margin:5px 2px;
-
-transition:0.3s;
+opacity:0;
+transform:translateY(40px);
+animation:fadeUp 0.8s ease forwards;
 }
+
+.btn:nth-child(1){animation-delay:0.2s;}
+.btn:nth-child(2){animation-delay:0.4s;}
+.btn:nth-child(3){animation-delay:0.6s;}
+.btn:nth-child(4){animation-delay:0.8s;}
+.btn:nth-child(5){animation-delay:1s;}
+.btn:nth-child(6){animation-delay:1.2s;}
 
 .btn:hover{
 transform:scale(1.05);
 box-shadow:0 0 20px #00eaff;
 }
 
-/* 🔥 ازاحة الصف الثاني */
-.btn:nth-child(4),
-.btn:nth-child(5),
-.btn:nth-child(6){
-margin-left:40%;
+@keyframes fadeUp{
+to{
+opacity:1;
+transform:translateY(0);
+}
 }
 
-/* ===== TEXT ===== */
+.popup{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,0.85);
+display:flex;
+justify-content:center;
+align-items:center;
+opacity:0;
+pointer-events:none;
+transition:0.4s;
+z-index:999;
+}
+
+.popup.active{
+opacity:1;
+pointer-events:auto;
+}
+
+.popup-box{
+background:rgba(10,10,10,0.95);
+padding:30px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 0 40px #00eaff;
+
+transform:scale(0.7);
+opacity:0;
+transition:0.4s;
+}
+
+.popup.active .popup-box{
+transform:scale(1);
+opacity:1;
+}
+
+.popup-box h2{
+color:#00eaff;
+margin-bottom:10px;
+}
+
+.popup-box p{
+color:#aaa;
+margin-bottom:20px;
+}
+
+.popup-box button{
+padding:10px 25px;
+border:none;
+background:#00eaff;
+color:black;
+border-radius:10px;
+cursor:pointer;
+}
+
 .frame-box{
 width:100%;
 max-width:1000px;
 height:80px;
-margin:10px;
+
+margin:10px 0 20px 0;
+
 position:relative;
 overflow:hidden;
-border-radius:12px;
+
+background:rgba(0,0,0,0.2);
+
 border:1px solid rgba(0,234,255,0.3);
+border-radius:12px;
+
+box-shadow:0 0 15px rgba(0,234,255,0.2);
+
+z-index:2;
+}
+
+.frame-gif{
+position:absolute;
+width:100%;
+height:100%;
+object-fit:cover;
+opacity:0.25;
 }
 
 .frame-text{
@@ -151,129 +253,85 @@ align-items:center;
 overflow:hidden;
 }
 
-/* 👉 من اليسار لليمين */
 .frame-text span{
 position:absolute;
-left:-100%;
-white-space:nowrap;
-font-size:18px;
 color:#00eaff;
-animation:scrollText 25s linear infinite;
+font-weight:bold;
+font-size:18px;
+white-space:nowrap;
+
+text-shadow:
+0 0 5px #00eaff,
+0 0 10px #00eaff,
+0 0 20px #00eaff;
+
+animation:
+scrollText 10s linear infinite,
+glitch 1s infinite;
 }
 
 @keyframes scrollText{
-0%{left:-100%;}
-100%{left:100%;}
+from{ right:-100%; }
+to{ right:100%; }
 }
 
-/* ===== POPUP ===== */
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4s;
+.frame-box::after{
+content:"";
+position:absolute;
+top:0;
+left:-50%;
+width:50%;
+height:100%;
+
+background:linear-gradient(
+120deg,
+transparent,
+rgba(0,234,255,0.5),
+transparent
+);
+
+animation:lightMove 4s linear infinite;
 }
 
-.popup.active{
-opacity:1;
-pointer-events:auto;
-}
-
-.popup-box{
-background:#111;
-padding:30px;
-border-radius:20px;
-box-shadow:0 0 40px #00eaff;
-min-width:250px;
-}
-
-/* ===== 3D ===== */
-#char3d{
-position:fixed;
-bottom:10px;
-left:0;
-width:200px;
-height:200px;
-z-index:5;
+@keyframes lightMove{
+from{ left:-50%; }
+to{ left:120%; }
 }
 
 </style>
 </head>
-
 <body>
 
-<!-- START -->
-<div id="startScreen" class="start-screen">
-<div class="start-box">
-<h2>هل تريد دخول المملكة العظيمة؟</h2>
-<button onclick="startSite()">Start</button>
+<div class="exit-popup" id="exitPopup">
+  <div class="exit-box">
+    <h2>هل انت متأكد من انك تود الخروج؟</h2>
+    <div class="exit-buttons">
+      <button onclick="confirmExit()">نعم</button>
+      <button onclick="closeExit()">لا</button>
+    </div>
+  </div>
 </div>
-</div>
-
-<audio id="bgMusic" src="MP3/💜 ♪   𝑺   𝒊   𝒏   𝒈   ♪ 💜.mp3" loop></audio>
-<audio id="charSound" src="sound.mp3"></audio>
 
 <div class="cursor" id="cursor"></div>
-<div class="stars"></div>
 
-<img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">
-
-<!-- TEXT -->
-<div class="frame-box">
-<div class="frame-text">
-<span id="scrollText"></span>
-</div>
-</div>
-
-<!-- MENU -->
-<div class="menu">
-<div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>
-<div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>
-<div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>
-<div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>
-<div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>
-<div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>
-</div>
-
-<!-- POPUP -->
-<div class="popup" id="popup">
-<div class="popup-box">
-<h2 id="popupTitle"></h2>
-</div>
-</div>
-
-<!-- 3D -->
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-<model-viewer id="char3d"
-src="character.glb"
-auto-rotate
-camera-controls>
-</model-viewer>
-
-<script>
-
-/* CURSOR */
-let cursor=document.getElementById("cursor");
+<div class="stars"></div>  <!-- LOGO -->  <img src="Developers/file_0000000066f471f7a9d478b981699827.png" class="logo">  <!-- FRAME -->  <div class="frame-box">  <!-- GIF تأثير -->    
+<img src="GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif">    <!-- النص المتحرك -->    <div class="frame-text">    
+    <span>☠ الظلال تتربص في الظلام ☠</span>    
+</div>  </div>  <div class="container">  <div class="menu">  <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('Pictures/20260426_155749.png')"></div>  <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('Pictures/20260426_160952.png')"></div>  <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('Pictures/20260426_155319.png')"></div>  <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('Pictures/20260426_160315.png')"></div>  <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('Pictures/20260426_160850.png')"></div>  <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('Pictures/20260426_154329.png')"></div>  </div>    
+</div>  <!-- POPUP -->  <div class="popup" id="popup">    
+<div class="popup-box">    
+<h2 id="popupTitle"></h2>    
+<p>الظلال تتربص في ظلام</p>    
+<button onclick="closeMenu()">إغلاق</button>    
+</div>    
+</div>  <script>    let cursor=document.getElementById("cursor");
 document.addEventListener("mousemove",e=>{
 cursor.style.top=e.clientY+"px";
 cursor.style.left=e.clientX+"px";
 });
 
-/* START */
-function startSite(){
-document.getElementById("startScreen").style.display="none";
-document.getElementById("bgMusic").play();
-}
-
-/* MENU */
 function openMenu(title){
-document.getElementById("popupTitle").innerText=title;
+document.getElementById("popupTitle").innerText = title;
 document.getElementById("popup").classList.add("active");
 }
 
@@ -281,73 +339,66 @@ function closeMenu(){
 document.getElementById("popup").classList.remove("active");
 }
 
-/* اغلاق عند الضغط خارج */
-document.getElementById("popup").addEventListener("click",function(e){
-if(e.target===this){closeMenu();}
-});
-
-/* RIPPLE */
-document.addEventListener("click",e=>{
-let r=document.createElement("div");
-r.className="ripple";
-r.style.left=e.clientX+"px";
-r.style.top=e.clientY+"px";
-document.body.appendChild(r);
-setTimeout(()=>r.remove(),800);
-});
-
-/* TEXT */
-let texts=[
-"☠ الظلال تتربص في الظلام ☠",
-"♦𖤐طائفة الظلام منذ 2019𖤐♦",
-"♠👁لدينا أعين في كل مكان👁♠",
-"👑نرحب بالزوار الكرام👑"
+let frameTexts = [
+"♦𖤐طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019𖤐♦",
+"",
+"♠👁لدينا أعين في كل مكان نحن الظلال نتربص في ظلام👁♠",
+"👑نخب الزوار الكرام 🥂 حتا لو كانو من لخصوم نشارك النخب تواضعًا👑"
 ];
 
-let i=0;
-let el=document.getElementById("scrollText");
-
-function loopText(){
-el.innerText=texts[i];
-i=(i+1)%texts.length;
-}
-
-setInterval(loopText,25000);
-loopText();
-
-/* 3D حركة */
-let char=document.getElementById("char3d");
-let pos=0,dir=1;
+let frameIndex = 0;
+let frameSpan = document.querySelector(".frame-text span");
 
 setInterval(()=>{
-pos+=dir*2;
-
-if(pos>window.innerWidth-200||pos<0){
-dir*=-1;
-
-char.animate([
-{transform:"translateY(0)"},
-{transform:"translateY(-40px)"},
-{transform:"translateY(0)"}
-],{duration:600});
+frameIndex++;
+if(frameIndex >= frameTexts.length){
+frameIndex = 0;
 }
+frameSpan.innerText = frameTexts[frameIndex];
+},4000);
 
-char.style.left=pos+"px";
-},30);
+document.addEventListener("click", function(e){
+  let ripple = document.createElement("div");
+  ripple.className = "ripple";
 
-/* لمس */
-char.addEventListener("click",()=>{
-document.getElementById("charSound").play();
+  ripple.style.left = e.clientX + "px";
+  ripple.style.top = e.clientY + "px";
 
-char.animate([
-{transform:"rotate(0deg)"},
-{transform:"rotate(20deg)"},
-{transform:"rotate(-20deg)"},
-{transform:"rotate(0deg)"}
-],{duration:500});
+  document.body.appendChild(ripple);
+
+  setTimeout(()=>{
+    ripple.remove();
+  },800);
 });
 
-</script>
+function confirmExit(){
+  window.location.href = "about:blank";
+}
 
-</body>
+function closeExit(){
+  document.getElementById("exitPopup").classList.remove("active");
+}
+
+document.getElementById("popup").addEventListener("click", function(e){
+  if(e.target === this){
+    closeMenu();
+  }
+});
+
+document.getElementById("exitPopup").addEventListener("click", function(e){
+  if(e.target === this){
+    closeExit();
+  }
+});
+
+history.pushState(null, "", location.href);
+
+window.addEventListener("popstate", function(){
+  document.getElementById("exitPopup").classList.add("active");
+
+  history.pushState(null, "", location.href);
+});
+
+</script>  
+</body>    
 </html>
