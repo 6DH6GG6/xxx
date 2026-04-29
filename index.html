@@ -406,9 +406,44 @@ opacity:0;
 }
 }
 
+.wave-layer{
+position:fixed;
+inset:0;
+pointer-events:none;
+z-index:9998;
+overflow:hidden;
+}
+
+.wave{
+position:absolute;
+width:12px;
+height:12px;
+border-radius:50%;
+background:radial-gradient(circle,
+rgba(255,0,0,0.35) 0%,
+rgba(255,0,0,0.15) 40%,
+transparent 70%);
+transform:translate(-50%,-50%);
+animation:waveMove 1.4s ease-out forwards;
+filter:blur(2px);
+}
+
+@keyframes waveMove{
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:0.9;
+}
+100%{
+transform:translate(-50%,-50%) scale(25);
+opacity:0;
+}
+}
+
 </style>
 </head>
 <body>
+
+<div class="wave-layer" id="waveLayer"></div>
 
 <!-- 🌑 تعتيم الخلفية -->
 <div class="bg-overlay"></div>
@@ -472,6 +507,7 @@ opacity:0;
 </div>
 
 <script>
+
 // 🎯 Cursor
 let cursor = document.getElementById("cursor");
 
@@ -535,6 +571,7 @@ window.addEventListener("popstate", function () {
 });
 
 // ✨ نص متحرك
+
 let frameTexts = [
 "طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019",
 "لدينا أعين في كل مكان نحن الظلال نتربص في ظلال",
@@ -551,19 +588,8 @@ if (frameSpan) {
   }, 4000);
 }
 
-// 💥 تأثير الضغط
-document.addEventListener("click", function (e) {
-  let ripple = document.createElement("div");
-  ripple.className = "ripple";
-  ripple.style.left = e.clientX + "px";
-  ripple.style.top = e.clientY + "px";
-
-  document.body.appendChild(ripple);
-
-  setTimeout(() => ripple.remove(), 1000);
-});
-
 // 🚪 خروج
+
 function confirmExit() {
   window.close();
 }
@@ -571,7 +597,29 @@ function confirmExit() {
 function closeExit() {
   document.getElementById("exitPopup").classList.remove("active");
 }
-</script>
 
+const waveLayer = document.getElementById("waveLayer");
+
+// 🌊 سحب (مثل فتح قفل سامسونج)
+
+document.addEventListener("pointerdown", createWave);
+document.addEventListener("pointermove", function(e){
+  if(e.buttons !== 1) return;
+  createWave(e);
+});
+
+function createWave(e){
+  const wave = document.createElement("div");
+  wave.className = "wave";
+
+  wave.style.left = e.clientX + "px";
+  wave.style.top = e.clientY + "px";
+
+  waveLayer.appendChild(wave);
+
+  setTimeout(() => wave.remove(), 1200);
+}
+
+</script>
 </body>
 </html>
