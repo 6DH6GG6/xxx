@@ -2,11 +2,13 @@
 <meta charset="UTF-8">    
 <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>    .ripple{
 position:fixed;
+width:10px;
+height:10px;
 border-radius:50%;
-background:rgba(0,234,255,0.3);
+border:2px solid rgba(255,0,0,0.8);
 transform:translate(-50%,-50%);
 pointer-events:none;
-animation:rippleAnim 0.8s ease-out;
+animation:waveRipple 1s ease-out;
 z-index:9998;
 }
 
@@ -91,7 +93,7 @@ background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
 padding:40px;
 border-radius:20px;
 text-align:center;
-box-shadow:0 0 40px #00eaff;
+box-shadow:0 0 40px #ff0000;
 }
 
 .exit-buttons{
@@ -104,7 +106,7 @@ justify-content:center;
 .exit-buttons button{
 padding:10px 25px;
 border:none;
-background:#00eaff;
+background:#ff0000;
 color:black;
 border-radius:10px;
 cursor:pointer;
@@ -176,20 +178,8 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-/* 🎯 الكيرسر */
 .cursor{
-position:fixed;
-width:10px;
-height:10px;
-background:#00eaff;
-border-radius:50%;
-pointer-events:none;
-
-box-shadow:
-0 0 10px #00eaff,
-0 0 25px rgba(0,234,255,0.6);
-
-z-index:9999;
+display:none;
 }
 
 /* 🚪 نافذة الخروج */
@@ -219,7 +209,7 @@ pointer-events:auto;
 width:clamp(180px,45vw,420px);
 margin-top:15px;
 margin-bottom:15px;
-filter:drop-shadow(0 0 25px #00eaff);
+filter:drop-shadow(0 0 25px #ff0000);
 z-index:2;
 }
 
@@ -259,7 +249,7 @@ animation:fadeUp 0.8s ease forwards;
 
 .btn:hover{
 transform:scale(1.05);
-box-shadow:0 0 20px #00eaff;
+box-shadow:0 0 20px #ff0000;
 }
 
 @keyframes fadeUp{
@@ -292,7 +282,7 @@ background:rgba(10,10,10,0.95);
 padding:30px;
 border-radius:20px;
 text-align:center;
-box-shadow:0 0 40px #00eaff;
+box-shadow:0 0 40px #ff0000;
 
 transform:scale(0.7);
 opacity:0;
@@ -305,7 +295,7 @@ opacity:1;
 }
 
 .popup-box h2{
-color:#00eaff;
+color:#ff0000;
 margin-bottom:10px;
 }
 
@@ -317,7 +307,7 @@ margin-bottom:20px;
 .popup-box button{
 padding:10px 25px;
 border:none;
-background:#00eaff;
+background:#ff0000;
 color:black;
 border-radius:10px;
 cursor:pointer;
@@ -362,15 +352,15 @@ overflow:hidden;
 
 .frame-text span{
 position:absolute;
-color:#00eaff;
+color:#ff0000;
 font-weight:bold;
 font-size:18px;
 white-space:nowrap;
 
 text-shadow:
-0 0 5px #00eaff,
-0 0 10px #00eaff,
-0 0 20px #00eaff;
+0 0 5px #ff0000,
+0 0 10px #ff0000,
+0 0 20px #ff0000;
 
 animation:
 scrollText 10s linear infinite,
@@ -403,6 +393,17 @@ animation:lightMove 4s linear infinite;
 @keyframes lightMove{
 from{ left:-50%; }
 to{ left:120%; }
+}
+
+@keyframes waveRipple{
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:0.8;
+}
+100%{
+transform:translate(-50%,-50%) scale(15);
+opacity:0;
+}
 }
 
 </style>
@@ -556,8 +557,10 @@ document.addEventListener("click", function (e) {
   ripple.className = "ripple";
   ripple.style.left = e.clientX + "px";
   ripple.style.top = e.clientY + "px";
+
   document.body.appendChild(ripple);
-  setTimeout(() => ripple.remove(), 800);
+
+  setTimeout(() => ripple.remove(), 1000);
 });
 
 // 🚪 خروج
