@@ -402,11 +402,12 @@ cursor.style.left=e.clientX+"px";
 };
 
 function openMenu(title){
-document.getElementById("menuTitle").innerText = title;
-document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
+  document.getElementById("menuTitle").innerText = title;
+  document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
 
-document.getElementById("menuPage").classList.add("active");
-history.pushState({menu:true},"");
+  document.getElementById("menuPage").classList.add("active");
+
+  history.pushState({page:"menu"},"");
 }
 
 function closeMenuPage(){
@@ -423,7 +424,16 @@ closeMenu();
 }
 });
 
-window.addEventListener("popstate", function () {
+window.addEventListener("popstate", function (e) {
+
+  if(document.getElementById("menuPage").classList.contains("active")){
+    document.getElementById("menuPage").classList.remove("active");
+    return;
+  }
+
+  document.getElementById("exitPopup").classList.add("active");
+});
+
 document.getElementById("menuPage").classList.remove("active");
 document.getElementById("popup").classList.remove("active");
 
@@ -477,7 +487,7 @@ document.getElementById("popup").classList.remove("active");
 function closeExit(){
   document.getElementById("exitPopup").classList.remove("active");
 
-  history.pushState(null, "", location.href);
+  history.pushState({}, "", location.href);
 }
 
 </script>    
