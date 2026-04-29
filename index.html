@@ -135,22 +135,48 @@ min-height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
+
 background:url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
+
 color:white;
 overflow-x:hidden;
 cursor:none;
 }
 
-<div class="exit-popup" id="exitPopup">
-  <div class="exit-box">
-    <h2>هل تريد الخروج؟</h2>
-    <div class="exit-buttons">
-      <button onclick="confirmExit()">نعم</button>
-      <button onclick="closeExit()">لا</button>
-    </div>
-  </div>
-</div>
+/* 🔻 تعتيم احترافي */
+.bg-overlay{
+position:fixed;
+inset:0;
 
+background:linear-gradient(
+to bottom,
+rgba(0,0,0,0.6),
+rgba(0,0,0,0.85)
+);
+
+z-index:1;
+pointer-events:none;
+}
+
+/* ✨ النجوم فوق التعتيم */
+.stars{
+position:fixed;
+inset:0;
+
+background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
+
+opacity:0.12;
+animation:moveStars 120s linear infinite;
+
+z-index:2;
+}
+
+@keyframes moveStars{
+from{background-position:0 0;}
+to{background-position:1000px 1000px;}
+}
+
+/* 🎯 الكيرسر */
 .cursor{
 position:fixed;
 width:10px;
@@ -158,22 +184,35 @@ height:10px;
 background:#00eaff;
 border-radius:50%;
 pointer-events:none;
-box-shadow:0 0 10px #00eaff;
+
+box-shadow:
+0 0 10px #00eaff,
+0 0 25px rgba(0,234,255,0.6);
+
 z-index:9999;
 }
 
-.stars{
+/* 🚪 نافذة الخروج */
+.exit-popup{
 position:fixed;
 inset:0;
-background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
-opacity:0.2;
-animation:moveStars 60s linear infinite;
-z-index:0;
+
+background:rgba(0,0,0,0.85);
+
+display:flex;
+justify-content:center;
+align-items:center;
+
+opacity:0;
+pointer-events:none;
+transition:0.4s;
+
+z-index:1000;
 }
 
-@keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:1000px 1000px;}
+.exit-popup.active{
+opacity:1;
+pointer-events:auto;
 }
 
 .logo{
@@ -370,6 +409,13 @@ to{ left:120%; }
 </head>
 <body>
 
+<!-- 🌑 تعتيم الخلفية -->
+<div class="bg-overlay"></div>
+
+<!-- ✨ النجوم -->
+<div class="stars"></div>
+
+<!-- 🚪 نافذة الخروج -->
 <div class="exit-popup" id="exitPopup">
   <div class="exit-box">
     <h2>هل تريد الخروج؟</h2>
@@ -380,6 +426,10 @@ to{ left:120%; }
   </div>
 </div>
 
+<!-- 🎯 الكيرسر -->
+<div class="cursor" id="cursor"></div>
+
+<!-- 📂 صفحة القائمة -->
 <div class="menu-page" id="menuPage">
   <div class="menu-header">
     <h2 id="menuTitle"></h2>
@@ -391,10 +441,7 @@ to{ left:120%; }
   </div>
 </div>
 
-<div class="cursor" id="cursor"></div>
-
-<div class="stars"></div>
-
+<!-- 🧊 محتوى الموقع -->
 <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
 
 <div class="frame-box">
@@ -424,6 +471,7 @@ to{ left:120%; }
 </div>
 
 <script>
+// 🎯 Cursor
 let cursor = document.getElementById("cursor");
 
 document.addEventListener("mousemove", e => {
@@ -431,6 +479,7 @@ document.addEventListener("mousemove", e => {
   cursor.style.left = e.clientX + "px";
 });
 
+// 📂 بيانات القوائم
 let menuData = {
   "أنمي": "قسم الأنمي",
   "فضائح عصابات": "أرشيف الفضائح",
@@ -440,6 +489,7 @@ let menuData = {
   "تحميل ملفات": "قسم التحميل"
 };
 
+// 📂 فتح قائمة
 function openMenu(title) {
   document.getElementById("menuTitle").innerText = title;
   document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
@@ -447,23 +497,47 @@ function openMenu(title) {
   history.pushState({ page: "menu" }, "");
 }
 
+// 🔙 رجوع من القائمة
 function closeMenuPage() {
   document.getElementById("menuPage").classList.remove("active");
 }
 
+// ❌ إغلاق popup
 function closeMenu() {
   document.getElementById("popup").classList.remove("active");
 }
 
+// 🚪 نظام الرجوع الذكي
+let exitArmed = false;
+history.pushState({page:"home"}, "");
+
 window.addEventListener("popstate", function () {
-  document.getElementById("menuPage").classList.remove("active");
-  document.getElementById("exitPopup").classList.add("active");
+
+  let menu = document.getElementById("menuPage");
+
+  // إذا داخل قائمة → يرجع فقط
+  if(menu.classList.contains("active")){
+    menu.classList.remove("active");
+    return;
+  }
+
+  // أول رجوع → يظهر popup
+  if(!exitArmed){
+    exitArmed = true;
+    document.getElementById("exitPopup").classList.add("active");
+
+    history.pushState({page:"home"}, "");
+    setTimeout(()=> exitArmed = false, 3000);
+  }else{
+    window.close();
+  }
 });
 
+// ✨ نص متحرك
 let frameTexts = [
-  "♦𖤐طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019𖤐♦",
-  "♠👁لدينا أعين في كل مكان نحن الظلال نتربص في ظلام👁♠",
-  "👑نخب الزوار الكرام 🥂 حتا لو كانو من لخصوم نشارك النخب تواضعًا👑"
+"طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019",
+"لدينا أعين في كل مكان نحن الظلال نتربص في ظلال",
+"نخب 🥂 زوار الكرام، حتا لو كانو من الخصوم فا نشارك النخب تواضعًا 👑",
 ];
 
 let frameIndex = 0;
@@ -476,6 +550,7 @@ if (frameSpan) {
   }, 4000);
 }
 
+// 💥 تأثير الضغط
 document.addEventListener("click", function (e) {
   let ripple = document.createElement("div");
   ripple.className = "ripple";
@@ -485,6 +560,7 @@ document.addEventListener("click", function (e) {
   setTimeout(() => ripple.remove(), 800);
 });
 
+// 🚪 خروج
 function confirmExit() {
   window.close();
 }
@@ -493,5 +569,6 @@ function closeExit() {
   document.getElementById("exitPopup").classList.remove("active");
 }
 </script>
+
 </body>
 </html>
