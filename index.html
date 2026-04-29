@@ -1,128 +1,11 @@
-<!DOCTYPE html>  <html lang="ar">    <head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>    .ripple{
-position:fixed;
-border-radius:50%;
-background:rgba(0,234,255,0.3);
-transform:translate(-50%,-50%);
-pointer-events:none;
-animation:rippleAnim 0.8s ease-out;
-z-index:9998;
-}
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kage No Teio</title>
 
-.menu-page{
-position:fixed;
-inset:0;
-width:100%;
-height:100%;
-background:rgba(0,0,0,0.95);
-z-index:9999;
-
-display:flex;
-flex-direction:column;
-
-opacity:0;
-transform:scale(1.1);
-pointer-events:none;
-
-transition:0.4s ease;
-}
-
-.menu-page.active{
-opacity:1;
-transform:scale(1);
-pointer-events:auto;
-}
-
-.menu-header{
-background:linear-gradient(90deg,#8b0000,#ff1a1a);
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 0 20px red;
-}
-
-.menu-header h2{
-color:white;
-font-size:20px;
-}
-
-.menu-header button{
-background:black;
-color:red;
-border:none;
-padding:8px 15px;
-border-radius:8px;
-cursor:pointer;
-}
-
-.menu-content{
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-font-size:18px;
-text-align:center;
-padding:20px;
-}
-
-.exit-popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4s;
-z-index:1000;
-}
-
-.exit-popup.active{
-opacity:1;
-pointer-events:auto;
-}
-
-.exit-box{
-background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
-padding:40px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px #00eaff;
-}
-
-.exit-buttons{
-margin-top:20px;
-display:flex;
-gap:15px;
-justify-content:center;
-}
-
-.exit-buttons button{
-padding:10px 25px;
-border:none;
-background:#00eaff;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
-
-@keyframes rippleAnim{
-0%{
-width:0;
-height:0;
-opacity:0.6;
-}
-100%{
-width:200px;
-height:200px;
-opacity:0;
-}
-}
-
+<style>
 *{
 margin:0;
 padding:0;
@@ -141,16 +24,7 @@ overflow-x:hidden;
 cursor:none;
 }
 
-<div class="exit-popup" id="exitPopup">
-  <div class="exit-box">
-    <h2>هل تريد الخروج؟</h2>
-    <div class="exit-buttons">
-      <button onclick="confirmExit()">نعم</button>
-      <button onclick="closeExit()">لا</button>
-    </div>
-  </div>
-</div>
-
+/* المؤشر */
 .cursor{
 position:fixed;
 width:10px;
@@ -158,15 +32,16 @@ height:10px;
 background:#00eaff;
 border-radius:50%;
 pointer-events:none;
-box-shadow:0 0 10px #00eaff;
+box-shadow:0 0 12px #00eaff;
 z-index:9999;
 }
 
+/* النجوم */
 .stars{
 position:fixed;
 inset:0;
 background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
-opacity:0.2;
+opacity:0.18;
 animation:moveStars 60s linear infinite;
 z-index:0;
 }
@@ -176,14 +51,15 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
+/* لوقو */
 .logo{
 width:clamp(180px,45vw,420px);
-margin-top:15px;
-margin-bottom:15px;
+margin:15px 0;
 filter:drop-shadow(0 0 25px #00eaff);
 z-index:2;
 }
 
+/* القائمة */
 .container{
 z-index:2;
 width:100%;
@@ -194,178 +70,141 @@ padding:10px;
 .menu{
 display:grid;
 grid-template-columns:repeat(3,1fr);
-gap:10px;
+gap:12px;
 }
 
 .btn{
-position:relative;
 aspect-ratio:4/3;
 background-size:cover;
 background-position:center;
 cursor:pointer;
-clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-overflow:hidden;
-
-opacity:0;
-transform:translateY(40px);
-animation:fadeUp 0.8s ease forwards;
+clip-path:polygon(15% 0%,85% 0%,100% 100%,0% 100%);
+transition:0.3s ease;
+box-shadow:0 0 10px rgba(0,234,255,0.15);
 }
-
-.btn:nth-child(1){animation-delay:0.2s;}
-.btn:nth-child(2){animation-delay:0.4s;}
-.btn:nth-child(3){animation-delay:0.6s;}
-.btn:nth-child(4){animation-delay:0.8s;}
-.btn:nth-child(5){animation-delay:1s;}
-.btn:nth-child(6){animation-delay:1.2s;}
 
 .btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #00eaff;
+transform:scale(1.07);
+box-shadow:0 0 25px #00eaff;
 }
 
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-.popup{
+/* صفحة القائمة */
+.menu-page{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,0.85);
+background:rgba(0,0,0,0.92);
+backdrop-filter:blur(6px);
+z-index:9999;
 display:flex;
-justify-content:center;
-align-items:center;
+flex-direction:column;
 opacity:0;
 pointer-events:none;
-transition:0.4s;
-z-index:999;
+transition:0.35s ease;
 }
 
-.popup.active{
+.menu-page.active{
 opacity:1;
 pointer-events:auto;
 }
 
-.popup-box{
-background:rgba(10,10,10,0.95);
-padding:30px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px #00eaff;
-
-transform:scale(0.7);
-opacity:0;
-transition:0.4s;
-}
-
-.popup.active .popup-box{
-transform:scale(1);
-opacity:1;
-}
-
-.popup-box h2{
-color:#00eaff;
-margin-bottom:10px;
-}
-
-.popup-box p{
-color:#aaa;
-margin-bottom:20px;
-}
-
-.popup-box button{
-padding:10px 25px;
-border:none;
-background:#00eaff;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
-
-.frame-box{
-width:100%;
-max-width:1000px;
-height:80px;
-
-margin:10px 0 20px 0;
-
-position:relative;
-overflow:hidden;
-
-background:rgba(0,0,0,0.2);
-
-border:1px solid rgba(0,234,255,0.3);
-border-radius:12px;
-
-box-shadow:0 0 15px rgba(0,234,255,0.2);
-
-z-index:2;
-}
-
-.frame-gif{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0.25;
-}
-
-.frame-text{
-position:absolute;
-width:100%;
-height:100%;
+.menu-header{
+background:linear-gradient(90deg,#8b0000,#ff1a1a);
+padding:15px;
 display:flex;
+justify-content:space-between;
 align-items:center;
-overflow:hidden;
+box-shadow:0 0 20px rgba(255,0,0,0.4);
 }
 
-.frame-text span{
-position:absolute;
+.menu-header button{
+background:#000;
 color:#00eaff;
-font-weight:bold;
+border:none;
+padding:8px 18px;
+border-radius:8px;
+cursor:pointer;
+transition:0.2s;
+}
+
+.menu-header button:hover{
+transform:scale(1.05);
+box-shadow:0 0 10px #00eaff;
+}
+
+.menu-content{
+flex:1;
+display:flex;
+justify-content:center;
+align-items:center;
 font-size:18px;
-white-space:nowrap;
-
-text-shadow:
-0 0 5px #00eaff,
-0 0 10px #00eaff,
-0 0 20px #00eaff;
-
-animation:
-scrollText 10s linear infinite,
-glitch 1s infinite;
+text-align:center;
+padding:20px;
 }
 
-@keyframes scrollText{
-from{ right:-100%; }
-to{ right:100%; }
+/* زر الخروج (شريط كامل) */
+.exit-popup{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+height:85px;
+background:linear-gradient(90deg,#00eaff,#0066ff);
+display:flex;
+justify-content:center;
+align-items:center;
+z-index:10000;
+opacity:0;
+pointer-events:none;
+transition:0.3s ease;
+box-shadow:0 0 25px rgba(0,234,255,0.4);
 }
 
-.frame-box::after{
-content:"";
-position:absolute;
-top:0;
-left:-50%;
-width:50%;
-height:100%;
-
-background:linear-gradient(
-120deg,
-transparent,
-rgba(0,234,255,0.5),
-transparent
-);
-
-animation:lightMove 4s linear infinite;
+.exit-popup.active{
+opacity:1;
+pointer-events:auto;
 }
 
-@keyframes lightMove{
-from{ left:-50%; }
-to{ left:120%; }
+.exit-box{
+display:flex;
+gap:25px;
+align-items:center;
 }
 
+.exit-box h2{
+color:black;
+font-size:18px;
+font-weight:bold;
+}
+
+.exit-box button{
+padding:10px 45px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+transition:0.2s;
+}
+
+.exit-box button:first-child{
+background:#ff0033;
+color:white;
+}
+
+.exit-box button:first-child:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #ff0033;
+}
+
+.exit-box button:last-child{
+background:#000;
+color:#00eaff;
+}
+
+.exit-box button:last-child:hover{
+transform:scale(1.05);
+box-shadow:0 0 15px #00eaff;
+}
+</style>
 </style>
 </head>
 <body>
@@ -427,8 +266,8 @@ to{ left:120%; }
 let cursor = document.getElementById("cursor");
 
 document.addEventListener("mousemove", e => {
-  cursor.style.top = e.clientY + "px";
   cursor.style.left = e.clientX + "px";
+  cursor.style.top = e.clientY + "px";
 });
 
 let menuData = {
@@ -440,7 +279,10 @@ let menuData = {
   "تحميل ملفات": "قسم التحميل"
 };
 
+let menuOpen = false;
+
 function openMenu(title) {
+  menuOpen = true;
   document.getElementById("menuTitle").innerText = title;
   document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
   document.getElementById("menuPage").classList.add("active");
@@ -448,6 +290,7 @@ function openMenu(title) {
 }
 
 function closeMenuPage() {
+  menuOpen = false;
   document.getElementById("menuPage").classList.remove("active");
 }
 
@@ -456,8 +299,11 @@ function closeMenu() {
 }
 
 window.addEventListener("popstate", function () {
-  document.getElementById("menuPage").classList.remove("active");
-  document.getElementById("exitPopup").classList.add("active");
+  if (menuOpen) {
+    closeMenuPage();
+  } else {
+    document.getElementById("exitPopup").classList.add("active");
+  }
 });
 
 let frameTexts = [
@@ -493,5 +339,6 @@ function closeExit() {
   document.getElementById("exitPopup").classList.remove("active");
 }
 </script>
+
 </body>
 </html>
