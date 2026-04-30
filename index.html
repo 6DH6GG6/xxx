@@ -1,9 +1,13 @@
-<!DOCTYPE html>  <html lang="ar">    <head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kage No Teio</title>
 
 <style>
 
+/* ================= ERROR BOX ================= */
 .error-box{
 position:fixed;
 top:50%;
@@ -26,10 +30,13 @@ transform:translate(-50%,-50%) scale(1);
 animation:shake 0.3s;
 }
 
-#doorModel.opening {
-  transform: scale(1.2);
-  filter: blur(2px);
-  transition: 0.3s ease;
+/* ================= ANIMATIONS ================= */
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(2px,-2px);}
+50%{transform:translate(-2px,2px);}
+75%{transform:translate(2px,2px);}
+100%{transform:translate(0,0);}
 }
 
 @keyframes glitch{
@@ -41,23 +48,13 @@ animation:shake 0.3s;
 100%{transform:translate(0,0);}
 }
 
-@keyframes waveRipple{
-0%{
-transform:translate(-50%,-50%) scale(1);
-opacity:0.8;
-}
-100%{
-transform:translate(-50%,-50%) scale(15);
-opacity:0;
-}
-}
-
 @keyframes flash{
 0%{opacity:0;}
 50%{opacity:1;}
 100%{opacity:0;}
 }
 
+/* ================= FLASH ================= */
 .flash{
 position:fixed;
 inset:0;
@@ -67,23 +64,31 @@ animation:flash 0.6s ease;
 pointer-events:none;
 }
 
-@keyframes shake{
-0%{transform:translate(0,0);}
-25%{transform:translate(2px,-2px);}
-50%{transform:translate(-2px,2px);}
-75%{transform:translate(2px,2px);}
-100%{transform:translate(0,0);}
-}
-
-.shake{
-animation:shake 0.4s;
-}
-
+/* ================= DOOR ================= */
 #doorModel{
-transform-origin: left center;
+width:300px;
+height:300px;
+filter:drop-shadow(0 0 20px purple);
+transition:0.4s;
+cursor:pointer;
+transform-origin:left center;
 }
 
-/* 🚪 شاشة الباب */
+#doorModel.glow{
+filter:
+drop-shadow(0 0 20px #a020f0)
+drop-shadow(0 0 40px #a020f0)
+drop-shadow(0 0 60px #a020f0);
+transform:scale(1.05);
+}
+
+#doorModel.opening{
+transform:scale(1.2);
+filter:blur(2px);
+transition:0.3s ease;
+}
+
+/* ================= DOOR SCREEN ================= */
 .door-screen{
 position:fixed;
 inset:0;
@@ -96,24 +101,7 @@ flex-direction:column;
 overflow:hidden;
 }
 
-/* الباب */
-#doorModel{
-width:300px;
-height:300px;
-filter:drop-shadow(0 0 20px purple);
-transition:0.4s;
-cursor:pointer;
-}
-
-#doorModel.glow{
-filter:
-drop-shadow(0 0 20px #a020f0)
-drop-shadow(0 0 40px #a020f0)
-drop-shadow(0 0 60px #a020f0);
-transform:scale(1.05);
-}
-
-/* إدخال كلمة السر */
+/* ================= PASSWORD ================= */
 .password-box{
 position:absolute;
 bottom:20%;
@@ -147,7 +135,7 @@ border-radius:8px;
 cursor:pointer;
 }
 
-/* تأثير الدخول */
+/* ================= ENTER EFFECT ================= */
 .enter-effect{
 position:fixed;
 inset:0;
@@ -160,10 +148,11 @@ transition:0.6s;
 
 .enter-effect.active{
 opacity:1;
-transform:scale(3);
+transform:scale(2);
 filter:blur(12px);
 }
 
+/* ================= RIPPLE ================= */
 .ripple{
 position:fixed;
 width:10px;
@@ -176,21 +165,22 @@ animation:waveRipple 1s ease-out;
 z-index:9998;
 }
 
+@keyframes waveRipple{
+0%{transform:translate(-50%,-50%) scale(1);opacity:0.8;}
+100%{transform:translate(-50%,-50%) scale(15);opacity:0;}
+}
+
+/* ================= MENU ================= */
 .menu-page{
 position:fixed;
 inset:0;
-width:100%;
-height:100%;
 background:rgba(0,0,0,0.95);
 z-index:9999;
-
 display:flex;
 flex-direction:column;
-
 opacity:0;
 transform:scale(1.1);
 pointer-events:none;
-
 transition:0.4s ease;
 }
 
@@ -234,6 +224,7 @@ text-align:center;
 padding:20px;
 }
 
+/* ================= EXIT ================= */
 .exit-popup{
 position:fixed;
 inset:0;
@@ -276,19 +267,7 @@ border-radius:10px;
 cursor:pointer;
 }
 
-@keyframes rippleAnim{
-0%{
-width:0;
-height:0;
-opacity:0.6;
-}
-100%{
-width:200px;
-height:200px;
-opacity:0;
-}
-}
-
+/* ================= GLOBAL ================= */
 *{
 margin:0;
 padding:0;
@@ -301,39 +280,28 @@ min-height:100vh;
 display:flex;
 flex-direction:column;
 align-items:center;
-
 background:url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
-
 color:white;
 overflow-x:hidden;
 cursor:none;
 }
 
-/* 🔻 تعتيم احترافي */
+/* ================= OVERLAY ================= */
 .bg-overlay{
 position:fixed;
 inset:0;
-
-background:linear-gradient(
-to bottom,
-rgba(0,0,0,0.6),
-rgba(0,0,0,0.85)
-);
-
+background:linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.85));
 z-index:1;
 pointer-events:none;
 }
 
-/* ✨ النجوم فوق التعتيم */
+/* ================= STARS ================= */
 .stars{
 position:fixed;
 inset:0;
-
 background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
-
 opacity:0.12;
 animation:moveStars 120s linear infinite;
-
 z-index:2;
 }
 
@@ -342,269 +310,17 @@ from{background-position:0 0;}
 to{background-position:1000px 1000px;}
 }
 
-.cursor{
-display:none;
-}
-
-/* 🚪 نافذة الخروج */
-.exit-popup{
-position:fixed;
-inset:0;
-
-background:rgba(0,0,0,0.85);
-
-display:flex;
-justify-content:center;
-align-items:center;
-
-opacity:0;
-pointer-events:none;
-transition:0.4s;
-
-z-index:1000;
-}
-
-.exit-popup.active{
-opacity:1;
-pointer-events:auto;
-}
-
+/* ================= LOGO ================= */
 .logo{
 width:clamp(180px,45vw,420px);
-margin-top:15px;
-margin-bottom:15px;
+margin:15px 0;
 filter:drop-shadow(0 0 25px #ff0000);
 z-index:2;
 }
 
-.container{
-z-index:2;
-width:100%;
-max-width:1100px;
-padding:10px;
-}
-
-.menu{
-display:grid;
-grid-template-columns:repeat(3,1fr);
-gap:10px;
-}
-
-.btn{
-position:relative;
-aspect-ratio:4/3;
-background-size:cover;
-background-position:center;
-cursor:pointer;
-clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
-overflow:hidden;
-
-opacity:0;
-transform:translateY(40px);
-animation:fadeUp 0.8s ease forwards;
-}
-
-.btn:nth-child(1){animation-delay:0.2s;}
-.btn:nth-child(2){animation-delay:0.4s;}
-.btn:nth-child(3){animation-delay:0.6s;}
-.btn:nth-child(4){animation-delay:0.8s;}
-.btn:nth-child(5){animation-delay:1s;}
-.btn:nth-child(6){animation-delay:1.2s;}
-
-.btn:hover{
-transform:scale(1.05);
-box-shadow:0 0 20px #ff0000;
-}
-
-@keyframes fadeUp{
-to{
-opacity:1;
-transform:translateY(0);
-}
-}
-
-.popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4s;
-z-index:999;
-}
-
-.popup.active{
-opacity:1;
-pointer-events:auto;
-}
-
-.popup-box{
-background:rgba(10,10,10,0.95);
-padding:30px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px #ff0000;
-
-transform:scale(0.7);
-opacity:0;
-transition:0.4s;
-}
-
-.popup.active .popup-box{
-transform:scale(1);
-opacity:1;
-}
-
-.popup-box h2{
-color:#ff0000;
-margin-bottom:10px;
-}
-
-.popup-box p{
-color:#aaa;
-margin-bottom:20px;
-}
-
-.popup-box button{
-padding:10px 25px;
-border:none;
-background:#ff0000;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
-
-.frame-box{
-width:100%;
-max-width:1000px;
-height:80px;
-
-margin:10px 0 20px 0;
-
-position:relative;
-overflow:hidden;
-
-background:rgba(0,0,0,0.2);
-
-border:1px solid rgba(0,234,255,0.3);
-border-radius:12px;
-
-box-shadow:0 0 15px rgba(0,234,255,0.2);
-
-z-index:2;
-}
-
-.frame-gif{
-position:absolute;
-width:100%;
-height:100%;
-object-fit:cover;
-opacity:0.25;
-}
-
-.frame-text{
-position:absolute;
-width:100%;
-height:100%;
-display:flex;
-align-items:center;
-overflow:hidden;
-}
-
-.frame-text span{
-position:absolute;
-color:#ff0000;
-font-weight:bold;
-font-size:18px;
-white-space:nowrap;
-
-text-shadow:
-0 0 5px #ff0000,
-0 0 10px #ff0000,
-0 0 20px #ff0000;
-
-animation:
-scrollText 10s linear infinite,
-glitch 1s infinite;
-}
-
-@keyframes scrollText{
-from{ right:-100%; }
-to{ right:100%; }
-}
-
-.frame-box::after{
-content:"";
-position:absolute;
-top:0;
-left:-50%;
-width:50%;
-height:100%;
-
-background:linear-gradient(
-120deg,
-transparent,
-rgba(0,234,255,0.5),
-transparent
-);
-
-animation:lightMove 4s linear infinite;
-}
-
-@keyframes lightMove{
-from{ left:-50%; }
-to{ left:120%; }
-}
-
-@keyframes waveRipple{
-0%{
-transform:translate(-50%,-50%) scale(1);
-opacity:0.8;
-}
-100%{
-transform:translate(-50%,-50%) scale(15);
-opacity:0;
-}
-}
-
-.wave-layer{
-position:fixed;
-inset:0;
-pointer-events:none;
-z-index:9998;
-overflow:hidden;
-}
-
-.wave{
-position:absolute;
-width:12px;
-height:12px;
-border-radius:50%;
-background:radial-gradient(circle,
-rgba(255,0,0,0.35) 0%,
-rgba(255,0,0,0.15) 40%,
-transparent 70%);
-transform:translate(-50%,-50%);
-animation:waveMove 1.4s ease-out forwards;
-filter:blur(2px);
-}
-
-@keyframes waveMove{
-0%{
-transform:translate(-50%,-50%) scale(1);
-opacity:0.9;
-}
-100%{
-transform:translate(-50%,-50%) scale(25);
-opacity:0;
-}
-}
-
 </style>
 </head>
+
 <body>
 
 <div id="errorBox" class="error-box">❌ كلمة السر خاطئة</div>
@@ -795,17 +511,16 @@ function closeExit() {
   document.getElementById("exitPopup").classList.remove("active");
 }
 
-const waveLayer = document.getElementById("waveLayer");
-
 // 🌊 سحب (مثل فتح قفل سامسونج)
 
 document.addEventListener("pointerdown", createWave);
-document.addEventListener("pointermove", function(e){
-  if(e.buttons !== 1) return;
+
+document.addEventListener("pointermove", function (e) {
+  if (e.buttons !== 1) return;
   createWave(e);
 });
 
-function createWave(e){
+function createWave(e) {
   const wave = document.createElement("div");
   wave.className = "wave";
 
@@ -817,51 +532,67 @@ function createWave(e){
   setTimeout(() => wave.remove(), 1200);
 }
 
+// عناصر DOM
 const door = document.getElementById("doorModel");
 const passBox = document.getElementById("passBox");
 const doorScreen = document.getElementById("doorScreen");
 const enterEffect = document.getElementById("enterEffect");
+const waveLayer = document.getElementById("waveLayer");
 
-// تحقق كلمة السر
-function checkPass(){
+let doorLocked = false;
+
+// فتح الباب (GLB)
+function openGLBDoor() {
+  const model = document.getElementById("doorModel");
+  if (!model) return;
+
+  model.animationName = "Open_Door";
+
+  if (typeof model.play === "function") {
+    model.play();
+  }
+
+  setTimeout(() => {
+    enterEffect.classList.add("active");
+  }, 1000);
+
+  setTimeout(() => {
+    doorScreen.style.display = "none";
+    document.getElementById("bgMusic").play().catch(() => {});
+  }, 3000);
+}
+
+// التحقق من كلمة السر
+function checkPass() {
   const val = document.getElementById("passInput").value;
 
-  if(val === "الظلال666"){
-
+  if (val === "الظلال666") {
     doorLocked = true;
 
     const sound = document.getElementById("doorSound");
     const music = document.getElementById("bgMusic");
 
-    // اهتزاز + فلاش
     document.body.classList.add("shake");
 
     const flash = document.createElement("div");
     flash.className = "flash";
     document.body.appendChild(flash);
-    setTimeout(()=> flash.remove(), 600);
+
+    setTimeout(() => flash.remove(), 600);
 
     sound.currentTime = 0;
-    sound.play().catch(()=>{});
+    sound.play().catch(() => {});
 
-    // 🚪 تشغيل أنيميشن الباب (GLB)
-    const model = document.getElementById("doorModel");
+    openGLBDoor();
 
-    model.animationName = "Open_Door"; // ← تأكد الاسم من الملف
-    model.play();
-
-    // بعد الفتح
-    setTimeout(()=>{
-
-      document.getElementById("enterEffect").classList.add("active");
-
+    setTimeout(() => {
+      enterEffect.classList.add("active");
     }, 800);
 
-    // ⏳ انتظر 2 ثواني ثم دخول الموقع
-    setTimeout(()=>{
-      document.getElementById("doorScreen").style.display = "none";
+    setTimeout(() => {
+      doorScreen.style.display = "none";
       music.volume = 0.6;
-      music.play().catch(()=>{});
+      music.play().catch(() => {});
     }, 2800);
 
   } else {
@@ -869,36 +600,45 @@ function checkPass(){
   }
 }
 
+// فتح عند الضغط على الباب
 door.addEventListener("click", () => {
-  if(doorLocked) return;
+  if (doorLocked) return;
   door.classList.add("glow");
   passBox.classList.add("active");
 });
 
-const model = document.getElementById("doorModel");
+// فتح يدوي (اختياري)
+function openDoor() {
+  const model = document.getElementById("doorModel");
+  if (!model) return;
 
-// فتح
-function openDoor(){
   model.animationName = "Open_Door";
-  model.play();
+
+  if (typeof model.play === "function") {
+    model.play();
+  }
 }
 
-// إغلاق
-function closeDoor(){
+// إغلاق الباب
+function closeDoor() {
+  const model = document.getElementById("doorModel");
+  if (!model) return;
+
   model.animationName = "Close_Door";
-  model.play();
+
+  if (typeof model.play === "function") {
+    model.play();
+  }
 }
 
-function showError(){
+// إظهار الخطأ
+function showError() {
   const box = document.getElementById("errorBox");
+  if (!box) return;
 
   box.classList.add("show");
 
-  setTimeout(()=>{
+  setTimeout(() => {
     box.classList.remove("show");
   }, 1500);
 }
-
-</script>
-</body>
-</html>
