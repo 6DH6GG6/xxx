@@ -1,6 +1,124 @@
 <!DOCTYPE html>  <html lang="ar">    <head>    
 <meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  <style>    .ripple{
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Kage No Teio</title>  
+
+<style>
+
+@keyframes flash{
+0%{opacity:0;}
+50%{opacity:1;}
+100%{opacity:0;}
+}
+
+.flash{
+position:fixed;
+inset:0;
+background:#a020f0;
+z-index:10002;
+animation:flash 0.6s ease;
+pointer-events:none;
+}
+
+@keyframes shake{
+0%{transform:translate(0,0);}
+25%{transform:translate(2px,-2px);}
+50%{transform:translate(-2px,2px);}
+75%{transform:translate(2px,2px);}
+100%{transform:translate(0,0);}
+}
+
+.shake{
+animation:shake 0.4s;
+}
+
+#doorModel.opening{
+transform:scale(2.5) rotateY(25deg);
+opacity:0;
+transition:1.2s cubic-bezier(.65,.05,.36,1);
+}
+
+/* 🚪 شاشة الباب */
+.door-screen{
+position:fixed;
+inset:0;
+background:black;
+z-index:10000;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+overflow:hidden;
+}
+
+/* الباب */
+#doorModel{
+width:300px;
+height:300px;
+filter:drop-shadow(0 0 20px purple);
+transition:0.4s;
+cursor:pointer;
+}
+
+#doorModel.glow{
+filter:
+drop-shadow(0 0 20px #a020f0)
+drop-shadow(0 0 40px #a020f0)
+drop-shadow(0 0 60px #a020f0);
+transform:scale(1.05);
+}
+
+/* إدخال كلمة السر */
+.password-box{
+position:absolute;
+bottom:20%;
+display:flex;
+gap:10px;
+opacity:0;
+transform:translateY(20px);
+transition:0.4s;
+}
+
+.password-box.active{
+opacity:1;
+transform:translateY(0);
+}
+
+.password-box input{
+padding:10px;
+border:none;
+border-radius:8px;
+outline:none;
+background:#111;
+color:#fff;
+}
+
+.password-box button{
+padding:10px 20px;
+background:purple;
+border:none;
+color:white;
+border-radius:8px;
+cursor:pointer;
+}
+
+/* تأثير الدخول */
+.enter-effect{
+position:fixed;
+inset:0;
+background:radial-gradient(circle,#a020f0 0%, black 70%);
+z-index:10001;
+opacity:0;
+pointer-events:none;
+transition:0.6s;
+}
+
+.enter-effect.active{
+opacity:1;
+transform:scale(3);
+filter:blur(12px);
+}
+
+.ripple{
 position:fixed;
 width:10px;
 height:10px;
@@ -443,6 +561,37 @@ opacity:0;
 </head>
 <body>
 
+<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+
+<!-- 🚪 شاشة الباب -->
+<div class="door-screen" id="doorScreen">
+
+<model-viewer 
+  id="doorModel"
+  src="fantasy_door.glb"
+  camera-controls
+  disable-zoom
+  auto-rotate
+  exposure="1.6"
+  shadow-intensity="1"
+  environment-image="neutral"
+  interaction-prompt="none">
+</model-viewer>
+
+  <div class="password-box" id="passBox">
+    <input type="password" id="passInput" placeholder="كلمة السر">
+    <button onclick="checkPass()">دخول</button>
+  </div>
+
+</div>
+
+<div class="enter-effect" id="enterEffect"></div>
+
+<!-- 🎵 صوت -->
+<audio id="doorSound" src="open.mp3"></audio>
+<audio id="bgMusic" src="bg.mp3" loop></audio>
+
+
 <div class="wave-layer" id="waveLayer"></div>
 
 <!-- 🌑 تعتيم الخلفية -->
@@ -618,6 +767,60 @@ function createWave(e){
   waveLayer.appendChild(wave);
 
   setTimeout(() => wave.remove(), 1200);
+}
+
+const door = document.getElementById("doorModel");
+const passBox = document.getElementById("passBox");
+const doorScreen = document.getElementById("doorScreen");
+const enterEffect = document.getElementById("enterEffect");
+
+door.addEventListener("click", () => {
+  door.classList.add("glow");
+  passBox.classList.add("active");
+});
+
+// تحقق كلمة السر
+function checkPass(){
+  const val = document.getElementById("passInput").value;
+
+  if(val === "الظلال666"){
+
+    const sound = document.getElementById("doorSound");
+    const music = document.getElementById("bgMusic");
+
+    // 💥 اهتزاز الشاشة
+    document.body.classList.add("shake");
+    setTimeout(()=> document.body.classList.remove("shake"), 400);
+
+    // ⚡ وميض بنفسجي
+    const flash = document.createElement("div");
+    flash.className = "flash";
+    document.body.appendChild(flash);
+    setTimeout(()=> flash.remove(), 600);
+
+    sound.currentTime = 0;
+    sound.play().catch(()=>{});
+
+    door.classList.add("glow");
+
+    setTimeout(()=>{
+      door.classList.add("opening");
+    },200);
+
+    setTimeout(()=>{
+      enterEffect.classList.add("active");
+    },500);
+
+    setTimeout(()=>{
+      doorScreen.style.display = "none";
+      music.volume = 0.6;
+      music.play().catch(()=>{});
+    },1600);
+
+  }else{
+    document.getElementById("passInput").value = "";
+    alert("❌ كلمة السر خاطئة");
+  }
 }
 
 </script>
