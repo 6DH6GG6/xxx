@@ -4,6 +4,28 @@
 
 <style>
 
+.error-box{
+position:fixed;
+top:50%;
+left:50%;
+transform:translate(-50%,-50%) scale(0.5);
+background:rgba(0,0,0,0.9);
+color:red;
+padding:20px 30px;
+border:2px solid red;
+border-radius:12px;
+font-size:18px;
+opacity:0;
+transition:0.3s;
+z-index:99999;
+}
+
+.error-box.show{
+opacity:1;
+transform:translate(-50%,-50%) scale(1);
+animation:shake 0.3s;
+}
+
 #doorModel.opening {
   transform: scale(1.2);
   filter: blur(2px);
@@ -585,6 +607,8 @@ opacity:0;
 </head>
 <body>
 
+<div id="errorBox" class="error-box">❌ كلمة السر خاطئة</div>
+
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 
 <!-- 🚪 شاشة الباب -->
@@ -592,7 +616,7 @@ opacity:0;
 
 <model-viewer 
   id="doorModel"
-  src="ALBOMS/3D/GLB/wooden_fantasy_double_doors (1).glb"
+  src="fantasy_door.glb"
   disable-zoom
   exposure="1.6"
   shadow-intensity="1"
@@ -803,15 +827,15 @@ function checkPass(){
   const val = document.getElementById("passInput").value;
 
   if(val === "الظلال666"){
-doorLocked = true;
+
+    doorLocked = true;
+
     const sound = document.getElementById("doorSound");
     const music = document.getElementById("bgMusic");
 
-    // 💥 اهتزاز الشاشة
+    // اهتزاز + فلاش
     document.body.classList.add("shake");
-    setTimeout(()=> document.body.classList.remove("shake"), 400);
 
-    // ⚡ وميض بنفسجي
     const flash = document.createElement("div");
     flash.className = "flash";
     document.body.appendChild(flash);
@@ -820,23 +844,28 @@ doorLocked = true;
     sound.currentTime = 0;
     sound.play().catch(()=>{});
 
-    setTimeout(()=>{
-      door.classList.add("opening");
-    },200);
+    // 🚪 تشغيل أنيميشن الباب (GLB)
+    const model = document.getElementById("doorModel");
 
-    setTimeout(()=>{
-      enterEffect.classList.add("active");
-    },500);
+    model.animationName = "Open_Door"; // ← تأكد الاسم من الملف
+    model.play();
 
+    // بعد الفتح
     setTimeout(()=>{
-      doorScreen.style.display = "none";
+
+      document.getElementById("enterEffect").classList.add("active");
+
+    }, 800);
+
+    // ⏳ انتظر 2 ثواني ثم دخول الموقع
+    setTimeout(()=>{
+      document.getElementById("doorScreen").style.display = "none";
       music.volume = 0.6;
       music.play().catch(()=>{});
-    },1600);
+    }, 2800);
 
-  }else{
-    document.getElementById("passInput").value = "";
-    alert("❌ كلمة السر خاطئة");
+  } else {
+    showError();
   }
 }
 
@@ -858,6 +887,16 @@ function openDoor(){
 function closeDoor(){
   model.animationName = "Close_Door";
   model.play();
+}
+
+function showError(){
+  const box = document.getElementById("errorBox");
+
+  box.classList.add("show");
+
+  setTimeout(()=>{
+    box.classList.remove("show");
+  }, 1500);
 }
 
 </script>
