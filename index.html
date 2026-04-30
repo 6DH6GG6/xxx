@@ -4,6 +4,26 @@
 
 <style>
 
+@keyframes glitch{
+0%{transform:translate(0,0);}
+20%{transform:translate(-1px,1px);}
+40%{transform:translate(1px,-1px);}
+60%{transform:translate(-1px,-1px);}
+80%{transform:translate(1px,1px);}
+100%{transform:translate(0,0);}
+}
+
+@keyframes waveRipple{
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:0.8;
+}
+100%{
+transform:translate(-50%,-50%) scale(15);
+opacity:0;
+}
+}
+
 @keyframes flash{
 0%{opacity:0;}
 50%{opacity:1;}
@@ -568,10 +588,8 @@ opacity:0;
 
 <model-viewer 
   id="doorModel"
-  src="ALBOMS/3D/GLB/fantasy_door.glb"
-  camera-controls
+  src="fantasy_door.glb"
   disable-zoom
-  auto-rotate
   exposure="1.6"
   shadow-intensity="1"
   environment-image="neutral"
@@ -774,17 +792,12 @@ const passBox = document.getElementById("passBox");
 const doorScreen = document.getElementById("doorScreen");
 const enterEffect = document.getElementById("enterEffect");
 
-door.addEventListener("click", () => {
-  door.classList.add("glow");
-  passBox.classList.add("active");
-});
-
 // تحقق كلمة السر
 function checkPass(){
   const val = document.getElementById("passInput").value;
 
   if(val === "الظلال666"){
-
+doorLocked = true;
     const sound = document.getElementById("doorSound");
     const music = document.getElementById("bgMusic");
 
@@ -822,6 +835,14 @@ function checkPass(){
     alert("❌ كلمة السر خاطئة");
   }
 }
+
+let doorLocked = false;
+
+door.addEventListener("click", () => {
+  if(doorLocked) return;
+  door.classList.add("glow");
+  passBox.classList.add("active");
+});
 
 </script>
 </body>
