@@ -4,6 +4,12 @@
 
 <style>
 
+#doorModel.opening {
+  transform: scale(1.2);
+  filter: blur(2px);
+  transition: 0.3s ease;
+}
+
 @keyframes glitch{
 0%{transform:translate(0,0);}
 20%{transform:translate(-1px,1px);}
@@ -51,10 +57,8 @@ pointer-events:none;
 animation:shake 0.4s;
 }
 
-#doorModel.opening{
-transform:scale(2.5) rotateY(25deg);
-opacity:0;
-transition:1.2s cubic-bezier(.65,.05,.36,1);
+#doorModel{
+transform-origin: left center;
 }
 
 /* 🚪 شاشة الباب */
@@ -588,7 +592,7 @@ opacity:0;
 
 <model-viewer 
   id="doorModel"
-  src="ALBOMS/3D/GLB/fantasy_door.glb"
+  src="fantasy_door.glb"
   disable-zoom
   exposure="1.6"
   shadow-intensity="1"
@@ -674,6 +678,8 @@ opacity:0;
 </div>
 
 <script>
+
+let doorLocked = false;
 
 // 🎯 Cursor
 let cursor = document.getElementById("cursor");
@@ -814,8 +820,6 @@ doorLocked = true;
     sound.currentTime = 0;
     sound.play().catch(()=>{});
 
-    door.classList.add("glow");
-
     setTimeout(()=>{
       door.classList.add("opening");
     },200);
@@ -836,13 +840,25 @@ doorLocked = true;
   }
 }
 
-let doorLocked = false;
-
 door.addEventListener("click", () => {
   if(doorLocked) return;
   door.classList.add("glow");
   passBox.classList.add("active");
 });
+
+const model = document.getElementById("doorModel");
+
+// فتح
+function openDoor(){
+  model.animationName = "Open_Door";
+  model.play();
+}
+
+// إغلاق
+function closeDoor(){
+  model.animationName = "Close_Door";
+  model.play();
+}
 
 </script>
 </body>
