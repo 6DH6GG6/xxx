@@ -6,16 +6,8 @@
 <title>بوابة الظلال</title>
 
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
-
-body {
-    overflow: hidden;
-    background: black;
-}
-
-canvas {
-    display: block;
-}
+body { margin:0; overflow:hidden; background:black; }
+canvas { display:block; }
 </style>
 
 </head>
@@ -31,104 +23,120 @@ import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/js
 /* إعداد */
 const renderer = new THREE.WebGLRenderer({
     canvas: document.getElementById("bg"),
-    antialias: true
+    antialias:true
 });
 renderer.setSize(window.innerWidth, window.innerHeight);
 
 const scene = new THREE.Scene();
 
-/* كاميرا */
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
 camera.position.set(0, 2, 6);
 
-/* إضاءة قوية */
-scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+/* إضاءة */
+scene.add(new THREE.AmbientLight(0xffffff,2));
 
-const light1 = new THREE.PointLight(0xff0000, 3);
-light1.position.set(5, 5, 5);
-scene.add(light1);
+const red = new THREE.PointLight(0xff0000,3);
+red.position.set(5,5,5);
+scene.add(red);
 
-const light2 = new THREE.PointLight(0x8000ff, 3);
-light2.position.set(-5, 5, 5);
-scene.add(light2);
+const purple = new THREE.PointLight(0x8000ff,3);
+purple.position.set(-5,5,5);
+scene.add(purple);
 
-/* متغيرات الأبواب */
-let doorL = null;
-let doorR = null;
+/* =========================
+   🔥 بوابة وهمية تظهر فورًا
+========================= */
 
-/* تحميل الموديل */
-const loader = new GLTFLoader();
+const doorGeo = new THREE.BoxGeometry(1, 2, 0.2);
+const mat = new THREE.MeshStandardMaterial({ color: 0x222222 });
 
-loader.load(
-    "ALBOMS/3D/GLB/بوابة_العبور.glb",
+const fakeDoorL = new THREE.Mesh(doorGeo, mat);
+const fakeDoorR = new THREE.Mesh(doorGeo, mat);
 
-    (gltf) => {
-        const model = gltf.scene;
-        scene.add(model);
+fakeDoorL.position.x = -0.6;
+fakeDoorR.position.x = 0.6;
 
-        // 🔥 تكبير وضبط
-        model.scale.set(2, 2, 2);
-        model.position.set(0, -1, 0);
+scene.add(fakeDoorL);
+scene.add(fakeDoorR);
 
-        // 🔍 طباعة كل الأسماء (مهم)
-        model.traverse((child) => {
-            console.log("Object:", child.name);
+/* إطار */
+const frameGeo = new THREE.BoxGeometry(2.5, 3, 0.2);
+const frameMat = new THREE.MeshStandardMaterial({
+    color: 0x550000,
+    wireframe: false
+});
+const frame = new THREE.Mesh(frameGeo, frameMat);
+scene.add(frame);
 
-            if (child.name.includes("Door_L")) {
-                doorL = child;
-            }
+/* =========================
+   تحميل الموديل الحقيقي
+========================= */
 
-            if (child.name.includes("Door_R")) {
-                doorR = child;
-            }
-        });
+let realDoorL=null, realDoorR=null;
+let modelLoaded = false;
 
-        // 🎯 ضبط الكاميرا تلقائيًا
-        const box = new THREE.Box3().setFromObject(model);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3()).length();
+new GLTFLoader().load(
+"ALBOMS/3D/GLB/بوابة_العبور.glb",
 
-        camera.position.set(center.x, center.y + 1, size * 1.2);
-        camera.lookAt(center);
-    },
+(gltf)=>{
+    const model = gltf.scene;
+    scene.add(model);
 
-    undefined,
+    model.scale.set(2,2,2);
+    model.position.set(0,-1,0);
 
-    (error) => {
-        console.error("❌ فشل تحميل الموديل:", error);
-        alert("الموديل لم يتحمل! تأكد من المسار أو شغل الموقع عبر سيرفر.");
-    }
+    model.traverse((c)=>{
+        if(c.name.includes("Door_L")) realDoorL=c;
+        if(c.name.includes("Door_R")) realDoorR=c;
+    });
+
+    // 🔥 حذف الوهمية
+    scene.remove(fakeDoorL);
+    scene.remove(fakeDoorR);
+    scene.remove(frame);
+
+    modelLoaded = true;
+},
+
+undefined,
+
+(err)=>{
+    console.log("GLB فشل — نستخدم الوهمية");
+}
 );
 
 /* حركة */
-let time = 0;
+let t=0;
 
-function animate() {
-    requestAnimationFrame(animate);
+function animate(){
+requestAnimationFrame(animate);
+t+=0.02;
 
-    time += 0.02;
+/* خلفية */
+const r=Math.sin(t)*0.5+0.5;
+const b=Math.cos(t)*0.5+0.5;
+renderer.setClearColor(new THREE.Color(r,0,b));
 
-    // خلفية
-    const r = Math.sin(time) * 0.5 + 0.5;
-    const b = Math.cos(time) * 0.5 + 0.5;
-    renderer.setClearColor(new THREE.Color(r, 0, b));
+/* تحريك */
+if(modelLoaded && realDoorL && realDoorR){
+    realDoorL.rotation.y = -Math.sin(t)*1.2;
+    realDoorR.rotation.y = Math.sin(t)*1.2;
+}else{
+    // 👇 لو الموديل ما اشتغل
+    fakeDoorL.rotation.y = -Math.sin(t)*1.2;
+    fakeDoorR.rotation.y = Math.sin(t)*1.2;
+}
 
-    // حركة الأبواب
-    if (doorL && doorR) {
-        doorL.rotation.y = -Math.sin(time) * 1.2;
-        doorR.rotation.y = Math.sin(time) * 1.2;
-    }
-
-    renderer.render(scene, camera);
+renderer.render(scene,camera);
 }
 
 animate();
 
 /* ريسبونس */
-window.addEventListener("resize", () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
+window.addEventListener("resize", ()=>{
+renderer.setSize(innerWidth, innerHeight);
+camera.aspect = innerWidth/innerHeight;
+camera.updateProjectionMatrix();
 });
 
 </script>
