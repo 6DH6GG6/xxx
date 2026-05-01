@@ -12,12 +12,24 @@ body {
     font-family: Tahoma;
 }
 
-/* شاشة الدخول */
+/* =========================
+   3D SCENE
+========================= */
+#scene {
+    width: 100vw;
+    height: 100vh;
+    position: fixed;
+    inset: 0;
+}
+
+/* =========================
+   PASSWORD UI
+========================= */
 #lockScreen {
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.85);
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -33,7 +45,7 @@ input {
     background: #111;
     color: white;
     text-align: center;
-    width: 200px;
+    width: 220px;
 }
 
 button {
@@ -47,27 +59,22 @@ button {
 
 #msg {
     color: red;
-}
-
-/* المشهد */
-#scene {
-    width: 100vw;
-    height: 100vh;
+    font-size: 14px;
 }
 </style>
 </head>
 
 <body>
 
-<!-- شاشة الدخول -->
+<!-- 3D SCENE -->
+<div id="scene"></div>
+
+<!-- PASSWORD UI -->
 <div id="lockScreen">
     <input type="password" id="pass" placeholder="Enter Password">
     <button onclick="checkPass()">OK</button>
     <div id="msg"></div>
 </div>
-
-<!-- 3D -->
-<div id="scene"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
@@ -75,8 +82,13 @@ button {
 <script>
 
 let scene, camera, renderer;
+let model;
 let doorLeft, doorRight;
+let selected = false;
 
+/* =========================
+   INIT SCENE
+========================= */
 function init() {
 
     scene = new THREE.Scene();
@@ -92,7 +104,7 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("scene").appendChild(renderer.domElement);
 
-    // 🔥 إضاءة قوية
+    // إضاءة قوية
     scene.add(new THREE.AmbientLight(0xffffff, 2));
 
     const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -103,18 +115,18 @@ function init() {
 
     loader.load(
         "ALBOMS/3D/GLB/gate_renamed.glb",
-
         function(gltf) {
 
-            scene.add(gltf.scene);
+            model = gltf.scene;
 
-            // 🔥 نجيب أجزاء الباب
-            doorLeft = gltf.scene.getObjectByName("Door_Left");
-            doorRight = gltf.scene.getObjectByName("Door_Right");
+            model.scale.set(2,2,2);
+            model.position.set(0,-1,0);
 
-            // 🔥 ضبط مكان الباب
-            gltf.scene.scale.set(2,2,2);
-            gltf.scene.position.set(0,-1,0);
+            scene.add(model);
+
+            // محاولة جلب أبواب
+            doorLeft = model.getObjectByName("Door_Left");
+            doorRight = model.getObjectByName("Door_Right");
 
             animate();
         }
@@ -123,15 +135,34 @@ function init() {
     camera.position.z = 4;
 }
 
+/* =========================
+   RENDER LOOP
+========================= */
 function animate() {
     requestAnimationFrame(animate);
+
+    if (model && !selected) {
+        model.rotation.y += 0.002; // دوران خفيف قبل الاختيار
+    }
+
     renderer.render(scene, camera);
 }
 
 init();
 
 /* =========================
-   كلمة السر + زر OK
+   عند الضغط على الباب
+========================= */
+window.addEventListener("click", () => {
+
+    if (!selected) {
+        selected = true;
+        document.getElementById("lockScreen").style.display = "flex";
+    }
+});
+
+/* =========================
+   كلمة السر
 ========================= */
 function checkPass() {
 
@@ -143,8 +174,11 @@ function checkPass() {
         msg.innerText = "✔ Opening Gate...";
 
         setTimeout(() => {
+
             document.getElementById("lockScreen").style.display = "none";
+
             openDoor();
+
         }, 800);
 
     } else {
@@ -153,7 +187,7 @@ function checkPass() {
 }
 
 /* =========================
-   فتح الباب الحقيقي
+   فتح الباب (يمين / يسار)
 ========================= */
 function openDoor() {
 
@@ -163,14 +197,13 @@ function openDoor() {
 
         t += 0.02;
 
-        // 🔥 فتح الباب يمين ويسار
         if (doorLeft) {
-            doorLeft.position.x = -t * 1.5;
+            doorLeft.position.x = -t * 2;
             doorLeft.rotation.y = t;
         }
 
         if (doorRight) {
-            doorRight.position.x = t * 1.5;
+            doorRight.position.x = t * 2;
             doorRight.rotation.y = -t;
         }
 
