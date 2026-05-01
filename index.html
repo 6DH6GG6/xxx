@@ -8,8 +8,10 @@
 body {
     margin: 0;
     overflow: hidden;
-    background: radial-gradient(circle, #3a0000, #000);
     font-family: Tahoma;
+
+    /* 🔴 خلفية حمراء قوية */
+    background: radial-gradient(circle at center, #ff0000 0%, #2b0000 40%, #000 100%);
 }
 
 /* =========================
@@ -104,7 +106,7 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("scene").appendChild(renderer.domElement);
 
-    // إضاءة قوية
+    // 🔥 إضاءة قوية
     scene.add(new THREE.AmbientLight(0xffffff, 2));
 
     const light = new THREE.DirectionalLight(0xffffff, 2);
@@ -124,7 +126,7 @@ function init() {
 
             scene.add(model);
 
-            // محاولة جلب أبواب
+            // أبواب
             doorLeft = model.getObjectByName("Door_Left");
             doorRight = model.getObjectByName("Door_Right");
 
@@ -141,8 +143,9 @@ function init() {
 function animate() {
     requestAnimationFrame(animate);
 
+    // دوران خفيف قبل التفاعل
     if (model && !selected) {
-        model.rotation.y += 0.002; // دوران خفيف قبل الاختيار
+        model.rotation.y += 0.002;
     }
 
     renderer.render(scene, camera);
@@ -151,7 +154,7 @@ function animate() {
 init();
 
 /* =========================
-   عند الضغط على الباب
+   فتح نافذة كلمة السر
 ========================= */
 window.addEventListener("click", () => {
 
@@ -162,7 +165,7 @@ window.addEventListener("click", () => {
 });
 
 /* =========================
-   كلمة السر
+   التحقق من كلمة السر
 ========================= */
 function checkPass() {
 
@@ -174,11 +177,8 @@ function checkPass() {
         msg.innerText = "✔ Opening Gate...";
 
         setTimeout(() => {
-
             document.getElementById("lockScreen").style.display = "none";
-
             openDoor();
-
         }, 800);
 
     } else {
@@ -187,7 +187,7 @@ function checkPass() {
 }
 
 /* =========================
-   فتح الباب (يمين / يسار)
+   فتح الباب (يمين + يسار)
 ========================= */
 function openDoor() {
 
