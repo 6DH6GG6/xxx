@@ -3,143 +3,132 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>بوابة الظلال</title>
+<title>GLB Gate</title>
 
 <style>
 body { margin:0; overflow:hidden; background:black; }
-canvas { display:block; }
+#msg{
+ position:fixed; top:10px; left:10px;
+ color:white; background:#0008; padding:8px;
+ font-size:13px;
+}
 </style>
-
 </head>
 <body>
 
-<canvas id="bg"></canvas>
+<div id="msg">loading...</div>
+<canvas id="c"></canvas>
 
 <script type="module">
-
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
 import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/loaders/GLTFLoader.js";
 
-/* إعداد */
-const renderer = new THREE.WebGLRenderer({
-    canvas: document.getElementById("bg"),
-    antialias:true
-});
-renderer.setSize(window.innerWidth, window.innerHeight);
+const msg = document.getElementById("msg");
 
+/* renderer */
+const renderer = new THREE.WebGLRenderer({
+ canvas: document.getElementById("c"),
+ antialias:true
+});
+renderer.setSize(innerWidth, innerHeight);
+
+/* scene */
 const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(75, innerWidth/innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 6);
+/* camera */
+const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 1000);
+camera.position.set(0,1.5,5);
 
-/* إضاءة */
+/* light */
 scene.add(new THREE.AmbientLight(0xffffff,2));
 
-const red = new THREE.PointLight(0xff0000,3);
-red.position.set(5,5,5);
-scene.add(red);
+const l = new THREE.PointLight(0xffffff,3);
+l.position.set(5,5,5);
+scene.add(l);
 
-const purple = new THREE.PointLight(0x8000ff,3);
-purple.position.set(-5,5,5);
-scene.add(purple);
+/* debug cube (يتأكد إن المشهد شغال) */
+const cube = new THREE.Mesh(
+ new THREE.BoxGeometry(),
+ new THREE.MeshNormalMaterial()
+);
+scene.add(cube);
 
-/* =========================
-   🔥 بوابة وهمية تظهر فورًا
-========================= */
-
-const doorGeo = new THREE.BoxGeometry(1, 2, 0.2);
-const mat = new THREE.MeshStandardMaterial({ color: 0x222222 });
-
-const fakeDoorL = new THREE.Mesh(doorGeo, mat);
-const fakeDoorR = new THREE.Mesh(doorGeo, mat);
-
-fakeDoorL.position.x = -0.6;
-fakeDoorR.position.x = 0.6;
-
-scene.add(fakeDoorL);
-scene.add(fakeDoorR);
-
-/* إطار */
-const frameGeo = new THREE.BoxGeometry(2.5, 3, 0.2);
-const frameMat = new THREE.MeshStandardMaterial({
-    color: 0x550000,
-    wireframe: false
-});
-const frame = new THREE.Mesh(frameGeo, frameMat);
-scene.add(frame);
-
-/* =========================
-   تحميل الموديل الحقيقي
-========================= */
-
-let realDoorL=null, realDoorR=null;
-let modelLoaded = false;
+/* loader */
+let doorL=null, doorR=null;
 
 new GLTFLoader().load(
 "ALBOMS/3D/GLB/wooden_fantasy_double_doors.glb",
 
 (gltf)=>{
-    const model = gltf.scene;
-    scene.add(model);
 
-    model.scale.set(2,2,2);
-    model.position.set(0,-1,0);
+ msg.innerText = "GLB loaded ✅";
 
-    model.traverse((c)=>{
-        if(c.name.includes("Door_L")) realDoorL=c;
-        if(c.name.includes("Door_R")) realDoorR=c;
-    });
+ scene.remove(cube);
 
-    // 🔥 حذف الوهمية
-    scene.remove(fakeDoorL);
-    scene.remove(fakeDoorR);
-    scene.remove(frame);
+ const model = gltf.scene;
+ scene.add(model);
 
-    modelLoaded = true;
+ model.scale.set(1,1,1);
+
+ /* إجبار الموديل يبان */
+ const box = new THREE.Box3().setFromObject(model);
+ const center = box.getCenter(new THREE.Vector3());
+ const size = box.getSize(new THREE.Vector3()).length();
+
+ model.position.sub(center);
+
+ camera.position.set(0, size*0.5, size*1.5);
+ camera.lookAt(0,0,0);
+
+ /* أسماء */
+ model.traverse(o=>{
+  console.log("OBJ:",o.name);
+
+  if(o.name.includes("Door_L")) doorL=o;
+  if(o.name.includes("Door_R")) doorR=o;
+ });
+
 },
 
 undefined,
 
 (err)=>{
-    console.log("GLB فشل — نستخدم الوهمية");
+ msg.innerText = "❌ failed to load GLB";
+ console.error(err);
 }
 );
 
-/* حركة */
+/* animate */
 let t=0;
 
 function animate(){
-requestAnimationFrame(animate);
-t+=0.02;
+ requestAnimationFrame(animate);
+ t+=0.02;
 
-/* خلفية */
-const r=Math.sin(t)*0.5+0.5;
-const b=Math.cos(t)*0.5+0.5;
-renderer.setClearColor(new THREE.Color(r,0,b));
+ cube.rotation.y += 0.03;
 
-/* تحريك */
-if(modelLoaded && realDoorL && realDoorR){
-    realDoorL.rotation.y = -Math.sin(t)*1.2;
-    realDoorR.rotation.y = Math.sin(t)*1.2;
-}else{
-    // 👇 لو الموديل ما اشتغل
-    fakeDoorL.rotation.y = -Math.sin(t)*1.2;
-    fakeDoorR.rotation.y = Math.sin(t)*1.2;
+ if(doorL && doorR){
+  doorL.rotation.y = -Math.sin(t);
+  doorR.rotation.y = Math.sin(t);
+ }
+
+ renderer.setClearColor(new THREE.Color(
+  Math.sin(t)*0.5+0.5,
+  0,
+  Math.cos(t)*0.5+0.5
+ ));
+
+ renderer.render(scene,camera);
 }
-
-renderer.render(scene,camera);
-}
-
 animate();
 
-/* ريسبونس */
-window.addEventListener("resize", ()=>{
-renderer.setSize(innerWidth, innerHeight);
-camera.aspect = innerWidth/innerHeight;
-camera.updateProjectionMatrix();
+/* resize */
+addEventListener("resize",()=>{
+ renderer.setSize(innerWidth, innerHeight);
+ camera.aspect = innerWidth/innerHeight;
+ camera.updateProjectionMatrix();
 });
 
 </script>
-
 </body>
 </html>
