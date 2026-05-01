@@ -1,644 +1,847 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kage No Teio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kage No Teio</title>
+
 
 <style>
 
-/* ================= ERROR BOX ================= */
-.error-box{
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%) scale(0.5);
-background:rgba(0,0,0,0.9);
-color:red;
-padding:20px 30px;
-border:2px solid red;
-border-radius:12px;
-font-size:18px;
-opacity:0;
-transition:0.3s;
-z-index:99999;
-}
 
-.error-box.show{
-opacity:1;
-transform:translate(-50%,-50%) scale(1);
-animation:shake 0.3s;
-}
+    /* ========================================
+       1. GLOBAL + RESET
+    ======================================== */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Tahoma;
+    }
 
-/* ================= ANIMATIONS ================= */
-@keyframes shake{
-0%{transform:translate(0,0);}
-25%{transform:translate(2px,-2px);}
-50%{transform:translate(-2px,2px);}
-75%{transform:translate(2px,2px);}
-100%{transform:translate(0,0);}
-}
+    body {
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background: url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
+        color: white;
+        overflow-x: hidden;
+    }
 
-@keyframes glitch{
-0%{transform:translate(0,0);}
-20%{transform:translate(-1px,1px);}
-40%{transform:translate(1px,-1px);}
-60%{transform:translate(-1px,-1px);}
-80%{transform:translate(1px,1px);}
-100%{transform:translate(0,0);}
-}
+    /* ========================================
+       2. KEYFRAMES - كل الأنيميشن
+    ======================================== */
+    @keyframes shake {
+        0%, 100% { transform: translate(0, 0); }
+        25% { transform: translate(2px, -2px); }
+        50% { transform: translate(-2px, 2px); }
+        75% { transform: translate(2px, 2px); }
+    }
 
-@keyframes flash{
-0%{opacity:0;}
-50%{opacity:1;}
-100%{opacity:0;}
-}
+    @keyframes glitch {
+        0%, 100% { transform: translate(0, 0); }
+        20% { transform: translate(-1px, 1px); }
+        40% { transform: translate(1px, -1px); }
+        60% { transform: translate(-1px, -1px); }
+        80% { transform: translate(1px, 1px); }
+    }
 
-/* ================= FLASH ================= */
-.flash{
-position:fixed;
-inset:0;
-background:#a020f0;
-z-index:10002;
-animation:flash 0.6s ease;
-pointer-events:none;
-}
+    @keyframes flash {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
 
-/* ================= DOOR ================= */
-#doorModel{
-width:300px;
-height:300px;
-filter:drop-shadow(0 0 20px purple);
-transition:0.4s;
-cursor:pointer;
-transform-origin:left center;
-}
+    @keyframes fadeUp {
+        to { opacity: 1; transform: translateY(0); }
+    }
 
-#doorModel.glow{
-filter:
-drop-shadow(0 0 20px #a020f0)
-drop-shadow(0 0 40px #a020f0)
-drop-shadow(0 0 60px #a020f0);
-transform:scale(1.05);
-}
+    @keyframes scrollText {
+        from { right: -100%; }
+        to { right: 100%; }
+    }
 
-#doorModel.opening{
-transform:scale(1.2);
-filter:blur(2px);
-transition:0.3s ease;
-}
+    @keyframes moveStars {
+        from { background-position: 0 0; }
+        to { background-position: 1000px; }
+    }
 
-/* ================= DOOR SCREEN ================= */
-.door-screen{
-position:fixed;
-inset:0;
-background:black;
-z-index:10000;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-overflow:hidden;
-}
+    @keyframes waveRipple {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.8; }
+        100% { transform: translate(-50%, -50%) scale(15); opacity: 0; }
+    }
 
-/* ================= PASSWORD ================= */
-.password-box{
-position:absolute;
-bottom:20%;
-display:flex;
-gap:10px;
-opacity:0;
-transform:translateY(20px);
-transition:0.4s;
-}
+    @keyframes waveMove {
+        0% { transform: translate(-50%, -50%) scale(1); opacity: 0.9; }
+        100% { transform: translate(-50%, -50%) scale(25); opacity: 0; }
+    }
 
-.password-box.active{
-opacity:1;
-transform:translateY(0);
-}
+    /* ========================================
+       3. BACKGROUND LAYERS
+    ======================================== */
+    .bg-overlay {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
+        z-index: 1;
+        pointer-events: none;
+    }
 
-.password-box input{
-padding:10px;
-border:none;
-border-radius:8px;
-outline:none;
-background:#111;
-color:#fff;
-}
+    .stars {
+        position: fixed;
+        inset: 0;
+        background: url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
+        opacity: 0.12;
+        animation: moveStars 120s linear infinite;
+        z-index: 2;
+    }
 
-.password-box button{
-padding:10px 20px;
-background:purple;
-border:none;
-color:white;
-border-radius:8px;
-cursor:pointer;
-}
+    /* ========================================
+       4. CUSTOM CURSOR + EFFECTS
+    ======================================== */
+    .cursor {
+        position: fixed;
+        width: 20px;
+        height: 20px;
+        border: 2px solid red;
+        border-radius: 50%;
+        pointer-events: none;
+        transform: translate(-50%, -50%);
+        z-index: 10003;
+        box-shadow: 0 0 15px red;
+    }
 
-/* ================= ENTER EFFECT ================= */
-.enter-effect{
-position:fixed;
-inset:0;
-background:radial-gradient(circle,#a020f0 0%, black 70%);
-z-index:10001;
-opacity:0;
-pointer-events:none;
-transition:0.6s;
-}
+    .wave-layer {
+        position: fixed;
+        inset: 0;
+        pointer-events: none;
+        z-index: 9998;
+        overflow: hidden;
+    }
 
-.enter-effect.active{
-opacity:1;
-transform:scale(2);
-filter:blur(12px);
-}
+    .wave {
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%);
+        transform: translate(-50%, -50%);
+        animation: waveMove 1.4s ease-out forwards;
+        filter: blur(2px);
+    }
 
-/* ================= RIPPLE ================= */
-.ripple{
-position:fixed;
-width:10px;
-height:10px;
-border-radius:50%;
-border:2px solid rgba(255,0,0,0.8);
-transform:translate(-50%,-50%);
-pointer-events:none;
-animation:waveRipple 1s ease-out;
-z-index:9998;
-}
+    .ripple {
+        position: fixed;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid rgba(255,0,0,0.8);
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        animation: waveRipple 1s ease-out;
+        z-index: 9998;
+    }
 
-@keyframes waveRipple{
-0%{transform:translate(-50%,-50%) scale(1);opacity:0.8;}
-100%{transform:translate(-50%,-50%) scale(15);opacity:0;}
-}
+    /* ========================================
+       5. DOOR SCREEN - شاشة الدخول
+    ======================================== */
+    .door-screen {
+        position: fixed;
+        inset: 0;
+        background: black;
+        z-index: 10000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        overflow: hidden;
+    }
 
-/* ================= MENU ================= */
-.menu-page{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.95);
-z-index:9999;
-display:flex;
-flex-direction:column;
-opacity:0;
-transform:scale(1.1);
-pointer-events:none;
-transition:0.4s ease;
-}
+    #doorModel {
+        width: 300px;
+        height: 300px;
+        filter: drop-shadow(0 0 20px purple);
+        transition: 0.4s;
+        cursor: pointer;
+        transform-origin: left center;
+    }
 
-.menu-page.active{
-opacity:1;
-transform:scale(1);
-pointer-events:auto;
-}
+    #doorModel.glow {
+        filter: drop-shadow(0 0 20px #a020f0) drop-shadow(0 0 40px #a020f0) drop-shadow(0 0 60px #a020f0);
+        transform: scale(1.05);
+    }
 
-.menu-header{
-background:linear-gradient(90deg,#8b0000,#ff1a1a);
-padding:15px;
-display:flex;
-justify-content:space-between;
-align-items:center;
-box-shadow:0 0 20px red;
-}
+    #doorModel.opening {
+        transform: scale(1.2);
+        filter: blur(2px);
+        transition: 0.3s ease;
+    }
 
-.menu-header h2{
-color:white;
-font-size:20px;
-}
+    .password-box {
+        position: absolute;
+        bottom: 20%;
+        display: flex;
+        gap: 10px;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: 0.4s;
+    }
 
-.menu-header button{
-background:black;
-color:red;
-border:none;
-padding:8px 15px;
-border-radius:8px;
-cursor:pointer;
-}
+    .password-box.active {
+        opacity: 1;
+        transform: translateY(0);
+    }
 
-.menu-content{
-flex:1;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-font-size:18px;
-text-align:center;
-padding:20px;
-}
+    .password-box input {
+        padding: 10px;
+        border: none;
+        border-radius: 8px;
+        outline: none;
+        background: #111;
+        color: #fff;
+    }
 
-/* ================= EXIT ================= */
-.exit-popup{
-position:fixed;
-inset:0;
-background:rgba(0,0,0,0.85);
-display:flex;
-justify-content:center;
-align-items:center;
-opacity:0;
-pointer-events:none;
-transition:0.4s;
-z-index:1000;
-}
+    .password-box button {
+        padding: 10px 20px;
+        background: purple;
+        border: none;
+        color: white;
+        border-radius: 8px;
+        cursor: pointer;
+    }
 
-.exit-popup.active{
-opacity:1;
-pointer-events:auto;
-}
+    .enter-effect {
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle, #a020f0 0%, black 70%);
+        z-index: 10001;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.6s;
+    }
 
-.exit-box{
-background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
-padding:40px;
-border-radius:20px;
-text-align:center;
-box-shadow:0 0 40px #ff0000;
-}
+    .enter-effect.active {
+        opacity: 1;
+        transform: scale(2);
+        filter: blur(12px);
+    }
 
-.exit-buttons{
-margin-top:20px;
-display:flex;
-gap:15px;
-justify-content:center;
-}
+    .flash {
+        position: fixed;
+        inset: 0;
+        background: #a020f0;
+        z-index: 10002;
+        animation: flash 0.6s ease;
+        pointer-events: none;
+    }
 
-.exit-buttons button{
-padding:10px 25px;
-border:none;
-background:#ff0000;
-color:black;
-border-radius:10px;
-cursor:pointer;
-}
+    /* ========================================
+       6. ERROR BOX
+    ======================================== */
+    .error-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0.5);
+        background: rgba(0,0,0,0.9);
+        color: red;
+        padding: 20px 30px;
+        border: 2px solid red;
+        border-radius: 12px;
+        font-size: 18px;
+        opacity: 0;
+        transition: 0.3s;
+        z-index: 99999;
+    }
 
-/* ================= GLOBAL ================= */
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:Tahoma;
-}
+    .error-box.show {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+        animation: shake 0.3s;
+    }
 
-body{
-min-height:100vh;
-display:flex;
-flex-direction:column;
-align-items:center;
-background:url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
-color:white;
-overflow-x:hidden;
-cursor:none;
-}
+    /* ========================================
+       7. MAIN CONTENT - محتوى الموقع
+    ======================================== */
+    .logo {
+        width: clamp(180px, 45vw, 420px);
+        margin: 15px 0;
+        filter: drop-shadow(0 0 25px #ff0000);
+        z-index: 2;
+    }
 
-/* ================= OVERLAY ================= */
-.bg-overlay{
-position:fixed;
-inset:0;
-background:linear-gradient(to bottom,rgba(0,0,0,0.6),rgba(0,0,0,0.85));
-z-index:1;
-pointer-events:none;
-}
+    .frame-box {
+        width: 100%;
+        max-width: 1000px;
+        height: 80px;
+        margin: 10px 0 20px 0;
+        position: relative;
+        overflow: hidden;
+        background: rgba(0,0,0,0.2);
+        border: 1px solid rgba(0,234,255,0.3);
+        border-radius: 12px;
+        box-shadow: 0 0 15px rgba(0,234,255,0.2);
+        z-index: 2;
+    }
 
-/* ================= STARS ================= */
-.stars{
-position:fixed;
-inset:0;
-background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
-opacity:0.12;
-animation:moveStars 120s linear infinite;
-z-index:2;
-}
+    .frame-gif {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.25;
+    }
 
-@keyframes moveStars{
-from{background-position:0 0;}
-to{background-position:1000px 1000px;}
-}
+    .frame-text {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
 
-/* ================= LOGO ================= */
-.logo{
-width:clamp(180px,45vw,420px);
-margin:15px 0;
-filter:drop-shadow(0 0 25px #ff0000);
-z-index:2;
-}
+    .frame-text span {
+        position: absolute;
+        color: #ff0000;
+        font-weight: bold;
+        font-size: 18px;
+        white-space: nowrap;
+        text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000;
+        animation: scrollText 10s linear infinite, glitch 1s infinite;
+    }
+
+    .container {
+        z-index: 2;
+        width: 100%;
+        max-width: 1100px;
+        padding: 10px;
+    }
+
+    .menu {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .btn {
+        position: relative;
+        aspect-ratio: 4/3;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+        clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(40px);
+        animation: fadeUp 0.8s ease forwards;
+    }
+
+    .btn:nth-child(1) { animation-delay: 0.2s; }
+    .btn:nth-child(2) { animation-delay: 0.4s; }
+    .btn:nth-child(3) { animation-delay: 0.6s; }
+    .btn:nth-child(4) { animation-delay: 0.8s; }
+    .btn:nth-child(5) { animation-delay: 1s; }
+    .btn:nth-child(6) { animation-delay: 1.2s; }
+
+    .btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 20px #ff0000;
+    }
+
+    /* ========================================
+       8. MENU PAGE - صفحة القائمة
+    ======================================== */
+    .menu-page {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.95);
+        z-index: 9999;
+        display: flex;
+        flex-direction: column;
+        opacity: 0;
+        transform: scale(1.1);
+        pointer-events: none;
+        transition: 0.4s ease;
+    }
+
+    .menu-page.active {
+        opacity: 1;
+        transform: scale(1);
+        pointer-events: auto;
+    }
+
+    .menu-header {
+        background: linear-gradient(90deg, #8b0000, #ff1a1a);
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 0 20px red;
+    }
+
+    .menu-header h2 {
+        color: white;
+        font-size: 20px;
+    }
+
+    .menu-header button {
+        background: black;
+        color: red;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+    }
+
+    .menu-content {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        color: white;
+        font-size: 18px;
+        text-align: center;
+        padding: 20px;
+    }
+
+    /* ========================================
+       9. POPUPS - النوافذ المنبثقة
+    ======================================== */
+    .popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.4s;
+        z-index: 999;
+    }
+
+    .popup.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .popup-box {
+        background: rgba(10,10,10,0.95);
+        padding: 30px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 40px #ff0000;
+        transform: scale(0.7);
+        opacity: 0;
+        transition: 0.4s;
+    }
+
+    .popup.active .popup-box {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    .popup-box h2 {
+        color: #ff0000;
+        margin-bottom: 10px;
+    }
+
+    .popup-box p {
+        color: #aaa;
+        margin-bottom: 20px;
+    }
+
+    .popup-box button {
+        padding: 10px 25px;
+        border: none;
+        background: #ff0000;
+        color: black;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+    .exit-popup {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.85);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        opacity: 0;
+        pointer-events: none;
+        transition: 0.4s;
+        z-index: 1000;
+    }
+
+    .exit-popup.active {
+        opacity: 1;
+        pointer-events: auto;
+    }
+
+    .exit-box {
+        background: url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
+        padding: 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 0 40px #ff0000;
+    }
+
+    .exit-buttons {
+        margin-top: 20px;
+        display: flex;
+        gap: 15px;
+        justify-content: center;
+    }
+
+    .exit-buttons button {
+        padding: 10px 25px;
+        border: none;
+        background: #ff0000;
+        color: black;
+        border-radius: 10px;
+        cursor: pointer;
+    }
+
+
 
 </style>
 </head>
 
 <body>
 
+<!-- ========================================
+1. ELEMENTS المخفية - تظهر بالـ JS
+======================================== -->
 <div id="errorBox" class="error-box">❌ كلمة السر خاطئة</div>
-
-<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
-
-<!-- 🚪 شاشة الباب -->
-<div class="door-screen" id="doorScreen">
-
-<model-viewer 
-  id="doorModel"
-  src="ALBOMS/3D/GLB/wooden_fantasy_double_doors(1).glb"
-  disable-zoom
-  exposure="1.6"
-  shadow-intensity="1"
-  environment-image="neutral"
-  interaction-prompt="none">
-</model-viewer>
-
-  <div class="password-box" id="passBox">
-    <input type="password" id="passInput" placeholder="كلمة السر">
-    <button onclick="checkPass()">دخول</button>
-  </div>
-
-</div>
-
 <div class="enter-effect" id="enterEffect"></div>
 
-<!-- 🎵 صوت -->
-<audio id="doorSound" src="open.mp3"></audio>
-<audio id="bgMusic" src="bg.mp3" loop></audio>
+<!-- ========================================
+2. شاشة الباب
+======================================== -->
+<div class="door-screen" id="doorScreen">
 
+    <canvas id="doorCanvas"></canvas>
 
-<div class="wave-layer" id="waveLayer"></div>
-
-<!-- 🌑 تعتيم الخلفية -->
-<div class="bg-overlay"></div>
-
-<!-- ✨ النجوم -->
-<div class="stars"></div>
-
-<!-- 🚪 نافذة الخروج -->
-<div class="exit-popup" id="exitPopup">
-  <div class="exit-box">
-    <h2>هل تريد الخروج؟</h2>
-    <div class="exit-buttons">
-      <button onclick="confirmExit()">نعم</button>
-      <button onclick="closeExit()">لا</button>
+    <div class="password-box" id="passBox">
+        <input type="password" id="passInput" placeholder="كلمة السر">
+        <button onclick="checkPass()">دخول</button>
     </div>
-  </div>
+
 </div>
 
-<!-- 🎯 الكيرسر -->
+<!-- ========================================
+3. الأصوات
+======================================== -->
+<audio id="doorSound" src="open.mp3" preload="auto"></audio>
+<audio id="bgMusic" src="bg.mp3" loop preload="auto"></audio>
+
+<!-- ========================================
+4. الخلفية
+======================================== -->
+<div class="bg-overlay"></div>
+<div class="stars"></div>
+<div class="wave-layer" id="waveLayer"></div>
 <div class="cursor" id="cursor"></div>
 
-<!-- 📂 صفحة القائمة -->
-<div class="menu-page" id="menuPage">
-  <div class="menu-header">
-    <h2 id="menuTitle"></h2>
-    <button onclick="closeMenuPage()">رجوع</button>
-  </div>
+<!-- ========================================
+5. النوافذ
+======================================== -->
 
-  <div class="menu-content">
-    <p id="menuDesc"></p>
-  </div>
-</div>
-
-<!-- 🧊 محتوى الموقع -->
-<img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
-
-<div class="frame-box">
-  <img src="ALBOMS/IMAGE/GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif">
-  <div class="frame-text">
-    <span>☠ الظلال تتربص في الظلام ☠</span>
-  </div>
-</div>
-
-<div class="container">
-  <div class="menu">
-    <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155749.png')"></div>
-    <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160952.png')"></div>
-    <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155319.png')"></div>
-    <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160315.png')"></div>
-    <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160850.png')"></div>
-    <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_154329.png')"></div>
-  </div>
+<div class="exit-popup" id="exitPopup">
+    <div class="exit-box">
+        <h2>هل تريد الخروج؟</h2>
+        <button onclick="confirmExit()">نعم</button>
+        <button onclick="closeExit()">لا</button>
+    </div>
 </div>
 
 <div class="popup" id="popup">
-  <div class="popup-box">
-    <h2 id="popupTitle"></h2>
-    <p>الظلال تتربص في ظلام</p>
-    <button onclick="closeMenu()">إغلاق</button>
-  </div>
+    <div class="popup-box">
+        <h2 id="popupTitle"></h2>
+        <p id="popupText">الظلال تتربص في الظلام</p>
+        <button onclick="closeMenu()">إغلاق</button>
+    </div>
 </div>
+
+<div class="menu-page" id="menuPage">
+    <div class="menu-header">
+        <h2 id="menuTitle"></h2>
+        <button onclick="closeMenuPage()">رجوع</button>
+    </div>
+    <div class="menu-content">
+        <p id="menuDesc"></p>
+    </div>
+</div>
+
+<!-- ========================================
+6. المحتوى الرئيسي
+======================================== -->
+<img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
+
+<div class="frame-box">
+    <img src="ALBOMS/IMAGE/GIF/how-to-create-a-light-streak-animation-in-after-effects.gif">
+    <div class="frame-text">
+        <span>☠ الظلال تتربص في الظلام ☠</span>
+    </div>
+</div>
+
+<div class="container">
+    <div class="menu">
+        <div class="btn" onclick="openMenu('أنمي')"></div>
+        <div class="btn" onclick="openMenu('فضائح عصابات')"></div>
+        <div class="btn" onclick="openMenu('قوانين الدعس')"></div>
+        <div class="btn" onclick="openMenu('ترسيم أعضاء')"></div>
+        <div class="btn" onclick="openMenu('أسماء الظلال')"></div>
+        <div class="btn" onclick="openMenu('تحميل ملفات')"></div>
+    </div>
+</div>
+
 
 <script>
 
-let doorLocked = false;
 
-// 🎯 Cursor
-let cursor = document.getElementById("cursor");
-
-document.addEventListener("mousemove", e => {
-  cursor.style.top = e.clientY + "px";
-  cursor.style.left = e.clientX + "px";
-});
-
-// 📂 بيانات القوائم
-let menuData = {
-  "أنمي": "قسم الأنمي",
-  "فضائح عصابات": "أرشيف الفضائح",
-  "قوانين الدعس": "قوانين الطائفة",
-  "ترسيم أعضاء": "نظام الترسيم",
-  "أسماء الظلال": "قائمة الظلال",
-  "تحميل ملفات": "قسم التحميل"
-};
-
-// 📂 فتح قائمة
-function openMenu(title) {
-  document.getElementById("menuTitle").innerText = title;
-  document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
-  document.getElementById("menuPage").classList.add("active");
-  history.pushState({ page: "menu" }, "");
-}
-
-// 🔙 رجوع من القائمة
-function closeMenuPage() {
-  document.getElementById("menuPage").classList.remove("active");
-}
-
-// ❌ إغلاق popup
-function closeMenu() {
-  document.getElementById("popup").classList.remove("active");
-}
-
-// 🚪 نظام الرجوع الذكي
-let exitArmed = false;
-history.pushState({page:"home"}, "");
-
-window.addEventListener("popstate", function () {
-
-  let menu = document.getElementById("menuPage");
-
-  // إذا داخل قائمة → يرجع فقط
-  if(menu.classList.contains("active")){
-    menu.classList.remove("active");
-    return;
-  }
-
-  // أول رجوع → يظهر popup
-  if(!exitArmed){
-    exitArmed = true;
-    document.getElementById("exitPopup").classList.add("active");
-
-    history.pushState({page:"home"}, "");
-    setTimeout(()=> exitArmed = false, 3000);
-  }else{
-    window.close();
-  }
-});
-
-// ✨ نص متحرك
-
-let frameTexts = [
-"طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019",
-"لدينا أعين في كل مكان نحن الظلال نتربص في ظلال",
-"نخب 🥂 زوار الكرام، حتا لو كانو من الخصوم فا نشارك النخب تواضعًا 👑",
-];
-
-let frameIndex = 0;
-let frameSpan = document.querySelector(".frame-text span");
-
-if (frameSpan) {
-  setInterval(() => {
-    frameIndex = (frameIndex + 1) % frameTexts.length;
-    frameSpan.innerText = frameTexts[frameIndex];
-  }, 4000);
-}
-
-// 🚪 خروج
-
-function confirmExit() {
-  window.close();
-}
-
-function closeExit() {
-  document.getElementById("exitPopup").classList.remove("active");
-}
-
-// 🌊 سحب (مثل فتح قفل سامسونج)
-
-document.addEventListener("pointerdown", createWave);
-
-document.addEventListener("pointermove", function (e) {
-  if (e.buttons !== 1) return;
-  createWave(e);
-});
-
-function createWave(e) {
-  const wave = document.createElement("div");
-  wave.className = "wave";
-
-  wave.style.left = e.clientX + "px";
-  wave.style.top = e.clientY + "px";
-
-  waveLayer.appendChild(wave);
-
-  setTimeout(() => wave.remove(), 1200);
-}
-
-// عناصر DOM
-const door = document.getElementById("doorModel");
+/* ========================================
+1. العناصر
+======================================== */
+const cursor = document.getElementById("cursor");
+const doorCanvas = document.getElementById("doorCanvas");
 const passBox = document.getElementById("passBox");
 const doorScreen = document.getElementById("doorScreen");
 const enterEffect = document.getElementById("enterEffect");
 const waveLayer = document.getElementById("waveLayer");
+const errorBox = document.getElementById("errorBox");
+const doorSound = document.getElementById("doorSound");
+const bgMusic = document.getElementById("bgMusic");
+const passInput = document.getElementById("passInput"); // 🔥 إصلاح مهم
 
 let doorLocked = false;
+let exitArmed = false;
+let attempts = 0;
 
-// فتح الباب (GLB)
-function openGLBDoor() {
-  const model = document.getElementById("doorModel");
-  if (!model) return;
+/* ========================================
+2. بيانات
+======================================== */
+const menuData = {
+"أنمي": "قسم الأنمي",
+"فضائح عصابات": "أرشيف العصابات",
+"قوانين الدعس": "قوانين الظلال",
+"ترسيم أعضاء": "الرتب",
+"أسماء الظلال": "الأعضاء",
+"تحميل ملفات": "التحميل"
+};
 
-  model.animationName = "Open_Door";
-
-  if (typeof model.play === "function") {
-    model.play();
-  }
-
-  setTimeout(() => {
-    enterEffect.classList.add("active");
-  }, 1000);
-
-  setTimeout(() => {
-    doorScreen.style.display = "none";
-    document.getElementById("bgMusic").play().catch(() => {});
-  }, 3000);
-}
-
-// التحقق من كلمة السر
-function checkPass() {
-  const val = document.getElementById("passInput").value;
-
-  if (val === "الظلال666") {
-    doorLocked = true;
-
-    const sound = document.getElementById("doorSound");
-    const music = document.getElementById("bgMusic");
-
-    document.body.classList.add("shake");
-
-    const flash = document.createElement("div");
-    flash.className = "flash";
-    document.body.appendChild(flash);
-
-    setTimeout(() => flash.remove(), 600);
-
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
-
-    openGLBDoor();
-
-    setTimeout(() => {
-      enterEffect.classList.add("active");
-    }, 800);
-
-    setTimeout(() => {
-      doorScreen.style.display = "none";
-      music.volume = 0.6;
-      music.play().catch(() => {});
-    }, 2800);
-
-  } else {
-    showError();
-  }
-}
-
-// فتح عند الضغط على الباب
-door.addEventListener("click", () => {
-  if (doorLocked) return;
-  door.classList.add("glow");
-  passBox.classList.add("active");
+/* ========================================
+3. الماوس
+======================================== */
+document.addEventListener("mousemove", e => {
+cursor.style.left = e.clientX + "px";
+cursor.style.top = e.clientY + "px";
 });
 
-// فتح يدوي (اختياري)
-function openDoor() {
-  const model = document.getElementById("doorModel");
-  if (!model) return;
+/* ========================================
+4. موجات (تصحيح + تحسين)
+======================================== */
+document.addEventListener("pointerdown", createWave);
 
-  model.animationName = "Open_Door";
+function createWave(e) {
+if (!e) return;
 
-  if (typeof model.play === "function") {
-    model.play();
-  }
+const wave = document.createElement("div");
+wave.className = "wave";
+
+wave.style.left = (e.clientX || window.innerWidth / 2) + "px";
+wave.style.top = (e.clientY || window.innerHeight / 2) + "px";
+
+waveLayer.appendChild(wave);
+
+setTimeout(() => wave.remove(), 1000);
 }
 
-// إغلاق الباب
-function closeDoor() {
-  const model = document.getElementById("doorModel");
-  if (!model) return;
+/* ========================================
+5. الباب
+======================================== */
+doorCanvas.addEventListener("click", () => {
+passBox.style.opacity = 1;
+passInput.focus(); // 🔥 تحسين UX
+});
 
-  model.animationName = "Close_Door";
+/* Enter للدخول */
+passInput.addEventListener("keydown", e => {
+if (e.key === "Enter") checkPass();
+});
 
-  if (typeof model.play === "function") {
-    model.play();
-  }
+/* ========================================
+6. نظام كلمة السر (مصّحح)
+======================================== */
+function checkPass() {
+
+const val = passInput.value.trim(); // 🔥 تصحيح مهم
+
+if (!val) {
+showError("❌ اكتب كلمة السر");
+return;
 }
 
-// إظهار الخطأ
-function showError() {
-  const box = document.getElementById("errorBox");
-  if (!box) return;
+if (doorLocked) return;
 
-  box.classList.add("show");
+if (val === "الظلال666") {
 
-  setTimeout(() => {
-    box.classList.remove("show");
-  }, 1500);
+doorLocked = true;
+document.body.style.animation = "shake 0.4s";
+
+openDoorEffect(); // 🔥 مؤثر الباب
+
+playDoorSound(); // 🔥 منع تكرار الصوت
+
+setTimeout(() => {
+enterEffect.classList.add("active");
+}, 700);
+
+setTimeout(() => {
+doorScreen.style.display = "none";
+
+bgMusic.volume = 0.5;
+bgMusic.play().catch(() => {});
+
+}, 2200);
+
+} else {
+
+attempts++;
+
+showError("❌ كلمة السر خاطئة");
+
+if (attempts >= 3) {
+
+showError("⛔ تم القفل مؤقتاً");
+passInput.disabled = true;
+
+setTimeout(() => {
+attempts = 0;
+passInput.disabled = false;
+}, 5000);
 }
+}
+}
+
+/* ========================================
+   منع تكرار الصوت (إصلاح مهم)
+======================================== */
+let soundPlayed = false;
+
+function playDoorSound() {
+if (soundPlayed) return;
+
+soundPlayed = true;
+
+doorSound.currentTime = 0;
+doorSound.play().catch(() => {});
+}
+
+/* ========================================
+   إظهار الخطأ
+======================================== */
+function showError(text) {
+errorBox.innerText = text;
+errorBox.classList.add("show");
+
+setTimeout(() => {
+errorBox.classList.remove("show");
+}, 1200);
+}
+
+/* ========================================
+7. القوائم
+======================================== */
+function openMenu(title) {
+document.getElementById("menuTitle").innerText = title;
+document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
+document.getElementById("menuPage").classList.add("active");
+
+history.pushState({page:"menu"}, "");
+}
+
+function closeMenuPage() {
+document.getElementById("menuPage").classList.remove("active");
+}
+
+function closeMenu() {
+document.getElementById("popup").classList.remove("active");
+}
+
+/* ========================================
+8. popup
+======================================== */
+function openPopup(title, text) {
+document.getElementById("popupTitle").innerText = title;
+document.getElementById("popupText").innerText = text;
+document.getElementById("popup").classList.add("active");
+}
+
+/* ========================================
+9. الرجوع (محسن)
+======================================== */
+history.pushState({page:"home"},"");
+
+window.addEventListener("popstate", function() {
+
+const menu = document.getElementById("menuPage");
+
+if (menu.classList.contains("active")) {
+menu.classList.remove("active");
+return;
+}
+
+if (!exitArmed) {
+
+exitArmed = true;
+document.getElementById("exitPopup").classList.add("active");
+
+history.pushState({page:"home"},"");
+
+setTimeout(() => exitArmed = false, 2000);
+
+} else {
+window.close();
+}
+});
+
+function confirmExit() {
+window.close();
+}
+
+function closeExit() {
+document.getElementById("exitPopup").classList.remove("active");
+}
+
+/* ========================================
+10. Canvas باب
+======================================== */
+const ctx = doorCanvas.getContext("2d");
+
+function drawDoor() {
+ctx.clearRect(0, 0, doorCanvas.width, doorCanvas.height);
+
+ctx.fillStyle = "darkred";
+ctx.fillRect(50, 50, 100, 200);
+
+requestAnimationFrame(drawDoor);
+}
+drawDoor();
+
+/* ========================================
+11. تأثير فتح الباب (محسن)
+======================================== */
+function openDoorEffect() {
+doorCanvas.classList.add("opening");
+
+setTimeout(() => {
+doorCanvas.classList.remove("opening");
+}, 600);
+}
+
+
+
+</script>
+</body>
