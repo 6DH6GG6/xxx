@@ -12,11 +12,11 @@ body {
     font-family: Tahoma;
 }
 
-/* شاشة الدخول */
+/* شاشة القفل */
 #lockScreen {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, #000, #100010);
+    background: radial-gradient(circle, #000, #120012);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -32,15 +32,15 @@ input {
     background: #111;
     color: white;
     text-align: center;
+    width: 200px;
 }
 
 #msg {
     color: red;
     margin-top: 10px;
-    font-size: 14px;
 }
 
-/* طبقة 3D */
+/* المشهد */
 #scene {
     width: 100vw;
     height: 100vh;
@@ -50,22 +50,26 @@ input {
 
 <body>
 
-<!-- شاشة القفل -->
+<!-- شاشة الدخول -->
 <div id="lockScreen">
     <input type="password" id="pass" placeholder="Enter Password">
     <div id="msg"></div>
 </div>
 
-<!-- المشهد -->
+<!-- 3D -->
 <div id="scene"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
 
 <script>
-let scene, camera, renderer;
-let door;
 
+let scene, camera, renderer;
+let model;
+
+// =========================
+// تشغيل المشهد
+// =========================
 function init() {
 
     scene = new THREE.Scene();
@@ -77,31 +81,54 @@ function init() {
         1000
     );
 
-    renderer = new THREE.WebGLRenderer({ alpha: true });
+    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("scene").appendChild(renderer.domElement);
 
-    scene.add(new THREE.AmbientLight(0xffffff, 1));
+    // 🔥 إضاءة قوية
+    scene.add(new THREE.AmbientLight(0xffffff, 1.5));
 
+    const light = new THREE.DirectionalLight(0xffffff, 1);
+    light.position.set(2, 2, 5);
+    scene.add(light);
+
+    // تحميل الباب
     const loader = new THREE.GLTFLoader();
 
     loader.load(
-        "ALBOMS/3D/GLB/gate_renamed.glb", // غيّر المسار إذا تريد
+        "ALBOMS/3D/GLB/gate_renamed.glb",
+
         function(gltf) {
-            scene.add(gltf.scene);
-            door = gltf.scene;
+
+            model = gltf.scene;
+
+            // 🔥 إصلاح مهم جداً (حجم + مكان)
+            model.scale.set(1.5, 1.5, 1.5);
+            model.position.set(0, -1, 0);
+
+            scene.add(model);
+
             animate();
+        },
+
+        undefined,
+        function(error) {
+            console.log("GLB ERROR:", error);
         }
     );
 
-    camera.position.z = 3;
+    camera.position.z = 4;
 }
 
+// =========================
+// أنيميشن
+// =========================
 function animate() {
+
     requestAnimationFrame(animate);
 
-    if (door) {
-        door.rotation.y += 0.002; // حركة خفيفة
+    if (model) {
+        model.rotation.y += 0.003;
     }
 
     renderer.render(scene, camera);
@@ -109,58 +136,63 @@ function animate() {
 
 init();
 
-/* =========================
-   كلمة السر
-========================= */
+// =========================
+// كلمة السر
+// =========================
 const pass = document.getElementById("pass");
 const msg = document.getElementById("msg");
 const lock = document.getElementById("lockScreen");
 
 pass.addEventListener("keydown", (e) => {
+
     if (e.key === "Enter") {
 
         if (pass.value === "shadow") {
 
-            // فتح الباب
-            lock.style.opacity = "0";
-            lock.style.transition = "1s";
+            msg.innerText = "✔ Opening Gate...";
 
             setTimeout(() => {
-                lock.style.display = "none";
-                openDoor();
-            }, 1000);
+
+                lock.style.transition = "1s";
+                lock.style.opacity = "0";
+
+                setTimeout(() => {
+                    lock.style.display = "none";
+                    openDoor();
+                }, 1000);
+
+            }, 500);
 
         } else {
-            msg.innerText = "Wrong Password";
+            msg.innerText = "❌ Wrong Password";
         }
     }
 });
 
-/* =========================
-   فتح الباب
-========================= */
+// =========================
+// فتح الباب
+// =========================
 function openDoor() {
 
-    if (!door) return;
+    if (!model) return;
 
-    let left = door.position.x - 1.5;
-    let right = door.position.x + 1.5;
+    let speed = 0;
 
-    let t = 0;
+    function anim() {
 
-    function animateDoor() {
-        t += 0.02;
+        speed += 0.02;
 
-        door.rotation.y += 0.02;
-        door.position.z += 0.02;
+        model.rotation.y += 0.03;
+        model.position.z += 0.02;
 
-        if (t < 2) {
-            requestAnimationFrame(animateDoor);
+        if (speed < 2) {
+            requestAnimationFrame(anim);
         }
     }
 
-    animateDoor();
+    anim();
 }
+
 </script>
 
 </body>
