@@ -2,218 +2,125 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Shadow Gate</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بوابة الظلال</title>
 
 <style>
-body {
+* {
     margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
     overflow: hidden;
-    font-family: Tahoma;
-
-    /* 🔴 خلفية حمراء قوية */
-    background: radial-gradient(circle at center, #ff0000 0%, #2b0000 40%, #000 100%);
+    background: black;
 }
 
-/* =========================
-   3D SCENE
-========================= */
-#scene {
-    width: 100vw;
-    height: 100vh;
-    position: fixed;
-    inset: 0;
-}
-
-/* =========================
-   PASSWORD UI
-========================= */
-#lockScreen {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.85);
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    gap: 10px;
-}
-
-input {
-    padding: 12px;
-    border: none;
-    outline: none;
-    border-radius: 8px;
-    background: #111;
-    color: white;
-    text-align: center;
-    width: 220px;
-}
-
-button {
-    padding: 10px 20px;
-    background: darkred;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-#msg {
-    color: red;
-    font-size: 14px;
+canvas {
+    display: block;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- 3D SCENE -->
-<div id="scene"></div>
+<canvas id="bg"></canvas>
 
-<!-- PASSWORD UI -->
-<div id="lockScreen">
-    <input type="password" id="pass" placeholder="Enter Password">
-    <button onclick="checkPass()">OK</button>
-    <div id="msg"></div>
-</div>
+<script type="module">
 
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/three@0.160.0/examples/js/loaders/GLTFLoader.js"></script>
+import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/loaders/GLTFLoader.js";
 
-<script>
+/* إعداد */
+const canvas = document.getElementById("bg");
 
-let scene, camera, renderer;
-let model;
-let doorLeft, doorRight;
-let selected = false;
+const renderer = new THREE.WebGLRenderer({
+    canvas: canvas,
+    antialias: true
+});
+renderer.setSize(window.innerWidth, window.innerHeight);
 
-/* =========================
-   INIT SCENE
-========================= */
-function init() {
+const scene = new THREE.Scene();
 
-    scene = new THREE.Scene();
+const camera = new THREE.PerspectiveCamera(
+    75,
+    window.innerWidth / window.innerHeight,
+    0.1,
+    1000
+);
 
-    camera = new THREE.PerspectiveCamera(
-        70,
-        window.innerWidth / window.innerHeight,
-        0.1,
-        1000
-    );
+camera.position.set(0, 1.5, 4);
 
-    renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    document.getElementById("scene").appendChild(renderer.domElement);
+/* إضاءة فخمة */
+const redLight = new THREE.PointLight(0xff0000, 2);
+redLight.position.set(5, 5, 5);
+scene.add(redLight);
 
-    // 🔥 إضاءة قوية
-    scene.add(new THREE.AmbientLight(0xffffff, 2));
+const purpleLight = new THREE.PointLight(0x8000ff, 2);
+purpleLight.position.set(-5, -5, 5);
+scene.add(purpleLight);
 
-    const light = new THREE.DirectionalLight(0xffffff, 2);
-    light.position.set(5, 5, 5);
-    scene.add(light);
+/* تحميل الموديل */
+let doorL = null;
+let doorR = null;
 
-    const loader = new THREE.GLTFLoader();
+const loader = new GLTFLoader();
 
-    loader.load(
-        "ALBOMS/3D/GLB/gate_renamed.glb",
-        function(gltf) {
+loader.load("ALBOMS/3D/GLB/gate_renamed.glb", (gltf) => {
 
-            model = gltf.scene;
+    const model = gltf.scene;
+    scene.add(model);
 
-            model.scale.set(2,2,2);
-            model.position.set(0,-1,0);
+    model.position.set(0, 0, 0);
+    model.scale.set(1.5, 1.5, 1.5);
 
-            scene.add(model);
+    model.traverse((child) => {
 
-            // أبواب
-            doorLeft = model.getObjectByName("Door_Left");
-            doorRight = model.getObjectByName("Door_Right");
-
-            animate();
+        // 🔥 الأسماء الصحيحة
+        if (child.name === "Door_L") {
+            doorL = child;
         }
-    );
 
-    camera.position.z = 4;
-}
+        if (child.name === "Door_R") {
+            doorR = child;
+        }
 
-/* =========================
-   RENDER LOOP
-========================= */
+    });
+
+});
+
+/* حركة */
+let time = 0;
+
 function animate() {
     requestAnimationFrame(animate);
 
-    // دوران خفيف قبل التفاعل
-    if (model && !selected) {
-        model.rotation.y += 0.002;
+    time += 0.02;
+
+    /* خلفية متحركة */
+    const r = Math.sin(time) * 0.5 + 0.5;
+    const b = Math.cos(time) * 0.5 + 0.5;
+
+    renderer.setClearColor(new THREE.Color(r, 0, b));
+
+    /* فتح وإغلاق الأبواب */
+    if (doorL && doorR) {
+        doorL.rotation.y = -Math.sin(time) * 1.2;
+        doorR.rotation.y = Math.sin(time) * 1.2;
     }
 
     renderer.render(scene, camera);
 }
 
-init();
+animate();
 
-/* =========================
-   فتح نافذة كلمة السر
-========================= */
-window.addEventListener("click", () => {
-
-    if (!selected) {
-        selected = true;
-        document.getElementById("lockScreen").style.display = "flex";
-    }
+/* ريسبونس */
+window.addEventListener("resize", () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
 });
-
-/* =========================
-   التحقق من كلمة السر
-========================= */
-function checkPass() {
-
-    const pass = document.getElementById("pass").value;
-    const msg = document.getElementById("msg");
-
-    if (pass === "shadow") {
-
-        msg.innerText = "✔ Opening Gate...";
-
-        setTimeout(() => {
-            document.getElementById("lockScreen").style.display = "none";
-            openDoor();
-        }, 800);
-
-    } else {
-        msg.innerText = "❌ Wrong Password";
-    }
-}
-
-/* =========================
-   فتح الباب (يمين + يسار)
-========================= */
-function openDoor() {
-
-    let t = 0;
-
-    function anim() {
-
-        t += 0.02;
-
-        if (doorLeft) {
-            doorLeft.position.x = -t * 2;
-            doorLeft.rotation.y = t;
-        }
-
-        if (doorRight) {
-            doorRight.position.x = t * 2;
-            doorRight.rotation.y = -t;
-        }
-
-        if (t < 1) {
-            requestAnimationFrame(anim);
-        }
-    }
-
-    anim();
-}
 
 </script>
 
