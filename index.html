@@ -1,134 +1,442 @@
 <!DOCTYPE html>
 <html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GLB Gate</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kage No Teio - GLB Gate</title>
+    <style>
+        /* ========================================
+           1. GLOBAL + RESET
+        ======================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Tahoma;
+        }
 
-<style>
-body { margin:0; overflow:hidden; background:black; }
-#msg{
- position:fixed; top:10px; left:10px;
- color:white; background:#0008; padding:8px;
- font-size:13px;
-}
-</style>
+        body {
+            min-height: 100vh;
+            background: black;
+            color: white;
+            overflow: hidden;
+        }
+
+        /* ========================================
+           2. KEYFRAMES
+        ======================================== */
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(2px, -2px); }
+            50% { transform: translate(-2px, 2px); }
+            75% { transform: translate(2px, 2px); }
+        }
+
+        @keyframes flash {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ========================================
+           3. DOOR SCREEN - شاشة الباب 3D
+        ======================================== */
+        .door-screen {
+            position: fixed;
+            inset: 0;
+            background: #000;
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #doorCanvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        .password-box {
+            position: absolute;
+            bottom: 15%;
+            display: flex;
+            gap: 10px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.4s;
+            z-index: 10001;
+        }
+
+        .password-box.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .password-box input {
+            padding: 12px 20px;
+            border: 2px solid #a020f0;
+            border-radius: 8px;
+            outline: none;
+            background: rgba(0,0,0,0.8);
+            color: #fff;
+            font-size: 16px;
+        }
+
+        .password-box button {
+            padding: 12px 25px;
+            background: #a020f0;
+            border: none;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .password-box button:hover {
+            background: #c040ff;
+            box-shadow: 0 0 20px #a020f0;
+        }
+
+        .enter-effect {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle, #a020f0 0%, black 70%);
+            z-index: 10001;
+            opacity: 0;
+            pointer-events: none;
+            transition: 1s;
+        }
+
+        .enter-effect.active {
+            opacity: 1;
+            transform: scale(3);
+            filter: blur(20px);
+        }
+
+        .flash {
+            position: fixed;
+            inset: 0;
+            background: #a020f0;
+            z-index: 10002;
+            animation: flash 0.6s ease;
+            pointer-events: none;
+        }
+
+        .loading-msg {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #a020f0;
+            font-size: 20px;
+            z-index: 10001;
+            text-shadow: 0 0 10px #a020f0;
+        }
+
+        /* ========================================
+           4. ERROR BOX
+        ======================================== */
+        .error-box {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.5);
+            background: rgba(0,0,0,0.95);
+            color: red;
+            padding: 20px 30px;
+            border: 2px solid red;
+            border-radius: 12px;
+            font-size: 18px;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 99999;
+        }
+
+        .error-box.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+            animation: shake 0.3s;
+        }
+
+        /* ========================================
+           5. MAIN CONTENT - بعد فتح الباب
+        ======================================== */
+        .main-content {
+            position: fixed;
+            inset: 0;
+            background: url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 1;
+        }
+
+        .main-content.active {
+            display: flex;
+        }
+
+        .logo {
+            width: clamp(180px, 45vw, 420px);
+            margin: 15px 0;
+            filter: drop-shadow(0 0 25px #ff0000);
+            opacity: 0;
+            animation: fadeUp 1s ease 0.5s forwards;
+        }
+
+        .welcome-text {
+            font-size: 32px;
+            color: #ff0000;
+            text-shadow: 0 0 20px #ff0000;
+            margin: 20px;
+            opacity: 0;
+            animation: fadeUp 1s ease 1s forwards;
+        }
+    </style>
 </head>
 <body>
+    <!-- ========================================
+         عناصر الباب
+    ======================================== -->
+    <div id="errorBox" class="error-box">❌ كلمة السر خاطئة</div>
+    <div class="enter-effect" id="enterEffect"></div>
 
-<div id="msg">loading...</div>
-<canvas id="c"></canvas>
+    <div class="door-screen" id="doorScreen">
+        <div class="loading-msg" id="loadingMsg">جاري تحميل البوابة...</div>
+        <canvas id="doorCanvas"></canvas>
 
-<script type="module">
-import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js";
-import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/loaders/GLTFLoader.js";
+        <div class="password-box" id="passBox">
+            <input type="password" id="passInput" placeholder="كلمة السر">
+            <button onclick="checkPass()">دخول</button>
+        </div>
+    </div>
 
-const msg = document.getElementById("msg");
+    <!-- ========================================
+         الأصوات
+    ======================================== -->
+    <audio id="doorSound" src="open.mp3"></audio>
+    <audio id="bgMusic" src="bg.mp3" loop></audio>
 
-/* renderer */
-const renderer = new THREE.WebGLRenderer({
- canvas: document.getElementById("c"),
- antialias:true
-});
-renderer.setSize(innerWidth, innerHeight);
+    <!-- ========================================
+         المحتوى الرئيسي بعد الباب
+    ======================================== -->
+    <div class="main-content" id="mainContent">
+        <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
+        <div class="welcome-text">☠ مرحباً بك في طائفة الظلال ☠</div>
+    </div>
 
-/* scene */
-const scene = new THREE.Scene();
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://cdn.jsdelivr.net/npm/three@0.158/build/three.module.js",
+                "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.158/examples/jsm/"
+            }
+        }
+    </script>
 
-/* camera */
-const camera = new THREE.PerspectiveCamera(60, innerWidth/innerHeight, 0.1, 1000);
-camera.position.set(0,1.5,5);
+    <script type="module">
+        import * as THREE from 'three';
+        import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-/* light */
-scene.add(new THREE.AmbientLight(0xffffff,2));
+        /* ========================================
+           1. المتغيرات العامة
+        ======================================== */
+        const doorScreen = document.getElementById("doorScreen");
+        const passBox = document.getElementById("passBox");
+        const enterEffect = document.getElementById("enterEffect");
+        const errorBox = document.getElementById("errorBox");
+        const loadingMsg = document.getElementById("loadingMsg");
+        const mainContent = document.getElementById("mainContent");
+        const doorSound = document.getElementById("doorSound");
+        const bgMusic = document.getElementById("bgMusic");
 
-const l = new THREE.PointLight(0xffffff,3);
-l.position.set(5,5,5);
-scene.add(l);
+        let doorLocked = false;
+        let doorL = null, doorR = null;
+        let scene, camera, renderer, model;
+        let doorOpening = false;
+        let doorOpenProgress = 0;
 
-/* debug cube (يتأكد إن المشهد شغال) */
-const cube = new THREE.Mesh(
- new THREE.BoxGeometry(),
- new THREE.MeshNormalMaterial()
-);
-scene.add(cube);
+        /* ========================================
+           2. إعداد Three.js
+        ======================================== */
+        function initThreeJS() {
+            // Renderer
+            renderer = new THREE.WebGLRenderer({
+                canvas: document.getElementById("doorCanvas"),
+                antialias: true,
+                alpha: true
+            });
+            renderer.setSize(innerWidth, innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-/* loader */
-let doorL=null, doorR=null;
+            // Scene
+            scene = new THREE.Scene();
 
-new GLTFLoader().load(
-"ALBOMS/3D/GLB/fantasy_door.glb",
+            // Camera
+            camera = new THREE.PerspectiveCamera(60, innerWidth / innerHeight, 0.1, 1000);
+            camera.position.set(0, 1.5, 5);
 
-(gltf)=>{
+            // Lights
+            scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+            const pointLight = new THREE.PointLight(0xa020f0, 5);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
 
- msg.innerText = "GLB loaded ✅";
+            const spotLight = new THREE.SpotLight(0xffffff, 3);
+            spotLight.position.set(0, 5, 0);
+            scene.add(spotLight);
 
- scene.remove(cube);
+            // تحميل الموديل
+            loadGLBModel();
+        }
 
- const model = gltf.scene;
- scene.add(model);
+        /* ========================================
+           3. تحميل موديل GLB
+        ======================================== */
+        function loadGLBModel() {
+            const loader = new GLTFLoader();
+            
+            // ⚠️ غير هذا المسار لمسار ملفك
+            loader.load(
+                "ALBOMS/3D/GLB/fantasy_door.glb",
+                (gltf) => {
+                    loadingMsg.innerText = "✅ تم تحميل البوابة";
+                    setTimeout(() => loadingMsg.style.display = "none", 1000);
 
- model.scale.set(1,1,1);
+                    model = gltf.scene;
+                    scene.add(model);
 
- /* إجبار الموديل يبان */
- const box = new THREE.Box3().setFromObject(model);
- const center = box.getCenter(new THREE.Vector3());
- const size = box.getSize(new THREE.Vector3()).length();
+                    // تعديل الحجم والموقع
+                    const box = new THREE.Box3().setFromObject(model);
+                    const center = box.getCenter(new THREE.Vector3());
+                    const size = box.getSize(new THREE.Vector3()).length();
+                    
+                    model.position.sub(center);
+                    model.scale.setScalar(1);
+                    
+                    camera.position.set(0, size * 0.3, size * 1.2);
+                    camera.lookAt(0, 0, 0);
 
- model.position.sub(center);
+                    // البحث عن الأبواب
+                    model.traverse((obj) => {
+                        console.log("Object:", obj.name);
+                        if (obj.name.toLowerCase().includes("door_l") || obj.name.toLowerCase().includes("left")) {
+                            doorL = obj;
+                            console.log("✅ Door Left Found:", obj.name);
+                        }
+                        if (obj.name.toLowerCase().includes("door_r") || obj.name.toLowerCase().includes("right")) {
+                            doorR = obj;
+                            console.log("✅ Door Right Found:", obj.name);
+                        }
+                    });
 
- camera.position.set(0, size*0.5, size*1.5);
- camera.lookAt(0,0,0);
+                    // لو ما لقينا الأبواب، نحرك الموديل كامل
+                    if (!doorL || !doorR) {
+                        console.warn("⚠️ لم أجد Door_L أو Door_R، سأحرك الموديل كامل");
+                        doorL = model;
+                    }
 
- /* أسماء */
- model.traverse(o=>{
-  console.log("OBJ:",o.name);
+                    // اظهر صندوق الباسوورد
+                    setTimeout(() => passBox.classList.add("active"), 500);
+                },
+                (xhr) => {
+                    const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
+                    loadingMsg.innerText = `جاري التحميل... ${percent}%`;
+                },
+                (err) => {
+                    loadingMsg.innerText = "❌ فشل تحميل البوابة";
+                    console.error("GLB Load Error:", err);
+                }
+            );
+        }
 
-  if(o.name.includes("Door_L")) doorL=o;
-  if(o.name.includes("Door_R")) doorR=o;
- });
+        /* ========================================
+           4. الأنيميشن
+        ======================================== */
+        function animate() {
+            requestAnimationFrame(animate);
 
-},
+            // فتح الباب
+            if (doorOpening && doorOpenProgress < Math.PI / 2) {
+                doorOpenProgress += 0.03;
+                
+                if (doorL) doorL.rotation.y = -doorOpenProgress;
+                if (doorR) doorR.rotation.y = doorOpenProgress;
+            }
 
-undefined,
+            renderer.render(scene, camera);
+        }
 
-(err)=>{
- msg.innerText = "❌ failed to load GLB";
- console.error(err);
-}
-);
+        /* ========================================
+           5. التحقق من كلمة السر
+        ======================================== */
+        window.checkPass = function() {
+            const val = document.getElementById("passInput").value;
+            
+            if (val === "الظلال666") {
+                doorLocked = true;
+                passBox.classList.remove("active");
 
-/* animate */
-let t=0;
+                // فلاش
+                const flash = document.createElement("div");
+                flash.className = "flash";
+                document.body.appendChild(flash);
+                setTimeout(() => flash.remove(), 600);
 
-function animate(){
- requestAnimationFrame(animate);
- t+=0.02;
+                // صوت الباب
+                doorSound.currentTime = 0;
+                doorSound.play().catch(() => {});
 
- cube.rotation.y += 0.03;
+                // افتح الباب
+                setTimeout(() => {
+                    doorOpening = true;
+                }, 300);
 
- if(doorL && doorR){
-  doorL.rotation.y = -Math.sin(t);
-  doorR.rotation.y = Math.sin(t);
- }
+                // تأثير الدخول
+                setTimeout(() => {
+                    enterEffect.classList.add("active");
+                }, 1500);
 
- renderer.setClearColor(new THREE.Color(
-  Math.sin(t)*0.5+0.5,
-  0,
-  Math.cos(t)*0.5+0.5
- ));
+                // اخفاء شاشة الباب + اظهار المحتوى
+                setTimeout(() => {
+                    doorScreen.style.display = "none";
+                    mainContent.classList.add("active");
+                    bgMusic.volume = 0.6;
+                    bgMusic.play().catch(() => {});
+                }, 3500);
 
- renderer.render(scene,camera);
-}
-animate();
+            } else {
+                showError();
+            }
+        }
 
-/* resize */
-addEventListener("resize",()=>{
- renderer.setSize(innerWidth, innerHeight);
- camera.aspect = innerWidth/innerHeight;
- camera.updateProjectionMatrix();
-});
+        function showError() {
+            errorBox.classList.add("show");
+            setTimeout(() => errorBox.classList.remove("show"), 1500);
+        }
 
-</script>
+        /* ========================================
+           6. Resize
+        ======================================== */
+        window.addEventListener("resize", () => {
+            camera.aspect = innerWidth / innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(innerWidth, innerHeight);
+        });
+
+        /* ========================================
+           7. بدء التشغيل
+        ======================================== */
+        initThreeJS();
+        animate();
+
+    </script>
 </body>
 </html>
