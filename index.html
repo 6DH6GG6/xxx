@@ -2,21 +2,21 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Door Gate</title>
+<title>Red Gate</title>
 
 <style>
 body {
     margin: 0;
     overflow: hidden;
-    background: black;
+    background: radial-gradient(circle, #3a0000, #000);
     font-family: Tahoma;
 }
 
-/* شاشة القفل */
+/* شاشة الدخول */
 #lockScreen {
     position: fixed;
     inset: 0;
-    background: radial-gradient(circle, #000, #120012);
+    background: rgba(0,0,0,0.9);
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -50,7 +50,7 @@ input {
 
 <body>
 
-<!-- شاشة الدخول -->
+<!-- شاشة القفل -->
 <div id="lockScreen">
     <input type="password" id="pass" placeholder="Enter Password">
     <div id="msg"></div>
@@ -67,15 +67,12 @@ input {
 let scene, camera, renderer;
 let model;
 
-// =========================
-// تشغيل المشهد
-// =========================
 function init() {
 
     scene = new THREE.Scene();
 
     camera = new THREE.PerspectiveCamera(
-        75,
+        70,
         window.innerWidth / window.innerHeight,
         0.1,
         1000
@@ -85,14 +82,14 @@ function init() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById("scene").appendChild(renderer.domElement);
 
-    // 🔥 إضاءة قوية
-    scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+    // 🔴 إضاءة قوية جداً (ضرورية لظهور GLB)
+    scene.add(new THREE.AmbientLight(0xffffff, 2));
 
-    const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(2, 2, 5);
+    const light = new THREE.DirectionalLight(0xffffff, 2);
+    light.position.set(5, 5, 5);
     scene.add(light);
 
-    // تحميل الباب
+    // تحميل البوابة
     const loader = new THREE.GLTFLoader();
 
     loader.load(
@@ -102,8 +99,8 @@ function init() {
 
             model = gltf.scene;
 
-            // 🔥 إصلاح مهم جداً (حجم + مكان)
-            model.scale.set(1.5, 1.5, 1.5);
+            // 🔥 إصلاح الحجم والموقع
+            model.scale.set(2, 2, 2);
             model.position.set(0, -1, 0);
 
             scene.add(model);
@@ -112,23 +109,22 @@ function init() {
         },
 
         undefined,
+
         function(error) {
-            console.log("GLB ERROR:", error);
+            console.error("❌ GLB Load Error:", error);
         }
     );
 
-    camera.position.z = 4;
+    camera.position.set(0, 0, 4);
+    camera.lookAt(0, 0, 0);
 }
 
-// =========================
-// أنيميشن
-// =========================
 function animate() {
 
     requestAnimationFrame(animate);
 
     if (model) {
-        model.rotation.y += 0.003;
+        model.rotation.y += 0.002; // حركة خفيفة
     }
 
     renderer.render(scene, camera);
@@ -136,9 +132,9 @@ function animate() {
 
 init();
 
-// =========================
-// كلمة السر
-// =========================
+/* =========================
+   كلمة السر
+========================= */
 const pass = document.getElementById("pass");
 const msg = document.getElementById("msg");
 const lock = document.getElementById("lockScreen");
@@ -149,7 +145,7 @@ pass.addEventListener("keydown", (e) => {
 
         if (pass.value === "shadow") {
 
-            msg.innerText = "✔ Opening Gate...";
+            msg.innerText = "✔ Opening...";
 
             setTimeout(() => {
 
@@ -169,23 +165,23 @@ pass.addEventListener("keydown", (e) => {
     }
 });
 
-// =========================
-// فتح الباب
-// =========================
+/* =========================
+   فتح الباب
+========================= */
 function openDoor() {
 
     if (!model) return;
 
-    let speed = 0;
+    let t = 0;
 
     function anim() {
 
-        speed += 0.02;
+        t += 0.02;
 
-        model.rotation.y += 0.03;
         model.position.z += 0.02;
+        model.rotation.y += 0.03;
 
-        if (speed < 2) {
+        if (t < 2) {
             requestAnimationFrame(anim);
         }
     }
