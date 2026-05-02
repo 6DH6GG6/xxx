@@ -25,8 +25,7 @@
         }
 
         @keyframes formShow {
-            0% { opacity: 0; transform: translateY(50px) scale(0.8); filter: blur(10px); }
-            60% { opacity: 1; transform: translateY(-10px) scale(1.05); filter: blur(0); }
+            0% { opacity: 0; transform: translateY(30px) scale(0.9); filter: blur(5px); }
             100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
@@ -34,6 +33,37 @@
             0% { transform: scale(1); }
             50% { transform: scale(1.03); }
             100% { transform: scale(1); }
+        }
+
+        .profile-header {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            z-index: 10005;
+            background: rgba(0,0,0,0.7);
+            padding: 8px 16px 8px 8px;
+            border-radius: 50px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+        }
+
+        .profile-img {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            border: 2px solid #ff0000;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(255,0,0,0.6);
+        }
+
+        .profile-name {
+            color: #ff0000;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff0000;
         }
 
         .door-screen {
@@ -82,7 +112,7 @@
         }
 
         #doorCanvas.clicked {
-            animation: clickScale 0.3s ease;
+            animation: clickScale 0.25s ease;
         }
 
         .click-hint {
@@ -111,7 +141,7 @@
 
         .gate-form-box.active {
             display: block;
-            animation: formShow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+            animation: formShow 0.25s ease-out forwards;
         }
 
         .gate-form-title {
@@ -258,6 +288,11 @@
     </style>
 </head>
 <body>
+    <div class="profile-header">
+        <img src="profile.jpg" class="profile-img" alt="Profile">
+        <div class="profile-name">Kage No Teio</div>
+    </div>
+
     <div class="white-flash" id="whiteFlash"></div>
 
     <div class="door-screen" id="doorScreen">
@@ -400,12 +435,12 @@
             if (formShown) return;
             
             doorCanvas.classList.add("clicked");
-            setTimeout(() => doorCanvas.classList.remove("clicked"), 300);
+            setTimeout(() => doorCanvas.classList.remove("clicked"), 250);
             
             setTimeout(() => {
                 formShown = true;
                 gateFormBox.classList.add("active");
-            }, 1000);
+            }, 300);
         }
 
         window.hideForm = function() {
