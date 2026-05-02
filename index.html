@@ -63,7 +63,7 @@
         .door-bg {
             position: absolute;
             inset: 0;
-            background: url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;
+            background: url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
             z-index: 1;
             filter: brightness(0.3);
         }
@@ -325,7 +325,7 @@
         </div>
     </div>
 
-    <audio id="doorSound" src="ALBOMS/AUDIOS/MP3/screen-20260502-213818.mp3"></audio>
+    <audio id="doorSound" src="open.mp3"></audio>
     <audio id="bgMusic" src="bg.mp3" loop></audio>
 
     <div class="main-content" id="mainContent">
@@ -364,6 +364,12 @@
         let doorOpenProgress = 0;
         let canClickDoor = false;
         let passwordEntered = false;
+
+        // مضبوط على صوت 5 ثواني
+        const DOOR_OPEN_SPEED = 0.0058; // يفتح في 5 ثواني بالضبط
+        const DOOR_MAX_ANGLE = Math.PI / 1.8; 
+        const FLASH_DELAY = 4200; // الفلاش يبدأ عند 4.2 ثانية
+        const ENTER_DELAY = 5400; // الدخول عند 5.4 ثانية بعد نهاية الصوت
 
         function initThreeJS() {
             renderer = new THREE.WebGLRenderer({
@@ -411,9 +417,7 @@
                             obj.material = obj.material.clone();
                             obj.material.color.setHex(0xff0000);
                             obj.material.emissive = new THREE.Color(0x440000);
-                            obj.material.emissiveIntensity = 0.5;
-                            obj.material.metalness = 0.3;
-                            obj.material.roughness = 0.6;
+                            obj.material.emissiveIntensity = 0.3;
                         }
                     });
 
@@ -458,8 +462,8 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            if (doorOpening && doorOpenProgress < Math.PI / 1.8) {
-                doorOpenProgress += 0.025;
+            if (doorOpening && doorOpenProgress < DOOR_MAX_ANGLE) {
+                doorOpenProgress += DOOR_OPEN_SPEED;
                 
                 if (doorL && doorR) {
                     doorL.rotation.y = -doorOpenProgress;
@@ -518,14 +522,14 @@
 
             setTimeout(() => {
                 whiteFlash.classList.add("active");
-            }, 800);
+            }, FLASH_DELAY);
 
             setTimeout(() => {
                 doorScreen.style.display = "none";
                 mainContent.classList.add("active");
                 bgMusic.volume = 0.6;
                 bgMusic.play().catch(() => {});
-            }, 2000);
+            }, ENTER_DELAY);
         }
 
         document.getElementById("passInput").addEventListener("keypress", (e) => {
