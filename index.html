@@ -97,7 +97,6 @@
             pointer-events: none;
         }
 
- /* القائمة الحمراء الوحيدة */
 .gate-form-box {
             position: absolute;
             bottom: 12%;
@@ -238,18 +237,6 @@
             animation: whiteFlashExpand 1.2s ease-out forwards;
         }
 
-.loading-msg {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #ff0000;
-            font-size: 36px;
-            font-weight: bold;
-            z-index: 10001;
-            text-shadow: 0 0 20px #ff0000;
-        }
-
 .gate-modal-overlay {
             position: fixed;
             inset: 0;
@@ -326,7 +313,6 @@
             box-shadow: 0 0 35px #ff0000;
         }
 
-        /* موقعك الأصلي */
 .ripple{ position:fixed; width:10px; height:10px; border-radius:50%; border:2px solid rgba(255,0,0,0.8); transform:translate(-50%,-50%); pointer-events:none; animation:waveRipple 1s ease-out; z-index:9998; }
 .menu-page{ position:fixed; inset:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; display:flex; flex-direction:column; opacity:0; transform:scale(1.1); pointer-events:none; transition:0.4s ease; }
 .menu-page.active{ opacity:1; transform:scale(1); pointer-events:auto; }
@@ -374,7 +360,6 @@
     </style>
 </head>
 <body>
-    <!-- نظام البوابة -->
     <div class="gate-modal-overlay" id="gateModalOverlay"></div>
 
     <div class="gate-modal-box error" id="errorModal">
@@ -396,7 +381,6 @@
     <div class="door-screen" id="doorScreen">
         <div class="door-bg"></div>
         <div class="door-glow"></div>
-        <div class="loading-msg" id="loadingMsg">0%</div>
         <div class="click-hint" id="clickHint">اضغط على البوابة للمتابعة</div>
         <canvas id="doorCanvas"></canvas>
 
@@ -416,7 +400,6 @@
     <audio id="doorSound" src="ALBOMS/AUDIOS/MP3/screen-20260502-213818.mp3"></audio>
     <audio id="bgMusic" src="bg.mp3" loop></audio>
 
-    <!-- موقعك الأصلي -->
     <div id="mainSite">
         <div class="wave-layer" id="waveLayer"></div>
         <div class="bg-overlay"></div>
@@ -447,7 +430,6 @@
         const gateFormBox = document.getElementById("gateFormBox");
         const whiteFlash = document.getElementById("whiteFlash");
         const clickHint = document.getElementById("clickHint");
-        const loadingMsg = document.getElementById("loadingMsg");
         const mainSite = document.getElementById("mainSite");
         const doorSound = document.getElementById("doorSound");
         const bgMusic = document.getElementById("bgMusic");
@@ -495,21 +477,15 @@
             scene.add(dirLight);
 
             loadGLBModel();
-
-            // الضغط على أي مكان في البوابة يفتح القائمة الحمراء فقط
             doorScreen.addEventListener('click', onDoorClick);
         }
 
         function loadGLBModel() {
             const loader = new GLTFLoader();
-            loadingMsg.innerText = "0%";
 
             loader.load(
                 "ALBOMS/3D/GLB/بوابة_العبور.glb",
                 (gltf) => {
-                    loadingMsg.innerText = "100%";
-                    setTimeout(() => loadingMsg.style.display = "none", 500);
-
                     model = gltf.scene;
                     scene.add(model);
                     model.scale.x = -1;
@@ -542,13 +518,10 @@
                     if (!doorL &&!doorR) doorL = model;
                     canClickDoor = true;
                 },
-                (xhr) => {
-                    const percent = (xhr.loaded / xhr.total * 100).toFixed(0);
-                    loadingMsg.innerText = `${percent}%`;
-                },
+                null,
                 (err) => {
-                    loadingMsg.innerText = "❌";
                     console.error("GLB Load Error:", err);
+                    canClickDoor = true;
                 }
             );
         }
@@ -664,7 +637,6 @@
         initThreeJS();
         animate();
 
-        // كود موقعك الأصلي
         function initMainSite() {
             let cursor = document.getElementById("cursor");
             document.addEventListener("mousemove", e => {
@@ -734,7 +706,8 @@
                 createWave(e);
             });
             function createWave(e){
-                const wave = document.createElement("
+                const wave = document.createElement("div");
+                wave.className = "wave";
                 wave.style.left = e.clientX + "px";
                 wave.style.top = e.clientY + "px";
                 waveLayer.appendChild(wave);
