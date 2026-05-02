@@ -42,6 +42,12 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
+        @keyframes gateFormShow {
+            0% { opacity: 0; transform: translateY(50px) scale(0.8); filter: blur(10px); }
+            60% { opacity: 1; transform: translateY(-10px) scale(1.05); filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
 .door-screen {
             position: fixed;
             inset: 0;
@@ -108,16 +114,14 @@
             box-shadow: 0 0 40px rgba(255,0,0,0.8), inset 0 0 20px rgba(255,0,0,0.2);
             opacity: 0;
             transform: translateY(30px) scale(0.9);
-            transition: 0.5s ease;
             z-index: 10001;
             cursor: default;
             display: none;
         }
 
 .gate-form-box.active {
-            opacity: 1;
-            transform: translateY(0) scale(1);
             display: block;
+            animation: gateFormShow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
         }
 
 .gate-form-title {
@@ -577,8 +581,7 @@
             }
 
             visitorName = name;
-            gateFormBox.classList.remove("active");
-            formShown = false;
+            hideForm();
 
             if (pass === "الظلال666") {
                 showSuccessModal();
@@ -586,6 +589,18 @@
                 showErrorModal();
             }
         }
+
+        function hideForm() {
+            gateFormBox.classList.remove("active");
+            formShown = false;
+        }
+
+        // الضغط خارج القائمة يخفيها
+        document.addEventListener('click', function(e) {
+            if (formShown &&!gateFormBox.contains(e.target) &&!doorScreen.contains(e.target)) {
+                hideForm();
+            }
+        });
 
         function showErrorModal() {
             gateModalOverlay.classList.add("show");
