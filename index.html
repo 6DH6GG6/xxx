@@ -63,7 +63,7 @@
         .door-bg {
             position: absolute;
             inset: 0;
-            background: url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;
+            background: url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
             z-index: 1;
             filter: brightness(0.3);
         }
@@ -75,7 +75,7 @@
             transform: translate(-50%, -50%);
             width: 60vw;
             height: 80vh;
-            background: radial-gradient(ellipse, rgba(160,32,240,0.6) 0%, transparent 70%);
+            background: radial-gradient(ellipse, rgba(255,0,0,0.6) 0%, transparent 70%);
             z-index: 2;
             animation: glowPulse 3s ease-in-out infinite;
             pointer-events: none;
@@ -92,9 +92,9 @@
         .click-hint {
             position: absolute;
             top: 20%;
-            color: #a020f0;
+            color: #ff0000;
             font-size: 18px;
-            text-shadow: 0 0 15px #a020f0;
+            text-shadow: 0 0 15px #ff0000;
             z-index: 10001;
             opacity: 0;
             animation: fadeUp 1s ease 1s forwards;
@@ -119,18 +119,18 @@
 
         .password-box input {
             padding: 12px 20px;
-            border: 2px solid #a020f0;
+            border: 2px solid #ff0000;
             border-radius: 8px;
             outline: none;
             background: rgba(0,0,0,0.8);
             color: #fff;
             font-size: 16px;
-            box-shadow: 0 0 20px rgba(160,32,240,0.3);
+            box-shadow: 0 0 20px rgba(255,0,0,0.3);
         }
 
         .password-box button {
             padding: 12px 25px;
-            background: #a020f0;
+            background: #ff0000;
             border: none;
             color: white;
             border-radius: 8px;
@@ -141,8 +141,8 @@
         }
 
         .password-box button:hover {
-            background: #c040ff;
-            box-shadow: 0 0 25px #a020f0;
+            background: #ff3030;
+            box-shadow: 0 0 25px #ff0000;
             transform: scale(1.05);
         }
 
@@ -169,10 +169,10 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            color: #a020f0;
+            color: #ff0000;
             font-size: 20px;
             z-index: 10001;
-            text-shadow: 0 0 10px #a020f0;
+            text-shadow: 0 0 10px #ff0000;
         }
 
         .modal-overlay {
@@ -195,7 +195,7 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, rgba(20,0,30,0.98), rgba(0,0,0,0.98));
+            background: linear-gradient(135deg, rgba(30,0,0,0.98), rgba(0,0,0,0.98));
             border: 3px solid;
             border-radius: 15px;
             padding: 40px 50px;
@@ -218,8 +218,8 @@
         }
 
         .modal-box.success {
-            border-color: #a020f0;
-            box-shadow: 0 0 40px rgba(160,32,240,0.6);
+            border-color: #ff0000;
+            box-shadow: 0 0 40px rgba(255,0,0,0.6);
         }
 
         .modal-icon {
@@ -244,7 +244,7 @@
 
         .modal-btn {
             padding: 12px 35px;
-            background: linear-gradient(135deg, #a020f0, #7a1bb0);
+            background: linear-gradient(135deg, #ff0000, #cc0000);
             border: none;
             color: white;
             border-radius: 8px;
@@ -256,14 +256,6 @@
 
         .modal-btn:hover {
             transform: scale(1.08);
-            box-shadow: 0 0 25px #a020f0;
-        }
-
-        .modal-box.error .modal-btn {
-            background: linear-gradient(135deg, #ff0000, #cc0000);
-        }
-
-        .modal-box.error .modal-btn:hover {
             box-shadow: 0 0 25px #ff0000;
         }
 
@@ -314,7 +306,7 @@
 
     <div class="modal-box success" id="successModal">
         <div class="modal-icon">👑</div>
-        <div class="modal-title" style="color: #a020f0;">مرحباً بك</div>
+        <div class="modal-title" style="color: #ff0000;">مرحباً بك</div>
         <div class="modal-text">أهلاً بك في المملكة<br>نحن نرحب بك أيها الظل</div>
         <button class="modal-btn" onclick="enterKingdom()">دخول المملكة</button>
     </div>
@@ -337,7 +329,7 @@
     <audio id="bgMusic" src="bg.mp3" loop></audio>
 
     <div class="main-content" id="mainContent">
-        <img src="ALBOMS/IMAGE/SiteBackground/file_00000000fc0c71f79e36a77cf0fc8677.png" class="logo">
+        <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
         <div class="welcome-text">☠ مرحباً بك في طائفة الظلال ☠</div>
     </div>
 
@@ -388,7 +380,7 @@
             camera.position.set(0, 1.5, 5);
 
             scene.add(new THREE.AmbientLight(0xffffff, 1.2));
-            const pointLight = new THREE.PointLight(0xa020f0, 8, 100);
+            const pointLight = new THREE.PointLight(0xff0000, 8, 100);
             pointLight.position.set(5, 5, 5);
             scene.add(pointLight);
             
@@ -406,13 +398,24 @@
             loader.load(
                 "ALBOMS/3D/GLB/بوابة_العبور.glb",
                 (gltf) => {
-                    loadingMsg.innerText = "";
+                    loadingMsg.innerText = "✅ تم تحميل البوابة";
                     setTimeout(() => loadingMsg.style.display = "none", 1000);
 
                     model = gltf.scene;
                     scene.add(model);
 
                     model.scale.x = -1;
+
+                    model.traverse((obj) => {
+                        if (obj.isMesh) {
+                            obj.material = obj.material.clone();
+                            obj.material.color.setHex(0xff0000);
+                            obj.material.emissive = new THREE.Color(0x440000);
+                            obj.material.emissiveIntensity = 0.5;
+                            obj.material.metalness = 0.3;
+                            obj.material.roughness = 0.6;
+                        }
+                    });
 
                     const box = new THREE.Box3().setFromObject(model);
                     const center = box.getCenter(new THREE.Vector3());
