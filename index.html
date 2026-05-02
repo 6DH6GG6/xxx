@@ -42,7 +42,7 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
-   .door-screen {
+  .door-screen {
             position: fixed;
             inset: 0;
             background: #000;
@@ -51,17 +51,19 @@
             justify-content: center;
             align-items: center;
             flex-direction: column;
+            cursor: pointer;
         }
 
-   .door-bg {
+  .door-bg {
             position: absolute;
             inset: 0;
             background: url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;
             z-index: 1;
             filter: brightness(0.3);
+            pointer-events: none;
         }
 
-   .door-glow {
+  .door-glow {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -80,9 +82,10 @@
             display: block;
             z-index: 3;
             position: relative;
+            pointer-events: none;
         }
 
-   .click-hint {
+  .click-hint {
             position: absolute;
             top: 20%;
             color: #ff0000;
@@ -94,7 +97,7 @@
             pointer-events: none;
         }
 
-   .gate-form-box {
+  .gate-form-box {
             position: absolute;
             bottom: 12%;
             width: 380px;
@@ -107,14 +110,15 @@
             transform: translateY(30px);
             transition: 0.5s ease;
             z-index: 10001;
+            cursor: default;
         }
 
-   .gate-form-box.active {
+  .gate-form-box.active {
             opacity: 1;
             transform: translateY(0);
         }
 
-   .gate-form-title {
+  .gate-form-title {
             color: #ff0000;
             font-size: 20px;
             text-align: center;
@@ -122,7 +126,7 @@
             text-shadow: 0 0 10px #ff0000;
         }
 
-   .gate-input {
+  .gate-input {
             width: 100%;
             padding: 12px 15px;
             margin-bottom: 12px;
@@ -135,11 +139,11 @@
             box-shadow: 0 0 15px rgba(255,0,0,0.2);
         }
 
-   .gate-input::placeholder {
+  .gate-input::placeholder {
             color: #aaa;
         }
 
-   .gate-options-btn {
+  .gate-options-btn {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
@@ -152,23 +156,23 @@
             transition: 0.3s;
         }
 
-   .gate-options-btn:hover {
+  .gate-options-btn:hover {
             background: rgba(255,0,0,0.2);
             box-shadow: 0 0 20px rgba(255,0,0,0.4);
         }
 
-   .gate-options-list {
+  .gate-options-list {
             max-height: 0;
             overflow: hidden;
             transition: 0.4s ease;
             margin-bottom: 12px;
         }
 
-   .gate-options-list.show {
+  .gate-options-list.show {
             max-height: 100px;
         }
 
-   .gate-option {
+  .gate-option {
             padding: 10px;
             margin-bottom: 8px;
             background: rgba(0,0,0,0.7);
@@ -180,13 +184,13 @@
             text-align: center;
         }
 
-   .gate-option:hover,.gate-option.selected {
+  .gate-option:hover,.gate-option.selected {
             background: rgba(255,0,0,0.3);
             color: white;
             box-shadow: 0 0 15px rgba(255,0,0,0.4);
         }
 
-   .gate-submit-btn {
+  .gate-submit-btn {
             width: 100%;
             padding: 13px;
             background: #ff0000;
@@ -199,13 +203,13 @@
             transition: 0.3s;
         }
 
-   .gate-submit-btn:hover {
+  .gate-submit-btn:hover {
             background: #ff3030;
             box-shadow: 0 0 25px #ff0000;
             transform: scale(1.02);
         }
 
-   .white-flash {
+  .white-flash {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -219,11 +223,11 @@
             opacity: 0;
         }
 
-   .white-flash.active {
+  .white-flash.active {
             animation: whiteFlashExpand 1.2s ease-out forwards;
         }
 
-   .loading-msg {
+  .loading-msg {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -235,7 +239,7 @@
             text-shadow: 0 0 15px #ff0000;
         }
 
-   .gate-modal-overlay {
+  .gate-modal-overlay {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -245,12 +249,12 @@
             transition: 0.3s;
         }
 
-   .gate-modal-overlay.show {
+  .gate-modal-overlay.show {
             opacity: 1;
             pointer-events: all;
         }
 
-   .gate-modal-box {
+  .gate-modal-box {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -267,42 +271,42 @@
             box-shadow: 0 0 40px rgba(0,0,0,0.8);
         }
 
-   .gate-modal-box.show {
+  .gate-modal-box.show {
             animation: modalIn 0.4s ease forwards;
             pointer-events: all;
         }
 
-   .gate-modal-box.error {
+  .gate-modal-box.error {
             border-color: #ff0000;
             box-shadow: 0 0 40px rgba(255,0,0,0.5);
         }
 
-   .gate-modal-box.success {
+  .gate-modal-box.success {
             border-color: #ff0000;
             box-shadow: 0 0 40px rgba(255,0,0,0.6);
         }
 
-   .gate-modal-icon {
+  .gate-modal-icon {
             font-size: 60px;
             margin-bottom: 20px;
             filter: drop-shadow(0 0 20px currentColor);
         }
 
-   .gate-modal-title {
+  .gate-modal-title {
             font-size: 28px;
             font-weight: bold;
             margin-bottom: 15px;
             text-shadow: 0 0 15px currentColor;
         }
 
-   .gate-modal-text {
+  .gate-modal-text {
             font-size: 18px;
             line-height: 1.6;
             margin-bottom: 25px;
             color: #ddd;
         }
 
-   .gate-modal-btn {
+  .gate-modal-btn {
             padding: 12px 35px;
             background: linear-gradient(135deg, #ff0000, #cc0000);
             border: none;
@@ -314,53 +318,53 @@
             transition: 0.3s;
         }
 
-   .gate-modal-btn:hover {
+  .gate-modal-btn:hover {
             transform: scale(1.08);
             box-shadow: 0 0 25px #ff0000;
         }
 
         /* موقعك الأصلي */
-   .ripple{ position:fixed; width:10px; height:10px; border-radius:50%; border:2px solid rgba(255,0,0,0.8); transform:translate(-50%,-50%); pointer-events:none; animation:waveRipple 1s ease-out; z-index:9998; }
-   .menu-page{ position:fixed; inset:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; display:flex; flex-direction:column; opacity:0; transform:scale(1.1); pointer-events:none; transition:0.4s ease; }
-   .menu-page.active{ opacity:1; transform:scale(1); pointer-events:auto; }
-   .menu-header{ background:linear-gradient(90deg,#8b0000,#ff1a1a); padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 0 20px red; }
-   .menu-header h2{ color:white; font-size:20px; }
-   .menu-header button{ background:black; color:red; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; }
-   .menu-content{ flex:1; display:flex; justify-content:center; align-items:center; color:white; font-size:18px; text-align:center; padding:20px; }
-   .exit-popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:1000; }
-   .exit-popup.active{ opacity:1; pointer-events:auto; }
-   .exit-box{ background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat; padding:40px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; }
-   .exit-buttons{ margin-top:20px; display:flex; gap:15px; justify-content:center; }
-   .exit-buttons button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
+  .ripple{ position:fixed; width:10px; height:10px; border-radius:50%; border:2px solid rgba(255,0,0,0.8); transform:translate(-50%,-50%); pointer-events:none; animation:waveRipple 1s ease-out; z-index:9998; }
+  .menu-page{ position:fixed; inset:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; display:flex; flex-direction:column; opacity:0; transform:scale(1.1); pointer-events:none; transition:0.4s ease; }
+  .menu-page.active{ opacity:1; transform:scale(1); pointer-events:auto; }
+  .menu-header{ background:linear-gradient(90deg,#8b0000,#ff1a1a); padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 0 20px red; }
+  .menu-header h2{ color:white; font-size:20px; }
+  .menu-header button{ background:black; color:red; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; }
+  .menu-content{ flex:1; display:flex; justify-content:center; align-items:center; color:white; font-size:18px; text-align:center; padding:20px; }
+  .exit-popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:1000; }
+  .exit-popup.active{ opacity:1; pointer-events:auto; }
+  .exit-box{ background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat; padding:40px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; }
+  .exit-buttons{ margin-top:20px; display:flex; gap:15px; justify-content:center; }
+  .exit-buttons button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
         @keyframes rippleAnim{ 0%{ width:0; height:0; opacity:0.6; } 100%{ width:200px; height:200px; opacity:0; } }
         *{ margin:0; padding:0; box-sizing:border-box; font-family:Tahoma; }
         body{ min-height:100vh; display:flex; flex-direction:column; align-items:center; background:url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat; color:white; overflow-x:hidden; cursor:none; }
-   .bg-overlay{ position:fixed; inset:0; background:linear-gradient( to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85) ); z-index:1; pointer-events:none; }
-   .stars{ position:fixed; inset:0; background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif'); opacity:0.12; animation:moveStars 120s linear infinite; z-index:2; }
+  .bg-overlay{ position:fixed; inset:0; background:linear-gradient( to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85) ); z-index:1; pointer-events:none; }
+  .stars{ position:fixed; inset:0; background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif'); opacity:0.12; animation:moveStars 120s linear infinite; z-index:2; }
         @keyframes moveStars{ from{background-position:0 0;} to{background-position:1000px 1000px;} }
-   .cursor{ display:none; }
-   .logo{ width:clamp(180px,45vw,420px); margin-top:15px; margin-bottom:15px; filter:drop-shadow(0 0 25px #ff0000); z-index:2; }
-   .container{ z-index:2; width:100%; max-width:1100px; padding:10px; }
-   .menu{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-   .btn{ position:relative; aspect-ratio:4/3; background-size:cover; background-position:center; cursor:pointer; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); overflow:hidden; opacity:0; transform:translateY(40px); animation:fadeUp 0.8s ease forwards; }
-   .btn:nth-child(1){animation-delay:0.2s;}.btn:nth-child(2){animation-delay:0.4s;}.btn:nth-child(3){animation-delay:0.6s;}.btn:nth-child(4){animation-delay:0.8s;}.btn:nth-child(5){animation-delay:1s;}.btn:nth-child(6){animation-delay:1.2s;}
-   .btn:hover{ transform:scale(1.05); box-shadow:0 0 20px #ff0000; }
-   .popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:999; }
-   .popup.active{ opacity:1; pointer-events:auto; }
-   .popup-box{ background:rgba(10,10,10,0.95); padding:30px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; transform:scale(0.7); opacity:0; transition:0.4s; }
-   .popup.active.popup-box{ transform:scale(1); opacity:1; }
-   .popup-box h2{ color:#ff0000; margin-bottom:10px; }
-   .popup-box p{ color:#aaa; margin-bottom:20px; }
-   .popup-box button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
-   .frame-box{ width:100%; max-width:1000px; height:80px; margin:10px 0 20px 0; position:relative; overflow:hidden; background:rgba(0,0,0,0.2); border:1px solid rgba(0,234,255,0.3); border-radius:12px; box-shadow:0 0 15px rgba(0,234,255,0.2); z-index:2; }
-   .frame-gif{ position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.25; }
-   .frame-text{ position:absolute; width:100%; height:100%; display:flex; align-items:center; overflow:hidden; }
-   .frame-text span{ position:absolute; color:#ff0000; font-weight:bold; font-size:18px; white-space:nowrap; text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; animation: scrollText 10s linear infinite, glitch 1s infinite; }
+  .cursor{ display:none; }
+  .logo{ width:clamp(180px,45vw,420px); margin-top:15px; margin-bottom:15px; filter:drop-shadow(0 0 25px #ff0000); z-index:2; }
+  .container{ z-index:2; width:100%; max-width:1100px; padding:10px; }
+  .menu{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .btn{ position:relative; aspect-ratio:4/3; background-size:cover; background-position:center; cursor:pointer; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); overflow:hidden; opacity:0; transform:translateY(40px); animation:fadeUp 0.8s ease forwards; }
+  .btn:nth-child(1){animation-delay:0.2s;}.btn:nth-child(2){animation-delay:0.4s;}.btn:nth-child(3){animation-delay:0.6s;}.btn:nth-child(4){animation-delay:0.8s;}.btn:nth-child(5){animation-delay:1s;}.btn:nth-child(6){animation-delay:1.2s;}
+  .btn:hover{ transform:scale(1.05); box-shadow:0 0 20px #ff0000; }
+  .popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:999; }
+  .popup.active{ opacity:1; pointer-events:auto; }
+  .popup-box{ background:rgba(10,10,10,0.95); padding:30px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; transform:scale(0.7); opacity:0; transition:0.4s; }
+  .popup.active.popup-box{ transform:scale(1); opacity:1; }
+  .popup-box h2{ color:#ff0000; margin-bottom:10px; }
+  .popup-box p{ color:#aaa; margin-bottom:20px; }
+  .popup-box button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
+  .frame-box{ width:100%; max-width:1000px; height:80px; margin:10px 0 20px 0; position:relative; overflow:hidden; background:rgba(0,0,0,0.2); border:1px solid rgba(0,234,255,0.3); border-radius:12px; box-shadow:0 0 15px rgba(0,234,255,0.2); z-index:2; }
+  .frame-gif{ position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.25; }
+  .frame-text{ position:absolute; width:100%; height:100%; display:flex; align-items:center; overflow:hidden; }
+  .frame-text span{ position:absolute; color:#ff0000; font-weight:bold; font-size:18px; white-space:nowrap; text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; animation: scrollText 10s linear infinite, glitch 1s infinite; }
         @keyframes scrollText{ from{ right:-100%; } to{ right:100%; } }
-   .frame-box::after{ content:""; position:absolute; top:0; left:-50%; width:50%; height:100%; background:linear-gradient( 120deg, transparent, rgba(0,234,255,0.5), transparent ); animation:lightMove 4s linear infinite; }
+  .frame-box::after{ content:""; position:absolute; top:0; left:-50%; width:50%; height:100%; background:linear-gradient( 120deg, transparent, rgba(0,234,255,0.5), transparent ); animation:lightMove 4s linear infinite; }
         @keyframes lightMove{ from{ left:-50%; } to{ left:120%; } }
-   .wave-layer{ position:fixed; inset:0; pointer-events:none; z-index:9998; overflow:hidden; }
-   .wave{ position:absolute; width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%); transform:translate(-50%,-50%); animation:waveMove 1.4s ease-out forwards; filter:blur(2px); }
+  .wave-layer{ position:fixed; inset:0; pointer-events:none; z-index:9998; overflow:hidden; }
+  .wave{ position:absolute; width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%); transform:translate(-50%,-50%); animation:waveMove 1.4s ease-out forwards; filter:blur(2px); }
         @keyframes waveMove{ 0%{ transform:translate(-50%,-50%) scale(1); opacity:0.9; } 100%{ transform:translate(-50%,-50%) scale(25); opacity:0; } }
         #mainSite { display: none; }
         #mainSite.active { display: flex; flex-direction: column; align-items: center; width: 100%; }
@@ -457,6 +461,7 @@
         let canClickDoor = false;
         let selectedOption = null;
         let visitorName = "";
+        let formShown = false;
 
         const DOOR_OPEN_SPEED = 0.0058;
         const DOOR_MAX_ANGLE = Math.PI / 1.8;
@@ -487,7 +492,9 @@
             scene.add(dirLight);
 
             loadGLBModel();
-            renderer.domElement.addEventListener('click', onDoorClick);
+
+            // الضغط على أي مكان في البوابة يفتح القائمة فقط
+            doorScreen.addEventListener('click', onDoorClick);
         }
 
         function loadGLBModel() {
@@ -557,8 +564,12 @@
             renderer.render(scene, camera);
         }
 
-        function onDoorClick() {
-            if (!canClickDoor) return;
+        function onDoorClick(e) {
+            if (!canClickDoor || formShown) return;
+            // لو ضغط على القائمة نفسها لا تسوي شيء
+            if (gateFormBox.contains(e.target)) return;
+
+            formShown = true;
             gateFormBox.classList.add("active");
             clickHint.style.display = "none";
         }
@@ -592,6 +603,7 @@
 
             visitorName = name;
             gateFormBox.classList.remove("active");
+            formShown = false;
 
             if (pass === "الظلال666") {
                 showSuccessModal();
@@ -635,6 +647,11 @@
 
         document.getElementById("passInput").addEventListener("keypress", (e) => {
             if (e.key === "Enter") submitGateForm();
+        });
+
+        // منع الضغط على القائمة من إغلاقها
+        gateFormBox.addEventListener('click', (e) => {
+            e.stopPropagation();
         });
 
         window.addEventListener("resize", () => {
@@ -719,6 +736,7 @@
                 const wave = document.createElement("div");
                 wave.className = "wave";
                 wave.style.left = e.clientX + "px";
+                wave.style.top = e.client
                 wave.style.top = e.clientY + "px";
                 waveLayer.appendChild(wave);
                 setTimeout(() => wave.remove(), 1200);
