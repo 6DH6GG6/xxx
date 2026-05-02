@@ -254,17 +254,17 @@
         <div class="door-bg"></div>
         <div class="door-glow"></div>
         <canvas id="doorCanvas"></canvas>
-        <div class="click-hint">اضغط على البوابة للمتابعة</div>
+        <div class="click-hint">اضغط على الباب</div>
 
         <div class="gate-form-box" id="gateFormBox">
             <button class="close-btn" onclick="hideForm()">×</button>
             <div class="gate-form-title">☠ بوابة الظلال ☠</div>
-            <input type="text" class="gate-input" id="visitorName" placeholder="اسم المستخدم *">
+            <input type="text" class="gate-input" id="visitorName" placeholder="اسم الدخيل *">
             <input type="password" class="gate-input" id="passInput" placeholder="كلمة السر *">
-            <button class="gate-options-btn" onclick="toggleOptions()">⚔️ من أي مصدر تشرفنا أيها الفتى</button>
+            <button class="gate-options-btn" onclick="toggleOptions()">⚔️ من أي مصدر قادم انت</button>
             <div class="gate-options-list" id="optionsList">
                 <div class="gate-option" data-value="dark">انا من طائفة الظلام</div>
-                <div class="gate-option" data-value="outside">انا خارج المملكة واريد الانضمام</div>
+                <div class="gate-option" data-value="new">انا فقط جديد اود الانضمام للمملكة والخضوع لها</div>
             </div>
             <button class="gate-submit-btn" onclick="submitGateForm()">دخول المملكة</button>
         </div>
@@ -300,6 +300,7 @@
         let doorOpenProgress = 0;
         let selectedOption = null;
         let formShown = false;
+        let doorSelected = false;
 
         const DOOR_OPEN_SPEED = 0.0058;
         const DOOR_MAX_ANGLE = Math.PI / 1.8;
@@ -390,13 +391,35 @@
             if (gateFormBox.contains(e.target)) return;
             if (!formShown) {
                 formShown = true;
+                doorSelected = true;
                 gateFormBox.classList.add("active");
+                
+                // تحديد الباب - تأثير بصري
+                if (model) {
+                    model.traverse((obj) => {
+                        if (obj.isMesh) {
+                            obj.material.emissive = new THREE.Color(0xff0000);
+                            obj.material.emissiveIntensity = 0.6;
+                        }
+                    });
+                }
             }
         }
 
         window.hideForm = function() {
             gateFormBox.classList.remove("active");
             formShown = false;
+            doorSelected = false;
+            
+            // إلغاء تحديد الباب
+            if (model) {
+                model.traverse((obj) => {
+                    if (obj.isMesh) {
+                        obj.material.emissive = new THREE.Color(0x440000);
+                        obj.material.emissiveIntensity = 0.3;
+                    }
+                });
+            }
         }
 
         window.toggleOptions = function() {
@@ -417,7 +440,7 @@
             const pass = document.getElementById("passInput").value;
 
             if (!name) {
-                alert("اسم المستخدم إجباري");
+                alert("يجب ادخال اسم الدخيل");
                 return;
             }
 
@@ -427,7 +450,7 @@
             }
 
             if (!selectedOption) {
-                alert("اختر مصدر تشريفك");
+                alert("يجب تحديد من أي مصدر قادم انت");
                 return;
             }
 
@@ -475,4 +498,3 @@
     </script>
 </body>
 </html>
-```
