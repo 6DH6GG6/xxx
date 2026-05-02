@@ -41,18 +41,20 @@
             right: 15px;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             z-index: 10005;
             background: rgba(0,0,0,0.7);
-            padding: 8px 16px 8px 8px;
+            padding: 6px 14px 6px 6px;
             border-radius: 50px;
             border: 2px solid #ff0000;
             box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            opacity: 0;
+            animation: doorAppear 2s ease-out forwards;
         }
 
         .profile-img {
-            width: 45px;
-            height: 45px;
+            width: 38px;
+            height: 38px;
             border-radius: 50%;
             border: 2px solid #ff0000;
             object-fit: cover;
@@ -61,7 +63,7 @@
 
         .profile-name {
             color: #ff0000;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             text-shadow: 0 0 10px #ff0000;
         }
@@ -289,7 +291,7 @@
 </head>
 <body>
     <div class="profile-header">
-        <img src="ALBOMS/IMAGE/SiteBackground/20260420_113331.jpg" class="profile-img" alt="Profile">
+        <img src="profile.jpg" class="profile-img" alt="Profile">
         <div class="profile-name">Kage No Teio</div>
     </div>
 
