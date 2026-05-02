@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar">
 <head>
@@ -63,28 +64,7 @@
             z-index: 2;
             animation: glowPulse 3s ease-in-out infinite;
             pointer-events: none;
-            transition: background 0.5s ease;
         }
-
-        .door-glow.purple {
-            background: radial-gradient(ellipse, rgba(150,0,255,0.6) 0%, transparent 70%);
-        }
-
-        .door-effect-gif {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 40vw;
-            height: 70vh;
-            z-index: 4;
-            pointer-events: none;
-            opacity: 0;
-            transition: 0.3s;
-            mix-blend-mode: screen;
-        }
-
-        .door-effect-gif.active { opacity: 0.7; }
 
         #doorCanvas {
             width: 100%;
@@ -272,8 +252,7 @@
 
     <div class="door-screen" id="doorScreen">
         <div class="door-bg"></div>
-        <div class="door-glow" id="doorGlow"></div>
-        <img src="ALBOMS/IMAGE/GIF/abp45jcll7d51.gif" class="door-effect-gif" id="doorEffectGif">
+        <div class="door-glow"></div>
         <canvas id="doorCanvas"></canvas>
         <div class="click-hint">اضغط على البوابة للمتابعة</div>
 
@@ -313,8 +292,6 @@
         const whiteFlash = document.getElementById("whiteFlash");
         const mainSite = document.getElementById("mainSite");
         const doorSound = document.getElementById("doorSound");
-        const doorEffectGif = document.getElementById("doorEffectGif");
-        const doorGlow = document.getElementById("doorGlow");
         const optionsList = document.getElementById("optionsList");
 
         let doorL = null, doorR = null;
@@ -411,20 +388,15 @@
 
         function onDoorClick(e) {
             if (gateFormBox.contains(e.target)) return;
-            
             if (!formShown) {
                 formShown = true;
                 gateFormBox.classList.add("active");
-                doorGlow.classList.add("purple");
-                doorEffectGif.classList.add("active");
-                setTimeout(() => { doorEffectGif.classList.remove("active"); }, 2000);
             }
         }
 
         window.hideForm = function() {
             gateFormBox.classList.remove("active");
             formShown = false;
-            doorGlow.classList.remove("purple");
         }
 
         window.toggleOptions = function() {
@@ -503,3 +475,4 @@
     </script>
 </body>
 </html>
+```
