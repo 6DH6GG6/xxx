@@ -3,37 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kage No Teio - GLB Gate</title>
+    <title>Gate</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Tahoma;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; }
+        body { min-height: 100vh; background: #000; color: white; overflow: hidden; }
 
-        body {
-            min-height: 100vh;
-            background: black;
-            color: white;
-            overflow: hidden;
-        }
-
-        @keyframes fadeUp {
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+        @keyframes doorAppear {
+            0% { opacity: 0; filter: blur(20px) brightness(0); transform: scale(0.8); }
+            100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
         }
 
         @keyframes glowPulse {
             0%, 100% { opacity: 0.3; filter: blur(20px); }
             50% { opacity: 0.6; filter: blur(30px); }
-        }
-
-        @keyframes modalIn {
-            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
         @keyframes whiteFlashExpand {
@@ -42,12 +24,13 @@
             100% { transform: scale(1); opacity: 0; }
         }
 
-        @keyframes doorAppear {
-            0% { opacity: 0; filter: blur(20px) brightness(0); transform: scale(0.8); }
-            100% { opacity: 1; filter: blur(0) brightness(1); transform: scale(1); }
+        @keyframes formShow {
+            0% { opacity: 0; transform: translateY(50px) scale(0.8); filter: blur(10px); }
+            60% { opacity: 1; transform: translateY(-10px) scale(1.05); filter: blur(0); }
+            100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
         }
 
-.door-screen {
+        .door-screen {
             position: fixed;
             inset: 0;
             background: #000;
@@ -55,13 +38,12 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            flex-direction: column;
             cursor: pointer;
             opacity: 0;
             animation: doorAppear 2s ease-out forwards;
         }
 
-.door-bg {
+        .door-bg {
             position: absolute;
             inset: 0;
             background: url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;
@@ -70,7 +52,7 @@
             pointer-events: none;
         }
 
-.door-glow {
+        .door-glow {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -81,9 +63,14 @@
             z-index: 2;
             animation: glowPulse 3s ease-in-out infinite;
             pointer-events: none;
+            transition: background 0.5s ease;
         }
 
-.door-effect-gif {
+        .door-glow.purple {
+            background: radial-gradient(ellipse, rgba(150,0,255,0.6) 0%, transparent 70%);
+        }
+
+        .door-effect-gif {
             position: absolute;
             top: 50%;
             left: 50%;
@@ -97,9 +84,7 @@
             mix-blend-mode: screen;
         }
 
-.door-effect-gif.active {
-            opacity: 0.7;
-        }
+        .door-effect-gif.active { opacity: 0.7; }
 
         #doorCanvas {
             width: 100%;
@@ -110,22 +95,20 @@
             pointer-events: none;
         }
 
-.click-hint {
+        .click-hint {
             position: absolute;
             top: 20%;
             color: #ff0000;
             font-size: 18px;
             text-shadow: 0 0 15px #ff0000;
             z-index: 10001;
-            opacity: 0;
-            animation: fadeUp 1s ease 2s forwards;
             pointer-events: none;
         }
 
-.gate-form-box {
+        .gate-form-box {
             position: absolute;
             bottom: 12%;
-            width: 380px;
+            width: 400px;
             background: linear-gradient(135deg, rgba(40,0,0,0.98), rgba(0,0,0,0.98));
             border: 3px solid #ff0000;
             border-radius: 15px;
@@ -133,12 +116,15 @@
             box-shadow: 0 0 40px rgba(255,0,0,0.8), inset 0 0 20px rgba(255,0,0,0.2);
             z-index: 10001;
             cursor: default;
-            display: block;
-            opacity: 1;
-            transform: translateY(0) scale(1);
+            display: none;
         }
 
-.gate-form-title {
+        .gate-form-box.active {
+            display: block;
+            animation: formShow 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        }
+
+        .gate-form-title {
             color: #ff0000;
             font-size: 22px;
             text-align: center;
@@ -147,7 +133,29 @@
             font-weight: bold;
         }
 
-.gate-input {
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff0000;
+            border: none;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 18px;
+            line-height: 30px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(255,0,0,0.6);
+        }
+
+        .close-btn:hover {
+            background: #ff3030;
+            transform: scale(1.1);
+        }
+
+        .gate-input {
             width: 100%;
             padding: 12px 15px;
             margin-bottom: 12px;
@@ -160,15 +168,9 @@
             box-shadow: 0 0 20px rgba(255,0,0,0.3), inset 0 0 10px rgba(0,0,0,0.5);
         }
 
-.gate-input:focus {
-            box-shadow: 0 0 30px rgba(255,0,0,0.6), inset 0 0 10px rgba(0,0,0,0.5);
-        }
+        .gate-input::placeholder { color: #ff6666; }
 
-.gate-input::placeholder {
-            color: #ff6666;
-        }
-
-.gate-options-btn {
+        .gate-options-btn {
             width: 100%;
             padding: 12px;
             margin-bottom: 12px;
@@ -182,23 +184,21 @@
             font-weight: bold;
         }
 
-.gate-options-btn:hover {
+        .gate-options-btn:hover {
             background: rgba(255,0,0,0.3);
             box-shadow: 0 0 25px rgba(255,0,0,0.6);
         }
 
-.gate-options-list {
+        .gate-options-list {
             max-height: 0;
             overflow: hidden;
             transition: 0.4s ease;
             margin-bottom: 12px;
         }
 
-.gate-options-list.show {
-            max-height: 100px;
-        }
+        .gate-options-list.show { max-height: 120px; }
 
-.gate-option {
+        .gate-option {
             padding: 10px;
             margin-bottom: 8px;
             background: rgba(0,0,0,0.8);
@@ -208,16 +208,17 @@
             cursor: pointer;
             transition: 0.3s;
             text-align: center;
+            font-size: 14px;
         }
 
-.gate-option:hover,.gate-option.selected {
+        .gate-option:hover,.gate-option.selected {
             background: rgba(255,0,0,0.4);
             color: white;
             box-shadow: 0 0 20px rgba(255,0,0,0.6);
             text-shadow: 0 0 10px #ff0000;
         }
 
-.gate-submit-btn {
+        .gate-submit-btn {
             width: 100%;
             padding: 14px;
             background: linear-gradient(135deg, #ff0000, #cc0000);
@@ -231,13 +232,13 @@
             box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
 
-.gate-submit-btn:hover {
+        .gate-submit-btn:hover {
             background: linear-gradient(135deg, #ff3030, #ff0000);
             box-shadow: 0 0 35px #ff0000;
             transform: scale(1.03);
         }
 
-.white-flash {
+        .white-flash {
             position: fixed;
             top: 50%;
             left: 50%;
@@ -251,186 +252,48 @@
             opacity: 0;
         }
 
-.white-flash.active {
-            animation: whiteFlashExpand 1.2s ease-out forwards;
-        }
+        .white-flash.active { animation: whiteFlashExpand 1.2s ease-out forwards; }
 
-.gate-modal-overlay {
+        #mainSite {
+            display: none;
             position: fixed;
             inset: 0;
-            background: rgba(0,0,0,0.9);
-            z-index: 99998;
-            opacity: 0;
-            pointer-events: none;
-            transition: 0.3s;
-        }
-
-.gate-modal-overlay.show {
-            opacity: 1;
-            pointer-events: all;
-        }
-
-.gate-modal-box {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(0.8);
-            background: linear-gradient(135deg, rgba(50,0,0,0.98), rgba(0,0,0,0.98));
-            border: 3px solid #ff0000;
-            border-radius: 15px;
-            padding: 40px 50px;
-            text-align: center;
-            z-index: 99999;
-            opacity: 0;
-            pointer-events: none;
-            min-width: 400px;
-            box-shadow: 0 0 50px rgba(255,0,0,0.8);
-        }
-
-.gate-modal-box.show {
-            animation: modalIn 0.4s ease forwards;
-            pointer-events: all;
-        }
-
-.gate-modal-icon {
-            font-size: 60px;
-            margin-bottom: 20px;
-            filter: drop-shadow(0 0 25px #ff0000);
-        }
-
-.gate-modal-title {
-            font-size: 28px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 0 0 20px #ff0000;
-            color: #ff0000;
-        }
-
-.gate-modal-text {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            color: #ddd;
-        }
-
-.gate-modal-btn {
-            padding: 12px 35px;
-            background: linear-gradient(135deg, #ff0000, #cc0000);
-            border: none;
+            background: #111;
             color: white;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            transition: 0.3s;
-            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            font-size: 30px;
+            justify-content: center;
+            align-items: center;
         }
-
-.gate-modal-btn:hover {
-            transform: scale(1.08);
-            box-shadow: 0 0 35px #ff0000;
-        }
-
-.ripple{ position:fixed; width:10px; height:10px; border-radius:50%; border:2px solid rgba(255,0,0,0.8); transform:translate(-50%,-50%); pointer-events:none; animation:waveRipple 1s ease-out; z-index:9998; }
-.menu-page{ position:fixed; inset:0; width:100%; height:100%; background:rgba(0,0,0,0.95); z-index:9999; display:flex; flex-direction:column; opacity:0; transform:scale(1.1); pointer-events:none; transition:0.4s ease; }
-.menu-page.active{ opacity:1; transform:scale(1); pointer-events:auto; }
-.menu-header{ background:linear-gradient(90deg,#8b0000,#ff1a1a); padding:15px; display:flex; justify-content:space-between; align-items:center; box-shadow:0 0 20px red; }
-.menu-header h2{ color:white; font-size:20px; }
-.menu-header button{ background:black; color:red; border:none; padding:8px 15px; border-radius:8px; cursor:pointer; }
-.menu-content{ flex:1; display:flex; justify-content:center; align-items:center; color:white; font-size:18px; text-align:center; padding:20px; }
-.exit-popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:1000; }
-.exit-popup.active{ opacity:1; pointer-events:auto; }
-.exit-box{ background:url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat; padding:40px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; }
-.exit-buttons{ margin-top:20px; display:flex; gap:15px; justify-content:center; }
-.exit-buttons button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
-        @keyframes rippleAnim{ 0%{ width:0; height:0; opacity:0.6; } 100%{ width:200px; height:200px; opacity:0; } }
-        *{ margin:0; padding:0; box-sizing:border-box; font-family:Tahoma; }
-        body{ min-height:100vh; display:flex; flex-direction:column; align-items:center; background:url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat; color:white; overflow-x:hidden; cursor:none; }
-.bg-overlay{ position:fixed; inset:0; background:linear-gradient( to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85) ); z-index:1; pointer-events:none; }
-.stars{ position:fixed; inset:0; background:url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif'); opacity:0.12; animation:moveStars 120s linear infinite; z-index:2; }
-        @keyframes moveStars{ from{background-position:0 0;} to{background-position:1000px 1000px;} }
-.cursor{ display:none; }
-.logo{ width:clamp(180px,45vw,420px); margin-top:15px; margin-bottom:15px; filter:drop-shadow(0 0 25px #ff0000); z-index:2; }
-.container{ z-index:2; width:100%; max-width:1100px; padding:10px; }
-.menu{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
-.btn{ position:relative; aspect-ratio:4/3; background-size:cover; background-position:center; cursor:pointer; clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%); overflow:hidden; opacity:0; transform:translateY(40px); animation:fadeUp 0.8s ease forwards; }
-.btn:nth-child(1){animation-delay:0.2s;}.btn:nth-child(2){animation-delay:0.4s;}.btn:nth-child(3){animation-delay:0.6s;}.btn:nth-child(4){animation-delay:0.8s;}.btn:nth-child(5){animation-delay:1s;}.btn:nth-child(6){animation-delay:1.2s;}
-.btn:hover{ transform:scale(1.05); box-shadow:0 0 20px #ff0000; }
-.popup{ position:fixed; inset:0; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.4s; z-index:999; }
-.popup.active{ opacity:1; pointer-events:auto; }
-.popup-box{ background:rgba(10,10,0.95); padding:30px; border-radius:20px; text-align:center; box-shadow:0 0 40px #ff0000; transform:scale(0.7); opacity:0; transition:0.4s; }
-.popup.active.popup-box{ transform:scale(1); opacity:1; }
-.popup-box h2{ color:#ff0000; margin-bottom:10px; }
-.popup-box p{ color:#aaa; margin-bottom:20px; }
-.popup-box button{ padding:10px 25px; border:none; background:#ff0000; color:black; border-radius:10px; cursor:pointer; }
-.frame-box{ width:100%; max-width:1000px; height:80px; margin:10px 0 20px 0; position:relative; overflow:hidden; background:rgba(0,0,0,0.2); border:1px solid rgba(0,234,255,0.3); border-radius:12px; box-shadow:0 0 15px rgba(0,234,255,0.2); z-index:2; }
-.frame-gif{ position:absolute; width:100%; height:100%; object-fit:cover; opacity:0.25; }
-.frame-text{ position:absolute; width:100%; height:100%; display:flex; align-items:center; overflow:hidden; }
-.frame-text span{ position:absolute; color:#ff0000; font-weight:bold; font-size:18px; white-space:nowrap; text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000, 0 0 20px #ff0000; animation: scrollText 10s linear infinite, glitch 1s infinite; }
-        @keyframes scrollText{ from{ right:-100%; } to{ right:100%; } }
-.frame-box::after{ content:""; position:absolute; top:0; left:-50%; width:50%; height:100%; background:linear-gradient( 120deg, transparent, rgba(0,234,255,0.5), transparent ); animation:lightMove 4s linear infinite; }
-        @keyframes lightMove{ from{ left:-50%; } to{ left:120%; } }
-.wave-layer{ position:fixed; inset:0; pointer-events:none; z-index:9998; overflow:hidden; }
-.wave{ position:absolute; width:12px; height:12px; border-radius:50%; background:radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%); transform:translate(-50%,-50%); animation:waveMove 1.4s ease-out forwards; filter:blur(2px); }
-        @keyframes waveMove{ 0%{ transform:translate(-50%,-50%) scale(1); opacity:0.9; } 100%{ transform:translate(-50%,-50%) scale(25); opacity:0; } }
-        #mainSite { display: none; }
-        #mainSite.active { display: flex; flex-direction: column; align-items: center; width: 100%; }
+        #mainSite.active { display: flex; }
     </style>
 </head>
 <body>
-    <div class="gate-modal-overlay" id="gateModalOverlay"></div>
-
-    <div class="gate-modal-box error" id="errorModal">
-        <div class="gate-modal-icon">⚔️</div>
-        <div class="gate-modal-title">مرفوض</div>
-        <div class="gate-modal-text">لست مؤهلاً لدخول المملكة<br>تم ركلك خارج المملكة من قبل الحراس</div>
-        <button class="gate-modal-btn" onclick="closeGateModal()">فهمت</button>
-    </div>
-
-    <div class="gate-modal-box success" id="successModal">
-        <div class="gate-modal-icon">👑</div>
-        <div class="gate-modal-title">مرحباً بك</div>
-        <div class="gate-modal-text" id="welcomeText">أهلاً بك في المملكة<br>نحن نرحب بك أيها الظل</div>
-        <button class="gate-modal-btn" onclick="enterKingdom()">دخول المملكة</button>
-    </div>
-
     <div class="white-flash" id="whiteFlash"></div>
 
     <div class="door-screen" id="doorScreen">
         <div class="door-bg"></div>
-        <div class="door-glow"></div>
+        <div class="door-glow" id="doorGlow"></div>
         <img src="ALBOMS/IMAGE/GIF/abp45jcll7d51.gif" class="door-effect-gif" id="doorEffectGif">
-        <div class="click-hint" id="clickHint">اضغط على البوابة للمتابعة</div>
         <canvas id="doorCanvas"></canvas>
+        <div class="click-hint">اضغط على البوابة للمتابعة</div>
 
         <div class="gate-form-box" id="gateFormBox">
+            <button class="close-btn" onclick="hideForm()">×</button>
             <div class="gate-form-title">☠ بوابة الظلال ☠</div>
-            <input type="text" class="gate-input" id="visitorName" placeholder="ادخل اسم الزائر">
-            <input type="password" class="gate-input" id="passInput" placeholder="كلمة السر">
-            <button class="gate-options-btn" onclick="toggleOptions()">⚔️ اختر نوع الظل</button>
+            <input type="text" class="gate-input" id="visitorName" placeholder="اسم المستخدم *">
+            <input type="password" class="gate-input" id="passInput" placeholder="كلمة السر *">
+            <button class="gate-options-btn" onclick="toggleOptions()">⚔️ من أي مصدر تشرفنا أيها الفتى</button>
             <div class="gate-options-list" id="optionsList">
-                <div class="gate-option" data-value="new">أنا سأكون من ظلال</div>
-                <div class="gate-option" data-value="old">أنا ظل سابق في طائفة الظلام</div>
+                <div class="gate-option" data-value="dark">انا من طائفة الظلام</div>
+                <div class="gate-option" data-value="outside">انا خارج المملكة واريد الانضمام</div>
             </div>
             <button class="gate-submit-btn" onclick="submitGateForm()">دخول المملكة</button>
         </div>
     </div>
 
     <audio id="doorSound" src="ALBOMS/AUDIOS/MP3/screen-20260502-213818.mp3"></audio>
-    <audio id="bgMusic" src="bg.mp3" loop></audio>
 
-    <div id="mainSite">
-        <div class="wave-layer" id="waveLayer"></div>
-        <div class="bg-overlay"></div>
-        <div class="stars"></div>
-        <div class="exit-popup" id="exitPopup"> <div class="exit-box"> <h2>هل تريد الخروج؟</h2> <div class="exit-buttons"> <button onclick="confirmExit()">نعم</button> <button onclick="closeExit()">لا</button> </div> </div> </div>
-        <div class="cursor" id="cursor"></div>
-        <div class="menu-page" id="menuPage"> <div class="menu-header"> <h2 id="menuTitle"></h2> <button onclick="closeMenuPage()">رجوع</button> </div> <div class="menu-content"> <p id="menuDesc"></p> </div> </div>
-        <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
-        <div class="frame-box"> <img src="ALBOMS/IMAGE/GIF/how-to-create-a-light-streak-animation-in-after-effects.gif" class="frame-gif"> <div class="frame-text"> <span>☠ الظلال تتربص في الظلام ☠</span> </div> </div>
-        <div class="container"> <div class="menu"> <div class="btn" onclick="openMenu('أنمي')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155749.png')"></div> <div class="btn" onclick="openMenu('فضائح عصابات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160952.png')"></div> <div class="btn" onclick="openMenu('قوانين الدعس')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155319.png')"></div> <div class="btn" onclick="openMenu('ترسيم أعضاء')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160315.png')"></div> <div class="btn" onclick="openMenu('أسماء الظلال')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160850.png')"></div> <div class="btn" onclick="openMenu('تحميل ملفات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_154329.png')"></div> </div> </div>
-        <div class="popup" id="popup"> <div class="popup-box"> <h2 id="popupTitle"></h2> <p>الظلال تتربص في ظلام</p> <button onclick="closeMenu()">إغلاق</button> </div> </div>
-    </div>
+    <div id="mainSite">تم الدخول بنجاح 👑</div>
 
     <script type="importmap">
     {
@@ -448,29 +311,21 @@
         const doorScreen = document.getElementById("doorScreen");
         const gateFormBox = document.getElementById("gateFormBox");
         const whiteFlash = document.getElementById("whiteFlash");
-        const clickHint = document.getElementById("clickHint");
         const mainSite = document.getElementById("mainSite");
         const doorSound = document.getElementById("doorSound");
-        const bgMusic = document.getElementById("bgMusic");
-        const gateModalOverlay = document.getElementById("gateModalOverlay");
-        const errorModal = document.getElementById("errorModal");
-        const successModal = document.getElementById("successModal");
-        const optionsList = document.getElementById("optionsList");
-        const welcomeText = document.getElementById("welcomeText");
         const doorEffectGif = document.getElementById("doorEffectGif");
+        const doorGlow = document.getElementById("doorGlow");
+        const optionsList = document.getElementById("optionsList");
 
         let doorL = null, doorR = null;
         let scene, camera, renderer, model;
         let doorOpening = false;
         let doorOpenProgress = 0;
-        let canClickDoor = false;
         let selectedOption = null;
-        let visitorName = "";
+        let formShown = false;
 
         const DOOR_OPEN_SPEED = 0.0058;
         const DOOR_MAX_ANGLE = Math.PI / 1.8;
-        const FLASH_DELAY = 4200;
-        const ENTER_DELAY = 5400;
 
         function initThreeJS() {
             renderer = new THREE.WebGLRenderer({
@@ -501,7 +356,6 @@
 
         function loadGLBModel() {
             const loader = new GLTFLoader();
-
             loader.load(
                 "ALBOMS/3D/GLB/بوابة_العبور.glb",
                 (gltf) => {
@@ -534,14 +388,10 @@
                         if (name.includes("door_r") || name.includes("right") || name.includes("r_door")) doorR = obj;
                     });
 
-                    if (!doorL &&!doorR) doorL = model;
-                    canClickDoor = true;
+                    if (!doorL && !doorR) doorL = model;
                 },
                 null,
-                (err) => {
-                    console.error("GLB Load Error:", err);
-                    canClickDoor = true;
-                }
+                (err) => { console.error("GLB Load Error:", err); }
             );
         }
 
@@ -560,15 +410,21 @@
         }
 
         function onDoorClick(e) {
-            if (!canClickDoor) return;
             if (gateFormBox.contains(e.target)) return;
+            
+            if (!formShown) {
+                formShown = true;
+                gateFormBox.classList.add("active");
+                doorGlow.classList.add("purple");
+                doorEffectGif.classList.add("active");
+                setTimeout(() => { doorEffectGif.classList.remove("active"); }, 2000);
+            }
+        }
 
-            doorEffectGif.classList.add("active");
-            setTimeout(() => {
-                doorEffectGif.classList.remove("active");
-            }, 2000);
-
-            clickHint.style.display = "none";
+        window.hideForm = function() {
+            gateFormBox.classList.remove("active");
+            formShown = false;
+            doorGlow.classList.remove("purple");
         }
 
         window.toggleOptions = function() {
@@ -589,55 +445,37 @@
             const pass = document.getElementById("passInput").value;
 
             if (!name) {
-                alert("ادخل اسم الزائر");
+                alert("اسم المستخدم إجباري");
+                return;
+            }
+
+            if (!pass) {
+                alert("كلمة السر إجباري");
                 return;
             }
 
             if (!selectedOption) {
-                alert("اختر نوع الظل");
+                alert("اختر مصدر تشريفك");
                 return;
             }
 
-            visitorName = name;
-
             if (pass === "الظلال666") {
-                showSuccessModal();
+                enterKingdom();
             } else {
-                showErrorModal();
+                alert("كلمة السر خاطئة - مرفوض");
             }
         }
 
-        function showErrorModal() {
-            gateModalOverlay.classList.add("show");
-            errorModal.classList.add("show");
-        }
-
-        function showSuccessModal() {
-            const optionText = selectedOption === "new"? "ظل جديد" : "ظل سابق";
-            welcomeText.innerHTML = `أهلاً بك يا ${visitorName}<br>نرحب بك أيها ${optionText}`;
-            gateModalOverlay.classList.add("show");
-            successModal.classList.add("show");
-        }
-
-        window.closeGateModal = function() {
-            gateModalOverlay.classList.remove("show");
-            errorModal.classList.remove("show");
-            successModal.classList.remove("show");
-        }
-
-        window.enterKingdom = function() {
-            closeGateModal();
+        function enterKingdom() {
+            hideForm();
             doorSound.currentTime = 0;
             doorSound.play().catch(() => {});
             setTimeout(() => { doorOpening = true; }, 300);
-            setTimeout(() => { whiteFlash.classList.add("active"); }, FLASH_DELAY);
+            setTimeout(() => { whiteFlash.classList.add("active"); }, 4200);
             setTimeout(() => {
                 doorScreen.style.display = "none";
                 mainSite.classList.add("active");
-                bgMusic.volume = 0.6;
-                bgMusic.play().catch(() => {});
-                initMainSite();
-            }, ENTER_DELAY);
+            }, 5400);
         }
 
         document.getElementById("passInput").addEventListener("keypress", (e) => {
@@ -648,6 +486,12 @@
             e.stopPropagation();
         });
 
+        document.addEventListener('click', (e) => {
+            if (formShown && !gateFormBox.contains(e.target) && doorScreen.contains(e.target)) {
+                hideForm();
+            }
+        });
+
         window.addEventListener("resize", () => {
             camera.aspect = innerWidth / innerHeight;
             camera.updateProjectionMatrix();
@@ -656,84 +500,6 @@
 
         initThreeJS();
         animate();
-
-        function initMainSite() {
-            let cursor = document.getElementById("cursor");
-            document.addEventListener("mousemove", e => {
-                cursor.style.top = e.clientY + "px";
-                cursor.style.left = e.clientX + "px";
-            });
-
-            let menuData = {
-                "أنمي": "قسم الأنمي", "فضائح عصابات": "أرشيف الفضائح", "قوانين الدعس": "قوانين الطائفة",
-                "ترسيم أعضاء": "نظام الترسيم", "أسماء الظلال": "قائمة الظلال", "تحميل ملفات": "قسم التحميل"
-            };
-
-            window.openMenu = function(title) {
-                document.getElementById("menuTitle").innerText = title;
-                document.getElementById("menuDesc").innerText = menuData[title] || "لا يوجد محتوى";
-                document.getElementById("menuPage").classList.add("active");
-                history.pushState({ page: "menu" }, "");
-            }
-
-            window.closeMenuPage = function() {
-                document.getElementById("menuPage").classList.remove("active");
-            }
-
-            window.closeMenu = function() {
-                document.getElementById("popup").classList.remove("active");
-            }
-
-            let exitArmed = false;
-            history.pushState({page:"home"}, "");
-            window.addEventListener("popstate", function () {
-                let menu = document.getElementById("menuPage");
-                if(menu.classList.contains("active")){
-                    menu.classList.remove("active");
-                    return;
-                }
-                if(!exitArmed){
-                    exitArmed = true;
-                    document.getElementById("exitPopup").classList.add("active");
-                    history.pushState({page:"home"}, "");
-                    setTimeout(()=> exitArmed = false, 3000);
-                }else{
-                    window.close();
-                }
-            });
-
-            let frameTexts = [
-                "طائفة الظلام، يعود تاريخ تأسيس المملكة في عام 2019",
-                "لدينا أعين في كل مكان نحن الظلال نتربص في ظلال",
-                "نخب 🥂 زوار الكرام، حتا لو كانو من الخصوم فا نشارك النخب تواضعًا 👑",
-            ];
-            let frameIndex = 0;
-            let frameSpan = document.querySelector(".frame-text span");
-            if (frameSpan) {
-                setInterval(() => {
-                    frameIndex = (frameIndex + 1) % frameTexts.length;
-                    frameSpan.innerText = frameTexts[frameIndex];
-                }, 4000);
-            }
-
-            window.confirmExit = function() { window.close(); }
-            window.closeExit = function() { document.getElementById("exitPopup").classList.remove("active"); }
-
-            const waveLayer = document.getElementById("waveLayer");
-            document.addEventListener("pointerdown", createWave);
-            document.addEventListener("pointermove", function(e){
-                if(e.buttons!== 1) return;
-                createWave(e);
-            });
-            function createWave(e){
-                const wave = document.createElement("div");
-                wave.className = "wave";
-                wave.style.left = e.clientX + "px";
-                wave.style.top = e.clientY + "px";
-                waveLayer.appendChild(wave);
-                setTimeout(() => wave.remove(), 1200);
-            }
-        }
     </script>
 </body>
 </html>
