@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gate</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; -webkit-tap-highlight-color: transparent; }
         body { min-height: 100vh; background: #000; color: white; overflow: hidden; }
 
         @keyframes doorAppear {
@@ -28,6 +28,12 @@
             0% { opacity: 0; transform: translateY(50px) scale(0.8); filter: blur(10px); }
             60% { opacity: 1; transform: translateY(-10px) scale(1.05); filter: blur(0); }
             100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+        }
+
+        @keyframes clickScale {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+            100% { transform: scale(1); }
         }
 
         .door-screen {
@@ -71,6 +77,12 @@
             z-index: 3;
             position: relative;
             cursor: pointer;
+            outline: none;
+            user-select: none;
+        }
+
+        #doorCanvas.clicked {
+            animation: clickScale 0.3s ease;
         }
 
         .click-hint {
@@ -385,34 +397,20 @@
         }
 
         function onDoorClick(e) {
-            e.stopPropagation();
-            if (!formShown) {
+            if (formShown) return;
+            
+            doorCanvas.classList.add("clicked");
+            setTimeout(() => doorCanvas.classList.remove("clicked"), 300);
+            
+            setTimeout(() => {
                 formShown = true;
                 gateFormBox.classList.add("active");
-                
-                if (model) {
-                    model.traverse((obj) => {
-                        if (obj.isMesh) {
-                            obj.material.emissive = new THREE.Color(0xff0000);
-                            obj.material.emissiveIntensity = 0.6;
-                        }
-                    });
-                }
-            }
+            }, 1000);
         }
 
         window.hideForm = function() {
             gateFormBox.classList.remove("active");
             formShown = false;
-            
-            if (model) {
-                model.traverse((obj) => {
-                    if (obj.isMesh) {
-                        obj.material.emissive = new THREE.Color(0x440000);
-                        obj.material.emissiveIntensity = 0.3;
-                    }
-                });
-            }
         }
 
         window.toggleOptions = function() {
@@ -475,7 +473,7 @@
         });
 
         document.addEventListener('click', (e) => {
-            if (formShown && !gateFormBox.contains(e.target) && !doorCanvas.contains(e.target)) {
+            if (formShown && !gateFormBox.contains(e.target) && e.target !== doorCanvas) {
                 hideForm();
             }
         });
