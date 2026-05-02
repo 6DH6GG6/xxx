@@ -5,9 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kage No Teio - GLB Gate</title>
     <style>
-        /* ========================================
-           1. GLOBAL + RESET
-        ======================================== */
         * {
             margin: 0;
             padding: 0;
@@ -22,19 +19,11 @@
             overflow: hidden;
         }
 
-        /* ========================================
-           2. KEYFRAMES
-        ======================================== */
         @keyframes shake {
             0%, 100% { transform: translate(0, 0); }
             25% { transform: translate(2px, -2px); }
             50% { transform: translate(-2px, 2px); }
             75% { transform: translate(2px, 2px); }
-        }
-
-        @keyframes flash {
-            0%, 100% { opacity: 0; }
-            50% { opacity: 1; }
         }
 
         @keyframes fadeUp {
@@ -54,9 +43,12 @@
             to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
         }
 
-        /* ========================================
-           3. DOOR SCREEN - شاشة الباب 3D
-        ======================================== */
+        @keyframes whiteFlashExpand {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1); opacity: 0; }
+        }
+
         .door-screen {
             position: fixed;
             inset: 0;
@@ -68,7 +60,6 @@
             flex-direction: column;
         }
 
-        /* خلفية خلف الباب */
         .door-bg {
             position: absolute;
             inset: 0;
@@ -77,7 +68,6 @@
             filter: brightness(0.3);
         }
 
-        /* شعاع الباب البنفسجي */
         .door-glow {
             position: absolute;
             top: 50%;
@@ -156,27 +146,22 @@
             transform: scale(1.05);
         }
 
-        .enter-effect {
+        .white-flash {
             position: fixed;
-            inset: 0;
-            background: #000;
-            z-index: 10001;
-            opacity: 0;
-            pointer-events: none;
-            transition: 1.2s ease-in-out;
-        }
-
-        .enter-effect.active {
-            opacity: 1;
-        }
-
-        .flash {
-            position: fixed;
-            inset: 0;
-            background: #a020f0;
+            top: 50%;
+            left: 50%;
+            width: 200vmax;
+            height: 200vmax;
+            background: #fff;
+            border-radius: 50%;
             z-index: 10002;
-            animation: flash 0.6s ease;
             pointer-events: none;
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+        }
+
+        .white-flash.active {
+            animation: whiteFlashExpand 1.2s ease-out forwards;
         }
 
         .loading-msg {
@@ -190,9 +175,6 @@
             text-shadow: 0 0 10px #a020f0;
         }
 
-        /* ========================================
-           4. MODAL BOXES - القوائم الفخمة
-        ======================================== */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -285,9 +267,6 @@
             box-shadow: 0 0 25px #ff0000;
         }
 
-        /* ========================================
-           5. MAIN CONTENT - بعد فتح الباب
-        ======================================== */
         .main-content {
             position: fixed;
             inset: 0;
@@ -298,14 +277,11 @@
             justify-content: center;
             z-index: 1;
             opacity: 0;
-            transform: scale(1.5);
-            transition: 1s ease-out;
         }
 
         .main-content.active {
             display: flex;
             opacity: 1;
-            transform: scale(1);
         }
 
         .logo {
@@ -313,7 +289,7 @@
             margin: 15px 0;
             filter: drop-shadow(0 0 25px #ff0000);
             opacity: 0;
-            animation: fadeUp 1s ease 0.5s forwards;
+            animation: fadeUp 1s ease 0.3s forwards;
         }
 
         .welcome-text {
@@ -322,12 +298,11 @@
             text-shadow: 0 0 20px #ff0000;
             margin: 20px;
             opacity: 0;
-            animation: fadeUp 1s ease 1s forwards;
+            animation: fadeUp 1s ease 0.8s forwards;
         }
     </style>
 </head>
 <body>
-    <!-- ======================================== القوائم الفخمة ======================================== -->
     <div class="modal-overlay" id="modalOverlay"></div>
     
     <div class="modal-box error" id="errorModal">
@@ -344,8 +319,7 @@
         <button class="modal-btn" onclick="enterKingdom()">دخول المملكة</button>
     </div>
 
-    <!-- ======================================== عناصر الباب ======================================== -->
-    <div class="enter-effect" id="enterEffect"></div>
+    <div class="white-flash" id="whiteFlash"></div>
 
     <div class="door-screen" id="doorScreen">
         <div class="door-bg"></div>
@@ -359,11 +333,9 @@
         </div>
     </div>
 
-    <!-- ======================================== الأصوات ======================================== -->
     <audio id="doorSound" src="open.mp3"></audio>
     <audio id="bgMusic" src="bg.mp3" loop></audio>
 
-    <!-- ======================================== المحتوى الرئيسي بعد الباب ======================================== -->
     <div class="main-content" id="mainContent">
         <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo">
         <div class="welcome-text">☠ مرحباً بك في طائفة الظلال ☠</div>
@@ -382,12 +354,9 @@
         import * as THREE from 'three';
         import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 
-        /* ========================================
-           1. المتغيرات العامة
-        ======================================== */
         const doorScreen = document.getElementById("doorScreen");
         const passBox = document.getElementById("passBox");
-        const enterEffect = document.getElementById("enterEffect");
+        const whiteFlash = document.getElementById("whiteFlash");
         const clickHint = document.getElementById("clickHint");
         const loadingMsg = document.getElementById("loadingMsg");
         const mainContent = document.getElementById("mainContent");
@@ -404,9 +373,6 @@
         let canClickDoor = false;
         let passwordEntered = false;
 
-        /* ========================================
-           2. إعداد Three.js
-        ======================================== */
         function initThreeJS() {
             renderer = new THREE.WebGLRenderer({
                 canvas: document.getElementById("doorCanvas"),
@@ -431,14 +397,9 @@
             scene.add(dirLight);
 
             loadGLBModel();
-
-            // كليك على الباب
             renderer.domElement.addEventListener('click', onDoorClick);
         }
 
-        /* ========================================
-           3. تحميل موديل GLB
-        ======================================== */
         function loadGLBModel() {
             const loader = new GLTFLoader();
             
@@ -491,9 +452,6 @@
             );
         }
 
-        /* ========================================
-           4. الأنيميشن
-        ======================================== */
         function animate() {
             requestAnimationFrame(animate);
 
@@ -506,26 +464,17 @@
                 } else if (doorL) {
                     doorL.rotation.y = -doorOpenProgress;
                 }
-
-                // زوم الكاميرا للداخل
-                camera.position.z -= 0.04;
             }
 
             renderer.render(scene, camera);
         }
 
-        /* ========================================
-           5. الضغط على الباب
-        ======================================== */
         function onDoorClick() {
             if (!canClickDoor || passwordEntered) return;
             passBox.classList.add("active");
             clickHint.style.display = "none";
         }
 
-        /* ========================================
-           6. التحقق من كلمة السر
-        ======================================== */
         window.checkPass = function() {
             const val = document.getElementById("passInput").value;
             passBox.classList.remove("active");
@@ -557,52 +506,35 @@
         window.enterKingdom = function() {
             closeModal();
             
-            // فلاش
-            const flash = document.createElement("div");
-            flash.className = "flash";
-            document.body.appendChild(flash);
-            setTimeout(() => flash.remove(), 600);
-
-            // صوت الباب
             doorSound.currentTime = 0;
             doorSound.play().catch(() => {});
 
-            // افتح الباب + زوم
             setTimeout(() => {
                 doorOpening = true;
             }, 300);
 
-            // تأثير الدخول السينمائي
             setTimeout(() => {
-                enterEffect.classList.add("active");
-            }, 1200);
+                whiteFlash.classList.add("active");
+            }, 800);
 
-            // اظهار المحتوى
             setTimeout(() => {
                 doorScreen.style.display = "none";
                 mainContent.classList.add("active");
                 bgMusic.volume = 0.6;
                 bgMusic.play().catch(() => {});
-            }, 2500);
+            }, 2000);
         }
 
-        // Enter للدخول
         document.getElementById("passInput").addEventListener("keypress", (e) => {
             if (e.key === "Enter") checkPass();
         });
 
-        /* ========================================
-           7. Resize
-        ======================================== */
         window.addEventListener("resize", () => {
             camera.aspect = innerWidth / innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(innerWidth, innerHeight);
         });
 
-        /* ========================================
-           8. بدء التشغيل
-        ======================================== */
         initThreeJS();
         animate();
     </script>
