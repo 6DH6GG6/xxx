@@ -63,7 +63,7 @@
         .door-bg {
             position: absolute;
             inset: 0;
-            background: url('ALBOMS/IMAGE/SiteBackground/file_0000000089e071f8b71e687d9cf82965.png') center/cover no-repeat;
+            background: url('✅ تم تحميل البوابة') center/cover no-repeat;
             z-index: 1;
             filter: brightness(0.3);
         }
@@ -406,7 +406,7 @@
             loader.load(
                 "ALBOMS/3D/GLB/بوابة_العبور.glb",
                 (gltf) => {
-                    loadingMsg.innerText = "✅ تم تحميل البوابة";
+                    loadingMsg.innerText = "";
                     setTimeout(() => loadingMsg.style.display = "none", 1000);
 
                     model = gltf.scene;
