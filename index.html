@@ -638,6 +638,7 @@
                 initMainSite();
             }, ENTER_DELAY);
         }
+
         document.getElementById("passInput").addEventListener("keypress", (e) => {
             if (e.key === "Enter") submitGateForm();
         });
@@ -723,7 +724,6 @@
             function createWave(e){
                 const wave = document.createElement("div");
                 wave.className = "wave";
-```html
                 wave.style.left = e.clientX + "px";
                 wave.style.top = e.clientY + "px";
                 waveLayer.appendChild(wave);
