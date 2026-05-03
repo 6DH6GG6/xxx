@@ -148,6 +148,7 @@
             flex-direction: column;
             align-items: center;
             text-align: center;
+            cursor: pointer;
         }
 
         .file-card:hover {
@@ -192,6 +193,93 @@
             background: #ff3030;
             box-shadow: 0 0 15px #ff0000;
         }
+
+        .preview-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 1000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .preview-modal.active {
+            display: flex;
+        }
+
+        .preview-box {
+            background: rgba(20,0,0,0.9);
+            border: 3px solid #ff0000;
+            border-radius: 15px;
+            max-width: 90vw;
+            max-height: 90vh;
+            padding: 20px;
+            position: relative;
+            box-shadow: 0 0 40px rgba(255,0,0,0.6);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .preview-close {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background: #ff0000;
+            border: none;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            z-index: 10;
+        }
+
+        .preview-content {
+            max-width: 80vw;
+            max-height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .preview-content img, .preview-content video {
+            max-width: 100%;
+            max-height: 70vh;
+            border-radius: 10px;
+            border: 2px solid #ff0000;
+        }
+
+        .preview-content audio {
+            width: 100%;
+            min-width: 300px;
+        }
+
+        .preview-actions {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .preview-download {
+            background: #ff0000;
+            color: black;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+
+        .preview-download:hover {
+            background: #ff3030;
+            box-shadow: 0 0 20px #ff0000;
+        }
     </style>
 </head>
 <body>
@@ -217,250 +305,260 @@
             </div>
 
             <div class="files-grid" id="filesGrid">
-                <a href="files/app1.apk" download class="file-card" data-cat="apk">
+                <a href="files/app1.apk" download class="file-card" data-cat="apk" data-type="download">
                     <div class="file-icon">📱</div>
                     <div class="file-name">KageApp.apk</div>
                     <div class="file-size">15.2 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/tool.apk" download class="file-card" data-cat="apk">
+                <a href="files/tool.apk" download class="file-card" data-cat="apk" data-type="download">
                     <div class="file-icon">📱</div>
                     <div class="file-name">ShadowTool.apk</div>
                     <div class="file-size">8.7 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/editor.apk" download class="file-card" data-cat="apk">
+                <a href="files/editor.apk" download class="file-card" data-cat="apk" data-type="download">
                     <div class="file-icon">📱</div>
                     <div class="file-name">DarkEditor.apk</div>
                     <div class="file-size">22.1 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/launcher.apk" download class="file-card" data-cat="apk">
+                <a href="files/launcher.apk" download class="file-card" data-cat="apk" data-type="download">
                     <div class="file-icon">📱</div>
                     <div class="file-name">KageLauncher.apk</div>
                     <div class="file-size">5.4 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/theme.apk" download class="file-card" data-cat="apk">
+                <a href="files/theme.apk" download class="file-card" data-cat="apk" data-type="download">
                     <div class="file-icon">📱</div>
                     <div class="file-name">ShadowTheme.apk</div>
                     <div class="file-size">3.9 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/wall1.jpg" download class="file-card" data-cat="jpg">
+                <div class="file-card" data-cat="jpg" data-type="preview" data-src="files/wall1.jpg" data-name="wallpaper1.jpg">
                     <div class="file-icon">🖼️</div>
                     <div class="file-name">wallpaper1.jpg</div>
                     <div class="file-size">2.1 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/wall2.jpg" download class="file-card" data-cat="jpg">
+                <div class="file-card" data-cat="jpg" data-type="preview" data-src="files/wall2.jpg" data-name="logo_hd.jpg">
                     <div class="file-icon">🖼️</div>
                     <div class="file-name">logo_hd.jpg</div>
                     <div class="file-size">1.8 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/banner.jpg" download class="file-card" data-cat="jpg">
+                <div class="file-card" data-cat="jpg" data-type="preview" data-src="files/banner.jpg" data-name="banner.jpg">
                     <div class="file-icon">🖼️</div>
                     <div class="file-name">banner.jpg</div>
                     <div class="file-size">3.4 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/profile.jpg" download class="file-card" data-cat="jpg">
+                <div class="file-card" data-cat="jpg" data-type="preview" data-src="files/profile.jpg" data-name="profile.jpg">
                     <div class="file-icon">🖼️</div>
                     <div class="file-name">profile.jpg</div>
                     <div class="file-size">892 KB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/art.jpg" download class="file-card" data-cat="jpg">
+                <div class="file-card" data-cat="jpg" data-type="preview" data-src="files/art.jpg" data-name="dark_art.jpg">
                     <div class="file-icon">🖼️</div>
                     <div class="file-name">dark_art.jpg</div>
                     <div class="file-size">4.2 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/intro.mp4" download class="file-card" data-cat="mp4">
+                <div class="file-card" data-cat="mp4" data-type="preview" data-src="files/intro.mp4" data-name="intro.mp4">
                     <div class="file-icon">🎬</div>
                     <div class="file-name">intro.mp4</div>
                     <div class="file-size">45.3 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/trailer.mp4" download class="file-card" data-cat="mp4">
+                <div class="file-card" data-cat="mp4" data-type="preview" data-src="files/trailer.mp4" data-name="trailer.mp4">
                     <div class="file-icon">🎬</div>
                     <div class="file-name">trailer.mp4</div>
                     <div class="file-size">67.8 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/fight.mp4" download class="file-card" data-cat="mp4">
+                <div class="file-card" data-cat="mp4" data-type="preview" data-src="files/fight.mp4" data-name="fight_scene.mp4">
                     <div class="file-icon">🎬</div>
                     <div class="file-name">fight_scene.mp4</div>
                     <div class="file-size">89.1 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/ending.mp4" download class="file-card" data-cat="mp4">
+                <div class="file-card" data-cat="mp4" data-type="preview" data-src="files/ending.mp4" data-name="ending.mp4">
                     <div class="file-icon">🎬</div>
                     <div class="file-name">ending.mp4</div>
                     <div class="file-size">52.6 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/promo.mp4" download class="file-card" data-cat="mp4">
+                <div class="file-card" data-cat="mp4" data-type="preview" data-src="files/promo.mp4" data-name="promo.mp4">
                     <div class="file-icon">🎬</div>
                     <div class="file-name">promo.mp4</div>
                     <div class="file-size">31.4 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">عرض وتحميل</button>
+                </div>
 
-                <a href="files/theme.mp3" download class="file-card" data-cat="mp3">
+                <div class="file-card" data-cat="mp3" data-type="preview" data-src="files/theme.mp3" data-name="theme.mp3">
                     <div class="file-icon">🎵</div>
                     <div class="file-name">theme.mp3</div>
                     <div class="file-size">4.2 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">تشغيل وتحميل</button>
+                </div>
 
-                <a href="files/ost.mp3" download class="file-card" data-cat="mp3">
+                <div class="file-card" data-cat="mp3" data-type="preview" data-src="files/ost.mp3" data-name="shadow_ost.mp3">
                     <div class="file-icon">🎵</div>
                     <div class="file-name">shadow_ost.mp3</div>
                     <div class="file-size">5.8 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">تشغيل وتحميل</button>
+                </div>
 
-                <a href="files/bgm.mp3" download class="file-card" data-cat="mp3">
+                <div class="file-card" data-cat="mp3" data-type="preview" data-src="files/bgm.mp3" data-name="battle_bgm.mp3">
                     <div class="file-icon">🎵</div>
                     <div class="file-name">battle_bgm.mp3</div>
                     <div class="file-size">3.9 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">تشغيل وتحميل</button>
+                </div>
 
-                <a href="files/sfx.mp3" download class="file-card" data-cat="mp3">
+                <div class="file-card" data-cat="mp3" data-type="preview" data-src="files/sfx.mp3" data-name="sound_fx.mp3">
                     <div class="file-icon">🎵</div>
                     <div class="file-name">sound_fx.mp3</div>
                     <div class="file-size">1.2 MB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">تشغيل وتحميل</button>
+                </div>
 
-                <a href="files/voice.mp3" download class="file-card" data-cat="mp3">
+                <div class="file-card" data-cat="mp3" data-type="preview" data-src="files/voice.mp3" data-name="voice_line.mp3">
                     <div class="file-icon">🎵</div>
                     <div class="file-name">voice_line.mp3</div>
                     <div class="file-size">890 KB</div>
-                    <button class="download-btn">تحميل مباشر</button>
-                </a>
+                    <button class="download-btn">تشغيل وتحميل</button>
+                </div>
 
-                <a href="files/pack.zip" download class="file-card" data-cat="zip">
+                <a href="files/pack.zip" download class="file-card" data-cat="zip" data-type="download">
                     <div class="file-icon">📦</div>
                     <div class="file-name">assets_pack.zip</div>
                     <div class="file-size">156 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/textures.zip" download class="file-card" data-cat="zip">
+                <a href="files/textures.zip" download class="file-card" data-cat="zip" data-type="download">
                     <div class="file-icon">📦</div>
                     <div class="file-name">textures.zip</div>
                     <div class="file-size">89.4 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/fonts.zip" download class="file-card" data-cat="zip">
+                <a href="files/fonts.zip" download class="file-card" data-cat="zip" data-type="download">
                     <div class="file-icon">📦</div>
                     <div class="file-name">fonts.zip</div>
                     <div class="file-size">12.3 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/scripts.zip" download class="file-card" data-cat="zip">
+                <a href="files/scripts.zip" download class="file-card" data-cat="zip" data-type="download">
                     <div class="file-icon">📦</div>
                     <div class="file-name">scripts.zip</div>
                     <div class="file-size">2.1 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/templates.zip" download class="file-card" data-cat="zip">
+                <a href="files/templates.zip" download class="file-card" data-cat="zip" data-type="download">
                     <div class="file-icon">📦</div>
                     <div class="file-name">templates.zip</div>
                     <div class="file-size">34.7 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/model1.glb" download class="file-card" data-cat="3d">
+                <a href="files/model1.glb" download class="file-card" data-cat="3d" data-type="download">
                     <div class="file-icon">🎭</div>
                     <div class="file-name">gate_3d.glb</div>
                     <div class="file-size">8.2 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/character.glb" download class="file-card" data-cat="3d">
+                <a href="files/character.glb" download class="file-card" data-cat="3d" data-type="download">
                     <div class="file-icon">🎭</div>
                     <div class="file-name">character.glb</div>
                     <div class="file-size">12.5 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/weapon.obj" download class="file-card" data-cat="3d">
+                <a href="files/weapon.obj" download class="file-card" data-cat="3d" data-type="download">
                     <div class="file-icon">🎭</div>
                     <div class="file-name">sword.obj</div>
                     <div class="file-size">3.1 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/scene.fbx" download class="file-card" data-cat="3d">
+                <a href="files/scene.fbx" download class="file-card" data-cat="3d" data-type="download">
                     <div class="file-icon">🎭</div>
                     <div class="file-name">scene.fbx</div>
                     <div class="file-size">45.6 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/avatar.glb" download class="file-card" data-cat="3d">
+                <a href="files/avatar.glb" download class="file-card" data-cat="3d" data-type="download">
                     <div class="file-icon">🎭</div>
                     <div class="file-name">avatar.glb</div>
                     <div class="file-size">18.9 MB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/readme.txt" download class="file-card" data-cat="txt">
+                <a href="files/readme.txt" download class="file-card" data-cat="txt" data-type="download">
                     <div class="file-icon">📄</div>
                     <div class="file-name">readme.txt</div>
                     <div class="file-size">12 KB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/license.txt" download class="file-card" data-cat="txt">
+                <a href="files/license.txt" download class="file-card" data-cat="txt" data-type="download">
                     <div class="file-icon">📄</div>
                     <div class="file-name">license.txt</div>
                     <div class="file-size">8 KB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/changelog.txt" download class="file-card" data-cat="txt">
+                <a href="files/changelog.txt" download class="file-card" data-cat="txt" data-type="download">
                     <div class="file-icon">📄</div>
                     <div class="file-name">changelog.txt</div>
                     <div class="file-size">15 KB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/credits.txt" download class="file-card" data-cat="txt">
+                <a href="files/credits.txt" download class="file-card" data-cat="txt" data-type="download">
                     <div class="file-icon">📄</div>
                     <div class="file-name">credits.txt</div>
                     <div class="file-size">6 KB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="files/instructions.txt" download class="file-card" data-cat="txt">
+                <a href="files/instructions.txt" download class="file-card" data-cat="txt" data-type="download">
                     <div class="file-icon">📄</div>
                     <div class="file-name">instructions.txt</div>
                     <div class="file-size">22 KB</div>
                     <button class="download-btn">تحميل مباشر</button>
                 </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="preview-modal" id="previewModal">
+        <div class="preview-box">
+            <button class="preview-close" onclick="closePreview()">×</button>
+            <div class="preview-content" id="previewContent"></div>
+            <div class="preview-actions">
+                <button class="preview-download" id="previewDownloadBtn">تحميل الملف</button>
             </div>
         </div>
     </div>
@@ -474,6 +572,7 @@
 
         function closeMenu() {
             document.getElementById("menuPage").classList.remove("active");
+            closePreview();
         }
 
         window.addEventListener("popstate", function () {
@@ -492,6 +591,51 @@
                 }
             });
         }
+
+        document.querySelectorAll('.file-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if(this.dataset.type === 'preview') {
+                    e.preventDefault();
+                    openPreview(this.dataset.src, this.dataset.name);
+                }
+            });
+        });
+
+        function openPreview(src, name) {
+            const modal = document.getElementById('previewModal');
+            const content = document.getElementById('previewContent');
+            const downloadBtn = document.getElementById('previewDownloadBtn');
+            
+            content.innerHTML = '';
+            
+            const ext = name.split('.').pop().toLowerCase();
+            
+            if(ext === 'jpg' || ext === 'jpeg' || ext === 'png' || ext === 'gif') {
+                content.innerHTML = `<img src="${src}" alt="${name}">`;
+            } else if(ext === 'mp4' || ext === 'webm') {
+                content.innerHTML = `<video src="${src}" controls autoplay></video>`;
+            } else if(ext === 'mp3' || ext === 'wav') {
+                content.innerHTML = `<audio src="${src}" controls autoplay></audio>`;
+            }
+            
+            downloadBtn.onclick = () => {
+                const a = document.createElement('a');
+                a.href = src;
+                a.download = name;
+                a.click();
+            };
+            
+            modal.classList.add('active');
+        }
+
+        function closePreview() {
+            document.getElementById('previewModal').classList.remove('active');
+            document.getElementById('previewContent').innerHTML = '';
+        }
+
+        document.getElementById('previewModal').addEventListener('click', function(e) {
+            if(e.target === this) closePreview();
+        });
 
         window.onload = () => {
             filterFiles('apk');
