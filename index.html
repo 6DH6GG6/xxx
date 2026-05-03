@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>فضائح عصابات</title>
+    <title>أسماء الظلال</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; }
         body {
@@ -19,7 +19,7 @@
         .main-btn {
             width: 280px;
             aspect-ratio: 4/3;
-            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160952.png') center/cover;
+            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160850.png') center/cover;
             cursor: pointer;
             clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
             transition: 0.3s;
@@ -106,58 +106,6 @@
             overflow-y: auto;
         }
 
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .card {
-            background: rgba(20,0,0,0.6);
-            border: 2px solid #ff0000;
-            border-radius: 12px;
-            overflow: hidden;
-            transition: 0.3s;
-            cursor: pointer;
-            text-decoration: none;
-            display: none;
-        }
-
-        .card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 10px 30px rgba(255,0,0,0.5);
-        }
-
-        .card-img {
-            width: 100%;
-            height: 250px;
-            background: #1a0000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 50px;
-            object-fit: cover;
-        }
-
-        .card-info {
-            padding: 15px;
-        }
-
-        .card-title {
-            color: #ff0000;
-            font-size: 16px;
-            font-weight: bold;
-            margin-bottom: 8px;
-        }
-
-        .card-desc {
-            color: #aaa;
-            font-size: 13px;
-            line-height: 1.5;
-        }
-
         .category-tabs {
             display: flex;
             gap: 10px;
@@ -180,226 +128,269 @@
             color: black;
             box-shadow: 0 0 15px #ff0000;
         }
+
+        .members-list {
+            max-width: 600px;
+            margin: 0 auto;
+            display: none;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .members-list.active {
+            display: flex;
+        }
+
+        .member-row {
+            background: rgba(20,0,0,0.6);
+            border: 2px solid #ff0000;
+            border-radius: 50px;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: 0.3s;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .member-row:hover {
+            background: rgba(40,0,0,0.8);
+            transform: translateX(-5px);
+            box-shadow: 0 0 20px rgba(255,0,0,0.4);
+        }
+
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ff0000;
+            object-fit: cover;
+            position: relative;
+            box-shadow: 0 0 15px rgba(255,0,0,0.3);
+        }
+
+        .status-dot {
+            position: absolute;
+            bottom: 2px;
+            left: 2px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid #000;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .status-dot.online { background: #00ff00; color: #00ff00; }
+        .status-dot.offline { background: #ff9900; color: #ff9900; }
+        .status-dot.dead { background: #ff0000; color: #ff0000; }
+
+        .member-info {
+            flex: 1;
+        }
+
+        .member-name {
+            color: #ff0000;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .member-rank {
+            color: #888;
+            font-size: 13px;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+        }
     </style>
 </head>
 <body>
     <div class="main-btn" onclick="openMenu()">
-        <span>فضائح عصابات</span>
+        <span>أسماء الظلال</span>
     </div>
 
     <div class="menu-page" id="menuPage">
         <div class="menu-header">
-            <h2>☠ أرشيف الفضائح - طائفة الظلال ☠</h2>
+            <h2>☠ أسماء الظلال - سجلات المملكة ☠</h2>
             <button class="close-btn" onclick="closeMenu()">رجوع</button>
         </div>
         
         <div class="menu-content">
             <div class="category-tabs">
-                <div class="tab active" onclick="filterData('gang1')">عصابة الكوبرا</div>
-                <div class="tab" onclick="filterData('gang2')">عصابة الذئاب</div>
-                <div class="tab" onclick="filterData('gang3')">عصابة الغربان</div>
-                <div class="tab" onclick="filterData('gang4')">عصابة العقارب</div>
-                <div class="tab" onclick="filterData('gang5')">عصابة الظل المكسور</div>
+                <div class="tab active" onclick="filterStatus('online')">نشطين</div>
+                <div class="tab" onclick="filterStatus('offline')">غائبين</div>
+                <div class="tab" onclick="filterStatus('dead')">منقرضين</div>
             </div>
 
-            <div class="grid" id="grid">
-                <a href="cobra1.html" class="card" data-cat="gang1">
-                    <img src="cobra1.jpg" class="card-img" alt="Cobra">
-                    <div class="card-info">
-                        <div class="card-title">تسريب محادثة القائد</div>
-                        <div class="card-desc">لحظة خيانة كوبرا لجماعته</div>
+            <div class="members-list active" id="online-list">
+                <a href="shadow1.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow1.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">كاجي نو تييو</div>
+                        <div class="member-rank">إمبراطور الظلال</div>
                     </div>
                 </a>
 
-                <a href="cobra2.mp4" class="card" data-cat="gang1">
-                    <div class="card-img">🐍</div>
-                    <div class="card-info">
-                        <div class="card-title">فيديو الهروب</div>
-                        <div class="card-desc">لحظة هروب الكوبرا من الدعس</div>
+                <a href="shadow2.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow2.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">السفاح الأحمر</div>
+                        <div class="member-rank">قائد فيلق الدعس</div>
                     </div>
                 </a>
 
-                <a href="cobra3.html" class="card" data-cat="gang1">
-                    <img src="cobra3.jpg" class="card-img" alt="Cobra">
-                    <div class="card-info">
-                        <div class="card-title">لقطات شاشة</div>
-                        <div class="card-desc">سب وتهديدات مسجلة</div>
+                <a href="shadow3.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow3.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">شبح الليل</div>
+                        <div class="member-rank">جاسوس المملكة</div>
                     </div>
                 </a>
 
-                <a href="cobra4.jpg" class="card" data-cat="gang1">
-                    <img src="cobra4.jpg" class="card-img" alt="Cobra">
-                    <div class="card-info">
-                        <div class="card-title">وثيقة التحالف</div>
-                        <div class="card-desc">تحالف سري تم كشفه</div>
+                <a href="shadow4.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow4.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">النصل الأسود</div>
+                        <div class="member-rank">حارس البوابة</div>
                     </div>
                 </a>
 
-                <a href="cobra5.html" class="card" data-cat="gang1">
-                    <div class="card-img">💀</div>
-                    <div class="card-info">
-                        <div class="card-title">سقوط الكوبرا</div>
-                        <div class="card-desc">توثيق لحظة السقوط النهائي</div>
+                <a href="shadow5.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow5.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot online"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">عين الصقر</div>
+                        <div class="member-rank">مراقب الحدود</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="members-list" id="offline-list">
+                <a href="shadow6.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow6.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot offline"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">الذئب الرمادي</div>
+                        <div class="member-rank">غائب منذ 3 أيام</div>
                     </div>
                 </a>
 
-                <a href="wolves1.html" class="card" data-cat="gang2">
-                    <img src="wolves1.jpg" class="card-img" alt="Wolves">
-                    <div class="card-info">
-                        <div class="card-title">خيانة الذئاب</div>
-                        <div class="card-desc">غدر الذئاب بحلفائهم</div>
+                <a href="shadow7.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow7.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot offline"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">لهيب الجحيم</div>
+                        <div class="member-rank">غائب منذ أسبوع</div>
                     </div>
                 </a>
 
-                <a href="wolves2.mp4" class="card" data-cat="gang2">
-                    <div class="card-img">🐺</div>
-                    <div class="card-info">
-                        <div class="card-title">تسجيل صوتي</div>
-                        <div class="card-desc">اعتراف قائد الذئاب</div>
+                <a href="shadow8.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow8.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot offline"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">السيف المكسور</div>
+                        <div class="member-rank">غائب منذ 5 أيام</div>
                     </div>
                 </a>
 
-                <a href="wolves3.html" class="card" data-cat="gang2">
-                    <img src="wolves3.jpg" class="card-img" alt="Wolves">
-                    <div class="card-info">
-                        <div class="card-title">مخطط الهجوم</div>
-                        <div class="card-desc">خطة فاشلة تم تسريبها</div>
+                <a href="shadow9.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow9.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot offline"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">عاصفة الظلام</div>
+                        <div class="member-rank">غائب منذ يومين</div>
                     </div>
                 </a>
 
-                <a href="wolves4.jpg" class="card" data-cat="gang2">
-                    <img src="wolves4.jpg" class="card-img" alt="Wolves">
-                    <div class="card-info">
-                        <div class="card-title">أسماء الجواسيس</div>
-                        <div class="card-desc">قائمة العملاء السريين</div>
+                <a href="shadow10.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow10.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot offline"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">القناص</div>
+                        <div class="member-rank">غائب منذ 10 أيام</div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="members-list" id="dead-list">
+                <a href="shadow11.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow11.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot dead"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">الخائن الأول</div>
+                        <div class="member-rank">منقرض - تم الدعس</div>
                     </div>
                 </a>
 
-                <a href="wolves5.html" class="card" data-cat="gang2">
-                    <div class="card-img">🌙</div>
-                    <div class="card-info">
-                        <div class="card-title">انهيار الذئاب</div>
-                        <div class="card-desc">تفكك العصابة بالكامل</div>
+                <a href="shadow12.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow12.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot dead"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">الكوبرا السوداء</div>
+                        <div class="member-rank">منقرض - خيانة عظمى</div>
                     </div>
                 </a>
 
-                <a href="crows1.html" class="card" data-cat="gang3">
-                    <img src="crows1.jpg" class="card-img" alt="Crows">
-                    <div class="card-info">
-                        <div class="card-title">سرقة الغربان</div>
-                        <div class="card-desc">سرقة تصاميم المملكة</div>
+                <a href="shadow13.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow13.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot dead"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">الغراب الأعور</div>
+                        <div class="member-rank">منقرض - انقلاب فاشل</div>
                     </div>
                 </a>
 
-                <a href="crows2.mp4" class="card" data-cat="gang3">
-                    <div class="card-img">🦅</div>
-                    <div class="card-info">
-                        <div class="card-title">مواجهة مباشرة</div>
-                        <div class="card-desc">لحظة الدعس على الغربان</div>
+                <a href="shadow14.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow14.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot dead"></span>
+                    </div>
+                    <div class="member-info">
+                        <div class="member-name">العقرب السام</div>
+                        <div class="member-rank">منقرض - حكم الإعدام</div>
                     </div>
                 </a>
 
-                <a href="crows3.html" class="card" data-cat="gang3">
-                    <img src="crows3.jpg" class="card-img" alt="Crows">
-                    <div class="card-info">
-                        <div class="card-title">اعترافات</div>
-                        <div class="card-desc">اعتراف أحد الأعضاء</div>
+                <a href="shadow15.html" class="member-row">
+                    <div class="avatar-wrapper">
+                        <img src="shadow15.jpg" class="member-avatar" alt="Shadow">
+                        <span class="status-dot dead"></span>
                     </div>
-                </a>
-
-                <a href="crows4.jpg" class="card" data-cat="gang3">
-                    <img src="crows4.jpg" class="card-img" alt="Crows">
-                    <div class="card-info">
-                        <div class="card-title">أدلة مصورة</div>
-                        <div class="card-desc">صور تثبت التزوير</div>
-                    </div>
-                </a>
-
-                <a href="crows5.html" class="card" data-cat="gang3">
-                    <div class="card-img">🪶</div>
-                    <div class="card-info">
-                        <div class="card-title">نهاية الغربان</div>
-                        <div class="card-desc">إعلان الحل الرسمي</div>
-                    </div>
-                </a>
-
-                <a href="scorpions1.html" class="card" data-cat="gang4">
-                    <img src="scorpions1.jpg" class="card-img" alt="Scorpions">
-                    <div class="card-info">
-                        <div class="card-title">لدغة العقارب</div>
-                        <div class="card-desc">غدر من الداخل</div>
-                    </div>
-                </a>
-
-                <a href="scorpions2.mp4" class="card" data-cat="gang4">
-                    <div class="card-img">🦂</div>
-                    <div class="card-info">
-                        <div class="card-title">مكالمة مسربة</div>
-                        <div class="card-desc">تخطيط للانقلاب</div>
-                    </div>
-                </a>
-
-                <a href="scorpions3.html" class="card" data-cat="gang4">
-                    <img src="scorpions3.jpg" class="card-img" alt="Scorpions">
-                    <div class="card-info">
-                        <div class="card-title">ملفات مسروقة</div>
-                        <div class="card-desc">قاعدة بيانات الأعضاء</div>
-                    </div>
-                </a>
-
-                <a href="scorpions4.jpg" class="card" data-cat="gang4">
-                    <img src="scorpions4.jpg" class="card-img" alt="Scorpions">
-                    <div class="card-info">
-                        <div class="card-title">السم الأخير</div>
-                        <div class="card-desc">محاولة أخيرة فاشلة</div>
-                    </div>
-                </a>
-
-                <a href="scorpions5.html" class="card" data-cat="gang4">
-                    <div class="card-img">☠️</div>
-                    <div class="card-info">
-                        <div class="card-title">إبادة العقارب</div>
-                        <div class="card-desc">التوثيق الكامل</div>
-                    </div>
-                </a>
-
-                <a href="broken1.html" class="card" data-cat="gang5">
-                    <img src="broken1.jpg" class="card-img" alt="Broken">
-                    <div class="card-info">
-                        <div class="card-title">الظل المكسور</div>
-                        <div class="card-desc">انشقاق عن المملكة</div>
-                    </div>
-                </a>
-
-                <a href="broken2.mp4" class="card" data-cat="gang5">
-                    <div class="card-img">💔</div>
-                    <div class="card-info">
-                        <div class="card-title">لحظة الخيانة</div>
-                        <div class="card-desc">فيديو الانقلاب</div>
-                    </div>
-                </a>
-
-                <a href="broken3.html" class="card" data-cat="gang5">
-                    <img src="broken3.jpg" class="card-img" alt="Broken">
-                    <div class="card-info">
-                        <div class="card-title">رسائل خاصة</div>
-                        <div class="card-desc">تآمر على المملكة</div>
-                    </div>
-                </a>
-
-                <a href="broken4.jpg" class="card" data-cat="gang5">
-                    <img src="broken4.jpg" class="card-img" alt="Broken">
-                    <div class="card-info">
-                        <div class="card-title">قائمة الخونة</div>
-                        <div class="card-desc">الأسماء بالكامل</div>
-                    </div>
-                </a>
-
-                <a href="broken5.html" class="card" data-cat="gang5">
-                    <div class="card-img">⚰️</div>
-                    <div class="card-info">
-                        <div class="card-title">المحاكمة</div>
-                        <div class="card-desc">حكم الظلال النهائي</div>
+                    <div class="member-info">
+                        <div class="member-name">الظل المنشق</div>
+                        <div class="member-rank">منقرض - محو كامل</div>
                     </div>
                 </a>
             </div>
@@ -410,7 +401,7 @@
         function openMenu() {
             document.getElementById("menuPage").classList.add("active");
             history.pushState({page: "menu"}, "");
-            filterData('gang1');
+            filterStatus('online');
         }
 
         function closeMenu() {
@@ -421,21 +412,18 @@
             closeMenu();
         });
 
-        function filterData(category) {
+        function filterStatus(status) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
             
-            document.querySelectorAll('.card').forEach(card => {
-                if(card.dataset.cat === category) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
+            document.querySelectorAll('.members-list').forEach(list => {
+                list.classList.remove('active');
             });
+            document.getElementById(status + '-list').classList.add('active');
         }
 
         window.onload = () => {
-            filterData('gang1');
+            filterStatus('online');
         }
     </script>
 </body>
