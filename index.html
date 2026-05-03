@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>قائمة أنمي</title>
+    <title>فضائح عصابات</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; }
         body {
@@ -19,7 +19,7 @@
         .main-btn {
             width: 280px;
             aspect-ratio: 4/3;
-            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155749.png') center/cover;
+            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160952.png') center/cover;
             cursor: pointer;
             clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
             transition: 0.3s;
@@ -106,7 +106,7 @@
             overflow-y: auto;
         }
 
-        .anime-grid {
+        .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 20px;
@@ -114,7 +114,7 @@
             margin: 0 auto;
         }
 
-        .anime-card {
+        .card {
             background: rgba(20,0,0,0.6);
             border: 2px solid #ff0000;
             border-radius: 12px;
@@ -125,12 +125,12 @@
             display: none;
         }
 
-        .anime-card:hover {
+        .card:hover {
             transform: translateY(-8px);
             box-shadow: 0 10px 30px rgba(255,0,0,0.5);
         }
 
-        .anime-img {
+        .card-img {
             width: 100%;
             height: 250px;
             background: #1a0000;
@@ -141,18 +141,18 @@
             object-fit: cover;
         }
 
-        .anime-info {
+        .card-info {
             padding: 15px;
         }
 
-        .anime-title {
+        .card-title {
             color: #ff0000;
             font-size: 16px;
             font-weight: bold;
             margin-bottom: 8px;
         }
 
-        .anime-desc {
+        .card-desc {
             color: #aaa;
             font-size: 13px;
             line-height: 1.5;
@@ -184,222 +184,222 @@
 </head>
 <body>
     <div class="main-btn" onclick="openMenu()">
-        <span>أنمي</span>
+        <span>فضائح عصابات</span>
     </div>
 
     <div class="menu-page" id="menuPage">
         <div class="menu-header">
-            <h2>☠ قسم الأنمي - طائفة الظلال ☠</h2>
+            <h2>☠ أرشيف الفضائح - طائفة الظلال ☠</h2>
             <button class="close-btn" onclick="closeMenu()">رجوع</button>
         </div>
         
         <div class="menu-content">
             <div class="category-tabs">
-                <div class="tab active" onclick="filterAnime('naruto')">ناروتو</div>
-                <div class="tab" onclick="filterAnime('onepiece')">ون بيس</div>
-                <div class="tab" onclick="filterAnime('attack')">اتاك</div>
-                <div class="tab" onclick="filterAnime('hunter')">هنتر</div>
-                <div class="tab" onclick="filterAnime('dragonball')">دراغون بول</div>
+                <div class="tab active" onclick="filterData('gang1')">عصابة الكوبرا</div>
+                <div class="tab" onclick="filterData('gang2')">عصابة الذئاب</div>
+                <div class="tab" onclick="filterData('gang3')">عصابة الغربان</div>
+                <div class="tab" onclick="filterData('gang4')">عصابة العقارب</div>
+                <div class="tab" onclick="filterData('gang5')">عصابة الظل المكسور</div>
             </div>
 
-            <div class="anime-grid" id="animeGrid">
-                <a href="naruto1.html" class="anime-card" data-cat="naruto">
-                    <img src="naruto1.jpg" class="anime-img" alt="Naruto">
-                    <div class="anime-info">
-                        <div class="anime-title">ناروتو الجزء 1</div>
-                        <div class="anime-desc">بداية رحلة النينجا</div>
+            <div class="grid" id="grid">
+                <a href="cobra1.html" class="card" data-cat="gang1">
+                    <img src="cobra1.jpg" class="card-img" alt="Cobra">
+                    <div class="card-info">
+                        <div class="card-title">تسريب محادثة القائد</div>
+                        <div class="card-desc">لحظة خيانة كوبرا لجماعته</div>
                     </div>
                 </a>
 
-                <a href="naruto2.mp4" class="anime-card" data-cat="naruto">
-                    <img src="naruto2.jpg" class="anime-img" alt="Naruto">
-                    <div class="anime-info">
-                        <div class="anime-title">ناروتو شيبودن</div>
-                        <div class="anime-desc">عودة الأكاتسكي</div>
+                <a href="cobra2.mp4" class="card" data-cat="gang1">
+                    <div class="card-img">🐍</div>
+                    <div class="card-info">
+                        <div class="card-title">فيديو الهروب</div>
+                        <div class="card-desc">لحظة هروب الكوبرا من الدعس</div>
                     </div>
                 </a>
 
-                <a href="naruto3.html" class="anime-card" data-cat="naruto">
-                    <div class="anime-img">🍥</div>
-                    <div class="anime-info">
-                        <div class="anime-title">ناروتو ضد باين</div>
-                        <div class="anime-desc">أقوى قتال في كونوها</div>
+                <a href="cobra3.html" class="card" data-cat="gang1">
+                    <img src="cobra3.jpg" class="card-img" alt="Cobra">
+                    <div class="card-info">
+                        <div class="card-title">لقطات شاشة</div>
+                        <div class="card-desc">سب وتهديدات مسجلة</div>
                     </div>
                 </a>
 
-                <a href="naruto4.jpg" class="anime-card" data-cat="naruto">
-                    <img src="naruto4.jpg" class="anime-img" alt="Naruto">
-                    <div class="anime-info">
-                        <div class="anime-title">ناروتو صور</div>
-                        <div class="anime-desc">معرض صور ناروتو</div>
+                <a href="cobra4.jpg" class="card" data-cat="gang1">
+                    <img src="cobra4.jpg" class="card-img" alt="Cobra">
+                    <div class="card-info">
+                        <div class="card-title">وثيقة التحالف</div>
+                        <div class="card-desc">تحالف سري تم كشفه</div>
                     </div>
                 </a>
 
-                <a href="naruto5.html" class="anime-card" data-cat="naruto">
-                    <div class="anime-img">🦊</div>
-                    <div class="anime-info">
-                        <div class="anime-title">ناروتو الكيوبي</div>
-                        <div class="anime-desc">قوة الثعلب ذو التسعة ذيول</div>
+                <a href="cobra5.html" class="card" data-cat="gang1">
+                    <div class="card-img">💀</div>
+                    <div class="card-info">
+                        <div class="card-title">سقوط الكوبرا</div>
+                        <div class="card-desc">توثيق لحظة السقوط النهائي</div>
                     </div>
                 </a>
 
-                <a href="onepiece1.html" class="anime-card" data-cat="onepiece">
-                    <img src="onepiece1.jpg" class="anime-img" alt="OnePiece">
-                    <div class="anime-info">
-                        <div class="anime-title">ون بيس الحلقة 1</div>
-                        <div class="anime-desc">بداية عصر القراصنة</div>
+                <a href="wolves1.html" class="card" data-cat="gang2">
+                    <img src="wolves1.jpg" class="card-img" alt="Wolves">
+                    <div class="card-info">
+                        <div class="card-title">خيانة الذئاب</div>
+                        <div class="card-desc">غدر الذئاب بحلفائهم</div>
                     </div>
                 </a>
 
-                <a href="onepiece2.mp4" class="anime-card" data-cat="onepiece">
-                    <div class="anime-img">🏴‍☠️</div>
-                    <div class="anime-info">
-                        <div class="anime-title">لوفي ضد كايدو</div>
-                        <div class="anime-desc">قتال الجير 5</div>
+                <a href="wolves2.mp4" class="card" data-cat="gang2">
+                    <div class="card-img">🐺</div>
+                    <div class="card-info">
+                        <div class="card-title">تسجيل صوتي</div>
+                        <div class="card-desc">اعتراف قائد الذئاب</div>
                     </div>
                 </a>
 
-                <a href="onepiece3.html" class="anime-card" data-cat="onepiece">
-                    <img src="onepiece3.jpg" class="anime-img" alt="OnePiece">
-                    <div class="anime-info">
-                        <div class="anime-title">طاقم قبعة القش</div>
-                        <div class="anime-desc">أعضاء الطاقم كاملين</div>
+                <a href="wolves3.html" class="card" data-cat="gang2">
+                    <img src="wolves3.jpg" class="card-img" alt="Wolves">
+                    <div class="card-info">
+                        <div class="card-title">مخطط الهجوم</div>
+                        <div class="card-desc">خطة فاشلة تم تسريبها</div>
                     </div>
                 </a>
 
-                <a href="onepiece4.jpg" class="anime-card" data-cat="onepiece">
-                    <img src="onepiece4.jpg" class="anime-img" alt="OnePiece">
-                    <div class="anime-info">
-                        <div class="anime-title">الون بيس</div>
-                        <div class="anime-desc">الكنز الأسطوري</div>
+                <a href="wolves4.jpg" class="card" data-cat="gang2">
+                    <img src="wolves4.jpg" class="card-img" alt="Wolves">
+                    <div class="card-info">
+                        <div class="card-title">أسماء الجواسيس</div>
+                        <div class="card-desc">قائمة العملاء السريين</div>
                     </div>
                 </a>
 
-                <a href="onepiece5.html" class="anime-card" data-cat="onepiece">
-                    <div class="anime-img">⚓</div>
-                    <div class="anime-info">
-                        <div class="anime-title">ارك وانو</div>
-                        <div class="anime-desc">حرب الساموراي</div>
+                <a href="wolves5.html" class="card" data-cat="gang2">
+                    <div class="card-img">🌙</div>
+                    <div class="card-info">
+                        <div class="card-title">انهيار الذئاب</div>
+                        <div class="card-desc">تفكك العصابة بالكامل</div>
                     </div>
                 </a>
 
-                <a href="attack1.html" class="anime-card" data-cat="attack">
-                    <img src="attack1.jpg" class="anime-img" alt="Attack">
-                    <div class="anime-info">
-                        <div class="anime-title">اتاك الموسم 1</div>
-                        <div class="anime-desc">سقوط سور ماريا</div>
+                <a href="crows1.html" class="card" data-cat="gang3">
+                    <img src="crows1.jpg" class="card-img" alt="Crows">
+                    <div class="card-info">
+                        <div class="card-title">سرقة الغربان</div>
+                        <div class="card-desc">سرقة تصاميم المملكة</div>
                     </div>
                 </a>
 
-                <a href="attack2.mp4" class="anime-card" data-cat="attack">
-                    <div class="anime-img">⚔️</div>
-                    <div class="anime-info">
-                        <div class="anime-title">ايرين ضد العملاق</div>
-                        <div class="anime-desc">تحول ايرين الأول</div>
+                <a href="crows2.mp4" class="card" data-cat="gang3">
+                    <div class="card-img">🦅</div>
+                    <div class="card-info">
+                        <div class="card-title">مواجهة مباشرة</div>
+                        <div class="card-desc">لحظة الدعس على الغربان</div>
                     </div>
                 </a>
 
-                <a href="attack3.html" class="anime-card" data-cat="attack">
-                    <img src="attack3.jpg" class="anime-img" alt="Attack">
-                    <div class="anime-info">
-                        <div class="anime-title">فيلق الاستطلاع</div>
-                        <div class="anime-desc">جنود الحرية</div>
+                <a href="crows3.html" class="card" data-cat="gang3">
+                    <img src="crows3.jpg" class="card-img" alt="Crows">
+                    <div class="card-info">
+                        <div class="card-title">اعترافات</div>
+                        <div class="card-desc">اعتراف أحد الأعضاء</div>
                     </div>
                 </a>
 
-                <a href="attack4.jpg" class="anime-card" data-cat="attack">
-                    <img src="attack4.jpg" class="anime-img" alt="Attack">
-                    <div class="anime-info">
-                        <div class="anime-title">العمالقة</div>
-                        <div class="anime-desc">أنواع العمالقة التسعة</div>
+                <a href="crows4.jpg" class="card" data-cat="gang3">
+                    <img src="crows4.jpg" class="card-img" alt="Crows">
+                    <div class="card-info">
+                        <div class="card-title">أدلة مصورة</div>
+                        <div class="card-desc">صور تثبت التزوير</div>
                     </div>
                 </a>
 
-                <a href="attack5.html" class="anime-card" data-cat="attack">
-                    <div class="anime-img">🗡️</div>
-                    <div class="anime-info">
-                        <div class="anime-title">النهاية</div>
-                        <div class="anime-desc">دك الأرض</div>
+                <a href="crows5.html" class="card" data-cat="gang3">
+                    <div class="card-img">🪶</div>
+                    <div class="card-info">
+                        <div class="card-title">نهاية الغربان</div>
+                        <div class="card-desc">إعلان الحل الرسمي</div>
                     </div>
                 </a>
 
-                <a href="hunter1.html" class="anime-card" data-cat="hunter">
-                    <img src="hunter1.jpg" class="anime-img" alt="Hunter">
-                    <div class="anime-info">
-                        <div class="anime-title">هنتر اختبار الصيادين</div>
-                        <div class="anime-desc">بداية غون</div>
+                <a href="scorpions1.html" class="card" data-cat="gang4">
+                    <img src="scorpions1.jpg" class="card-img" alt="Scorpions">
+                    <div class="card-info">
+                        <div class="card-title">لدغة العقارب</div>
+                        <div class="card-desc">غدر من الداخل</div>
                     </div>
                 </a>
 
-                <a href="hunter2.mp4" class="anime-card" data-cat="hunter">
-                    <div class="anime-img">🎣</div>
-                    <div class="anime-info">
-                        <div class="anime-title">غون ضد هيسوكا</div>
-                        <div class="anime-desc">برج السماء</div>
+                <a href="scorpions2.mp4" class="card" data-cat="gang4">
+                    <div class="card-img">🦂</div>
+                    <div class="card-info">
+                        <div class="card-title">مكالمة مسربة</div>
+                        <div class="card-desc">تخطيط للانقلاب</div>
                     </div>
                 </a>
 
-                <a href="hunter3.html" class="anime-card" data-cat="hunter">
-                    <img src="hunter3.jpg" class="anime-img" alt="Hunter">
-                    <div class="anime-info">
-                        <div class="anime-title">ارك النمل</div>
-                        <div class="anime-desc">نمل الكيميرا</div>
+                <a href="scorpions3.html" class="card" data-cat="gang4">
+                    <img src="scorpions3.jpg" class="card-img" alt="Scorpions">
+                    <div class="card-info">
+                        <div class="card-title">ملفات مسروقة</div>
+                        <div class="card-desc">قاعدة بيانات الأعضاء</div>
                     </div>
                 </a>
 
-                <a href="hunter4.jpg" class="anime-card" data-cat="hunter">
-                    <img src="hunter4.jpg" class="anime-img" alt="Hunter">
-                    <div class="anime-info">
-                        <div class="anime-title">النين</div>
-                        <div class="anime-desc">أنواع الهاتسو</div>
+                <a href="scorpions4.jpg" class="card" data-cat="gang4">
+                    <img src="scorpions4.jpg" class="card-img" alt="Scorpions">
+                    <div class="card-info">
+                        <div class="card-title">السم الأخير</div>
+                        <div class="card-desc">محاولة أخيرة فاشلة</div>
                     </div>
                 </a>
 
-                <a href="hunter5.html" class="anime-card" data-cat="hunter">
-                    <div class="anime-img">🕷️</div>
-                    <div class="anime-info">
-                        <div class="anime-title">عصابة العناكب</div>
-                        <div class="anime-desc">جيني ريودان</div>
+                <a href="scorpions5.html" class="card" data-cat="gang4">
+                    <div class="card-img">☠️</div>
+                    <div class="card-info">
+                        <div class="card-title">إبادة العقارب</div>
+                        <div class="card-desc">التوثيق الكامل</div>
                     </div>
                 </a>
 
-                <a href="dragonball1.html" class="anime-card" data-cat="dragonball">
-                    <img src="dragonball1.jpg" class="anime-img" alt="DragonBall">
-                    <div class="anime-info">
-                        <div class="anime-title">دراغون بول زد</div>
-                        <div class="anime-desc">وصول السايان</div>
+                <a href="broken1.html" class="card" data-cat="gang5">
+                    <img src="broken1.jpg" class="card-img" alt="Broken">
+                    <div class="card-info">
+                        <div class="card-title">الظل المكسور</div>
+                        <div class="card-desc">انشقاق عن المملكة</div>
                     </div>
                 </a>
 
-                <a href="dragonball2.mp4" class="anime-card" data-cat="dragonball">
-                    <div class="anime-img">🐉</div>
-                    <div class="anime-info">
-                        <div class="anime-title">غوكو ضد فريزا</div>
-                        <div class="anime-desc">السوبر سايان الأول</div>
+                <a href="broken2.mp4" class="card" data-cat="gang5">
+                    <div class="card-img">💔</div>
+                    <div class="card-info">
+                        <div class="card-title">لحظة الخيانة</div>
+                        <div class="card-desc">فيديو الانقلاب</div>
                     </div>
                 </a>
 
-                <a href="dragonball3.html" class="anime-card" data-cat="dragonball">
-                    <img src="dragonball3.jpg" class="anime-img" alt="DragonBall">
-                    <div class="anime-info">
-                        <div class="anime-title">بطولة القوة</div>
-                        <div class="anime-desc">الغريزة الفائقة</div>
+                <a href="broken3.html" class="card" data-cat="gang5">
+                    <img src="broken3.jpg" class="card-img" alt="Broken">
+                    <div class="card-info">
+                        <div class="card-title">رسائل خاصة</div>
+                        <div class="card-desc">تآمر على المملكة</div>
                     </div>
                 </a>
 
-                <a href="dragonball4.jpg" class="anime-card" data-cat="dragonball">
-                    <img src="dragonball4.jpg" class="anime-img" alt="DragonBall">
-                    <div class="anime-info">
-                        <div class="anime-title">كرات التنين</div>
-                        <div class="anime-desc">تحقيق الأمنيات</div>
+                <a href="broken4.jpg" class="card" data-cat="gang5">
+                    <img src="broken4.jpg" class="card-img" alt="Broken">
+                    <div class="card-info">
+                        <div class="card-title">قائمة الخونة</div>
+                        <div class="card-desc">الأسماء بالكامل</div>
                     </div>
                 </a>
 
-                <a href="dragonball5.html" class="anime-card" data-cat="dragonball">
-                    <div class="anime-img">⚡</div>
-                    <div class="anime-info">
-                        <div class="anime-title">فيجيتا</div>
-                        <div class="anime-desc">أمير السايان</div>
+                <a href="broken5.html" class="card" data-cat="gang5">
+                    <div class="card-img">⚰️</div>
+                    <div class="card-info">
+                        <div class="card-title">المحاكمة</div>
+                        <div class="card-desc">حكم الظلال النهائي</div>
                     </div>
                 </a>
             </div>
@@ -410,7 +410,7 @@
         function openMenu() {
             document.getElementById("menuPage").classList.add("active");
             history.pushState({page: "menu"}, "");
-            filterAnime('naruto');
+            filterData('gang1');
         }
 
         function closeMenu() {
@@ -421,11 +421,11 @@
             closeMenu();
         });
 
-        function filterAnime(category) {
+        function filterData(category) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
             
-            document.querySelectorAll('.anime-card').forEach(card => {
+            document.querySelectorAll('.card').forEach(card => {
                 if(card.dataset.cat === category) {
                     card.style.display = 'block';
                 } else {
@@ -435,7 +435,7 @@
         }
 
         window.onload = () => {
-            filterAnime('naruto');
+            filterData('gang1');
         }
     </script>
 </body>
