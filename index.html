@@ -122,7 +122,7 @@
             transition: 0.3s;
             cursor: pointer;
             text-decoration: none;
-            display: block;
+            display: none;
         }
 
         .anime-card:hover {
@@ -138,6 +138,7 @@
             align-items: center;
             justify-content: center;
             font-size: 50px;
+            object-fit: cover;
         }
 
         .anime-info {
@@ -194,58 +195,211 @@
         
         <div class="menu-content">
             <div class="category-tabs">
-                <div class="tab active" onclick="filterAnime('all')">الكل</div>
-                <div class="tab" onclick="filterAnime('action')">أكشن</div>
-                <div class="tab" onclick="filterAnime('dark')">ظلامي</div>
-                <div class="tab" onclick="filterAnime('recommend')">توصيات الظلال</div>
+                <div class="tab active" onclick="filterAnime('naruto')">ناروتو</div>
+                <div class="tab" onclick="filterAnime('onepiece')">ون بيس</div>
+                <div class="tab" onclick="filterAnime('attack')">اتاك</div>
+                <div class="tab" onclick="filterAnime('hunter')">هنتر</div>
+                <div class="tab" onclick="filterAnime('dragonball')">دراغون بول</div>
             </div>
 
             <div class="anime-grid" id="animeGrid">
-                <a href="berserk.html" class="anime-card" data-cat="dark action">
+                <a href="naruto1.html" class="anime-card" data-cat="naruto">
+                    <img src="naruto1.jpg" class="anime-img" alt="Naruto">
+                    <div class="anime-info">
+                        <div class="anime-title">ناروتو الجزء 1</div>
+                        <div class="anime-desc">بداية رحلة النينجا</div>
+                    </div>
+                </a>
+
+                <a href="naruto2.mp4" class="anime-card" data-cat="naruto">
+                    <img src="naruto2.jpg" class="anime-img" alt="Naruto">
+                    <div class="anime-info">
+                        <div class="anime-title">ناروتو شيبودن</div>
+                        <div class="anime-desc">عودة الأكاتسكي</div>
+                    </div>
+                </a>
+
+                <a href="naruto3.html" class="anime-card" data-cat="naruto">
+                    <div class="anime-img">🍥</div>
+                    <div class="anime-info">
+                        <div class="anime-title">ناروتو ضد باين</div>
+                        <div class="anime-desc">أقوى قتال في كونوها</div>
+                    </div>
+                </a>
+
+                <a href="naruto4.jpg" class="anime-card" data-cat="naruto">
+                    <img src="naruto4.jpg" class="anime-img" alt="Naruto">
+                    <div class="anime-info">
+                        <div class="anime-title">ناروتو صور</div>
+                        <div class="anime-desc">معرض صور ناروتو</div>
+                    </div>
+                </a>
+
+                <a href="naruto5.html" class="anime-card" data-cat="naruto">
+                    <div class="anime-img">🦊</div>
+                    <div class="anime-info">
+                        <div class="anime-title">ناروتو الكيوبي</div>
+                        <div class="anime-desc">قوة الثعلب ذو التسعة ذيول</div>
+                    </div>
+                </a>
+
+                <a href="onepiece1.html" class="anime-card" data-cat="onepiece">
+                    <img src="onepiece1.jpg" class="anime-img" alt="OnePiece">
+                    <div class="anime-info">
+                        <div class="anime-title">ون بيس الحلقة 1</div>
+                        <div class="anime-desc">بداية عصر القراصنة</div>
+                    </div>
+                </a>
+
+                <a href="onepiece2.mp4" class="anime-card" data-cat="onepiece">
+                    <div class="anime-img">🏴‍☠️</div>
+                    <div class="anime-info">
+                        <div class="anime-title">لوفي ضد كايدو</div>
+                        <div class="anime-desc">قتال الجير 5</div>
+                    </div>
+                </a>
+
+                <a href="onepiece3.html" class="anime-card" data-cat="onepiece">
+                    <img src="onepiece3.jpg" class="anime-img" alt="OnePiece">
+                    <div class="anime-info">
+                        <div class="anime-title">طاقم قبعة القش</div>
+                        <div class="anime-desc">أعضاء الطاقم كاملين</div>
+                    </div>
+                </a>
+
+                <a href="onepiece4.jpg" class="anime-card" data-cat="onepiece">
+                    <img src="onepiece4.jpg" class="anime-img" alt="OnePiece">
+                    <div class="anime-info">
+                        <div class="anime-title">الون بيس</div>
+                        <div class="anime-desc">الكنز الأسطوري</div>
+                    </div>
+                </a>
+
+                <a href="onepiece5.html" class="anime-card" data-cat="onepiece">
+                    <div class="anime-img">⚓</div>
+                    <div class="anime-info">
+                        <div class="anime-title">ارك وانو</div>
+                        <div class="anime-desc">حرب الساموراي</div>
+                    </div>
+                </a>
+
+                <a href="attack1.html" class="anime-card" data-cat="attack">
+                    <img src="attack1.jpg" class="anime-img" alt="Attack">
+                    <div class="anime-info">
+                        <div class="anime-title">اتاك الموسم 1</div>
+                        <div class="anime-desc">سقوط سور ماريا</div>
+                    </div>
+                </a>
+
+                <a href="attack2.mp4" class="anime-card" data-cat="attack">
                     <div class="anime-img">⚔️</div>
                     <div class="anime-info">
-                        <div class="anime-title">Berserk</div>
-                        <div class="anime-desc">ملحمة الظلام والانتقام. أنمي الطائفة الرسمي</div>
+                        <div class="anime-title">ايرين ضد العملاق</div>
+                        <div class="anime-desc">تحول ايرين الأول</div>
                     </div>
                 </a>
 
-                <a href="tokyo-ghoul.html" class="anime-card" data-cat="dark">
-                    <div class="anime-img">🎭</div>
+                <a href="attack3.html" class="anime-card" data-cat="attack">
+                    <img src="attack3.jpg" class="anime-img" alt="Attack">
                     <div class="anime-info">
-                        <div class="anime-title">Tokyo Ghoul</div>
-                        <div class="anime-desc">عندما تصبح الوحش الذي تخشاه</div>
+                        <div class="anime-title">فيلق الاستطلاع</div>
+                        <div class="anime-desc">جنود الحرية</div>
                     </div>
                 </a>
 
-                <a href="attack-on-titan.html" class="anime-card" data-cat="action recommend">
+                <a href="attack4.jpg" class="anime-card" data-cat="attack">
+                    <img src="attack4.jpg" class="anime-img" alt="Attack">
+                    <div class="anime-info">
+                        <div class="anime-title">العمالقة</div>
+                        <div class="anime-desc">أنواع العمالقة التسعة</div>
+                    </div>
+                </a>
+
+                <a href="attack5.html" class="anime-card" data-cat="attack">
                     <div class="anime-img">🗡️</div>
                     <div class="anime-info">
-                        <div class="anime-title">Attack on Titan</div>
-                        <div class="anime-desc">الحرية ثمنها الدم. قانون الظلال الأول</div>
+                        <div class="anime-title">النهاية</div>
+                        <div class="anime-desc">دك الأرض</div>
                     </div>
                 </a>
 
-                <a href="https://myanimelist.net/anime/270/Hellsing_Ultimate" target="_blank" class="anime-card" data-cat="dark action">
-                    <div class="anime-img">👁️</div>
+                <a href="hunter1.html" class="anime-card" data-cat="hunter">
+                    <img src="hunter1.jpg" class="anime-img" alt="Hunter">
                     <div class="anime-info">
-                        <div class="anime-title">Hellsing Ultimate</div>
-                        <div class="anime-desc">مصاص دماء يخدم البشرية. تناقض الظلال</div>
+                        <div class="anime-title">هنتر اختبار الصيادين</div>
+                        <div class="anime-desc">بداية غون</div>
                     </div>
                 </a>
 
-                <a href="vinland-saga.html" class="anime-card" data-cat="recommend">
-                    <div class="anime-img">🔥</div>
+                <a href="hunter2.mp4" class="anime-card" data-cat="hunter">
+                    <div class="anime-img">🎣</div>
                     <div class="anime-info">
-                        <div class="anime-title">Vinland Saga</div>
-                        <div class="anime-desc">لا أعداء لك. حكمة المحارب الحقيقي</div>
+                        <div class="anime-title">غون ضد هيسوكا</div>
+                        <div class="anime-desc">برج السماء</div>
                     </div>
                 </a>
 
-                <a href="jujutsu-kaisen.html" class="anime-card" data-cat="action">
+                <a href="hunter3.html" class="anime-card" data-cat="hunter">
+                    <img src="hunter3.jpg" class="anime-img" alt="Hunter">
+                    <div class="anime-info">
+                        <div class="anime-title">ارك النمل</div>
+                        <div class="anime-desc">نمل الكيميرا</div>
+                    </div>
+                </a>
+
+                <a href="hunter4.jpg" class="anime-card" data-cat="hunter">
+                    <img src="hunter4.jpg" class="anime-img" alt="Hunter">
+                    <div class="anime-info">
+                        <div class="anime-title">النين</div>
+                        <div class="anime-desc">أنواع الهاتسو</div>
+                    </div>
+                </a>
+
+                <a href="hunter5.html" class="anime-card" data-cat="hunter">
+                    <div class="anime-img">🕷️</div>
+                    <div class="anime-info">
+                        <div class="anime-title">عصابة العناكب</div>
+                        <div class="anime-desc">جيني ريودان</div>
+                    </div>
+                </a>
+
+                <a href="dragonball1.html" class="anime-card" data-cat="dragonball">
+                    <img src="dragonball1.jpg" class="anime-img" alt="DragonBall">
+                    <div class="anime-info">
+                        <div class="anime-title">دراغون بول زد</div>
+                        <div class="anime-desc">وصول السايان</div>
+                    </div>
+                </a>
+
+                <a href="dragonball2.mp4" class="anime-card" data-cat="dragonball">
+                    <div class="anime-img">🐉</div>
+                    <div class="anime-info">
+                        <div class="anime-title">غوكو ضد فريزا</div>
+                        <div class="anime-desc">السوبر سايان الأول</div>
+                    </div>
+                </a>
+
+                <a href="dragonball3.html" class="anime-card" data-cat="dragonball">
+                    <img src="dragonball3.jpg" class="anime-img" alt="DragonBall">
+                    <div class="anime-info">
+                        <div class="anime-title">بطولة القوة</div>
+                        <div class="anime-desc">الغريزة الفائقة</div>
+                    </div>
+                </a>
+
+                <a href="dragonball4.jpg" class="anime-card" data-cat="dragonball">
+                    <img src="dragonball4.jpg" class="anime-img" alt="DragonBall">
+                    <div class="anime-info">
+                        <div class="anime-title">كرات التنين</div>
+                        <div class="anime-desc">تحقيق الأمنيات</div>
+                    </div>
+                </a>
+
+                <a href="dragonball5.html" class="anime-card" data-cat="dragonball">
                     <div class="anime-img">⚡</div>
                     <div class="anime-info">
-                        <div class="anime-title">Jujutsu Kaisen</div>
-                        <div class="anime-desc">اللعنات تولد من المشاعر السلبية</div>
+                        <div class="anime-title">فيجيتا</div>
+                        <div class="anime-desc">أمير السايان</div>
                     </div>
                 </a>
             </div>
@@ -256,6 +410,7 @@
         function openMenu() {
             document.getElementById("menuPage").classList.add("active");
             history.pushState({page: "menu"}, "");
+            filterAnime('naruto');
         }
 
         function closeMenu() {
@@ -271,12 +426,16 @@
             event.target.classList.add('active');
             
             document.querySelectorAll('.anime-card').forEach(card => {
-                if(category === 'all' || card.dataset.cat.includes(category)) {
+                if(card.dataset.cat === category) {
                     card.style.display = 'block';
                 } else {
                     card.style.display = 'none';
                 }
             });
+        }
+
+        window.onload = () => {
+            filterAnime('naruto');
         }
     </script>
 </body>
