@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>أسماء الظلال</title>
+    <title>تحميل ملفات</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: Tahoma; }
         body {
@@ -19,7 +19,7 @@
         .main-btn {
             width: 280px;
             aspect-ratio: 4/3;
-            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160850.png') center/cover;
+            background: url('ALBOMS/IMAGE/PicturesOfButtons/20260426_154329.png') center/cover;
             cursor: pointer;
             clip-path: polygon(15% 0%, 85% 0%, 100% 100%, 0% 100%);
             transition: 0.3s;
@@ -129,269 +129,337 @@
             box-shadow: 0 0 15px #ff0000;
         }
 
-        .members-list {
-            max-width: 600px;
+        .files-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
             margin: 0 auto;
-            display: none;
-            flex-direction: column;
-            gap: 15px;
         }
 
-        .members-list.active {
-            display: flex;
-        }
-
-        .member-row {
+        .file-card {
             background: rgba(20,0,0,0.6);
             border: 2px solid #ff0000;
-            border-radius: 50px;
-            padding: 12px 20px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
+            border-radius: 12px;
+            padding: 20px;
             transition: 0.3s;
-            cursor: pointer;
             text-decoration: none;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
         }
 
-        .member-row:hover {
+        .file-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 30px rgba(255,0,0,0.5);
             background: rgba(40,0,0,0.8);
-            transform: translateX(-5px);
-            box-shadow: 0 0 20px rgba(255,0,0,0.4);
         }
 
-        .member-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            border: 2px solid #ff0000;
-            object-fit: cover;
-            position: relative;
-            box-shadow: 0 0 15px rgba(255,0,0,0.3);
+        .file-icon {
+            font-size: 50px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 10px #ff0000);
         }
 
-        .status-dot {
-            position: absolute;
-            bottom: 2px;
-            left: 2px;
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            border: 2px solid #000;
-            box-shadow: 0 0 10px currentColor;
-        }
-
-        .status-dot.online { background: #00ff00; color: #00ff00; }
-        .status-dot.offline { background: #ff9900; color: #ff9900; }
-        .status-dot.dead { background: #ff0000; color: #ff0000; }
-
-        .member-info {
-            flex: 1;
-        }
-
-        .member-name {
+        .file-name {
             color: #ff0000;
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
-            margin-bottom: 3px;
+            margin-bottom: 8px;
+            word-break: break-word;
         }
 
-        .member-rank {
+        .file-size {
             color: #888;
             font-size: 13px;
+            margin-bottom: 12px;
         }
 
-        .avatar-wrapper {
-            position: relative;
+        .download-btn {
+            background: #ff0000;
+            color: black;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            width: 100%;
+        }
+
+        .download-btn:hover {
+            background: #ff3030;
+            box-shadow: 0 0 15px #ff0000;
         }
     </style>
 </head>
 <body>
     <div class="main-btn" onclick="openMenu()">
-        <span>أسماء الظلال</span>
+        <span>تحميل ملفات</span>
     </div>
 
     <div class="menu-page" id="menuPage">
         <div class="menu-header">
-            <h2>☠ أسماء الظلال - سجلات المملكة ☠</h2>
+            <h2>☠ قسم التحميل - خزائن الظلال ☠</h2>
             <button class="close-btn" onclick="closeMenu()">رجوع</button>
         </div>
         
         <div class="menu-content">
             <div class="category-tabs">
-                <div class="tab active" onclick="filterStatus('online')">نشطين</div>
-                <div class="tab" onclick="filterStatus('offline')">غائبين</div>
-                <div class="tab" onclick="filterStatus('dead')">منقرضين</div>
+                <div class="tab active" onclick="filterFiles('apk')">APK</div>
+                <div class="tab" onclick="filterFiles('jpg')">JPG</div>
+                <div class="tab" onclick="filterFiles('mp4')">MP4</div>
+                <div class="tab" onclick="filterFiles('mp3')">MP3</div>
+                <div class="tab" onclick="filterFiles('zip')">ZIP</div>
+                <div class="tab" onclick="filterFiles('3d')">3D</div>
+                <div class="tab" onclick="filterFiles('txt')">TXT</div>
             </div>
 
-            <div class="members-list active" id="online-list">
-                <a href="shadow1.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow1.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot online"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">كاجي نو تييو</div>
-                        <div class="member-rank">إمبراطور الظلال</div>
-                    </div>
+            <div class="files-grid" id="filesGrid">
+                <a href="files/app1.apk" download class="file-card" data-cat="apk">
+                    <div class="file-icon">📱</div>
+                    <div class="file-name">KageApp.apk</div>
+                    <div class="file-size">15.2 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow2.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow2.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot online"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">السفاح الأحمر</div>
-                        <div class="member-rank">قائد فيلق الدعس</div>
-                    </div>
+                <a href="files/tool.apk" download class="file-card" data-cat="apk">
+                    <div class="file-icon">📱</div>
+                    <div class="file-name">ShadowTool.apk</div>
+                    <div class="file-size">8.7 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow3.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow3.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot online"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">شبح الليل</div>
-                        <div class="member-rank">جاسوس المملكة</div>
-                    </div>
+                <a href="files/editor.apk" download class="file-card" data-cat="apk">
+                    <div class="file-icon">📱</div>
+                    <div class="file-name">DarkEditor.apk</div>
+                    <div class="file-size">22.1 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow4.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow4.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot online"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">النصل الأسود</div>
-                        <div class="member-rank">حارس البوابة</div>
-                    </div>
+                <a href="files/launcher.apk" download class="file-card" data-cat="apk">
+                    <div class="file-icon">📱</div>
+                    <div class="file-name">KageLauncher.apk</div>
+                    <div class="file-size">5.4 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow5.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow5.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot online"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">عين الصقر</div>
-                        <div class="member-rank">مراقب الحدود</div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="members-list" id="offline-list">
-                <a href="shadow6.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow6.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot offline"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">الذئب الرمادي</div>
-                        <div class="member-rank">غائب منذ 3 أيام</div>
-                    </div>
+                <a href="files/theme.apk" download class="file-card" data-cat="apk">
+                    <div class="file-icon">📱</div>
+                    <div class="file-name">ShadowTheme.apk</div>
+                    <div class="file-size">3.9 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow7.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow7.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot offline"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">لهيب الجحيم</div>
-                        <div class="member-rank">غائب منذ أسبوع</div>
-                    </div>
+                <a href="files/wall1.jpg" download class="file-card" data-cat="jpg">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">wallpaper1.jpg</div>
+                    <div class="file-size">2.1 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow8.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow8.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot offline"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">السيف المكسور</div>
-                        <div class="member-rank">غائب منذ 5 أيام</div>
-                    </div>
+                <a href="files/wall2.jpg" download class="file-card" data-cat="jpg">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">logo_hd.jpg</div>
+                    <div class="file-size">1.8 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow9.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow9.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot offline"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">عاصفة الظلام</div>
-                        <div class="member-rank">غائب منذ يومين</div>
-                    </div>
+                <a href="files/banner.jpg" download class="file-card" data-cat="jpg">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">banner.jpg</div>
+                    <div class="file-size">3.4 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow10.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow10.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot offline"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">القناص</div>
-                        <div class="member-rank">غائب منذ 10 أيام</div>
-                    </div>
-                </a>
-            </div>
-
-            <div class="members-list" id="dead-list">
-                <a href="shadow11.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow11.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot dead"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">الخائن الأول</div>
-                        <div class="member-rank">منقرض - تم الدعس</div>
-                    </div>
+                <a href="files/profile.jpg" download class="file-card" data-cat="jpg">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">profile.jpg</div>
+                    <div class="file-size">892 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow12.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow12.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot dead"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">الكوبرا السوداء</div>
-                        <div class="member-rank">منقرض - خيانة عظمى</div>
-                    </div>
+                <a href="files/art.jpg" download class="file-card" data-cat="jpg">
+                    <div class="file-icon">🖼️</div>
+                    <div class="file-name">dark_art.jpg</div>
+                    <div class="file-size">4.2 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow13.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow13.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot dead"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">الغراب الأعور</div>
-                        <div class="member-rank">منقرض - انقلاب فاشل</div>
-                    </div>
+                <a href="files/intro.mp4" download class="file-card" data-cat="mp4">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">intro.mp4</div>
+                    <div class="file-size">45.3 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow14.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow14.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot dead"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">العقرب السام</div>
-                        <div class="member-rank">منقرض - حكم الإعدام</div>
-                    </div>
+                <a href="files/trailer.mp4" download class="file-card" data-cat="mp4">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">trailer.mp4</div>
+                    <div class="file-size">67.8 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
 
-                <a href="shadow15.html" class="member-row">
-                    <div class="avatar-wrapper">
-                        <img src="shadow15.jpg" class="member-avatar" alt="Shadow">
-                        <span class="status-dot dead"></span>
-                    </div>
-                    <div class="member-info">
-                        <div class="member-name">الظل المنشق</div>
-                        <div class="member-rank">منقرض - محو كامل</div>
-                    </div>
+                <a href="files/fight.mp4" download class="file-card" data-cat="mp4">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">fight_scene.mp4</div>
+                    <div class="file-size">89.1 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/ending.mp4" download class="file-card" data-cat="mp4">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">ending.mp4</div>
+                    <div class="file-size">52.6 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/promo.mp4" download class="file-card" data-cat="mp4">
+                    <div class="file-icon">🎬</div>
+                    <div class="file-name">promo.mp4</div>
+                    <div class="file-size">31.4 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/theme.mp3" download class="file-card" data-cat="mp3">
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">theme.mp3</div>
+                    <div class="file-size">4.2 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/ost.mp3" download class="file-card" data-cat="mp3">
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">shadow_ost.mp3</div>
+                    <div class="file-size">5.8 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/bgm.mp3" download class="file-card" data-cat="mp3">
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">battle_bgm.mp3</div>
+                    <div class="file-size">3.9 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/sfx.mp3" download class="file-card" data-cat="mp3">
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">sound_fx.mp3</div>
+                    <div class="file-size">1.2 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/voice.mp3" download class="file-card" data-cat="mp3">
+                    <div class="file-icon">🎵</div>
+                    <div class="file-name">voice_line.mp3</div>
+                    <div class="file-size">890 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/pack.zip" download class="file-card" data-cat="zip">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">assets_pack.zip</div>
+                    <div class="file-size">156 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/textures.zip" download class="file-card" data-cat="zip">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">textures.zip</div>
+                    <div class="file-size">89.4 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/fonts.zip" download class="file-card" data-cat="zip">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">fonts.zip</div>
+                    <div class="file-size">12.3 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/scripts.zip" download class="file-card" data-cat="zip">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">scripts.zip</div>
+                    <div class="file-size">2.1 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/templates.zip" download class="file-card" data-cat="zip">
+                    <div class="file-icon">📦</div>
+                    <div class="file-name">templates.zip</div>
+                    <div class="file-size">34.7 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/model1.glb" download class="file-card" data-cat="3d">
+                    <div class="file-icon">🎭</div>
+                    <div class="file-name">gate_3d.glb</div>
+                    <div class="file-size">8.2 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/character.glb" download class="file-card" data-cat="3d">
+                    <div class="file-icon">🎭</div>
+                    <div class="file-name">character.glb</div>
+                    <div class="file-size">12.5 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/weapon.obj" download class="file-card" data-cat="3d">
+                    <div class="file-icon">🎭</div>
+                    <div class="file-name">sword.obj</div>
+                    <div class="file-size">3.1 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/scene.fbx" download class="file-card" data-cat="3d">
+                    <div class="file-icon">🎭</div>
+                    <div class="file-name">scene.fbx</div>
+                    <div class="file-size">45.6 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/avatar.glb" download class="file-card" data-cat="3d">
+                    <div class="file-icon">🎭</div>
+                    <div class="file-name">avatar.glb</div>
+                    <div class="file-size">18.9 MB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/readme.txt" download class="file-card" data-cat="txt">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">readme.txt</div>
+                    <div class="file-size">12 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/license.txt" download class="file-card" data-cat="txt">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">license.txt</div>
+                    <div class="file-size">8 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/changelog.txt" download class="file-card" data-cat="txt">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">changelog.txt</div>
+                    <div class="file-size">15 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/credits.txt" download class="file-card" data-cat="txt">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">credits.txt</div>
+                    <div class="file-size">6 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
+                </a>
+
+                <a href="files/instructions.txt" download class="file-card" data-cat="txt">
+                    <div class="file-icon">📄</div>
+                    <div class="file-name">instructions.txt</div>
+                    <div class="file-size">22 KB</div>
+                    <button class="download-btn">تحميل مباشر</button>
                 </a>
             </div>
         </div>
@@ -401,7 +469,7 @@
         function openMenu() {
             document.getElementById("menuPage").classList.add("active");
             history.pushState({page: "menu"}, "");
-            filterStatus('online');
+            filterFiles('apk');
         }
 
         function closeMenu() {
@@ -412,18 +480,21 @@
             closeMenu();
         });
 
-        function filterStatus(status) {
+        function filterFiles(category) {
             document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
             event.target.classList.add('active');
             
-            document.querySelectorAll('.members-list').forEach(list => {
-                list.classList.remove('active');
+            document.querySelectorAll('.file-card').forEach(card => {
+                if(card.dataset.cat === category) {
+                    card.style.display = 'flex';
+                } else {
+                    card.style.display = 'none';
+                }
             });
-            document.getElementById(status + '-list').classList.add('active');
         }
 
         window.onload = () => {
-            filterStatus('online');
+            filterFiles('apk');
         }
     </script>
 </body>
