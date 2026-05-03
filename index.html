@@ -47,7 +47,6 @@
             text-shadow: 0 0 10px #ff0000;
         }
 
-        /* صفحة القائمة */
         .menu-page {
             position: fixed;
             inset: 0;
@@ -107,7 +106,6 @@
             overflow-y: auto;
         }
 
-        /* محتوى قائمة الأنمي */
         .anime-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
@@ -123,6 +121,8 @@
             overflow: hidden;
             transition: 0.3s;
             cursor: pointer;
+            text-decoration: none;
+            display: block;
         }
 
         .anime-card:hover {
@@ -182,12 +182,10 @@
     </style>
 </head>
 <body>
-    <!-- الزر الرئيسي -->
     <div class="main-btn" onclick="openMenu()">
         <span>أنمي</span>
     </div>
 
-    <!-- صفحة القائمة -->
     <div class="menu-page" id="menuPage">
         <div class="menu-header">
             <h2>☠ قسم الأنمي - طائفة الظلال ☠</h2>
@@ -203,53 +201,53 @@
             </div>
 
             <div class="anime-grid" id="animeGrid">
-                <div class="anime-card" data-cat="dark action">
+                <a href="berserk.html" class="anime-card" data-cat="dark action">
                     <div class="anime-img">⚔️</div>
                     <div class="anime-info">
                         <div class="anime-title">Berserk</div>
                         <div class="anime-desc">ملحمة الظلام والانتقام. أنمي الطائفة الرسمي</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="anime-card" data-cat="dark">
+                <a href="tokyo-ghoul.html" class="anime-card" data-cat="dark">
                     <div class="anime-img">🎭</div>
                     <div class="anime-info">
                         <div class="anime-title">Tokyo Ghoul</div>
                         <div class="anime-desc">عندما تصبح الوحش الذي تخشاه</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="anime-card" data-cat="action recommend">
+                <a href="attack-on-titan.html" class="anime-card" data-cat="action recommend">
                     <div class="anime-img">🗡️</div>
                     <div class="anime-info">
                         <div class="anime-title">Attack on Titan</div>
                         <div class="anime-desc">الحرية ثمنها الدم. قانون الظلال الأول</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="anime-card" data-cat="dark action">
+                <a href="https://myanimelist.net/anime/270/Hellsing_Ultimate" target="_blank" class="anime-card" data-cat="dark action">
                     <div class="anime-img">👁️</div>
                     <div class="anime-info">
                         <div class="anime-title">Hellsing Ultimate</div>
                         <div class="anime-desc">مصاص دماء يخدم البشرية. تناقض الظلال</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="anime-card" data-cat="recommend">
+                <a href="vinland-saga.html" class="anime-card" data-cat="recommend">
                     <div class="anime-img">🔥</div>
                     <div class="anime-info">
                         <div class="anime-title">Vinland Saga</div>
                         <div class="anime-desc">لا أعداء لك. حكمة المحارب الحقيقي</div>
                     </div>
-                </div>
+                </a>
 
-                <div class="anime-card" data-cat="action">
+                <a href="jujutsu-kaisen.html" class="anime-card" data-cat="action">
                     <div class="anime-img">⚡</div>
                     <div class="anime-info">
                         <div class="anime-title">Jujutsu Kaisen</div>
                         <div class="anime-desc">اللعنات تولد من المشاعر السلبية</div>
                     </div>
-                </div>
+                </a>
             </div>
         </div>
     </div>
@@ -264,7 +262,6 @@
             document.getElementById("menuPage").classList.remove("active");
         }
 
-        // نظام الرجوع بزر الجوال
         window.addEventListener("popstate", function () {
             closeMenu();
         });
