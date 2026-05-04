@@ -15,6 +15,7 @@ body { min-height: 100vh; background: #000; color: white; overflow-x: auto; over
 @keyframes gradientShift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
 @keyframes portalSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes portalPulse { 0%, 100% { box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #8b0000; } 50% { box-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 120px #8b0000; } }
+@keyframes borderGlow { 0%, 100% { box-shadow: 0 0 20px #ff0000, 0 0 40px #8b0000 inset; } 50% { box-shadow: 0 0 40px #ff0000, 0 0 80px #8b0000 inset; } }
 .top-frame { position: fixed; top: 0; left: 0; right: 0; height: 40px; background: linear-gradient(270deg, #8b0000, #ff1a1a, #6a0dad, #8b0000); background-size: 600% 600%; animation: gradientShift 8s ease infinite; z-index: 10007; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid rgba(255,0,0,0.5); }
 .top-frame-text { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; overflow: hidden; pointer-events: none; }
 .top-frame-text span { position: absolute; color: #fff; font-weight: bold; font-size: 14px; white-space: nowrap; text-shadow: 0 0 5px #000; animation: scrollTextLeft 15s linear infinite; }
@@ -73,11 +74,12 @@ body { min-height: 100vh; background: #000; color: white; overflow-x: auto; over
 .bottom-btn:active { transform: scale(0.95); filter: drop-shadow(0 0 15px #ff0000); }
 .popup { position: fixed; inset: 0; background: rgba(0,0,0,0.85); display: flex; justify-content: center; align-items: center; opacity: 0; pointer-events: none; transition: 0.15s; z-index: 999; }
 .popup.active { opacity: 1; pointer-events: auto; }
-.popup-box { background: rgba(10,10,10,0.95); padding: 30px; border-radius: 20px; text-align: center; box-shadow: 0 0 40px #ff0000, 0 0 80px #8b0000 inset; transform: scale(0.7); opacity: 0; transition: 0.15s; width: 90%; max-width: 400px; border: 3px solid #ff0000; }
+.popup-box { background: linear-gradient(145deg, #0a0000, #1a0000); padding: 35px 30px; border-radius: 15px; text-align: center; box-shadow: 0 0 30px #ff0000, 0 0 60px #8b0000 inset; transform: scale(0.7); opacity: 0; transition: 0.15s; width: 90%; max-width: 420px; border: 3px solid #ff0000; animation: borderGlow 2s ease-in-out infinite; }
 .popup.active.popup-box { transform: scale(1); opacity: 1; }
-.popup-box h2 { color: #ff0000; margin-bottom: 10px; text-shadow: 0 0 15px #ff0000; font-size: 24px; }
-.popup-box p { color: #fff; margin-bottom: 20px; font-size: 16px; text-shadow: 0 0 5px #ff0000; }
-.popup-box button { padding: 10px 25px; border: none; background: #ff0000; color: black; border-radius: 10px; cursor: pointer; min-height: 44px; font-weight: bold; box-shadow: 0 0 15px #ff0000; }
+.popup-box h2 { color: #ff0000; margin-bottom: 15px; text-shadow: 0 0 15px #ff0000, 0 0 30px #8b0000; font-size: 26px; letter-spacing: 2px; }
+.popup-box p { color: #ff9999; margin-bottom: 25px; font-size: 17px; text-shadow: 0 0 8px #ff0000; font-weight: bold; }
+.popup-box button { padding: 12px 30px; border: 2px solid #ff0000; background: rgba(0,0,0,0.6); color: #ff0000; border-radius: 8px; cursor: pointer; min-height: 44px; font-weight: bold; font-size: 16px; text-shadow: 0 0 10px #ff0000; transition: 0.2s; }
+.popup-box button:active { background: #ff0000; color: black; transform: scale(0.95); }
 @media (max-width: 768px) {.top-nav { padding: 0 10px; justify-content: flex-start; }.nav-btn { font-size: 11px; padding: 5px 8px; } }
 @media (max-width: 480px) {.profile-name { font-size: 13px; padding: 5px 12px 5px 6px; }.profile-img { width: 28px; height: 28px; }.menu-header h2 { font-size: 18px; }.exit-box { padding: 25px; }.menu { row-gap: 6%; }.btn:nth-child(1) { margin-bottom: 3%; }.btn:nth-child(2) { margin-bottom: 3%; }.btn:nth-child(3) { margin-bottom: 3%; }.side-left-buttons { left: 8px; gap: 8px; }.side-right-buttons { right: 8px; gap: 8px; }.side-btn { width: 42px; height: 42px; }.bottom-buttons { gap: 8px; bottom: 10px; } }
 </style>
@@ -128,7 +130,7 @@ body { min-height: 100vh; background: #000; color: white; overflow-x: auto; over
 </div>
 </div>
 </div>
-<div class="popup" id="popup"> <div class="popup-box"> <h2 id="popupTitle"></h2> <p id="popupDesc">قريبًا</p> <button onclick="closeMenu()">إغلاق</button> </div> </div>
+<div class="popup" id="popup"> <div class="popup-box"> <h2 id="popupTitle"></h2> <p id="popupDesc">☠ قريباً يتم فتح الميزة ☠</p> <button onclick="closeMenu()">إغلاق</button> </div> </div>
 </div>
 </div>
 <div class="bottom-buttons">
@@ -140,12 +142,12 @@ body { min-height: 100vh; background: #000; color: white; overflow-x: auto; over
 </div>
 <script>
 let menuData = {
-"أنمي": "قسم الأنمي - هنا تجد أحدث حلقات الأنمي المترجمة",
-"فضائح عصابات": "أرشيف الفضائح - ملفات سرية عن العصابات",
-"قوانين الدعس": "قوانين الطائفة - اقرأها قبل الدخول",
-"ترسيم أعضاء": "نظام الترسيم - كيف تصبح من الظلال",
-"أسماء الظلال": "قائمة الظلال - أعضاء المملكة",
-"تحميل ملفات": "قسم التحميل - أدوات وملفات خاصة",
+"أنمي": "قسم الأنمي",
+"فضائح عصابات": "أرشيف الفضائح",
+"قوانين الدعس": "قوانين الطائفة",
+"ترسيم أعضاء": "نظام الترسيم",
+"أسماء الظلال": "قائمة الظلال",
+"تحميل ملفات": "قسم التحميل",
 "♕1": "زر ملكي 1",
 "♕2": "زر ملكي 2",
 "♕3": "زر ملكي 3",
@@ -157,16 +159,16 @@ let menuData = {
 "B3": "زر سفلي 3",
 "B4": "زر سفلي 4",
 "B5": "زر سفلي 5",
-"الأرشيف": "قسم الأرشيف - جميع الملفات القديمة",
-"الإعدادات": "إعدادات الحساب والنظام",
-"قسم النقاط": "نظام النقاط والترقيات",
-"قسم شراء وبيع": "متجر المملكة للبيع والشراء",
-"السجل": "سجل نشاطات الأعضاء",
-"المهام": "مهام يومية وأسبوعية",
-"المتجر": "متجر الأدوات الخاصة",
-"الرتب": "رتب المملكة وصلاحياتها",
-"الحلفاء": "قائمة الحلفاء والتحالفات",
-"الدعم": "تواصل مع إدارة الظلال"
+"الأرشيف": "قسم الأرشيف",
+"الإعدادات": "إعدادات الحساب",
+"قسم النقاط": "نظام النقاط",
+"قسم شراء وبيع": "متجر المملكة",
+"السجل": "سجل النشاطات",
+"المهام": "المهام اليومية",
+"المتجر": "متجر الأدوات",
+"الرتب": "رتب المملكة",
+"الحلفاء": "قائمة الحلفاء",
+"الدعم": "تواصل مع الإدارة"
 };
 function openPortal(callback) {
 const portal = document.getElementById("portalOverlay");
@@ -178,22 +180,16 @@ if(callback) callback();
 }
 window.openFancyMenu = function(title) {
 openPortal(() => {
-document.getElementById("popupTitle").innerText = title;
-document.getElementById("popupDesc").innerText = menuData + " - قريبًا";
+document.getElementById("popupTitle").innerText = menuData;
+document.getElementById("popupDesc").innerText = "☠ قريباً يتم فتح الميزة ☠";
 document.getElementById("popup").classList.add("active");
 });
 }
 window.openMenuPortal = function(title) {
-openPortal(() => {
-document.getElementById("popupTitle").innerText = title;
-document.getElementById("popupDesc").innerText = menuData + " - قريبًا";
-document.getElementById("popup").classList.add("active");
-});
+window.openFancyMenu(title);
 }
 window.openMenu = function(title) {
-document.getElementById("popupTitle").innerText = title;
-document.getElementById("popupDesc").innerText = menuData + " - قريبًا";
-document.getElementById("popup").classList.add("active");
+window.openFancyMenu(title);
 }
 window.closeMenuPage = function() {
 document.getElementById("menuPage").classList.remove("active");
@@ -247,4 +243,4 @@ canWave = true;
 }
 </script>
 </body>
-</html>
+</html>[title]
