@@ -230,9 +230,13 @@ document.getElementById('banTitle').textContent = '⛔ تعليق دائم';
 freezeGate();
 checkReturnTimer();
 }
-function givePreLastChance(){
+window.givePreLastChance = function(){
 localStorage.removeItem('banLevel');
 document.getElementById('banForm').classList.remove('active');
+document.getElementById('doorContainer').classList.remove('selected');
+document.getElementById('userName').value = '';
+document.getElementById('userPass').value = '';
+document.getElementById('userAnswer').value = '';
 unfreezeGate();
 }
 function checkReturnTimer(){
