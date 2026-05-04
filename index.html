@@ -7,8 +7,6 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
 body{background:#000;overflow:hidden}
-.black-screen{position:fixed;inset:0;background:#000;z-index:50000;transition:opacity 0.5s ease}
-.black-screen.hidden{opacity:0;pointer-events:none}
 .portal-screen{position:fixed;inset:0;z-index:40000;background:url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1s ease}
 .portal-screen.show{opacity:1}
 .portal-screen.hidden{opacity:0;pointer-events:none}
@@ -52,7 +50,6 @@ body{background:#000;overflow:hidden}
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-<div class="black-screen" id="blackScreen"></div>
 <div class="attempts-counter" id="attemptsCounter">الفرص: 0</div>
 <div class="portal-screen" id="portalScreen">
 <div class="kingdom-title">مملكة طائفة الظلام</div>
@@ -224,7 +221,6 @@ return false;
 function showTempBan(){
 document.getElementById('banForm').classList.add('active');
 document.getElementById('portalScreen').classList.add('show');
-document.getElementById('blackScreen').classList.add('hidden');
 document.getElementById('tempBanSection').style.display = 'block';
 document.getElementById('permaBanSection').style.display = 'none';
 document.getElementById('banTitle').textContent = '❌ تم طردك مؤقتاً';
@@ -234,7 +230,6 @@ freezeGate();
 function showPermaBan(){
 document.getElementById('banForm').classList.add('active');
 document.getElementById('portalScreen').classList.add('show');
-document.getElementById('blackScreen').classList.add('hidden');
 document.getElementById('tempBanSection').style.display = 'none';
 document.getElementById('permaBanSection').style.display = 'block';
 document.getElementById('banTitle').textContent = '⛔ تعليق دائم';
@@ -252,7 +247,6 @@ document.getElementById('userName').value = '';
 document.getElementById('userPass').value = '';
 document.getElementById('userAnswer').value = '';
 document.getElementById('portalScreen').classList.add('show');
-document.getElementById('blackScreen').classList.add('hidden');
 gateOpened = false;
 unfreezeGate();
 }
@@ -268,6 +262,7 @@ if(returnAttempts >= 5){
 setReturnLock();
 }else{
 enableReturnInput();
+}
 }
 }
 function enableReturnInput(){
@@ -342,11 +337,8 @@ loadUsers();
 totalAttempts = parseInt(localStorage.getItem('totalAttempts') || '0');
 updateAttemptsCounter();
 if(checkBanStatus()) return;
-document.getElementById('blackScreen').classList.add('hidden');
-setTimeout(()=>{
 document.getElementById('portalScreen').classList.add('show');
 setupGateModel();
-},500);
 }
 async function setupGateModel(){
 await customElements.whenDefined('model-viewer');
