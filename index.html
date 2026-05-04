@@ -12,6 +12,7 @@ body{background:#000;overflow:hidden}
 .portal-screen{position:fixed;inset:0;z-index:40000;background:url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1s ease}
 .portal-screen.show{opacity:1}
 .portal-screen.hidden{opacity:0;pointer-events:none}
+.attempts-counter{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:45000;color:#ff0000;font-size:20px;font-weight:bold;text-shadow:0 0 15px #ff0000;background:rgba(0,0,0,0.7);padding:10px 20px;border:2px solid #ff0000;border-radius:10px}
 .kingdom-title{font-size:38px;color:#8a2be2;text-shadow:0 0 30px #8a2be2;margin-bottom:30px;animation:kingdomBreath 4s ease-in-out infinite}
 @keyframes kingdomBreath{0%,100%{opacity:0.3}50%{opacity:1}}
 .door-container{position:relative;width:320px;height:420px;cursor:pointer;transition:transform 0.3s ease}
@@ -52,6 +53,7 @@ body{background:#000;overflow:hidden}
 </head>
 <body>
 <div class="black-screen" id="blackScreen"></div>
+<div class="attempts-counter" id="attemptsCounter">الفرص: 0</div>
 <div class="portal-screen" id="portalScreen">
 <div class="kingdom-title">مملكة طائفة الظلام</div>
 <div class="door-container" id="doorContainer">
@@ -112,6 +114,10 @@ const correctPassword = "الظلال666";
 const correctAnswer = "ناه";
 let returnAttempts = 0;
 let timerInterval = null;
+let totalAttempts = 0;
+function updateAttemptsCounter(){
+document.getElementById('attemptsCounter').textContent = `الفرص: ${totalAttempts}`;
+}
 async function loadUsers(){
 try{
 const res = await fetch('Users.json');
@@ -200,6 +206,10 @@ document.getElementById('doorContainer').classList.remove('disabled');
 function checkBanStatus(){
 const hellBan = checkHellFileBan();
 const banLevel = localStorage.getItem('banLevel');
+const preLastUsed = localStorage.getItem('preLastChanceUsed') === 'true';
+if(preLastUsed){
+return false;
+}
 if(banLevel === 'temp' || hellBan && banLevel !== 'perma'){
 showTempBan();
 return true;
@@ -232,6 +242,7 @@ checkReturnTimer();
 }
 window.givePreLastChance = function(){
 localStorage.removeItem('banLevel');
+localStorage.setItem('preLastChanceUsed','true');
 document.getElementById('banForm').classList.remove('active');
 document.getElementById('doorContainer').classList.remove('selected');
 document.getElementById('doorContainer').classList.remove('disabled');
@@ -307,6 +318,7 @@ if(valid){
 localStorage.removeItem('banLevel');
 localStorage.removeItem('returnAttempts');
 localStorage.removeItem('returnLockTime');
+localStorage.removeItem('preLastChanceUsed');
 document.getElementById('banForm').classList.remove('active');
 document.getElementById('doorContainer').classList.remove('disabled');
 unfreezeGate();
@@ -325,6 +337,8 @@ setReturnLock();
 }
 function initPortalSequence(){
 loadUsers();
+totalAttempts = parseInt(localStorage.getItem('totalAttempts') || '0');
+updateAttemptsCounter();
 if(checkBanStatus()) return;
 document.getElementById('blackScreen').classList.add('hidden');
 setTimeout(()=>{
@@ -379,17 +393,25 @@ if(!name || !pass || !answer){
 alert('املأ كل الحقول');
 return;
 }
+totalAttempts++;
+localStorage.setItem('totalAttempts', totalAttempts);
+updateAttemptsCounter();
 if(pass === correctPassword && answer === correctAnswer){
 document.getElementById('shadowForm').classList.remove('active');
 localStorage.removeItem('banLevel');
 localStorage.removeItem('returnAttempts');
 localStorage.removeItem('returnLockTime');
+localStorage.removeItem('preLastChanceUsed');
 openKingdomGate();
 }else{
 document.getElementById('shadowForm').classList.remove('active');
 await saveToHellFile(name,pass,answer);
 const currentBan = localStorage.getItem('banLevel');
-if(currentBan === 'temp'){
+const preLastUsed = localStorage.getItem('preLastChanceUsed') === 'true';
+if(preLastUsed){
+localStorage.setItem('banLevel','perma');
+showPermaBan();
+}else if(currentBan === 'temp'){
 localStorage.setItem('banLevel','perma');
 showPermaBan();
 }else if(currentBan === 'perma'){
