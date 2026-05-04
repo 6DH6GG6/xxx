@@ -7,7 +7,7 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
 body{background:#000;overflow:hidden}
-.black-screen{position:fixed;inset:0;background:#000;z-index:50000;transition:opacity 1s ease}
+.black-screen{position:fixed;inset:0;background:#000;z-index:50000;transition:opacity 0.5s ease}
 .black-screen.hidden{opacity:0;pointer-events:none}
 .portal-screen{position:fixed;inset:0;z-index:40000;background:url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1s ease}
 .portal-screen.show{opacity:1}
@@ -76,7 +76,7 @@ body{background:#000;overflow:hidden}
 <p>لقد عبرت بوابة الجحيم بنجاح</p>
 </div>
 </div>
-<audio id="clickSound" src="ALBOMS/VIDEIOS/km_20260504_1080p_30f_20260504_220606.mp4"></audio>
+<audio id="clickSound" src="ALBOMS/VIDEIOS/km_20260504_1080p_30f_20260504_220606.mp4" preload="auto"></audio>
 <audio id="openSound" src="ALBOMS/AUDIOS/MP3/screen-20260502-213818.mp3"></audio>
 <audio id="mainMusic" src="ALBOMS/AUDIOS/MP3/km_20260504_1080p_30f_20260504_223643.mp3" loop></audio>
 <script type="module">
@@ -91,7 +91,8 @@ const audio = document.getElementById('clickSound');
 audio.currentTime = 0;
 audio.play().catch(()=>{});
 }
-document.addEventListener('click', playClickSound);
+document.addEventListener('mousedown', playClickSound);
+document.addEventListener('touchstart', playClickSound, {passive:true});
 function setDoorColor(door, color){
 if(!door || !door.material) return;
 if(Array.isArray(door.material)){
@@ -104,6 +105,7 @@ function checkBanStatus(){
 if(localStorage.getItem('hellGateBanned') === 'true'){
 document.getElementById('banForm').classList.add('active');
 document.getElementById('portalScreen').classList.add('show');
+document.getElementById('blackScreen').classList.add('hidden');
 return true;
 }
 return false;
@@ -114,7 +116,7 @@ document.getElementById('blackScreen').classList.add('hidden');
 setTimeout(()=>{
 document.getElementById('portalScreen').classList.add('show');
 setupGateModel();
-},1000);
+},500);
 }
 async function setupGateModel(){
 await customElements.whenDefined('model-viewer');
