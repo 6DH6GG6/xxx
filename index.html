@@ -16,6 +16,7 @@ body { min-height: 100vh; background: #000 url('background.jpg') center/cover no
 @keyframes portalSpin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes portalPulse { 0%, 100% { box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #8b0000; } 50% { box-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 120px #8b0000; } }
 @keyframes redPulse { 0%, 100% { box-shadow: 0 0 30px #ff0000, 0 0 60px #8b0000 inset, 0 0 0 3px #ff0000; } 50% { box-shadow: 0 0 50px #ff0000, 0 0 100px #8b0000 inset, 0 0 0 5px #ff1a1a; } }
+@keyframes kingdomBreath { 0%, 100% { opacity: 0.3; } 50% { opacity: 1; } }
 .top-frame { position: fixed; top: 0; left: 0; right: 0; height: 40px; background: linear-gradient(270deg, #8b0000, #ff1a1a, #6a0dad, #8b0000); background-size: 600% 600%; animation: gradientShift 8s ease infinite; z-index: 10007; display: flex; align-items: center; overflow: hidden; border-bottom: 1px solid rgba(255,0,0,0.5); }
 .top-frame-text { position: absolute; width: 100%; height: 100%; display: flex; align-items: center; overflow: hidden; pointer-events: none; }
 .top-frame-text span { position: absolute; color: #fff; font-weight: bold; font-size: 14px; white-space: nowrap; text-shadow: 0 0 5px #000; animation: scrollTextLeft 15s linear infinite; }
@@ -29,7 +30,7 @@ body { min-height: 100vh; background: #000 url('background.jpg') center/cover no
 .side-right-buttons { position: fixed; top: 50%; right: 15px; transform: translateY(-50%); display: flex; flex-direction: column; gap: 12px; z-index: 10005; }
 .side-btn { width: 50px; height: 50px; background: transparent; background-size: 100% 100%; background-position: center; background-repeat: no-repeat; border: none; cursor: pointer; transition: 0.15s; touch-action: manipulation; }
 .side-btn:active { transform: scale(0.9); filter: drop-shadow(0 0 20px #ff0000); }
-#mainSite { display: block; position: relative; min-height: 100vh; }
+#mainSite { display: none; position: relative; min-height: 100vh; }
 .wave-layer { position: fixed; inset: 0; pointer-events: none; z-index: 9998; overflow: hidden; }
 .wave { position: absolute; width: 12px; height: 12px; border-radius: 50%; background: radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%); transform: translate(-50%, -50%); animation: waveMove 1.4s ease-out forwards; filter: blur(2px); }
 .bg-overlay { position: fixed; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85)); z-index: 1; pointer-events: none; }
@@ -73,11 +74,76 @@ body { min-height: 100vh; background: #000 url('background.jpg') center/cover no
 .bottom-btn:nth-child(4) { animation-delay: 1.7s; }
 .bottom-btn:nth-child(5) { animation-delay: 1.8s; }
 .bottom-btn:active { transform: scale(0.95); filter: drop-shadow(0 0 15px #ff0000); }
+.portal-screen { position: fixed; inset: 0; z-index: 30000; background: url('background.jpg') center/cover no-repeat; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s; }
+.portal-screen.hidden { opacity: 0; pointer-events: none; }
+.dev-badge { position: absolute; top: 20px; right: 20px; display: flex; align-items: center; gap: 10px; padding: 8px 15px; border: 2px solid #ff0000; border-radius: 50px; background: rgba(0,0,0,0.7); box-shadow: 0 0 20px #ff0000; }
+.dev-avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #8b0000; box-shadow: 0 0 15px #ff0000; object-fit: cover; }
+.dev-name { color: #ff0000; font-size: 18px; font-weight: bold; text-shadow: 0 0 10px #ff0000; }
+.kingdom-title { font-size: 42px; color: #ff0000; text-shadow: 0 0 30px #ff0000; margin-bottom: 40px; animation: kingdomBreath 4s ease-in-out infinite; }
+.door-container { position: relative; width: 300px; height: 400px; cursor: pointer; transition: transform 0.3s; }
+.door-container.selected { transform: scale(1.05); }
+.door-model { width: 100%; height: 100%; background: #8b0000; border: 3px solid #ff0000; box-shadow: 0 0 40px #ff0000; position: relative; z-index: 2; transition: transform 5s ease-in-out; }
+.door-model.opening { transform: perspective(1000px) rotateY(-105deg); }
+.door-glow { position: absolute; inset: 0; z-index: 1; opacity: 0; mix-blend-mode: screen; transition: opacity 0.5s; pointer-events: none; }
+.door-glow.active { opacity: 1; }
+.portal-warning { margin-top: 30px; color: #ff0000; font-size: 20px; font-weight: bold; text-shadow: 0 0 15px #ff0000; text-align: center; }
+.shadow-form { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 400px; background: rgba(0,0,0,0.95); border: 3px solid #ff0000; box-shadow: 0 0 50px #ff0000; padding: 25px; z-index: 31000; display: none; }
+.shadow-form.active { display: block; }
+.shadow-form input, .shadow-form select { width: 100%; padding: 12px; margin: 10px 0; background: #1a0000; border: 2px solid #ff0000; color: #ff0000; font-size: 16px; }
+.shadow-form button { width: 100%; padding: 15px; background: #8b0000; border: 2px solid #ff0000; color: #fff; font-size: 18px; cursor: pointer; margin-top: 15px; }
+.ban-form { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 90%; max-width: 450px; background: rgba(0,0,0,0.98); border: 3px solid #ff0000; box-shadow: 0 0 60px #ff0000; padding: 30px; z-index: 31000; text-align: center; display: none; }
+.ban-form.active { display: block; }
+.sewer-btn { margin-top: 20px; padding: 15px 30px; background: #2a0000; border: 2px solid #ff0000; cursor: pointer; }
+.dev-mini-badge { position: fixed; top: 15px; right: 15px; display: none; align-items: center; gap: 8px; padding: 5px 12px; border: 2px solid #ff0000; border-radius: 40px; background: rgba(0,0,0,0.8); box-shadow: 0 0 15px #ff0000; z-index: 25000; }
+.dev-mini-badge.active { display: flex; }
 @media (max-width: 768px) {.top-nav { padding: 0 10px; justify-content: flex-start; }.nav-btn { font-size: 11px; padding: 5px 8px; } }
-@media (max-width: 480px) {.profile-name { font-size: 13px; padding: 5px 12px 5px 6px; }.profile-img { width: 28px; height: 28px; }.menu { row-gap: 6%; }.btn:nth-child(1) { margin-bottom: 3%; }.btn:nth-child(2) { margin-bottom: 3%; }.btn:nth-child(3) { margin-bottom: 3%; }.side-left-buttons { left: 8px; gap: 8px; }.side-right-buttons { right: 8px; gap: 8px; }.side-btn { width: 42px; height: 42px; }.bottom-buttons { gap: 8px; bottom: 10px; }.fancy-box h2 { font-size: 22px; }.fancy-box p { font-size: 17px; } }
+@media (max-width: 480px) {.profile-name { font-size: 13px; padding: 5px 12px 5px 6px; }.profile-img { width: 28px; height: 28px; }.menu { row-gap: 6%; }.btn:nth-child(1) { margin-bottom: 3%; }.btn:nth-child(2) { margin-bottom: 3%; }.btn:nth-child(3) { margin-bottom: 3%; }.side-left-buttons { left: 8px; gap: 8px; }.side-right-buttons { right: 8px; gap: 8px; }.side-btn { width: 42px; height: 42px; }.bottom-buttons { gap: 8px; bottom: 10px; }.fancy-box h2 { font-size: 22px; }.fancy-box p { font-size: 17px; }.kingdom-title { font-size: 32px; }.door-container { width: 240px; height: 320px; } }
 </style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
 </head>
 <body>
+<div class="portal-screen" id="portalScreen">
+<div class="dev-badge">
+<img src="dev.png" class="dev-avatar">
+<div class="dev-name">Kage No Teio 🔥</div>
+</div>
+<div class="kingdom-title">مملكة طائفة الظلام</div>
+<div class="door-container" id="doorContainer">
+<div class="door-glow" id="doorGlow"></div>
+<div class="door-model" id="doorModel"></div>
+</div>
+<div class="portal-warning">لا يمكنك الدخول الى المملكة إن لم تعبر بوابة الجحيم سالمًا</div>
+</div>
+<div class="shadow-form" id="shadowForm">
+<h2 style="color:#ff0000;text-align:center;">بوابة الظلال</h2>
+<input type="text" id="userName" placeholder="اسمك" required>
+<input type="password" id="userPass" placeholder="كلمة السر" required>
+<label style="color:#ff0000;">هل انت من ظلال او أنك مجرد شحاد !؟</label>
+<select id="userAnswer" required>
+<option value="">اختر...</option>
+<option value="نعم">نعم</option>
+<option value="لا">لا</option>
+<option value="أجل">أجل</option>
+<option value="اكيد نو">اكيد نو</option>
+<option value="بالتأكيد">بالتأكيد</option>
+<option value="ناه">ناه</option>
+<option value="ربما">ربما</option>
+<option value="همم">همم</option>
+</select>
+<button onclick="checkShadowAccess()">دخول</button>
+</div>
+<div class="ban-form" id="banForm">
+<h2 style="color:#ff0000;">❌ تم طردك من البوابة من قبل الحراس</h2>
+<p style="color:#ff0000;margin:20px 0;">انت مجرد نكرة 🙋🏻‍♂️ ولست مؤهلاً لتزور مملكة أعلا منك مقامًا 🥂</p>
+<p style="color:#ff0000;">لقد جهزت لك زرًا مخصص للدخلاء يمكنك ان تعبر من المجاري وان تشاهد فقط فضائح العصابات</p>
+<div class="sewer-btn" onclick="enterSewerMode()">
+<img src="sewer_btn.png" style="width:200px;">
+</div>
+</div>
+<div class="dev-mini-badge" id="devMiniBadge">
+<img src="dev.png" style="width:30px;height:30px;border-radius:50%;border:1px solid #ff0000;">
+<span style="color:#ff0000;font-size:14px;">Kage No Teio</span>
+</div>
 <div class="top-frame"> <div class="top-frame-text"> <span>☠ الظلال تتربص في الظلام ☠ طائفة الظلام 2019 ☠</span> </div> </div>
 <div class="top-nav">
 <button class="nav-btn" onclick="openFancyMenu('الأرشيف')">[ الأرشيف ]</button>
@@ -168,6 +234,89 @@ let menuData = {
 "الحلفاء": "قائمة الحلفاء",
 "الدعم": "تواصل مع الإدارة"
 };
+function playClickSound() {
+const audio = new Audio('click.mp3');
+audio.play().catch(e=>{});
+}
+function playOpenSound() {
+const audio = new Audio('door_open.mp3');
+audio.play().catch(e=>{});
+}
+let isSewerMode = false;
+const correctPassword = "الظلال666";
+let doorGlowAnim;
+function initPortal() {
+doorGlowAnim = lottie.loadAnimation({
+container: document.getElementById('doorGlow'),
+path: 'glow.json',
+renderer: 'svg',
+loop: true,
+autoplay: false
+});
+document.getElementById('doorContainer').addEventListener('click', function(e) {
+e.stopPropagation();
+activateDoor();
+});
+}
+function activateDoor() {
+document.getElementById('doorContainer').classList.add('selected');
+document.getElementById('doorGlow').classList.add('active');
+doorGlowAnim.play();
+playClickSound();
+setTimeout(() => {
+document.getElementById('shadowForm').classList.add('active');
+}, 3000);
+}
+function checkShadowAccess() {
+const name = document.getElementById('userName').value;
+const pass = document.getElementById('userPass').value;
+const answer = document.getElementById('userAnswer').value;
+if(!name || !pass || !answer) {
+alert('املأ كل الحقول');
+return;
+}
+if(answer === 'ناه' && pass === correctPassword) {
+document.getElementById('shadowForm').classList.remove('active');
+openKingdomGate();
+} else {
+document.getElementById('shadowForm').classList.remove('active');
+document.getElementById('banForm').classList.add('active');
+}
+}
+function openKingdomGate() {
+document.getElementById('devMiniBadge').classList.add('active');
+document.getElementById('doorModel').classList.add('opening');
+doorGlowAnim.setSpeed(3);
+playOpenSound();
+setTimeout(() => {
+doorGlowAnim.stop();
+document.getElementById('portalScreen').classList.add('hidden');
+loadMainSite();
+}, 5000);
+}
+function enterSewerMode() {
+isSewerMode = true;
+document.getElementById('banForm').classList.remove('active');
+document.getElementById('portalScreen').classList.add('hidden');
+loadMainSite();
+disableAllButtonsExceptSewer();
+}
+function loadMainSite() {
+document.getElementById('mainSite').style.display = 'block';
+}
+function disableAllButtonsExceptSewer() {
+if(!isSewerMode) return;
+const allowedBtns = ['فضائح العصابات', 'قوانين الدعس'];
+document.querySelectorAll('.nav-btn, .side-btn, .btn, .bottom-btn').forEach(btn => {
+let btnText = btn.innerText.trim().replace(/\[|\]/g,'');
+let btnAria = btn.getAttribute('aria-label');
+if(!allowedBtns.includes(btnText) && !allowedBtns.includes(btnAria)) {
+btn.style.opacity = '0.2';
+btn.style.pointerEvents = 'none';
+btn.disabled = true;
+}
+});
+}
 function openPortal(callback) {
 const portal = document.getElementById("portalOverlay");
 portal.classList.add("active");
@@ -213,7 +362,7 @@ window.confirmExit = function() {
 window.close();
 }
 window.closeExit = function() {
-document.getElementById("exitPopup").classList.remove("active");
+document.get.getElementById("exitPopup").classList.remove("active");
 }
 const waveLayer = document.getElementById("waveLayer");
 let canWave = true;
@@ -231,6 +380,7 @@ wave.remove();
 canWave = true;
 }, 1200);
 }
+window.addEventListener('DOMContentLoaded', initPortal);
 </script>
 </body>
-</html>[title]
+</html>
