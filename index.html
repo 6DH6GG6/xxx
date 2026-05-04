@@ -8,47 +8,39 @@
 /* ريسيت الصفحة */
 *{margin:0;padding:0;box-sizing:border-box;font-family:Tahoma,sans-serif}
 body{background:#000;overflow:hidden}
-
 /* شاشة سوداء البداية */
 .black-screen{position:fixed;inset:0;background:#000;z-index:50000;transition:opacity 1s ease}
 .black-screen.hidden{opacity:0;pointer-events:none}
-
 /* شاشة البوابة الكاملة */
 .portal-screen{position:fixed;inset:0;z-index:40000;background:url('ALBOMS/IMAGE/SiteBackground/file_000000006e2c722f9a965efdf432912b.png') center/cover no-repeat;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;transition:opacity 1s ease}
 .portal-screen.show{opacity:1}
 .portal-screen.hidden{opacity:0;pointer-events:none}
-
 /* اسم المملكة يتنفس */
 .kingdom-title{font-size:38px;color:#ff0000;text-shadow:0 0 30px #ff0000;margin-bottom:30px;animation:kingdomBreath 4s ease-in-out infinite}
 @keyframes kingdomBreath{0%,100%{opacity:0.3}50%{opacity:1}}
-
 /* حاوية الباب */
 .door-container{position:relative;width:320px;height:420px;cursor:pointer;transition:transform 0.3s ease}
 .door-container.selected{transform:scale(1.05)}
 .door-container model-viewer{width:100%;height:100%}
-
 /* نص تحت الباب */
 .portal-warning{margin-top:25px;color:#ff0000;font-size:19px;font-weight:bold;text-shadow:0 0 15px #ff0000;text-align:center;animation:glowText 2s ease-in-out infinite alternate}
 @keyframes glowText{from{text-shadow:0 0 10px #ff0000}to{text-shadow:0 0 25px #ff0000,0 0 35px #ff0000}}
-
 /* قائمة الدخول الفخمة */
 .shadow-form{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:400px;background:rgba(0,0,0,0.95);border:3px solid #ff0000;box-shadow:0 0 50px #ff0000;padding:25px;z-index:41000;display:none}
 .shadow-form.active{display:block}
 .shadow-form h2{color:#ff0000;text-align:center;margin-bottom:15px;text-shadow:0 0 10px #ff0000}
 .shadow-form input,.shadow-form select{width:100%;padding:12px;margin:10px 0;background:#1a0000;border:2px solid #ff0000;color:#ff0000;font-size:16px;outline:none}
 .shadow-form input::placeholder{color:#8b0000}
-.shadow-form .btn-group{display:flex;gap:10px;margin-top:15px}
+.shadow-form.btn-group{display:flex;gap:10px;margin-top:15px}
 .shadow-form button{flex:1;padding:15px;background:#8b0000;border:2px solid #ff0000;color:#fff;font-size:18px;cursor:pointer;transition:0.3s}
 .shadow-form button:hover{background:#ff0000;box-shadow:0 0 20px #ff0000}
 .shadow-form button.back-btn{background:#1a0000}
 .shadow-form button.back-btn:hover{background:#330000}
-
 /* قائمة الطرد */
 .ban-form{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:450px;background:rgba(0,0,0,0.98);border:3px solid #ff0000;box-shadow:0 0 60px #ff0000;padding:30px;z-index:41000;text-align:center;display:none}
 .ban-form.active{display:block}
 .ban-form h2{color:#ff0000;margin-bottom:15px}
 .ban-form p{color:#ff0000;margin:15px 0;line-height:1.6}
-
 /* الموقع الرئيسي */
 .main-site{position:fixed;inset:0;background:#111;display:none;z-index:1000;overflow:auto}
 .main-site.active{display:block}
@@ -57,9 +49,7 @@ body{background:#000;overflow:hidden}
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
-
 <div class="black-screen" id="blackScreen"></div>
-
 <div class="portal-screen" id="portalScreen">
 <div class="kingdom-title">مملكة طائفة الظلام</div>
 <div class="door-container" id="doorContainer">
@@ -67,7 +57,6 @@ body{background:#000;overflow:hidden}
 </div>
 <div class="portal-warning">لا يمكنك زيارة المملكة ما لم تعبر بوابة الجحيم (سالمًا)</div>
 </div>
-
 <div class="shadow-form" id="shadowForm">
 <h2>💀 عرف من أنت 💀</h2>
 <input type="text" id="userName" placeholder="الاسم" required>
@@ -85,27 +74,28 @@ body{background:#000;overflow:hidden}
 <button class="back-btn" onclick="closeShadowForm()">رجوع</button>
 </div>
 </div>
-
 <div class="ban-form" id="banForm">
 <h2>❌ تم طردك من قبل الحراس</h2>
 <p>أنت مجرد نكرة ولست مؤهلاً لتزور مملكة أعلى منك مقامًا</p>
 <p>تم حظرك نهائياً من البوابة</p>
 </div>
-
 <div class="main-site" id="mainSite">
 <div class="main-site-content">
 <h1>مرحباً بك في مملكة طائفة الظلام</h1>
 <p>لقد عبرت بوابة الجحيم بنجاح</p>
 </div>
 </div>
-
 <audio id="clickSound" src="ALBOMS/VIDEIOS/km_20260504_1080p_30f_20260504_220606.mp4"></audio>
 <audio id="openSound" src="ALBOMS/AUDIOS/MP3/screen-20260502-213818.mp3"></audio>
 <audio id="mainMusic" src="ALBOMS/AUDIOS/MP3/km_20260504_1080p_30f_20260504_223643.mp3" loop></audio>
+<script type="module">
+/* استيراد THREE من model-viewer عشان نتحكم بالألوان */
+const modelViewer = document.getElementById('gateModel');
+let THREE = null;
 
-<script>
 /* متغيرات عامة للتحكم */
 let doorL = null, doorR = null, gateOpened = false;
+let colorInterval = null;
 const correctPassword = "الظلال666";
 const correctAnswer = "ناه";
 
@@ -132,8 +122,9 @@ setupGateModel();
 }
 
 /* تجهيز موديل البوابة وتحديد الأبواب بالأسماء الصحيحة */
-function setupGateModel(){
-const modelViewer = document.getElementById('gateModel');
+async function setupGateModel(){
+await customElements.whenDefined('model-viewer');
+THREE = modelViewer.constructor.THREE;
 modelViewer.addEventListener('load', ()=>{
 const model = modelViewer.model;
 if(model){
@@ -141,10 +132,25 @@ model.traverse((obj)=>{
 if(obj.name === "Door_L_Mareial") doorL = obj;
 if(obj.name === "Dor_R_Material") doorR = obj;
 });
+setInitialDoorColor();
 }
 });
 document.getElementById('doorContainer').addEventListener('click', activateDoor);
 }
+
+/* ضبط لون البابين أحمر في البداية */
+function setInitialDoorColor(){
+const redColor = new THREE.Color(0xff0000);
+.forEach(door=>{
+if(door && door.material){
+if(Array.isArray(door.material)){
+door.material.forEach(m=>{if(m.color)m.color.set(redColor)});
+}else{
+if(door.material.color) door.material.color.set(redColor);
+}
+}
+});
+}[doorL][doorR]
 
 /* تفعيل البوابة عند الضغط */
 function activateDoor(){
@@ -157,7 +163,7 @@ document.getElementById('shadowForm').classList.add('active');
 }
 
 /* إغلاق القائمة والرجوع للبوابة */
-function closeShadowForm(){
+window.closeShadowForm = function(){
 document.getElementById('shadowForm').classList.remove('active');
 document.getElementById('doorContainer').classList.remove('selected');
 document.getElementById('userName').value = '';
@@ -166,11 +172,11 @@ document.getElementById('userAnswer').value = '';
 }
 
 /* فحص بيانات الدخول */
-function checkShadowAccess(){
+window.checkShadowAccess = function(){
 const name = document.getElementById('userName').value.trim();
 const pass = document.getElementById('userPass').value.trim();
 const answer = document.getElementById('userAnswer').value;
-if(!name || !pass || !answer){
+if(!name ||!pass ||!answer){
 alert('املأ كل الحقول');
 return;
 }
@@ -184,15 +190,38 @@ document.getElementById('banForm').classList.add('active');
 }
 }
 
-/* فتح بوابة المملكة بأنيميشن 5 ثواني */
+/* تحويل اللون تدريجياً من أحمر لبنفسجي */
+function startColorTransition(){
+if(!THREE ||!doorL ||!doorR) return;
+const startColor = new THREE.Color(0xff0000);
+const endColor = new THREE.Color(0x8a2be2);
+let progress = 0;
+colorInterval = setInterval(()=>{
+progress += 0.005;
+if(progress > 1) progress = 0;
+const currentColor = startColor.clone().lerp(endColor, progress);
+.forEach(door=>{
+if(door && door.material){
+if(Array.isArray(door.material)){
+door.material.forEach(m=>{if(m.color)m.color.copy(currentColor)});
+}else{
+if(door.material.color) door.material.color.copy(currentColor);
+}
+}
+});
+}, 50);
+}[doorL][doorR]
+
+/* فتح بوابة المملكة بأنيميشن 5 ثواني + تغيير اللون */
 function openKingdomGate(){
 if(gateOpened) return;
 gateOpened = true;
 document.getElementById('openSound').play().catch(()=>{});
-if(!doorL || !doorR){
-console.log('الأبواب غير موجودة');
+if(!doorL ||!doorR){
+alert('ما لقيت الأبواب داخل الموديل. تأكد من الأسماء');
 return;
 }
+startColorTransition();
 const duration = 5000;
 const startTime = performance.now();
 const doorLStart = doorL.rotation.y;
