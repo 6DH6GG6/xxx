@@ -95,7 +95,7 @@ const correctPassword = "الظلال666";
 const correctAnswer = "ناه";
 function playClickSound(){
 if(!clickAudio){
-clickAudio = document.getElementById('clickSound').cloneNode();
+clickAudio = document.getElementById('clickSound');
 }
 clickAudio.currentTime = 0;
 clickAudio.play().catch(()=>{});
@@ -112,29 +112,24 @@ return 'unknown';
 }
 }
 async function saveToHellFile(name){
-let hellData = [];
-try{
-hellData = JSON.parse(localStorage.getItem('الجحيم.json')) || [];
-}catch(e){}
+let hellData = JSON.parse(localStorage.getItem('الجحيم.json') || '[]');
 const ip = await getIP();
-const entry = {
+const screen = window.screen.width+'x'+window.screen.height;
+const exists = hellData.find(u=>u.name===name && u.ip===ip && u.screen===screen);
+if(!exists){
+hellData.push({
 name:name,
 ip:ip,
-screen:window.screen.width+'x'+window.screen.height,
+screen:screen,
 userAgent:navigator.userAgent,
 date:new Date().toISOString(),
 reason:"فشل في عبور بوابة الجحيم"
-};
-if(!hellData.find(u=>u.name===name && u.ip===ip)){
-hellData.push(entry);
+});
 localStorage.setItem('الجحيم.json', JSON.stringify(hellData));
 }
 }
 function checkHellFileBan(){
-let hellData = [];
-try{
-hellData = JSON.parse(localStorage.getItem('الجحيم.json')) || [];
-}catch(e){}
+let hellData = JSON.parse(localStorage.getItem('الجحيم.json') || '[]');
 const screenSize = window.screen.width+'x'+window.screen.height;
 return hellData.some(u=>u.screen===screenSize);
 }
