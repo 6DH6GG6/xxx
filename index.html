@@ -62,27 +62,23 @@
             100% { background-position: 0% 50%; }
         }
 
-  .top-frame {
+.top-frame {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
-            height: 50px;
+            height: 40px;
             background: linear-gradient(270deg, #8b0000, #ff1a1a, #6a0dad, #8b0000);
             background-size: 600% 600%;
             animation: gradientShift 8s ease infinite;
-            z-index: 10006;
+            z-index: 10007;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 0 10px;
-            overflow-x: auto;
-            overflow-y: hidden;
+            overflow: hidden;
             border-bottom: 1px solid rgba(255,0,0,0.5);
         }
 
-  .top-frame-text {
+.top-frame-text {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -92,7 +88,7 @@
             pointer-events: none;
         }
 
-  .top-frame-text span {
+.top-frame-text span {
             position: absolute;
             color: #fff;
             font-weight: bold;
@@ -102,31 +98,50 @@
             animation: scrollTextLeft 15s linear infinite;
         }
 
-  .nav-btn {
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.3);
+.top-nav {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(255,0,0,0.3);
+            backdrop-filter: blur(8px);
+            z-index: 10006;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 10px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+.nav-btn {
+            background: rgba(255,0,0,0.08);
+            border: 1px solid rgba(255,0,0,0.3);
             border-radius: 6px;
-            color: #fff;
+            color: #ff4444;
             font-size: 13px;
             font-weight: bold;
             padding: 6px 12px;
             cursor: pointer;
             white-space: nowrap;
-            transition: 0.15s;
-            text-shadow: 0 0 8px #000;
+            transition: 0.1s;
+            text-shadow: 0 0 8px #ff0000;
             min-height: 32px;
             position: relative;
             z-index: 2;
         }
 
-  .nav-btn:active {
-            background: rgba(255,255,255,0.2);
+.nav-btn:active {
+            background: rgba(255,0,0,0.3);
             transform: scale(0.95);
         }
 
-  .profile-header {
+.profile-header {
             position: fixed;
-            top: 60px;
+            top: 100px;
             right: 15px;
             display: flex;
             align-items: center;
@@ -139,7 +154,7 @@
             box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
 
-  .profile-img {
+.profile-img {
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -148,14 +163,14 @@
             box-shadow: 0 0 15px rgba(255,0,0,0.6);
         }
 
-  .profile-name {
+.profile-name {
             color: #ff0000;
             font-size: 15px;
             font-weight: bold;
             text-shadow: 0 0 10px #ff0000;
         }
 
-  .side-left-buttons {
+.side-left-buttons {
             position: fixed;
             top: 50%;
             left: 15px;
@@ -166,7 +181,7 @@
             z-index: 10005;
         }
 
-  .side-right-buttons {
+.side-right-buttons {
             position: fixed;
             top: 50%;
             right: 15px;
@@ -177,26 +192,22 @@
             z-index: 10005;
         }
 
-  .side-btn {
+.side-btn {
             width: 50px;
             height: 50px;
-            background: rgba(255,0,0,0.1);
-            border: 1px solid rgba(255,0,0,0.4);
-            border-radius: 10px;
-            color: #ff0000;
-            font-size: 22px;
+            background: transparent;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            backdrop-filter: blur(3px);
             transition: 0.15s;
+            touch-action: manipulation;
         }
 
-  .side-btn:active {
-            background: rgba(255,0,0,0.3);
-            box-shadow: 0 0 15px #ff0000;
+.side-btn:active {
             transform: scale(0.9);
+            filter: drop-shadow(0 0 20px #ff0000);
         }
 
         #mainSite {
@@ -206,7 +217,7 @@
             background: #000;
         }
 
-  .wave-layer {
+.wave-layer {
             position: fixed;
             inset: 0;
             pointer-events: none;
@@ -214,7 +225,7 @@
             overflow: hidden;
         }
 
-  .wave {
+.wave {
             position: absolute;
             width: 12px;
             height: 12px;
@@ -225,7 +236,7 @@
             filter: blur(2px);
         }
 
-  .bg-overlay {
+.bg-overlay {
             position: fixed;
             inset: 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
@@ -233,7 +244,7 @@
             pointer-events: none;
         }
 
-  .stars {
+.stars {
             position: fixed;
             inset: 0;
             background: url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
@@ -242,7 +253,7 @@
             z-index: 2;
         }
 
-  .menu-page {
+.menu-page {
             position: fixed;
             inset: 0;
             width: 100%;
@@ -254,16 +265,16 @@
             opacity: 0;
             transform: scale(1.1);
             pointer-events: none;
-            transition: 0.2s ease;
+            transition: 0.15s ease;
         }
 
-  .menu-page.active {
+.menu-page.active {
             opacity: 1;
             transform: scale(1);
             pointer-events: auto;
         }
 
-  .menu-header {
+.menu-header {
             background: linear-gradient(90deg, #8b0000, #ff1a1a);
             padding: 15px;
             display: flex;
@@ -272,12 +283,12 @@
             box-shadow: 0 0 20px red;
         }
 
-  .menu-header h2 {
+.menu-header h2 {
             color: white;
             font-size: 20px;
         }
 
-  .menu-header button {
+.menu-header button {
             background: black;
             color: red;
             border: none;
@@ -288,7 +299,7 @@
             min-height: 44px;
         }
 
-  .menu-content {
+.menu-content {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -299,7 +310,7 @@
             padding: 20px;
         }
 
-  .exit-popup {
+.exit-popup {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -308,16 +319,16 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: 0.2s;
+            transition: 0.15s;
             z-index: 10000;
         }
 
-  .exit-popup.active {
+.exit-popup.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-  .exit-box {
+.exit-box {
             background: url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
             padding: 40px;
             border-radius: 20px;
@@ -327,14 +338,14 @@
             max-width: 400px;
         }
 
-  .exit-buttons {
+.exit-buttons {
             margin-top: 20px;
             display: flex;
             gap: 15px;
             justify-content: center;
         }
 
-  .exit-buttons button {
+.exit-buttons button {
             padding: 10px 25px;
             border: none;
             background: #ff0000;
@@ -344,18 +355,18 @@
             min-height: 44px;
         }
 
-  .site-wrapper {
+.site-wrapper {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             z-index: 3;
-            padding-top: 130px;
+            padding-top: 170px;
             padding-bottom: 100px;
         }
 
-  .logo {
+.logo {
             width: clamp(180px, 45vw, 420px);
             margin-top: 15px;
             margin-bottom: 15px;
@@ -363,7 +374,7 @@
             z-index: 2;
         }
 
-  .container {
+.container {
             z-index: 2;
             width: 100%;
             display: flex;
@@ -371,12 +382,12 @@
             padding: 10px;
         }
 
-  .fighter-grid {
+.fighter-grid {
             width: clamp(320px, 80vw, 800px);
             position: relative;
         }
 
-  .menu {
+.menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
@@ -385,7 +396,7 @@
             width: 100%;
         }
 
-  .btn {
+.btn {
             position: relative;
             aspect-ratio: 16/9;
             background-size: 100% 100%;
@@ -399,26 +410,26 @@
             touch-action: manipulation;
         }
 
-  .btn::after {
+.btn::after {
             content: "";
             position: absolute;
             inset: 0;
             z-index: 1;
         }
 
-  .btn:nth-child(1) { animation-delay: 0.2s; margin-bottom: 2%; }
-  .btn:nth-child(2) { animation-delay: 0.4s; margin-bottom: 2%; }
-  .btn:nth-child(3) { animation-delay: 0.6s; margin-bottom: 2%; }
-  .btn:nth-child(4) { animation-delay: 0.8s; }
-  .btn:nth-child(5) { animation-delay: 1s; }
-  .btn:nth-child(6) { animation-delay: 1.2s; }
+.btn:nth-child(1) { animation-delay: 0.2s; margin-bottom: 2%; }
+.btn:nth-child(2) { animation-delay: 0.4s; margin-bottom: 2%; }
+.btn:nth-child(3) { animation-delay: 0.6s; margin-bottom: 2%; }
+.btn:nth-child(4) { animation-delay: 0.8s; }
+.btn:nth-child(5) { animation-delay: 1s; }
+.btn:nth-child(6) { animation-delay: 1.2s; }
 
-  .btn:active {
+.btn:active {
             transform: scale(0.97);
             filter: drop-shadow(0 0 20px #ff0000);
         }
 
-  .bottom-buttons {
+.bottom-buttons {
             position: fixed;
             bottom: 15px;
             left: 50%;
@@ -428,7 +439,7 @@
             z-index: 10005;
       }
 
-  .bottom-btn {
+.bottom-btn {
             width: clamp(50px, 15vw, 80px);
             height: clamp(40px, 12vw, 60px);
             background-size: 100% 100%;
@@ -440,18 +451,18 @@
             touch-action: manipulation;
       }
 
-  .bottom-btn:nth-child(1) { animation-delay: 1.4s; }
-  .bottom-btn:nth-child(2) { animation-delay: 1.5s; }
-  .bottom-btn:nth-child(3) { animation-delay: 1.6s; }
-  .bottom-btn:nth-child(4) { animation-delay: 1.7s; }
-  .bottom-btn:nth-child(5) { animation-delay: 1.8s; }
+.bottom-btn:nth-child(1) { animation-delay: 1.4s; }
+.bottom-btn:nth-child(2) { animation-delay: 1.5s; }
+.bottom-btn:nth-child(3) { animation-delay: 1.6s; }
+.bottom-btn:nth-child(4) { animation-delay: 1.7s; }
+.bottom-btn:nth-child(5) { animation-delay: 1.8s; }
 
-  .bottom-btn:active {
+.bottom-btn:active {
             transform: scale(0.95);
             filter: drop-shadow(0 0 15px #ff0000);
       }
 
-  .popup {
+.popup {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -460,16 +471,16 @@
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: 0.2s;
+            transition: 0.15s;
             z-index: 999;
         }
 
-  .popup.active {
+.popup.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-  .popup-box {
+.popup-box {
             background: rgba(10,10,10,0.95);
             padding: 30px;
             border-radius: 20px;
@@ -477,27 +488,27 @@
             box-shadow: 0 0 40px #ff0000;
             transform: scale(0.7);
             opacity: 0;
-            transition: 0.2s;
+            transition: 0.15s;
             width: 90%;
             max-width: 400px;
         }
 
-  .popup.active.popup-box {
+.popup.active.popup-box {
             transform: scale(1);
             opacity: 1;
         }
 
-  .popup-box h2 {
+.popup-box h2 {
             color: #ff0000;
             margin-bottom: 10px;
         }
 
-  .popup-box p {
+.popup-box p {
             color: #aaa;
             margin-bottom: 20px;
         }
 
-  .popup-box button {
+.popup-box button {
             padding: 10px 25px;
             border: none;
             background: #ff0000;
@@ -508,46 +519,45 @@
         }
 
         @media (max-width: 768px) {
-      .top-frame {
+    .top-nav {
                 padding: 0 10px;
                 justify-content: flex-start;
            }
-      .nav-btn {
+    .nav-btn {
                 font-size: 11px;
                 padding: 5px 8px;
            }
         }
 
         @media (max-width: 480px) {
-      .profile-name {
+    .profile-name {
                 display: none;
             }
-      .menu-header h2 {
+    .menu-header h2 {
                 font-size: 18px;
             }
-      .exit-box {
+    .exit-box {
                 padding: 25px;
             }
-      .menu {
+    .menu {
                 row-gap: 6%;
            }
-      .btn:nth-child(1) { margin-bottom: 3%; }
-      .btn:nth-child(2) { margin-bottom: 3%; }
-      .btn:nth-child(3) { margin-bottom: 3%; }
-      .side-left-buttons {
+    .btn:nth-child(1) { margin-bottom: 3%; }
+    .btn:nth-child(2) { margin-bottom: 3%; }
+    .btn:nth-child(3) { margin-bottom: 3%; }
+    .side-left-buttons {
                 left: 8px;
                 gap: 8px;
            }
-      .side-right-buttons {
+    .side-right-buttons {
                 right: 8px;
                 gap: 8px;
            }
-      .side-btn {
+    .side-btn {
                 width: 42px;
                 height: 42px;
-                font-size: 20px;
            }
-      .bottom-buttons {
+    .bottom-buttons {
                 gap: 8px;
                 bottom: 10px;
            }
@@ -559,6 +569,9 @@
         <div class="top-frame-text">
             <span>☠ الظلال تتربص في الظلام ☠ طائفة الظلام 2019 ☠</span>
         </div>
+    </div>
+
+    <div class="top-nav">
         <button class="nav-btn" onclick="openMenu('الأرشيف')">[ الأرشيف ]</button>
         <button class="nav-btn" onclick="openMenu('الإعدادات')">[ الإعدادات ]</button>
         <button class="nav-btn" onclick="openMenu('قسم النقاط')">[ قسم النقاط ]</button>
@@ -572,15 +585,15 @@
     </div>
 
     <div class="side-left-buttons">
-        <button class="side-btn" onclick="openMenu('♕1')">♕</button>
-        <button class="side-btn" onclick="openMenu('♕2')">♕</button>
-        <button class="side-btn" onclick="openMenu('♕3')">♕</button>
+        <button class="side-btn" onclick="openMenu('♕1')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side1.png')"></button>
+        <button class="side-btn" onclick="openMenu('♕2')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side2.png')"></button>
+        <button class="side-btn" onclick="openMenu('♕3')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side3.png')"></button>
     </div>
 
     <div class="side-right-buttons">
-        <button class="side-btn" onclick="openMenu('♕4')">♕</button>
-        <button class="side-btn" onclick="openMenu('♕5')">♕</button>
-        <button class="side-btn" onclick="openMenu('♕6')">♕</button>
+        <button class="side-btn" onclick="openMenu('♕4')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side4.png')"></button>
+        <button class="side-btn" onclick="openMenu('♕5')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side5.png')"></button>
+        <button class="side-btn" onclick="openMenu('♕6')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side6.png')"></button>
     </div>
 
     <div class="profile-header">
