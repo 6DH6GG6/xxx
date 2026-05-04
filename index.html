@@ -50,12 +50,17 @@ body{background:#000;overflow:hidden}
 .main-site{position:fixed;inset:0;background:#111;display:none;z-index:1000;overflow:auto}
 .main-site.active{display:block}
 .main-site-content{padding:50px;color:#ff0000;text-align:center;font-size:24px}
+
+/* صندوق عرض أسماء الأجزاء */
+.debug-names{position:fixed;top:10px;left:10px;background:rgba(0,0,0,0.9);border:1px solid #ff0000;color:#0f0;padding:10px;font-size:12px;max-width:300px;max-height:200px;overflow:auto;z-index:60000;font-family:monospace;display:none}
+.debug-names.active{display:block}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
 <div class="black-screen" id="blackScreen"></div>
+<div class="debug-names" id="debugNames"></div>
 
 <div class="portal-screen" id="portalScreen">
 <div class="kingdom-title">مملكة طائفة الظلام</div>
@@ -125,17 +130,42 @@ setupGateModel();
 },1000);
 }
 
+/* طباعة كل أسماء الأجزاء داخل الموديل عشان نعرف اسم البابين */
+function logAllMeshNames(model){
+const debugBox = document.getElementById('debugNames');
+debugBox.classList.add('active');
+let names = 'أسماء الأجزاء داخل الـ GLB:<br>';
+model.traverse((obj)=>{
+if(obj.name){
+names += obj.name + '<br>';
+console.log('Mesh Name:', obj.name);
+const lower = obj.name.toLowerCase();
+if(lower.includes("door") || lower.includes("gate") || lower.includes("باب")){
+names += '← احتمال باب<br>';
+}
+}
+});
+debugBox.innerHTML = names + '<br>افتح Console F12 وشوف الأسماء';
+}
+
 /* تجهيز موديل البوابة وتحديد الأبواب */
 function setupGateModel(){
 const modelViewer = document.getElementById('gateModel');
 modelViewer.addEventListener('load', ()=>{
 const model = modelViewer.model;
 if(model){
+logAllMeshNames(model);
 model.traverse((obj)=>{
 const name = obj.name.toLowerCase();
-if(name.includes("door_l") || name.includes("left") || name.includes("l_door")) doorL = obj;
-if(name.includes("door_r") || name.includes("right") || name.includes("r_door")) doorR = obj;
+if(name.includes("door_l") || name.includes("left") || name.includes("l_door") || name.includes("leftdoor") || name.includes("doorleft")) doorL = obj;
+if(name.includes("door_r") || name.includes("right") || name.includes("r_door") || name.includes("rightdoor") || name.includes("doorright")) doorR = obj;
+if(name === "door1" || name === "door01") doorL = obj;
+if(name === "door2" || name === "door02") doorR = obj;
 });
+if(!doorL || !doorR){
+console.log('doorL:', doorL, 'doorR:', doorR);
+alert('ما لقيت الأبواب. شوف المربع الأخضر فوق يسار أو Console واعطيني اسم البابين');
+}
 }
 });
 document.getElementById('doorContainer').addEventListener('click', activateDoor);
@@ -175,14 +205,20 @@ function openKingdomGate(){
 if(gateOpened) return;
 gateOpened = true;
 document.getElementById('openSound').play();
+if(!doorL || !doorR){
+alert('الأبواب غير محددة. لازم تجيب لي الأسماء من المربع الأخضر');
+return;
+}
 const duration = 5000;
 const startTime = performance.now();
+const doorLStart = doorL.rotation.y;
+const doorRStart = doorR.rotation.y;
 function animateDoors(currentTime){
 const elapsed = currentTime - startTime;
 const progress = Math.min(elapsed / duration, 1);
-const angle = progress * 90;
-if(doorL) doorL.rotation.y = angle * Math.PI / 180;
-if(doorR) doorR.rotation.y = -angle * Math.PI / 180;
+const angle = progress * (Math.PI / 2);
+doorL.rotation.y = doorLStart + angle;
+doorR.rotation.y = doorRStart - angle;
 if(progress < 1){
 requestAnimationFrame(animateDoors);
 }else{
