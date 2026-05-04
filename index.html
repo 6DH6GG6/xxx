@@ -207,15 +207,16 @@ function checkBanStatus(){
 const hellBan = checkHellFileBan();
 const banLevel = localStorage.getItem('banLevel');
 const preLastUsed = localStorage.getItem('preLastChanceUsed') === 'true';
+const permaBanActive = localStorage.getItem('permaBanActive') === 'true';
+if(permaBanActive || banLevel === 'perma'){
+showPermaBan();
+return true;
+}
 if(preLastUsed){
 return false;
 }
 if(banLevel === 'temp' || hellBan && banLevel !== 'perma'){
 showTempBan();
-return true;
-}
-if(banLevel === 'perma'){
-showPermaBan();
 return true;
 }
 return false;
@@ -238,6 +239,7 @@ document.getElementById('tempBanSection').style.display = 'none';
 document.getElementById('permaBanSection').style.display = 'block';
 document.getElementById('banTitle').textContent = '⛔ تعليق دائم';
 freezeGate();
+localStorage.setItem('permaBanActive','true');
 checkReturnTimer();
 }
 window.givePreLastChance = function(){
@@ -266,7 +268,6 @@ if(returnAttempts >= 5){
 setReturnLock();
 }else{
 enableReturnInput();
-}
 }
 }
 function enableReturnInput(){
@@ -319,6 +320,7 @@ localStorage.removeItem('banLevel');
 localStorage.removeItem('returnAttempts');
 localStorage.removeItem('returnLockTime');
 localStorage.removeItem('preLastChanceUsed');
+localStorage.removeItem('permaBanActive');
 document.getElementById('banForm').classList.remove('active');
 document.getElementById('doorContainer').classList.remove('disabled');
 unfreezeGate();
@@ -402,6 +404,7 @@ localStorage.removeItem('banLevel');
 localStorage.removeItem('returnAttempts');
 localStorage.removeItem('returnLockTime');
 localStorage.removeItem('preLastChanceUsed');
+localStorage.removeItem('permaBanActive');
 openKingdomGate();
 }else{
 document.getElementById('shadowForm').classList.remove('active');
@@ -410,9 +413,11 @@ const currentBan = localStorage.getItem('banLevel');
 const preLastUsed = localStorage.getItem('preLastChanceUsed') === 'true';
 if(preLastUsed){
 localStorage.setItem('banLevel','perma');
+localStorage.setItem('permaBanActive','true');
 showPermaBan();
 }else if(currentBan === 'temp'){
 localStorage.setItem('banLevel','perma');
+localStorage.setItem('permaBanActive','true');
 showPermaBan();
 }else if(currentBan === 'perma'){
 showPermaBan();
