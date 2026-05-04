@@ -234,9 +234,13 @@ window.givePreLastChance = function(){
 localStorage.removeItem('banLevel');
 document.getElementById('banForm').classList.remove('active');
 document.getElementById('doorContainer').classList.remove('selected');
+document.getElementById('doorContainer').classList.remove('disabled');
 document.getElementById('userName').value = '';
 document.getElementById('userPass').value = '';
 document.getElementById('userAnswer').value = '';
+document.getElementById('portalScreen').classList.add('show');
+document.getElementById('blackScreen').classList.add('hidden');
+gateOpened = false;
 unfreezeGate();
 }
 function checkReturnTimer(){
@@ -304,9 +308,11 @@ localStorage.removeItem('banLevel');
 localStorage.removeItem('returnAttempts');
 localStorage.removeItem('returnLockTime');
 document.getElementById('banForm').classList.remove('active');
+document.getElementById('doorContainer').classList.remove('disabled');
 unfreezeGate();
 errorText.classList.remove('show');
 document.getElementById('returnID').value = '';
+gateOpened = false;
 }else{
 returnAttempts++;
 localStorage.setItem('returnAttempts', returnAttempts);
