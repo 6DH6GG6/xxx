@@ -37,8 +37,11 @@ body{background:#000;overflow:hidden}
 .shadow-form h2{color:#ff0000;text-align:center;margin-bottom:15px;text-shadow:0 0 10px #ff0000}
 .shadow-form input,.shadow-form select{width:100%;padding:12px;margin:10px 0;background:#1a0000;border:2px solid #ff0000;color:#ff0000;font-size:16px;outline:none}
 .shadow-form input::placeholder{color:#8b0000}
-.shadow-form button{width:100%;padding:15px;background:#8b0000;border:2px solid #ff0000;color:#fff;font-size:18px;cursor:pointer;margin-top:15px;transition:0.3s}
+.shadow-form .btn-group{display:flex;gap:10px;margin-top:15px}
+.shadow-form button{flex:1;padding:15px;background:#8b0000;border:2px solid #ff0000;color:#fff;font-size:18px;cursor:pointer;transition:0.3s}
 .shadow-form button:hover{background:#ff0000;box-shadow:0 0 20px #ff0000}
+.shadow-form button.back-btn{background:#1a0000}
+.shadow-form button.back-btn:hover{background:#330000}
 
 /* قائمة الطرد */
 .ban-form{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:90%;max-width:450px;background:rgba(0,0,0,0.98);border:3px solid #ff0000;box-shadow:0 0 60px #ff0000;padding:30px;z-index:41000;text-align:center;display:none}
@@ -50,17 +53,12 @@ body{background:#000;overflow:hidden}
 .main-site{position:fixed;inset:0;background:#111;display:none;z-index:1000;overflow:auto}
 .main-site.active{display:block}
 .main-site-content{padding:50px;color:#ff0000;text-align:center;font-size:24px}
-
-/* صندوق عرض أسماء الأجزاء */
-.debug-names{position:fixed;top:10px;left:10px;background:rgba(0,0,0,0.9);border:1px solid #ff0000;color:#0f0;padding:10px;font-size:12px;max-width:300px;max-height:200px;overflow:auto;z-index:60000;font-family:monospace;display:none}
-.debug-names.active{display:block}
 </style>
 <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 <body>
 
 <div class="black-screen" id="blackScreen"></div>
-<div class="debug-names" id="debugNames"></div>
 
 <div class="portal-screen" id="portalScreen">
 <div class="kingdom-title">مملكة طائفة الظلام</div>
@@ -82,7 +80,10 @@ body{background:#000;overflow:hidden}
 <option value="ناه">ناه</option>
 <option value="ربما">ربما</option>
 </select>
+<div class="btn-group">
 <button onclick="checkShadowAccess()">دخول</button>
+<button class="back-btn" onclick="closeShadowForm()">رجوع</button>
+</div>
 </div>
 
 <div class="ban-form" id="banForm">
@@ -130,42 +131,16 @@ setupGateModel();
 },1000);
 }
 
-/* طباعة كل أسماء الأجزاء داخل الموديل عشان نعرف اسم البابين */
-function logAllMeshNames(model){
-const debugBox = document.getElementById('debugNames');
-debugBox.classList.add('active');
-let names = 'أسماء الأجزاء داخل الـ GLB:<br>';
-model.traverse((obj)=>{
-if(obj.name){
-names += obj.name + '<br>';
-console.log('Mesh Name:', obj.name);
-const lower = obj.name.toLowerCase();
-if(lower.includes("door") || lower.includes("gate") || lower.includes("باب")){
-names += '← احتمال باب<br>';
-}
-}
-});
-debugBox.innerHTML = names + '<br>افتح Console F12 وشوف الأسماء';
-}
-
-/* تجهيز موديل البوابة وتحديد الأبواب */
+/* تجهيز موديل البوابة وتحديد الأبواب بالأسماء الصحيحة */
 function setupGateModel(){
 const modelViewer = document.getElementById('gateModel');
 modelViewer.addEventListener('load', ()=>{
 const model = modelViewer.model;
 if(model){
-logAllMeshNames(model);
 model.traverse((obj)=>{
-const name = obj.name.toLowerCase();
-if(name.includes("door_l") || name.includes("left") || name.includes("l_door") || name.includes("leftdoor") || name.includes("doorleft")) doorL = obj;
-if(name.includes("door_r") || name.includes("right") || name.includes("r_door") || name.includes("rightdoor") || name.includes("doorright")) doorR = obj;
-if(name === "door1" || name === "door01") doorL = obj;
-if(name === "door2" || name === "door02") doorR = obj;
+if(obj.name === "Door_L_Mareial") doorL = obj;
+if(obj.name === "Dor_R_Material") doorR = obj;
 });
-if(!doorL || !doorR){
-console.log('doorL:', doorL, 'doorR:', doorR);
-alert('ما لقيت الأبواب. شوف المربع الأخضر فوق يسار أو Console واعطيني اسم البابين');
-}
 }
 });
 document.getElementById('doorContainer').addEventListener('click', activateDoor);
@@ -174,11 +149,20 @@ document.getElementById('doorContainer').addEventListener('click', activateDoor)
 /* تفعيل البوابة عند الضغط */
 function activateDoor(){
 if(gateOpened) return;
-document.getElementById('clickSound').play();
+document.getElementById('clickSound').play().catch(()=>{});
 document.getElementById('doorContainer').classList.add('selected');
 setTimeout(()=>{
 document.getElementById('shadowForm').classList.add('active');
 },500);
+}
+
+/* إغلاق القائمة والرجوع للبوابة */
+function closeShadowForm(){
+document.getElementById('shadowForm').classList.remove('active');
+document.getElementById('doorContainer').classList.remove('selected');
+document.getElementById('userName').value = '';
+document.getElementById('userPass').value = '';
+document.getElementById('userAnswer').value = '';
 }
 
 /* فحص بيانات الدخول */
@@ -200,13 +184,13 @@ document.getElementById('banForm').classList.add('active');
 }
 }
 
-/* فتح بوابة المملكة بأنيميشن */
+/* فتح بوابة المملكة بأنيميشن 5 ثواني */
 function openKingdomGate(){
 if(gateOpened) return;
 gateOpened = true;
-document.getElementById('openSound').play();
+document.getElementById('openSound').play().catch(()=>{});
 if(!doorL || !doorR){
-alert('الأبواب غير محددة. لازم تجيب لي الأسماء من المربع الأخضر');
+console.log('الأبواب غير موجودة');
 return;
 }
 const duration = 5000;
@@ -225,7 +209,7 @@ requestAnimationFrame(animateDoors);
 setTimeout(()=>{
 document.getElementById('portalScreen').classList.add('hidden');
 document.getElementById('mainSite').classList.add('active');
-document.getElementById('mainMusic').play();
+document.getElementById('mainMusic').play().catch(()=>{});
 },500);
 }
 }
