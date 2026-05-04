@@ -1,31 +1,836 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تأثير الموية</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;user-select:none;-webkit-user-select:none;-ms-user-select:none}
-html,body{width:100%;height:100%;overflow:hidden;background:#0a0a14;font-family:'Segoe UI',sans-serif;cursor:pointer;touch-action:none}
-.content{position:relative;z-index:2;color:#fff;text-align:center;padding-top:40vh;pointer-events:none}
-h1{font-size:32px;margin-bottom:16px;opacity:0.9}
-p{font-size:16px;opacity:0.6}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kage No Teio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Tahoma;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #000;
+            color: white;
+            overflow-x: auto;
+            overflow-y: auto;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes moveStars {
+            from { background-position: 0 0; }
+            to { background-position: 1000px; }
+        }
+
+        @keyframes scrollTextLeft {
+            from { left: -100%; }
+            to { left: 100%; }
+        }
+
+        @keyframes waveMove {
+            0% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 0.9;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(25);
+                opacity: 0;
+            }
+        }
+
+        @keyframes glitch {
+            0%, 100% { text-shadow: 0 0 5px #ff0000, 0 0 10px #ff0000; }
+            25% { text-shadow: -2px 0 #ff0000, 2px 0 #00ffff; }
+            50% { text-shadow: 2px 0 #ff0000, -2px 0 #00ffff; }
+            75% { text-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000; }
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes portalSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes portalPulse {
+            0%, 100% { box-shadow: 0 0 20px #ff0000, 0 0 40px #ff0000, 0 0 60px #8b0000; }
+            50% { box-shadow: 0 0 40px #ff0000, 0 0 80px #ff0000, 0 0 120px #8b0000; }
+        }
+
+.top-frame {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(270deg, #8b0000, #ff1a1a, #6a0dad, #8b0000);
+            background-size: 600% 600%;
+            animation: gradientShift 8s ease infinite;
+            z-index: 10007;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255,0,0,0.5);
+        }
+
+.top-frame-text {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+.top-frame-text span {
+            position: absolute;
+            color: #fff;
+            font-weight: bold;
+            font-size: 14px;
+            white-space: nowrap;
+            text-shadow: 0 0 5px #000;
+            animation: scrollTextLeft 15s linear infinite;
+        }
+
+.top-nav {
+            position: fixed;
+            top: 40px;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(255,0,0,0.3);
+            backdrop-filter: blur(8px);
+            z-index: 10006;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 10px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+.nav-btn {
+            background: rgba(255,0,0,0.08);
+            border: 1px solid rgba(255,0,0,0.3);
+            border-radius: 6px;
+            color: #ff4444;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.1s;
+            text-shadow: 0 0 8px #ff0000;
+            min-height: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+.nav-btn:active {
+            background: rgba(255,0,0,0.3);
+            transform: scale(0.95);
+        }
+
+.profile-header {
+            position: fixed;
+            top: 100px;
+            right: 15px;
+            display: flex;
+            align-items: center;
+            z-index: 10005;
+        }
+
+.profile-name {
+            background: rgba(0,0,0,0.7);
+            color: #ff0000;
+            font-size: 15px;
+            font-weight: bold;
+            text-shadow: 0 0 10px #ff0000;
+            padding: 6px 14px 6px 6px;
+            border-radius: 50px;
+            border: 2px solid #ff0000;
+            box-shadow: 0 0 20px rgba(255,0,0,0.5);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+.profile-img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 2px solid #ff0000;
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(255,0,0,0.6);
+        }
+
+.side-left-buttons {
+            position: fixed;
+            top: 50%;
+            left: 15px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10005;
+        }
+
+.side-right-buttons {
+            position: fixed;
+            top: 50%;
+            right: 15px;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            z-index: 10005;
+        }
+
+.side-btn {
+            width: 50px;
+            height: 50px;
+            background: transparent;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            border: none;
+            cursor: pointer;
+            transition: 0.15s;
+            touch-action: manipulation;
+        }
+
+.side-btn:active {
+            transform: scale(0.9);
+            filter: drop-shadow(0 0 20px #ff0000);
+        }
+
+        #mainSite {
+            display: block;
+            position: relative;
+            min-height: 100vh;
+            background: #000;
+        }
+
+.wave-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9998;
+            overflow: hidden;
+        }
+
+.wave {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255,0,0,0.35) 0%, rgba(255,0,0,0.15) 40%, transparent 70%);
+            transform: translate(-50%, -50%);
+            animation: waveMove 1.4s ease-out forwards;
+            filter: blur(2px);
+        }
+
+.bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
+            z-index: 1;
+            pointer-events: none;
+        }
+
+.stars {
+            position: fixed;
+            inset: 0;
+            background: url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
+            opacity: 0.12;
+            animation: moveStars 120s linear infinite;
+            z-index: 2;
+        }
+
+.portal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.98);
+            z-index: 20000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.3s;
+        }
+
+.portal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+.portal-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 4px solid #ff0000;
+            background: radial-gradient(circle, rgba(255,0,0,0.2), transparent);
+            animation: portalSpin 2s linear infinite, portalPulse 1.5s ease-in-out infinite;
+            position: relative;
+        }
+
+.portal-circle::before {
+            content: "";
+            position: absolute;
+            inset: 10px;
+            border-radius: 50%;
+            border: 3px solid #8b0000;
+            animation: portalSpin 1.5s linear infinite reverse;
+        }
+
+.portal-circle::after {
+            content: "☠";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 60px;
+            color: #ff0000;
+            text-shadow: 0 0 30px #ff0000;
+        }
+
+.menu-page {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            opacity: 0;
+            transform: scale(1.1);
+            pointer-events: none;
+            transition: 0.15s ease;
+        }
+
+.menu-page.active {
+            opacity: 1;
+            transform: scale(1);
+            pointer-events: auto;
+        }
+
+.menu-header {
+            background: linear-gradient(90deg, #8b0000, #ff1a1a);
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 0 20px red;
+        }
+
+.menu-header h2 {
+            color: white;
+            font-size: 20px;
+        }
+
+.menu-header button {
+            background: black;
+            color: red;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            min-width: 44px;
+            min-height: 44px;
+        }
+
+.menu-content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 18px;
+            text-align: center;
+            padding: 20px;
+        }
+
+.exit-popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.15s;
+            z-index: 10000;
+        }
+
+.exit-popup.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+.exit-box {
+            background: url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px #ff0000;
+            width: 90%;
+            max-width: 400px;
+        }
+
+.exit-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+.exit-buttons button {
+            padding: 10px 25px;
+            border: none;
+            background: #ff0000;
+            color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+.site-wrapper {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+            z-index: 3;
+            padding-top: 170px;
+            padding-bottom: 100px;
+        }
+
+.logo {
+            width: clamp(180px, 45vw, 420px);
+            margin-top: 15px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 25px #ff0000);
+            z-index: 2;
+        }
+
+.container {
+            z-index: 2;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 10px;
+        }
+
+.fighter-grid {
+            width: clamp(320px, 80vw, 800px);
+            position: relative;
+        }
+
+.menu {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            column-gap: 1.5%;
+            row-gap: 4%;
+            width: 100%;
+        }
+
+.btn {
+            position: relative;
+            aspect-ratio: 16/9;
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 0.8s ease forwards;
+            min-height: 60px;
+            touch-action: manipulation;
+        }
+
+.btn::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+        }
+
+.btn:nth-child(1) { animation-delay: 0.2s; margin-bottom: 2%; }
+.btn:nth-child(2) { animation-delay: 0.4s; margin-bottom: 2%; }
+.btn:nth-child(3) { animation-delay: 0.6s; margin-bottom: 2%; }
+.btn:nth-child(4) { animation-delay: 0.8s; }
+.btn:nth-child(5) { animation-delay: 1s; }
+.btn:nth-child(6) { animation-delay: 1.2s; }
+
+.btn:active {
+            transform: scale(0.97);
+            filter: drop-shadow(0 0 20px #ff0000);
+        }
+
+.bottom-buttons {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10005;
+      }
+
+.bottom-btn {
+            width: clamp(50px, 15vw, 80px);
+            height: clamp(40px, 12vw, 60px);
+            background-size: 100% 100%;
+            background-position: center;
+            background-repeat: no-repeat;
+            cursor: pointer;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+            touch-action: manipulation;
+      }
+
+.bottom-btn:nth-child(1) { animation-delay: 1.4s; }
+.bottom-btn:nth-child(2) { animation-delay: 1.5s; }
+.bottom-btn:nth-child(3) { animation-delay: 1.6s; }
+.bottom-btn:nth-child(4) { animation-delay: 1.7s; }
+.bottom-btn:nth-child(5) { animation-delay: 1.8s; }
+
+.bottom-btn:active {
+            transform: scale(0.95);
+            filter: drop-shadow(0 0 15px #ff0000);
+      }
+
+.popup {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.15s;
+            z-index: 999;
+        }
+
+.popup.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+.popup-box {
+            background: rgba(10,10,10,0.95);
+            padding: 30px;
+            border-radius: 20px;
+            text-align: center;
+            box-shadow: 0 0 40px #ff0000;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: 0.15s;
+            width: 90%;
+            max-width: 400px;
+        }
+
+.popup.active.popup-box {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+.popup-box h2 {
+            color: #ff0000;
+            margin-bottom: 10px;
+        }
+
+.popup-box p {
+            color: #aaa;
+            margin-bottom: 20px;
+        }
+
+.popup-box button {
+            padding: 10px 25px;
+            border: none;
+            background: #ff0000;
+            color: black;
+            border-radius: 10px;
+            cursor: pointer;
+            min-height: 44px;
+        }
+
+        @media (max-width: 768px) {
+.top-nav {
+                padding: 0 10px;
+                justify-content: flex-start;
+           }
+.nav-btn {
+                font-size: 11px;
+                padding: 5px 8px;
+           }
+        }
+
+        @media (max-width: 480px) {
+.profile-name {
+                font-size: 13px;
+                padding: 5px 12px 5px 6px;
+            }
+.profile-img {
+                width: 28px;
+                height: 28px;
+            }
+.menu-header h2 {
+                font-size: 18px;
+            }
+.exit-box {
+                padding: 25px;
+            }
+.menu {
+                row-gap: 6%;
+           }
+.btn:nth-child(1) { margin-bottom: 3%; }
+.btn:nth-child(2) { margin-bottom: 3%; }
+.btn:nth-child(3) { margin-bottom: 3%; }
+.side-left-buttons {
+                left: 8px;
+                gap: 8px;
+           }
+.side-right-buttons {
+                right: 8px;
+                gap: 8px;
+           }
+.side-btn {
+                width: 42px;
+                height: 42px;
+           }
+.bottom-buttons {
+                gap: 8px;
+                bottom: 10px;
+           }
+        }
+    </style>
 </head>
 <body>
-<div class="content">
-<h1>اضغط أي مكان</h1>
-<p>نقرة = تك | سحب 2 بكسل = ووش</p>
-</div>
-<script src="FILES/liquid.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-new LiquidEffect({
-click: './sounds/click.mp3',
-drag: './sounds/drag.mp3'
-});
-});
-document.body.addEventListener('click', () => {}, { once: true });
-</script>
+    <div class="top-frame">
+        <div class="top-frame-text">
+            <span>☠ الظلال تتربص في الظلام ☠ طائفة الظلام 2019 ☠</span>
+        </div>
+    </div>
+
+    <div class="top-nav">
+        <button class="nav-btn" onclick="openMenuPortal('الأرشيف')">[ الأرشيف ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('الإعدادات')">[ الإعدادات ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('قسم النقاط')">[ قسم النقاط ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('قسم شراء وبيع')">[ قسم شراء وبيع ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('السجل')">[ السجل ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('المهام')">[ المهام ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('المتجر')">[ المتجر ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('الرتب')">[ الرتب ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('الحلفاء')">[ الحلفاء ]</button>
+        <button class="nav-btn" onclick="openMenuPortal('الدعم')">[ الدعم ]</button>
+    </div>
+
+    <div class="side-left-buttons">
+        <button class="side-btn" onclick="openMenuPortal('♕1')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side1.png')"></button>
+        <button class="side-btn" onclick="openMenuPortal('♕2')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side2.png')"></button>
+        <button class="side-btn" onclick="openMenuPortal('♕3')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side3.png')"></button>
+    </div>
+
+    <div class="side-right-buttons">
+        <button class="side-btn" onclick="openMenuPortal('♕4')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side4.png')"></button>
+        <button class="side-btn" onclick="openMenuPortal('♕5')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side5.png')"></button>
+        <button class="side-btn" onclick="openMenuPortal('♕6')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/side6.png')"></button>
+    </div>
+
+    <div class="profile-header">
+        <div class="profile-name">
+            <img src="profile.jpg" class="profile-img" alt="Profile">
+            Kage no teio
+        </div>
+    </div>
+
+    <div id="mainSite">
+        <div class="wave-layer" id="waveLayer"></div>
+        <div class="bg-overlay"></div>
+        <div class="stars"></div>
+
+        <div class="portal-overlay" id="portalOverlay">
+            <div class="portal-circle"></div>
+        </div>
+
+        <div class="exit-popup" id="exitPopup">
+            <div class="exit-box">
+                <h2>هل تريد الخروج؟</h2>
+                <div class="exit-buttons">
+                    <button onclick="confirmExit()">نعم</button>
+                    <button onclick="closeExit()">لا</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-page" id="menuPage">
+            <div class="menu-header">
+                <h2 id="menuTitle"></h2>
+                <button onclick="closeMenuPage()">رجوع</button>
+            </div>
+            <div class="menu-content">
+                <p id="menuDesc"></p>
+            </div>
+        </div>
+
+        <div class="site-wrapper">
+            <img src="ALBOMS/IMAGE/PNG/20260429_130547.png" class="logo" alt="Logo">
+
+            <div class="container">
+                <div class="fighter-grid">
+                    <div class="menu">
+                        <div class="btn" onclick="openMenuPortal('أنمي')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155749.png')" aria-label="أنمي"></div>
+                        <div class="btn" onclick="openMenuPortal('فضائح عصابات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160952.png')" aria-label="فضائح عصابات"></div>
+                        <div class="btn" onclick="openMenuPortal('قوانين الدعس')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_155319.png')" aria-label="قوانين الدعس"></div>
+                        <div class="btn" onclick="openMenuPortal('ترسيم أعضاء')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160315.png')" aria-label="ترسيم أعضاء"></div>
+                        <div class="btn" onclick="openMenuPortal('أسماء الظلال')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_160850.png')" aria-label="أسماء الظلال"></div>
+                        <div class="btn" onclick="openMenuPortal('تحميل ملفات')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/20260426_154329.png')" aria-label="تحميل ملفات"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="popup" id="popup">
+                <div class="popup-box">
+                    <h2 id="popupTitle"></h2>
+                    <p>الظلال تتربص في ظلام</p>
+                    <button onclick="closeMenu()">إغلاق</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom-buttons">
+        <div class="bottom-btn" onclick="openMenuPortal('B1')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/file_00000000179c71fd83bf829866e3b70e.png')"></div>
+        <div class="bottom-btn" onclick="openMenuPortal('B2')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/file_00000000279071fd99127e217cbfee58.png')"></div>
+        <div class="bottom-btn" onclick="openMenuPortal('B3')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/file_00000000407c71f8968e21eab43ddc90.png')"></div>
+        <div class="bottom-btn" onclick="openMenuPortal('B4')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/file_00000000ca8871fda085016e7d9113f3.png')"></div>
+        <div class="bottom-btn" onclick="openMenuPortal('B5')" style="background-image:url('ALBOMS/IMAGE/PicturesOfButtons/file_00000000e4a871fd942da630c97a1c72.png')"></div>
+    </div>
+
+    <script>
+        let menuData = {
+            "أنمي": "قسم الأنمي - هنا تجد أحدث حلقات الأنمي المترجمة",
+            "فضائح عصابات": "أرشيف الفضائح - ملفات سرية عن العصابات",
+            "قوانين الدعس": "قوانين الطائفة - اقرأها قبل الدخول",
+            "ترسيم أعضاء": "نظام الترسيم - كيف تصبح من الظلال",
+            "أسماء الظلال": "قائمة الظلال - أعضاء المملكة",
+            "تحميل ملفات": "قسم التحميل - أدوات وملفات خاصة",
+            "♕1": "زر ملكي 1", "♕2": "زر ملكي 2", "♕3": "زر ملكي 3", "♕4": "زر ملكي 4",
+            "♕5": "زر ملكي 5", "♕6": "زر ملكي 6",
+            "B1": "زر سفلي 1", "B2": "زر سفلي 2", "B3": "زر سفلي 3", "B4": "زر سفلي 4", "B5": "زر سفلي 5",
+            "الأرشيف": "قسم الأرشيف - جميع الملفات القديمة",
+            "الإعدادات": "إعدادات الحساب والنظام",
+            "قسم النقاط": "نظام النقاط والترقيات",
+            "قسم شراء وبيع": "متجر المملكة للبيع والشراء",
+            "السجل": "سجل نشاطات الأعضاء",
+            "المهام": "مهام يومية وأسبوعية",
+            "المتجر": "متجر الأدوات الخاصة",
+            "الرتب": "رتب المملكة وصلاحياتها",
+            "الحلفاء": "قائمة الحلفاء والتحالفات",
+            "الدعم": "تواصل مع إدارة الظلال"
+        };
+
+        function openPortal(callback) {
+            const portal = document.getElementById("portalOverlay");
+            portal.classList.add("active");
+            setTimeout(() => {
+                portal.classList.remove("active");
+                if(callback) callback();
+            }, 800);
+        }
+
+        window.openMenuPortal = function(title) {
+            openPortal(() => {
+                document.getElementById("menuTitle").innerText = title;
+                document.getElementById("menuDesc").innerText = menuData || "لا يوجد محتوى";
+                document.getElementById("menuPage").classList.add("active");
+                history.pushState({ page: "menu" }, "");
+            });
+        }[title]
+
+        window.openMenu = function(title) {
+            document.getElementById("menuTitle").innerText = title;
+            document.getElementById("menuDesc").innerText = menuData || "لا يوجد محتوى";
+            document.getElementById("menuPage").classList.add("active");
+            history.pushState({ page: "menu" }, "");
+        }[title]
+
+        window.closeMenuPage = function() {
+            document.getElementById("menuPage").classList.remove("active");
+        }
+
+        window.closeMenu = function() {
+            document.getElementById("popup").classList.remove("active");
+        }
+
+        let exitArmed = false;
+        history.pushState({page:"home"}, "");
+
+        window.addEventListener("popstate", function () {
+            let menu = document.getElementById("menuPage");
+            if(menu.classList.contains("active")){
+                menu.classList.remove("active");
+                return;
+            }
+            if(!exitArmed){
+                exitArmed = true;
+                document.getElementById("exitPopup").classList.add("active");
+                history.pushState({page:"home"}, "");
+                setTimeout(()=> exitArmed = false, 3000);
+            } else {
+                window.close();
+            }
+        });
+
+        window.confirmExit = function() {
+            window.close();
+        }
+
+        window.closeExit = function() {
+            document.getElementById("exitPopup").classList.remove("active");
+        }
+
+        const waveLayer = document.getElementById("waveLayer");
+        let canWave = true;
+        document.addEventListener("pointerdown", createWave);
+
+        function createWave(e){
+            if(!canWave) return;
+            canWave = false;
+            const wave = document.createElement("div");
+            wave.className = "wave";
+            wave.style.left = e.clientX + "px";
+            wave.style.top = e.clientY + "px";
+            waveLayer.appendChild(wave);
+            setTimeout(() => {
+                wave.remove();
+                canWave = true;
+            }, 1200);
+        }
+    </script>
 </body>
 </html>
