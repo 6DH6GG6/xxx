@@ -86,6 +86,12 @@ let doorL = null, doorR = null, gateOpened = false;
 let colorInterval = null;
 const correctPassword = "الظلال666";
 const correctAnswer = "ناه";
+function playClickSound(){
+const audio = document.getElementById('clickSound');
+audio.currentTime = 0;
+audio.play().catch(()=>{});
+}
+document.addEventListener('click', playClickSound);
 function setDoorColor(door, color){
 if(!door || !door.material) return;
 if(Array.isArray(door.material)){
@@ -104,12 +110,10 @@ return false;
 }
 function initPortalSequence(){
 if(checkBanStatus()) return;
-setTimeout(()=>{
 document.getElementById('blackScreen').classList.add('hidden');
 setTimeout(()=>{
 document.getElementById('portalScreen').classList.add('show');
 setupGateModel();
-},1000);
 },1000);
 }
 async function setupGateModel(){
@@ -135,7 +139,6 @@ setDoorColor(doorR, redColor);
 }
 function activateDoor(){
 if(gateOpened) return;
-document.getElementById('clickSound').play().catch(()=>{});
 document.getElementById('doorContainer').classList.add('selected');
 setTimeout(()=>{
 document.getElementById('shadowForm').classList.add('active');
