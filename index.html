@@ -15,6 +15,7 @@ body{background:#000;overflow:hidden}
 .kingdom-title{font-size:38px;color:#ff0000;text-shadow:0 0 30px #ff0000;margin-bottom:30px;animation:kingdomBreath 4s ease-in-out infinite}
 @keyframes kingdomBreath{0%,100%{opacity:0.3}50%{opacity:1}}
 .door-container{position:relative;width:320px;height:420px;cursor:pointer;transition:transform 0.3s ease}
+.door-container.disabled{pointer-events:none;filter:grayscale(1);opacity:0.6}
 .door-container.selected{transform:scale(1.05)}
 .door-container model-viewer{width:100%;height:100%}
 .portal-warning{margin-top:25px;color:#ff0000;font-size:19px;font-weight:bold;text-shadow:0 0 15px #ff0000;text-align:center;animation:glowText 2s ease-in-out infinite alternate}
@@ -35,8 +36,16 @@ body{background:#000;overflow:hidden}
 .ban-form p{color:#ff0000;margin:15px 0;line-height:1.6}
 .ban-form button{width:100%;padding:15px;background:#8b0000;border:2px solid #ff0000;color:#fff;font-size:18px;cursor:pointer;margin-top:15px;transition:0.3s}
 .ban-form button:hover{background:#ff0000;box-shadow:0 0 20px #ff0000}
+.ban-form button:disabled{background:#330000;cursor:not-allowed;opacity:0.5}
+.ban-form input{width:100%;padding:12px;margin:10px 0;background:#1a0000;border:2px solid #ff0000;color:#ff0000;font-size:16px;outline:none;text-align:center}
+.ban-form input:disabled{background:#0a0000;opacity:0.5}
+.ban-form input::placeholder{color:#8b0000}
 .last-chance-text{color:#ff6600;margin-top:15px;font-size:16px;display:none;text-shadow:0 0 10px #ff6600}
 .last-chance-text.show{display:block}
+.error-text{color:#ff0000;margin-top:10px;font-size:14px;display:none;text-shadow:0 0 10px #ff0000}
+.error-text.show{display:block}
+.timer-text{color:#ff6600;margin-top:10px;font-size:16px;display:none}
+.timer-text.show{display:block}
 .main-site{position:fixed;inset:0;background:#111;display:none;z-index:1000;overflow:auto}
 .main-site.active{display:block}
 .main-site-content{padding:50px;color:#ff0000;text-align:center;font-size:24px}
@@ -72,9 +81,14 @@ body{background:#000;overflow:hidden}
 <div class="ban-form" id="banForm">
 <h2>❌ تم طردك من قبل الحراس</h2>
 <p>أنت مجرد نكرة ولست مؤهلاً لتزور مملكة أعلى منك مقامًا</p>
-<p>تم حظرك نهائياً من البوابة</p>
-<button id="lastChanceBtn" onclick="giveLastChance()">طلب فرصة أخيرة</button>
-<div class="last-chance-text" id="lastChanceText">تم اعطائك فرصة الاخيرة عند فشله مجددا ينتهي</div>
+<p id="banMainText">تم حظرك نهائياً من البوابة</p>
+<div id="lastChanceSection" style="display:none">
+<input type="text" id="returnID" placeholder="أدخل ID العودة" maxlength="20">
+<div class="error-text" id="errorText">ID العودة خطأ</div>
+<div class="timer-text" id="timerText"></div>
+<button id="lastChanceBtn" onclick="checkReturnID()">موافق</button>
+</div>
+<button id="requestChanceBtn" onclick="showLastChance()" style="display:none">طلب فرصة أخيرة</button>
 </div>
 <div class="main-site" id="mainSite">
 <div class="main-site-content">
@@ -91,8 +105,19 @@ let THREE = null;
 let doorL = null, doorR = null, gateOpened = false;
 let colorInterval = null;
 let clickAudio = null;
+let usersData = [];
 const correctPassword = "الظلال666";
 const correctAnswer = "ناه";
+let returnAttempts = 0;
+let timerInterval = null;
+async function loadUsers(){
+try{
+const res = await fetch('Users.json');
+usersData = await res.json();
+}catch(e){
+usersData = [];
+}
+}
 function playClickSound(){
 if(!clickAudio){
 clickAudio = document.getElementById('clickSound');
@@ -100,8 +125,6 @@ clickAudio = document.getElementById('clickSound');
 clickAudio.currentTime = 0;
 clickAudio.play().catch(()=>{});
 }
-document.addEventListener('mousedown', playClickSound);
-document.addEventListener('touchstart', playClickSound, {passive:true});
 async function getIP(){
 try{
 const res = await fetch('https://api.ipify.org?format=json');
@@ -141,29 +164,118 @@ door.material.forEach(m=>{if(m && m.color)m.color.set(color)});
 if(door.material && door.material.color) door.material.color.set(color);
 }
 }
+function freezeGate(){
+document.getElementById('doorContainer').classList.add('disabled');
+}
+function unfreezeGate(){
+document.getElementById('doorContainer').classList.remove('disabled');
+}
 function checkBanStatus(){
 const hellBan = checkHellFileBan();
-if(localStorage.getItem('hellGateBanned') === 'true' && localStorage.getItem('lastChanceUsed') !== 'true' || hellBan){
+const banned = localStorage.getItem('hellGateBanned') === 'true';
+const lastChanceUsed = localStorage.getItem('lastChanceUsed') === 'true';
+if(banned || hellBan){
 document.getElementById('banForm').classList.add('active');
 document.getElementById('portalScreen').classList.add('show');
 document.getElementById('blackScreen').classList.add('hidden');
-if(hellBan && localStorage.getItem('lastChanceUsed') !== 'true'){
-localStorage.setItem('hellGateBanned','true');
+freezeGate();
+if(!lastChanceUsed){
+document.getElementById('requestChanceBtn').style.display = 'block';
+document.getElementById('banMainText').textContent = 'تم حظرك نهائياً من البوابة';
+}else{
+checkReturnTimer();
 }
-return true;
-}
-if(localStorage.getItem('hellGateBanned') === 'true' && localStorage.getItem('lastChanceUsed') === 'true'){
-document.getElementById('banForm').classList.add('active');
-document.getElementById('lastChanceBtn').style.display = 'none';
-document.getElementById('lastChanceText').classList.add('show');
-document.getElementById('lastChanceText').textContent = 'انتهت فرصك. الحظر نهائي';
-document.getElementById('portalScreen').classList.add('show');
-document.getElementById('blackScreen').classList.add('hidden');
 return true;
 }
 return false;
 }
+function showLastChance(){
+document.getElementById('requestChanceBtn').style.display = 'none';
+document.getElementById('lastChanceSection').style.display = 'block';
+document.getElementById('banMainText').textContent = 'أدخل ID العودة للفرصة الأخيرة';
+localStorage.setItem('lastChanceUsed','true');
+returnAttempts = parseInt(localStorage.getItem('returnAttempts') || '0');
+checkReturnTimer();
+}
+function checkReturnTimer(){
+const lockTime = parseInt(localStorage.getItem('returnLockTime') || '0');
+const now = Date.now();
+if(lockTime > now){
+const remaining = Math.ceil((lockTime - now) / 1000);
+startTimer(remaining);
+}else{
+returnAttempts = parseInt(localStorage.getItem('returnAttempts') || '0');
+if(returnAttempts >= 5){
+setReturnLock();
+}else{
+enableReturnInput();
+}
+}
+}
+function enableReturnInput(){
+document.getElementById('returnID').disabled = false;
+document.getElementById('lastChanceBtn').disabled = false;
+document.getElementById('timerText').classList.remove('show');
+}
+function disableReturnInput(){
+document.getElementById('returnID').disabled = true;
+document.getElementById('lastChanceBtn').disabled = true;
+}
+function setReturnLock(){
+const lockTime = Date.now() + 3600000;
+localStorage.setItem('returnLockTime', lockTime);
+localStorage.setItem('returnAttempts', '0');
+returnAttempts = 0;
+startTimer(3600);
+}
+function startTimer(seconds){
+disableReturnInput();
+document.getElementById('timerText').classList.add('show');
+document.getElementById('errorText').classList.remove('show');
+if(timerInterval) clearInterval(timerInterval);
+timerInterval = setInterval(()=>{
+seconds--;
+const h = Math.floor(seconds / 3600);
+const m = Math.floor((seconds % 3600) / 60);
+const s = seconds % 60;
+document.getElementById('timerText').textContent = `انتظر: ${h.toString().padStart(2,'0')}:${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
+if(seconds <= 0){
+clearInterval(timerInterval);
+localStorage.removeItem('returnLockTime');
+enableReturnInput();
+document.getElementById('timerText').textContent = 'يمكنك المحاولة الآن - لديك 5 فرص';
+}
+},1000);
+}
+window.checkReturnID = function(){
+const inputID = document.getElementById('returnID').value.trim();
+const errorText = document.getElementById('errorText');
+if(!inputID){
+errorText.textContent = 'أدخل ID العودة';
+errorText.classList.add('show');
+return;
+}
+const valid = usersData.some(u=>u.id===inputID);
+if(valid){
+localStorage.removeItem('hellGateBanned');
+localStorage.removeItem('lastChanceUsed');
+localStorage.removeItem('returnAttempts');
+localStorage.removeItem('returnLockTime');
+document.getElementById('banForm').classList.remove('active');
+unfreezeGate();
+errorText.classList.remove('show');
+}else{
+returnAttempts++;
+localStorage.setItem('returnAttempts', returnAttempts);
+errorText.textContent = 'ID العودة خطأ';
+errorText.classList.add('show');
+if(returnAttempts >= 5){
+setReturnLock();
+}
+}
+}
 function initPortalSequence(){
+loadUsers();
 if(checkBanStatus()) return;
 document.getElementById('blackScreen').classList.add('hidden');
 setTimeout(()=>{
@@ -184,7 +296,11 @@ if(obj.name === "Dor_R_Material") doorR = obj;
 setInitialDoorColor();
 }
 });
-document.getElementById('doorContainer').addEventListener('click', activateDoor);
+document.getElementById('doorContainer').addEventListener('click', ()=>{
+if(document.getElementById('doorContainer').classList.contains('disabled')) return;
+playClickSound();
+activateDoor();
+});
 }
 function setInitialDoorColor(){
 if(!THREE) return;
@@ -218,30 +334,25 @@ if(pass === correctPassword && answer === correctAnswer){
 document.getElementById('shadowForm').classList.remove('active');
 localStorage.removeItem('hellGateBanned');
 localStorage.removeItem('lastChanceUsed');
+localStorage.removeItem('returnAttempts');
+localStorage.removeItem('returnLockTime');
 openKingdomGate();
 }else{
 document.getElementById('shadowForm').classList.remove('active');
 await saveToHellFile(name);
-if(localStorage.getItem('lastChanceUsed') === 'true'){
 localStorage.setItem('hellGateBanned','true');
 document.getElementById('banForm').classList.add('active');
-document.getElementById('lastChanceBtn').style.display = 'none';
-document.getElementById('lastChanceText').classList.add('show');
-document.getElementById('lastChanceText').textContent = 'انتهت فرصك. الحظر نهائي';
+freezeGate();
+if(localStorage.getItem('lastChanceUsed') !== 'true'){
+document.getElementById('requestChanceBtn').style.display = 'block';
 }else{
-localStorage.setItem('hellGateBanned','true');
-document.getElementById('banForm').classList.add('active');
+document.getElementById('lastChanceSection').style.display = 'block';
+checkReturnTimer();
 }
 }
 }
 window.giveLastChance = function(){
-localStorage.removeItem('hellGateBanned');
-localStorage.setItem('lastChanceUsed','true');
-document.getElementById('banForm').classList.remove('active');
-document.getElementById('lastChanceText').classList.add('show');
-setTimeout(()=>{
-document.getElementById('doorContainer').classList.remove('selected');
-},100);
+showLastChance();
 }
 function startColorTransition(){
 if(!THREE || !doorL || !doorR) return;
