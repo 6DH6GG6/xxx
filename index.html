@@ -61,9 +61,48 @@
             75% { text-shadow: 0 0 5px #ff0000, 0 0 20px #ff0000; }
         }
 
-      .profile-header {
+    .top-nav {
             position: fixed;
-            top: 15px;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(0,0,0,0.4);
+            border-bottom: 1px solid rgba(255,0,0,0.3);
+            backdrop-filter: blur(8px);
+            z-index: 10006;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0 180px;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+
+    .nav-btn {
+            background: rgba(255,0,0,0.08);
+            border: 1px solid rgba(255,0,0,0.3);
+            border-radius: 6px;
+            color: #ff4444;
+            font-size: 13px;
+            font-weight: bold;
+            padding: 6px 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: 0.3s;
+            text-shadow: 0 0 8px #ff0000;
+        }
+
+    .nav-btn:hover {
+            background: rgba(255,0,0,0.2);
+            box-shadow: 0 0 12px #ff0000;
+            transform: translateY(-2px);
+        }
+
+    .profile-header {
+            position: fixed;
+            top: 60px;
             right: 15px;
             display: flex;
             align-items: center;
@@ -76,7 +115,7 @@
             box-shadow: 0 0 20px rgba(255,0,0,0.5);
         }
 
-      .profile-img {
+    .profile-img {
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -85,11 +124,51 @@
             box-shadow: 0 0 15px rgba(255,0,0,0.6);
         }
 
-      .profile-name {
+    .profile-name {
             color: #ff0000;
             font-size: 15px;
             font-weight: bold;
             text-shadow: 0 0 10px #ff0000;
+        }
+
+    .top-left-buttons {
+            position: fixed;
+            top: 60px;
+            left: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10005;
+        }
+
+    .top-right-buttons {
+            position: fixed;
+            top: 115px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 10005;
+        }
+
+    .mini-btn {
+            width: 38px;
+            height: 38px;
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.4);
+            border-radius: 8px;
+            color: #ff0000;
+            font-size: 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(3px);
+            transition: 0.3s;
+        }
+
+    .mini-btn:hover {
+            background: rgba(255,0,0,0.25);
+            box-shadow: 0 0 15px #ff0000;
+            transform: scale(1.1);
         }
 
         #mainSite {
@@ -99,7 +178,7 @@
             background: #000;
         }
 
-      .wave-layer {
+    .wave-layer {
             position: fixed;
             inset: 0;
             pointer-events: none;
@@ -107,7 +186,7 @@
             overflow: hidden;
         }
 
-      .wave {
+    .wave {
             position: absolute;
             width: 12px;
             height: 12px;
@@ -118,7 +197,7 @@
             filter: blur(2px);
         }
 
-      .bg-overlay {
+    .bg-overlay {
             position: fixed;
             inset: 0;
             background: linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0.85));
@@ -126,7 +205,7 @@
             pointer-events: none;
         }
 
-      .stars {
+    .stars {
             position: fixed;
             inset: 0;
             background: url('ALBOMS/IMAGE/GIF/866f30792413dcb70ce06c91c1ad3f4e.gif');
@@ -135,7 +214,7 @@
             z-index: 2;
         }
 
-      .menu-page {
+    .menu-page {
             position: fixed;
             inset: 0;
             width: 100%;
@@ -150,13 +229,13 @@
             transition: 0.4s ease;
         }
 
-      .menu-page.active {
+    .menu-page.active {
             opacity: 1;
             transform: scale(1);
             pointer-events: auto;
         }
 
-      .menu-header {
+    .menu-header {
             background: linear-gradient(90deg, #8b0000, #ff1a1a);
             padding: 15px;
             display: flex;
@@ -165,12 +244,12 @@
             box-shadow: 0 0 20px red;
         }
 
-      .menu-header h2 {
+    .menu-header h2 {
             color: white;
             font-size: 20px;
         }
 
-      .menu-header button {
+    .menu-header button {
             background: black;
             color: red;
             border: none;
@@ -181,7 +260,7 @@
             min-height: 44px;
         }
 
-      .menu-content {
+    .menu-content {
             flex: 1;
             display: flex;
             justify-content: center;
@@ -192,7 +271,7 @@
             padding: 20px;
         }
 
-      .exit-popup {
+    .exit-popup {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -205,12 +284,12 @@
             z-index: 10000;
         }
 
-      .exit-popup.active {
+    .exit-popup.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-      .exit-box {
+    .exit-box {
             background: url('ALBOMS/IMAGE/GIF/abp45jcll7d51.gif') center/cover no-repeat;
             padding: 40px;
             border-radius: 20px;
@@ -220,14 +299,14 @@
             max-width: 400px;
         }
 
-      .exit-buttons {
+    .exit-buttons {
             margin-top: 20px;
             display: flex;
             gap: 15px;
             justify-content: center;
         }
 
-      .exit-buttons button {
+    .exit-buttons button {
             padding: 10px 25px;
             border: none;
             background: #ff0000;
@@ -237,17 +316,18 @@
             min-height: 44px;
         }
 
-      .site-wrapper {
+    .site-wrapper {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             position: relative;
             z-index: 3;
-            padding-top: 80px;
+            padding-top: 130px;
+            padding-bottom: 80px;
         }
 
-      .logo {
+    .logo {
             width: clamp(180px, 45vw, 420px);
             margin-top: 15px;
             margin-bottom: 15px;
@@ -255,7 +335,7 @@
             z-index: 2;
         }
 
-      .frame-box {
+    .frame-box {
             width: 100%;
             max-width: 1000px;
             height: 80px;
@@ -269,7 +349,7 @@
             z-index: 2;
         }
 
-      .frame-gif {
+    .frame-gif {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -277,7 +357,7 @@
             opacity: 0.25;
         }
 
-      .frame-text {
+    .frame-text {
             position: absolute;
             width: 100%;
             height: 100%;
@@ -286,7 +366,7 @@
             overflow: hidden;
         }
 
-      .frame-text span {
+    .frame-text span {
             position: absolute;
             color: #ff0000;
             font-weight: bold;
@@ -296,7 +376,7 @@
             animation: scrollText 10s linear infinite, glitch 1s infinite;
         }
 
-      .frame-box::after {
+    .frame-box::after {
             content: "";
             position: absolute;
             top: 0;
@@ -307,7 +387,7 @@
             animation: lightMove 4s linear infinite;
         }
 
-      .container {
+    .container {
             z-index: 2;
             width: 100%;
             display: flex;
@@ -315,12 +395,12 @@
             padding: 10px;
         }
 
-      .fighter-grid {
+    .fighter-grid {
             width: clamp(320px, 90vw, 1000px);
             position: relative;
         }
 
-      .menu {
+    .menu {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             grid-template-rows: repeat(2, 1fr);
@@ -329,7 +409,7 @@
             width: 100%;
         }
 
-      .btn {
+    .btn {
             position: relative;
             aspect-ratio: 16/9;
             background-size: 100% 100%;
@@ -342,19 +422,59 @@
             min-height: 44px;
         }
 
-      .btn:nth-child(1) { animation-delay: 0.2s; margin-bottom: 2%; }
-      .btn:nth-child(2) { animation-delay: 0.4s; margin-bottom: 2%; }
-      .btn:nth-child(3) { animation-delay: 0.6s; margin-bottom: 2%; }
-      .btn:nth-child(4) { animation-delay: 0.8s; }
-      .btn:nth-child(5) { animation-delay: 1s; }
-      .btn:nth-child(6) { animation-delay: 1.2s; }
+    .btn:nth-child(1) { animation-delay: 0.2s; margin-bottom: 2%; }
+    .btn:nth-child(2) { animation-delay: 0.4s; margin-bottom: 2%; }
+    .btn:nth-child(3) { animation-delay: 0.6s; margin-bottom: 2%; }
+    .btn:nth-child(4) { animation-delay: 0.8s; }
+    .btn:nth-child(5) { animation-delay: 1s; }
+    .btn:nth-child(6) { animation-delay: 1.2s; }
 
-      .btn:hover {
+    .btn:hover {
             transform: scale(1.03);
             filter: drop-shadow(0 0 20px #ff0000);
         }
 
-      .popup {
+    .bottom-buttons {
+            position: fixed;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 10005;
+      }
+
+    .bottom-btn {
+            width: clamp(45px, 12vw, 60px);
+            height: clamp(45px, 12vw, 60px);
+            background: rgba(255,0,0,0.1);
+            border: 1px solid rgba(255,0,0,0.4);
+            border-radius: 12px;
+            color: #ff0000;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(3px);
+            transition: 0.3s;
+            opacity: 0;
+            animation: fadeUp 0.8s ease forwards;
+      }
+
+    .bottom-btn:nth-child(1) { animation-delay: 1.4s; }
+    .bottom-btn:nth-child(2) { animation-delay: 1.5s; }
+    .bottom-btn:nth-child(3) { animation-delay: 1.6s; }
+    .bottom-btn:nth-child(4) { animation-delay: 1.7s; }
+    .bottom-btn:nth-child(5) { animation-delay: 1.8s; }
+
+    .bottom-btn:hover {
+            background: rgba(255,0,0,0.25);
+            box-shadow: 0 0 15px #ff0000;
+            transform: scale(1.1);
+      }
+
+    .popup {
             position: fixed;
             inset: 0;
             background: rgba(0,0,0,0.85);
@@ -367,12 +487,12 @@
             z-index: 999;
         }
 
-      .popup.active {
+    .popup.active {
             opacity: 1;
             pointer-events: auto;
         }
 
-      .popup-box {
+    .popup-box {
             background: rgba(10,10,10,0.95);
             padding: 30px;
             border-radius: 20px;
@@ -385,22 +505,22 @@
             max-width: 400px;
         }
 
-      .popup.active.popup-box {
+    .popup.active.popup-box {
             transform: scale(1);
             opacity: 1;
         }
 
-      .popup-box h2 {
+    .popup-box h2 {
             color: #ff0000;
             margin-bottom: 10px;
         }
 
-      .popup-box p {
+    .popup-box p {
             color: #aaa;
             margin-bottom: 20px;
         }
 
-      .popup-box button {
+    .popup-box button {
             padding: 10px 25px;
             border: none;
             background: #ff0000;
@@ -410,32 +530,86 @@
             min-height: 44px;
         }
 
+        @media (max-width: 768px) {
+        .top-nav {
+                padding: 0 10px;
+                justify-content: flex-start;
+           }
+        .nav-btn {
+                font-size: 11px;
+                padding: 5px 8px;
+           }
+        }
+
         @media (max-width: 480px) {
-          .profile-name {
+        .profile-name {
                 display: none;
             }
-          .frame-box {
+        .frame-box {
                 height: 60px;
             }
-          .menu-header h2 {
+        .menu-header h2 {
                 font-size: 18px;
             }
-          .exit-box {
+        .exit-box {
                 padding: 25px;
             }
-          .menu {
+        .menu {
                 row-gap: 6%;
            }
-          .btn:nth-child(1) { margin-bottom: 3%; }
-          .btn:nth-child(2) { margin-bottom: 3%; }
-          .btn:nth-child(3) { margin-bottom: 3%; }
+        .btn:nth-child(1) { margin-bottom: 3%; }
+        .btn:nth-child(2) { margin-bottom: 3%; }
+        .btn:nth-child(3) { margin-bottom: 3%; }
+        .top-left-buttons {
+                gap: 6px;
+           }
+        .top-right-buttons {
+                gap: 6px;
+                top: 110px;
+           }
+        .mini-btn {
+                width: 34px;
+                height: 34px;
+                font-size: 18px;
+           }
+        .bottom-buttons {
+                gap: 8px;
+                bottom: 10px;
+           }
         }
     </style>
 </head>
 <body>
+    <div class="top-nav">
+        <button class="nav-btn" onclick="openMenu('الأرشيف')">[ الأرشيف ]</button>
+        <button class="nav-btn" onclick="openMenu('الإعدادات')">[ الإعدادات ]</button>
+        <button class="nav-btn" onclick="openMenu('قسم النقاط')">[ قسم النقاط ]</button>
+        <button class="nav-btn" onclick="openMenu('قسم شراء وبيع')">[ قسم شراء وبيع ]</button>
+        <button class="nav-btn" onclick="openMenu('السجل')">[ السجل ]</button>
+        <button class="nav-btn" onclick="openMenu('المهام')">[ المهام ]</button>
+        <button class="nav-btn" onclick="openMenu('المتجر')">[ المتجر ]</button>
+        <button class="nav-btn" onclick="openMenu('الرتب')">[ الرتب ]</button>
+        <button class="nav-btn" onclick="openMenu('الحلفاء')">[ الحلفاء ]</button>
+        <button class="nav-btn" onclick="openMenu('الدعم')">[ الدعم ]</button>
+    </div>
+
+    <div class="top-left-buttons">
+        <button class="mini-btn" onclick="openMenu('♕1')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕2')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕3')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕4')">♕</button>
+    </div>
+
     <div class="profile-header">
         <img src="profile.jpg" class="profile-img" alt="Profile">
         <div class="profile-name">Kage No Teio</div>
+    </div>
+
+    <div class="top-right-buttons">
+        <button class="mini-btn" onclick="openMenu('♕5')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕6')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕7')">♕</button>
+        <button class="mini-btn" onclick="openMenu('♕8')">♕</button>
     </div>
 
     <div id="mainSite">
@@ -496,6 +670,14 @@
         </div>
     </div>
 
+    <div class="bottom-buttons">
+        <button class="bottom-btn" onclick="openMenu('B1')">1</button>
+        <button class="bottom-btn" onclick="openMenu('B2')">2</button>
+        <button class="bottom-btn" onclick="openMenu('B3')">3</button>
+        <button class="bottom-btn" onclick="openMenu('B4')">4</button>
+        <button class="bottom-btn" onclick="openMenu('B5')">5</button>
+    </div>
+
     <script>
         let menuData = {
             "أنمي": "قسم الأنمي - هنا تجد أحدث حلقات الأنمي المترجمة",
@@ -503,7 +685,20 @@
             "قوانين الدعس": "قوانين الطائفة - اقرأها قبل الدخول",
             "ترسيم أعضاء": "نظام الترسيم - كيف تصبح من الظلال",
             "أسماء الظلال": "قائمة الظلال - أعضاء المملكة",
-            "تحميل ملفات": "قسم التحميل - أدوات وملفات خاصة"
+            "تحميل ملفات": "قسم التحميل - أدوات وملفات خاصة",
+            "♕1": "زر ملكي 1", "♕2": "زر ملكي 2", "♕3": "زر ملكي 3", "♕4": "زر ملكي 4",
+            "♕5": "زر ملكي 5", "♕6": "زر ملكي 6", "♕7": "زر ملكي 7", "♕8": "زر ملكي 8",
+            "B1": "زر سفلي 1", "B2": "زر سفلي 2", "B3": "زر سفلي 3", "B4": "زر سفلي 4", "B5": "زر سفلي 5",
+            "الأرشيف": "قسم الأرشيف - جميع الملفات القديمة",
+            "الإعدادات": "إعدادات الحساب والنظام",
+            "قسم النقاط": "نظام النقاط والترقيات",
+            "قسم شراء وبيع": "متجر المملكة للبيع والشراء",
+            "السجل": "سجل نشاطات الأعضاء",
+            "المهام": "مهام يومية وأسبوعية",
+            "المتجر": "متجر الأدوات الخاصة",
+            "الرتب": "رتب المملكة وصلاحياتها",
+            "الحلفاء": "قائمة الحلفاء والتحالفات",
+            "الدعم": "تواصل مع إدارة الظلال"
         };
 
         window.openMenu = function(title) {
