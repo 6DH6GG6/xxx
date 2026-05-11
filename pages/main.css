@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;overflow:hidden;background:transparent;color:#fff;font-family:'Tahoma',sans-serif}
+
+.wrap{
+  display:flex;flex-direction:column;align-items:center;
+  padding-top:55px;padding-bottom:30px;
+  min-height:100%;
+}
+
+/* ── LOGO ── */
+.logo{
+  width:clamp(110px,30vw,240px);
+  margin-bottom:6px;
+  filter:drop-shadow(0 0 18px #f00) drop-shadow(0 0 36px #8b0000);
+  animation:logoPulse 4s ease-in-out infinite;
+}
+@keyframes logoPulse{
+  0%,100%{filter:drop-shadow(0 0 14px #f00) drop-shadow(0 0 30px #8b0000)}
+  50%{filter:drop-shadow(0 0 28px #ff2222) drop-shadow(0 0 60px #f00)}
+}
+
+/* ── GRID ── */
+.grid{
+  width:clamp(290px,84vw,720px);
+  height:clamp(290px,84vw,580px);
+  position:relative;
+}
+
+/* ── HEXAGRAM BG ── */
+.hex-bg{
+  position:absolute;top:50%;left:50%;
+  width:90%;height:90%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;z-index:1;
+}
+.hex-ring{
+  position:absolute;top:50%;left:50%;width:98%;height:98%;
+  border-radius:50%;border:1.5px dashed rgba(255,0,0,.18);
+  transform:translate(-50%,-50%);
+  animation:ringRotate 32s linear infinite;
+}
+@keyframes ringRotate{to{transform:translate(-50%,-50%) rotate(-360deg)}}
+
+.hex-svg{
+  position:absolute;top:50%;left:50%;width:100%;height:100%;
+  transform:translate(-50%,-50%);
+  animation:hexPulse 4s ease-in-out infinite;
+}
+@keyframes hexPulse{
+  0%,100%{opacity:.17;filter:drop-shadow(0 0 16px #f00) drop-shadow(0 0 38px #8b0000)}
+  50%{opacity:.34;filter:drop-shadow(0 0 30px #f11) drop-shadow(0 0 62px #f00)}
+}
+
+/* ── MENU ── */
+.menu{position:relative;width:100%;height:100%;z-index:4}
+
+.btn{
+  position:absolute;width:26%;aspect-ratio:1/1;min-height:75px;
+  background:transparent;border:none;outline:none;
+  cursor:pointer;touch-action:manipulation;padding:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  transition:transform .15s,filter .2s;
+}
+.btn img{
+  width:100%;height:100%;object-fit:contain;display:block;
+  transition:filter .25s,transform .25s;
+}
+.btn:hover img{filter:drop-shadow(0 0 12px rgba(255,0,0,.8)) brightness(1.15)}
+.btn:active{transform:scale(.88)!important}
+
+/* positions */
+.btn:nth-child(1){top:0;         left:50%;transform:translateX(-50%)}
+.btn:nth-child(2){top:18%;       right:3%}
+.btn:nth-child(3){bottom:18%;    right:3%}
+.btn:nth-child(4){bottom:0;      left:50%;transform:translateX(-50%)}
+.btn:nth-child(5){bottom:18%;    left:3%}
+.btn:nth-child(6){top:18%;       left:3%}
+
+.btn:nth-child(1):active,.btn:nth-child(4):active{transform:translateX(-50%) scale(.88)!important}
+
+/* ripple on btn */
+.btn::after{
+  content:'';position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle,rgba(255,0,0,.18),transparent 70%);
+  opacity:0;transition:opacity .3s;
+}
+.btn:active::after{opacity:1}
+
+@media(max-width:768px){.grid{width:92vw;height:clamp(280px,92vw,520px)}.btn{width:28%;min-height:68px}}
+@media(max-width:480px){.btn{width:30%;min-height:60px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <img class="logo" src="../20260429_130547.png"
+       onerror="this.style.display='none'" alt="">
+
+  <div class="grid">
+    <!-- Hexagram decoration -->
+    <div class="hex-bg">
+      <div class="hex-ring"></div>
+      <svg class="hex-svg" viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <filter id="rg"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+        </defs>
+        <polygon points="200,30 356,290 44,290"   fill="rgba(100,0,0,.08)" stroke="rgba(255,0,0,.45)" stroke-width="1.8" filter="url(#rg)"/>
+        <polygon points="200,370 44,110 356,110" fill="rgba(100,0,0,.08)" stroke="rgba(255,0,0,.45)" stroke-width="1.8" filter="url(#rg)"/>
+        <circle cx="200" cy="200" r="54" fill="none" stroke="rgba(255,0,0,.12)" stroke-width="1"/>
+      </svg>
+    </div>
+
+    <!-- Buttons -->
+    <div class="menu">
+
+      <button class="btn" data-key="sinema" data-title="عالم السينيمة">
+        <img src="../Sinema.png" onerror="this.style.opacity='.15'" alt="سينيمة">
+      </button>
+
+      <button class="btn" data-key="links" data-title="روابط مقرات طائفة الظلام">
+        <img src="../Links_ShadoWs.png" onerror="this.style.opacity='.15'" alt="روابط">
+      </button>
+
+      <button class="btn" data-key="shadows" data-title="أسماء الظلال والحلفاء">
+        <img src="../Shadows.png" onerror="this.style.opacity='.15'" alt="ظلال">
+      </button>
+
+      <button class="btn" data-key="store" data-title="تحميل وشراء">
+        <img src="../gg.png" onerror="this.style.opacity='.15'" alt="متجر">
+      </button>
+
+      <button class="btn" data-key="stories" data-title="قصص إعدام العصابات">
+        <img src="../Dns.png" onerror="this.style.opacity='.15'" alt="قصص">
+      </button>
+
+      <button class="btn" data-key="scandals" data-title="فضائح عصابات الأبدية">
+        <img src="../Gangs_Dogs.png" onerror="this.style.opacity='.15'" alt="فضائح">
+      </button>
+
+    </div>
+  </div>
+</div>
+
+<script>
+// كل زر يرسل رسالة للـ shell لفتح البوبب
+document.querySelectorAll('.btn[data-key]').forEach(btn=>{
+  btn.addEventListener('click',()=>{
+    window.parent.postMessage({
+      type:'openPopup',
+      payload:{key:btn.dataset.key, title:btn.dataset.title}
+    },'*');
+  });
+});
+</script>
+</body>
+</html>
