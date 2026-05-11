@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{min-height:100%;background:transparent;color:#fff;font-family:'Tahoma',sans-serif;overflow-x:hidden}
+
+:root{--r:#ff0000;--r2:#8b0000;--p:#9900ff;--p2:#cc66ff;--g:#00ff88;--g2:#00cc66}
+
+/* ── SECTION (hidden by default) ── */
+.section{display:none;padding:18px 14px 40px;min-height:100vh;animation:secIn .3s ease}
+.section.active{display:block}
+@keyframes secIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ── SHARED CARD ── */
+.card{
+  background:linear-gradient(135deg,rgba(10,0,20,.96),rgba(4,0,12,.98));
+  border:1px solid rgba(160,0,255,.2);border-radius:14px;
+  padding:16px 14px;margin-bottom:14px;position:relative;overflow:hidden;
+}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,transparent,var(--p),var(--p2),transparent)}
+
+.card-red{border-color:rgba(255,0,0,.22)}
+.card-red::before{background:linear-gradient(90deg,transparent,var(--r),#ff4444,transparent)}
+.card-green{border-color:rgba(0,255,136,.2)}
+.card-green::before{background:linear-gradient(90deg,transparent,var(--g),#00ffcc,transparent)}
+
+.sec-title{font-size:16px;font-weight:bold;color:var(--p2);display:flex;align-items:center;gap:8px;margin-bottom:14px;text-shadow:0 0 10px var(--p)}
+.sec-title.red{color:#ff6666;text-shadow:0 0 10px var(--r)}
+.sec-title.green{color:var(--g);text-shadow:0 0 10px var(--g)}
+
+.item{display:flex;align-items:flex-start;gap:10px;padding:11px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.item:last-child{border-bottom:none;padding-bottom:0}
+.item-icon{font-size:20px;flex-shrink:0;margin-top:1px}
+.item-body{flex:1;min-width:0}
+.item-name{font-size:13px;font-weight:bold;color:#fff;margin-bottom:3px}
+.item-desc{font-size:11.5px;color:rgba(200,200,255,.6);line-height:1.55}
+.item-tag{display:inline-block;font-size:10px;padding:2px 9px;border-radius:20px;margin-top:5px;font-weight:bold}
+.tag-p{background:rgba(153,0,255,.15);border:1px solid rgba(153,0,255,.35);color:var(--p2)}
+.tag-r{background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.3);color:#ff7777}
+.tag-g{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.28);color:var(--g)}
+.tag-y{background:rgba(255,200,0,.1);border:1px solid rgba(255,200,0,.3);color:#ffcc44}
+
+/* link button */
+.link-btn{
+  display:flex;align-items:center;justify-content:space-between;
+  background:rgba(160,0,255,.07);border:1px solid rgba(160,0,255,.22);
+  border-radius:10px;padding:11px 14px;margin-bottom:9px;
+  cursor:pointer;transition:all .22s;text-decoration:none;color:inherit;
+}
+.link-btn:hover{background:rgba(160,0,255,.16);border-color:rgba(160,0,255,.45)}
+.link-btn:active{transform:scale(.97)}
+.link-btn-red{border-color:rgba(255,0,0,.22);background:rgba(255,0,0,.05)}
+.link-btn-red:hover{background:rgba(255,0,0,.12);border-color:rgba(255,0,0,.4)}
+.link-btn-green{border-color:rgba(0,255,136,.2);background:rgba(0,255,136,.04)}
+.link-btn-green:hover{background:rgba(0,255,136,.1);border-color:rgba(0,255,136,.4)}
+.link-label{display:flex;align-items:center;gap:9px}
+.link-label span{font-size:20px}
+.link-label b{font-size:13px;font-weight:bold}
+.link-label small{display:block;font-size:10.5px;color:rgba(200,200,255,.5);margin-top:1px}
+.link-arrow{font-size:16px;opacity:.5}
+
+/* empty */
+.empty{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:55vh;gap:14px;opacity:.35}
+.empty .ico{font-size:58px}
+.empty p{font-size:14px;color:var(--p2);text-align:center;line-height:1.8}
+
+/* story card */
+.story{background:rgba(10,0,0,.7);border:1px solid rgba(255,0,0,.15);border-radius:12px;padding:14px;margin-bottom:11px}
+.story-head{display:flex;align-items:center;gap:9px;margin-bottom:10px}
+.story-num{width:32px;height:32px;border-radius:50%;background:rgba(255,0,0,.15);border:1.5px solid rgba(255,0,0,.4);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:bold;color:#ff7777;flex-shrink:0}
+.story-title{font-size:13px;font-weight:bold;color:#ff9999}
+.story-body{font-size:12px;color:rgba(220,180,180,.75);line-height:1.65}
+.story-badge{display:inline-block;font-size:10px;padding:2px 9px;border-radius:20px;margin-top:8px;background:rgba(255,0,0,.12);border:1px solid rgba(255,0,0,.28);color:#ff6666}
+
+/* member row */
+.member{display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.member:last-child{border-bottom:none}
+.m-avatar{width:40px;height:40px;border-radius:50%;background:rgba(100,0,200,.2);border:2px solid rgba(160,0,255,.4);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.m-name{font-size:13px;font-weight:bold;color:#fff}
+.m-role{font-size:10.5px;color:rgba(200,150,255,.55);margin-top:2px}
+.m-rank{margin-right:auto;font-size:11px;padding:3px 10px;border-radius:20px}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════
+     1. عالم السينيمة
+══════════════════════════════ -->
+<div class="section" id="sinema">
+  <div class="card card-red">
+    <div class="sec-title red">🎞 عالم السينيمة</div>
+    <div class="item">
+      <div class="item-icon">🎬</div>
+      <div class="item-body">
+        <div class="item-name">مراجعات الأفلام</div>
+        <div class="item-desc">تحليل عميق للأفلام من منظور الطائفة — ما يُقال وما لا يُقال.</div>
+        <span class="item-tag tag-r">قريباً</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">🎭</div>
+      <div class="item-body">
+        <div class="item-name">قائمة الإمبراطور</div>
+        <div class="item-desc">الأفلام التي أوصى بها Kage No Teio شخصياً.</div>
+        <span class="item-tag tag-p">حصري</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">📽</div>
+      <div class="item-body">
+        <div class="item-name">أرشيف الظلام</div>
+        <div class="item-desc">أفلام نادرة ومحظورة — لعيون طائفة الظلام فقط.</div>
+        <span class="item-tag tag-y">سلايم مطلوب</span>
+      </div>
+    </div>
+  </div>
+  <div class="empty"><div class="ico">🎞</div><p>المحتوى قيد الإضافة<br>تابع التحديثات</p></div>
+</div>
+
+<!-- ══════════════════════════════
+     2. الروابط
+══════════════════════════════ -->
+<div class="section" id="links">
+  <div class="card">
+    <div class="sec-title">♠ مقرات طائفة الظلام</div>
+    <p style="font-size:11.5px;color:rgba(200,150,255,.6);margin-bottom:14px;line-height:1.6">تجدنا على جميع المنصات — اضغط للانتقال المباشر</p>
+
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>✈️</span><div><b>تيليغرام</b><small>القناة الرئيسية</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>📸</span><div><b>إنستغرام</b><small>الأرشيف البصري</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>🎵</span><div><b>تيك توك</b><small>مقاطع الطائفة</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>▶️</span><div><b>يوتيوب</b><small>المحتوى الكامل</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>💬</span><div><b>ديسكورد</b><small>مجتمع الأعضاء</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+    <a class="link-btn" href="#" onclick="return false">
+      <div class="link-label"><span>🐦</span><div><b>تويتر / X</b><small>أخبار الطائفة</small></div></div>
+      <div class="link-arrow">◀</div>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     3. الظلال والحلفاء
+══════════════════════════════ -->
+<div class="section" id="shadows">
+  <div class="card">
+    <div class="sec-title">⚜️ الظلال والحلفاء</div>
+
+    <!-- قادة -->
+    <div style="font-size:11px;color:rgba(200,150,255,.4);letter-spacing:1px;margin-bottom:9px">◈ القيادة العليا</div>
+    <div class="member">
+      <div class="m-avatar">👑</div>
+      <div><div class="m-name">Kage No Teio</div><div class="m-role">إمبراطور الظلام — المؤسس</div></div>
+      <span class="m-rank tag-r item-tag">إمبراطور</span>
+    </div>
+
+    <div style="font-size:11px;color:rgba(200,150,255,.4);letter-spacing:1px;margin:12px 0 9px">◈ ظلال النخبة</div>
+    <div class="member">
+      <div class="m-avatar">🗡</div>
+      <div><div class="m-name">— قريباً —</div><div class="m-role">مقعد شاغر</div></div>
+      <span class="m-rank tag-y item-tag">نخبة</span>
+    </div>
+    <div class="member">
+      <div class="m-avatar">🗡</div>
+      <div><div class="m-name">— قريباً —</div><div class="m-role">مقعد شاغر</div></div>
+      <span class="m-rank tag-y item-tag">نخبة</span>
+    </div>
+
+    <div style="font-size:11px;color:rgba(200,150,255,.4);letter-spacing:1px;margin:12px 0 9px">◈ الحلفاء</div>
+    <div class="member">
+      <div class="m-avatar">🤝</div>
+      <div><div class="m-name">— قريباً —</div><div class="m-role">حليف الطائفة</div></div>
+      <span class="m-rank tag-p item-tag">حليف</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     4. متجر / تحميل وشراء
+══════════════════════════════ -->
+<div class="section" id="store">
+  <div class="card card-red">
+    <div class="sec-title red">🕸 تحميل وشراء</div>
+
+    <div class="item">
+      <div class="item-icon">📦</div>
+      <div class="item-body">
+        <div class="item-name">حزمة الظلام الأساسية</div>
+        <div class="item-desc">مجموعة ملفات ومحتوى حصري خاص بالطائفة.</div>
+        <span class="item-tag tag-p">مجاني للأعضاء</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">💎</div>
+      <div class="item-body">
+        <div class="item-name">حزمة النخبة</div>
+        <div class="item-desc">محتوى متقدم — مخصص لحاملي رتبة نخبة فما فوق.</div>
+        <span class="item-tag tag-y">نخبة فقط</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">👑</div>
+      <div class="item-body">
+        <div class="item-name">طلب مباشر</div>
+        <div class="item-desc">للطلبات الخاصة تواصل مع الإمبراطور مباشرة.</div>
+        <span class="item-tag tag-r">حصري</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card card-green" style="margin-top:0">
+    <div class="sec-title green">⬇️ روابط التحميل</div>
+    <a class="link-btn link-btn-green" href="#" onclick="return false">
+      <div class="link-label"><span>📁</span><div><b>تحميل الحزمة المجانية</b><small>متاح لجميع الأعضاء</small></div></div>
+      <div class="link-arrow" style="color:var(--g)">◀</div>
+    </a>
+    <a class="link-btn link-btn-red" href="#" onclick="return false">
+      <div class="link-label"><span>🔐</span><div><b>تحميل حزمة النخبة</b><small>يتطلب رتبة نخبة</small></div></div>
+      <div class="link-arrow" style="color:#ff7777">◀</div>
+    </a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     5. قصص إعدام العصابات
+══════════════════════════════ -->
+<div class="section" id="stories">
+  <div class="card card-red">
+    <div class="sec-title red">💀 قصص إعدام العصابات</div>
+    <p style="font-size:11.5px;color:rgba(255,150,150,.55);margin-bottom:4px;line-height:1.6">
+      سجلات موثّقة لتصفية عصابات تجرّأت على مواجهة طائفة الظلام.
+    </p>
+  </div>
+
+  <div class="story">
+    <div class="story-head">
+      <div class="story-num">01</div>
+      <div class="story-title">— قريباً —</div>
+    </div>
+    <div class="story-body">هذا القسم قيد التوثيق. سيتم نشر القصص الأولى قريباً.</div>
+    <span class="story-badge">⏳ قيد الإعداد</span>
+  </div>
+
+  <div class="story">
+    <div class="story-head">
+      <div class="story-num">02</div>
+      <div class="story-title">— قريباً —</div>
+    </div>
+    <div class="story-body">تابع التحديثات للاطلاع على أحدث السجلات.</div>
+    <span class="story-badge">⏳ قيد الإعداد</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     6. فضائح العصابات
+══════════════════════════════ -->
+<div class="section" id="scandals">
+  <div class="card card-red">
+    <div class="sec-title red">👣 فضائح عصابات الأبدية</div>
+    <p style="font-size:11.5px;color:rgba(255,150,150,.55);margin-bottom:4px;line-height:1.6">
+      وثائق مسرّبة وأدلة على فساد العصابات المعادية للطائفة.
+    </p>
+  </div>
+
+  <div class="card" style="margin-top:0">
+    <div class="item">
+      <div class="item-icon">📂</div>
+      <div class="item-body">
+        <div class="item-name">ملف #001</div>
+        <div class="item-desc">قيد الإعداد — سيُنشر قريباً بموافقة الإمبراطور.</div>
+        <span class="item-tag tag-r">سري</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="item-icon">📂</div>
+      <div class="item-body">
+        <div class="item-name">ملف #002</div>
+        <div class="item-desc">قيد الإعداد — سيُنشر قريباً.</div>
+        <span class="item-tag tag-r">سري</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ NOT FOUND ══ -->
+<div class="section active" id="notfound">
+  <div class="empty"><div class="ico">🌑</div><p>القسم غير موجود<br>تحقق من الرابط</p></div>
+</div>
+
+<script>
+// قراءة الـ hash وإظهار القسم المناسب
+const SECTIONS=['sinema','links','shadows','store','stories','scandals'];
+
+function activate(hash){
+  const key=(hash||'').replace('#','').trim().toLowerCase();
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  const target=document.getElementById(key);
+  if(target) target.classList.add('active');
+  else document.getElementById('notfound').classList.add('active');
+}
+
+// تفعيل عند التحميل
+activate(location.hash);
+
+// إذا تغيّر الـ hash لاحقاً
+window.addEventListener('hashchange',()=>activate(location.hash));
+</script>
+</body>
+</html>
